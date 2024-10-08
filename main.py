@@ -26,8 +26,9 @@ class GameMain:
 
     def CreateBattleField(self, screen):
         # Draw the HUD background (full width, height 200 at the bottom)
-        pygame.draw.rect(screen, (50, 50, 50), (0, SCREEN_HEIGHT  - HUD_HEIGHT, SCREEN_WIDTH, HUD_HEIGHT))  # Dark grey background for HUD
-        screen.blit(pygame.font.Font(None, 36).render("Battle Field", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))  # Title
+        
+        # Dark grey background for HUD
+        pygame.draw.rect(screen, (50, 50, 50), (0, SCREEN_HEIGHT  - HUD_HEIGHT, SCREEN_WIDTH, HUD_HEIGHT))                     
 
     def PlayGame(self):
         clock = pygame.time.Clock()
