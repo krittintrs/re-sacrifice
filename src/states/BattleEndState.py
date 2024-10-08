@@ -3,5 +3,5 @@ from src.dependency import *
 from src.constants import *
 import pygame
 
-class ActionState(BaseState):
+class BattleEndState(BaseState):
     pass

@@ -3,15 +3,15 @@ from src.dependency import *
 from src.constants import *
 import pygame,sys
 
-class SelectState(BaseState):
+class BattleInitialState(BaseState):
     def __init__(self):
-        super(SelectState, self).__init__()
+        super(BattleInitialState, self).__init__()
 
     def Exit(self):
         pass
 
     def Enter(self, param):
-        pass
+        pass 
 
     def render(self, screen):
         pass
