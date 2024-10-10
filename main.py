@@ -1,5 +1,5 @@
 import pygame
-from src.constants import *
+from src.dependency import *
 
 pygame.init()
 
@@ -13,15 +13,26 @@ class GameMain:
         g_state_manager.SetScreen(self.screen)
 
         states = {
-            "select": SelectState(),
+            "initial": BattleInitialState(),
+            "select": BattleSelectState(),
             # "action": ActionState(),
             # "end": EndState()
         }
         g_state_manager.SetStates(states)
 
+    def RenderBackground(self):
+        self.screen.fill((255, 255, 255))
+        self.CreateBattleField(self.screen)
+
+    def CreateBattleField(self, screen):
+        # Draw the HUD background (full width, height 200 at the bottom)
+        
+        # Dark grey background for HUD
+        pygame.draw.rect(screen, (50, 50, 50), (0, SCREEN_HEIGHT  - HUD_HEIGHT, SCREEN_WIDTH, HUD_HEIGHT))                     
+
     def PlayGame(self):
         clock = pygame.time.Clock()
-        g_state_manager.Change('select', {
+        g_state_manager.Change('initial', {
         })
 
         while True:
@@ -33,6 +44,8 @@ class GameMain:
             #update
             g_state_manager.update(dt, events)
 
+            #bg render
+            self.RenderBackground()
             #render
             g_state_manager.render()
             
