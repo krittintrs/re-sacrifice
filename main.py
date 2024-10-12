@@ -13,10 +13,12 @@ class GameMain:
         g_state_manager.SetScreen(self.screen)
 
         states = {
-            "initial": BattleInitialState(),
+            "prepare": BattlePreparationState(),
+            "initial": BattlePreparationState(),
             "select": BattleSelectState(),
-            # "action": ActionState(),
-            # "end": EndState()
+            "action": BattleActionState(),
+            "end": BattleEndState(),
+            "finish": BattleFinishState()
         }
         g_state_manager.SetStates(states)
 
