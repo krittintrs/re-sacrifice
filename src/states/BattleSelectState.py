@@ -24,7 +24,7 @@ class BattleSelectState(BaseState):
 
         # Mockup render cards
         for order, card in enumerate(self.cards):
-            c = Card("card", "description", 1, "image")
+            c = Card("card", "description","image", 1, 1, 1,1)
             c.render(screen, order)
 
         # Render fields
