@@ -5,6 +5,11 @@ class Entity:
     def __init__(self, name, image=None):
         self.name = name
         self.field_index = None  # Keep track of which field it is on
+        self.index = None
+        self.deck = []
+        self.hand = []
+        self.selected_card = None
+        self.stunt = False
         self.image = image
 
     def move_to(self, field, fields):
@@ -31,4 +36,54 @@ class Entity:
         pygame.draw.rect(screen, (255, 0, 0), (entity_x, entity_y, entity_width, entity_height))  # Red square as placeholder
 
     def update(self, dt, events):
+        pass
+
+class Player(Entity):
+    def __init__(self, name, image=None):
+        super().__init__(name, image)
+
+    def update(self, dt, events):
+        # Implement player-specific update logic here
+        pass
+
+    def render(self, screen, x, y):
+        # Call the parent render method
+        super().render(screen, x, y)
+        # Add player-specific rendering logic here if needed
+        pass
+
+class Enemy(Entity):
+    def __init__(self, name, image=None):
+        super().__init__(name, image)
+        self.health = 100  # Example additional attribute for Enemy
+    
+    def selectCard(self, card):
+        self.selected_card = card
+
+    def selectPosition(self, index):
+        self.index = index
+
+    def update(self, dt, events):
+        # Implement enemy-specific update logic here
+        pass
+
+    def render(self, screen, x, y):
+        # Call the parent render method
+        super().render(screen, x, y)
+        # Add enemy-specific rendering logic here if needed
+        pass
+
+class Boss(Enemy):
+    def __init__(self, name, image=None):
+        super().__init__(name, image)
+        self.attack = 20  # Example additional attribute for Boss
+
+    def update(self, dt, events):
+        # Implement boss-specific update logic here
+        pass
+
+    def render(self, screen, x, y):
+        # Call the parent render method
+        super().render(screen, x, y)
+        # Add boss-specific rendering logic here if needed
         pass
