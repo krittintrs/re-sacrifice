@@ -3,7 +3,7 @@ from src.dependency import *
 from src.constants import *
 import pygame
 
-class BattleEndState(BaseState):
+class BattleFinishState(BaseState):
     def Enter(self, params):
         pass
 

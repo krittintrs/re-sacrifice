@@ -4,4 +4,14 @@ from src.constants import *
 import pygame
 
 class BattleActionState(BaseState):
-    pass
+    def Enter(self, params):
+        pass
+
+    def Exit(self):
+        pass
+
+    def update(self, dt, events):
+        pass
+
+    def render(self, screen):
+        pass
