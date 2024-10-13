@@ -5,8 +5,8 @@ import pygame
 
 class DeckBuildingState(BaseState):
 
-    def __init__(self):
-        super(BattleSelectState, self).__init__()
+    # def __init__(self):
+    #     super(BattleSelectState, self).__init__()
         
 
     def Enter(self, params):
