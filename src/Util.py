@@ -72,25 +72,25 @@ class SpriteManager:
                 except KeyError:
                     xSize, ySize = data['size']
 
-            cardDict[card["name"]] =  Card(
-                name=card["name"],
-                description=card["description"],
-                image=1,
-                # image=Sprite(
-                #         mySpritesheet.image_at(
-                #             card["sprite"]["x"],
-                #             card["sprite"]["y"],
-                #             card["sprite"]["scalefactor"],
-                #             colorkey,
-                #             xTileSize=xSize,
-                #             yTileSize=ySize,
-                #         )
-                #     ).image,
-                defend=card["defend"],
-                speed=card["speed"],
-                dmg=card["dmg"],
-                range=card["range"]
-            )
+                cardDict[card["name"]] =  Card(
+                    name=card["name"],
+                    description=card["description"],
+                    image=1,
+                    # image=Sprite(
+                    #         mySpritesheet.image_at(
+                    #             card["sprite"]["x"],
+                    #             card["sprite"]["y"],
+                    #             card["sprite"]["scalefactor"],
+                    #             colorkey,
+                    #             xTileSize=xSize,
+                    #             yTileSize=ySize,
+                    #         )
+                    #     ).image,
+                    defend=card["defend"],
+                    speed=card["speed"],
+                    dmg=card["dmg"],
+                    range=card["range"]
+                )
         return cardDict
 
 class SpriteSheet(object):
@@ -104,7 +104,7 @@ class SpriteSheet(object):
             print("Unable to load spritesheet image:", filename)
             raise SystemExit
         except Exception as error:
-            print(error)
+            print("REMINDER: The sprite sheet url is not assigned to card yet")
 
     def image_at(self, x, y, scalingfactor, colorkey=None,
                  xTileSize=16, yTileSize=16):
