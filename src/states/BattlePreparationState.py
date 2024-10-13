@@ -13,7 +13,7 @@ import random
 class BattlePreparationState(BaseState):
     def __init__(self):
         super(BattlePreparationState, self).__init__()
-        self.cards = []
+        self.cards = [] # card on hand
         self.entities = []
 
         # Mock up draw cards
@@ -36,6 +36,7 @@ class BattlePreparationState(BaseState):
         pass
 
     def Enter(self, param):
+        # self.deck = param['deck']
         pass
 
     def update(self, dt, events):
