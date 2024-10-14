@@ -14,7 +14,8 @@ class GameMain:
 
         states = {
             "prepare": BattlePreparationState(),
-            "initial": BattlePreparationState(),
+            "deck":DeckBuildingState(),
+            "initial": BattleInitialState(),
             "select": BattleSelectState(),
             "action": BattleActionState(),
             "end": BattleEndState(),
@@ -34,7 +35,7 @@ class GameMain:
 
     def PlayGame(self):
         clock = pygame.time.Clock()
-        g_state_manager.Change('initial', {
+        g_state_manager.Change('prepare', {
         })
 
         while True:
