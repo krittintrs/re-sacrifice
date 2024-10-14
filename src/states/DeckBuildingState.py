@@ -36,7 +36,7 @@ class DeckBuildingState(BaseState):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:
                     if self.selectDeck:
-                        if (self.deckIndex)%self.cardPerRow == (self.cardPerRow - 1):
+                        if (self.deckIndex)%self.cardPerRow == (self.cardPerRow - 1) or self.deckIndex == len(self.deck.card_deck)-1 or len(self.deck.card_deck)==0:
                             self.selectDeck = False
                         elif self.deckIndex < len(self.deck.card_deck) -1:
                             self.deckIndex +=1 
@@ -62,16 +62,18 @@ class DeckBuildingState(BaseState):
                             self.avaliableCardIndex -= 1
                 if event.key == pygame.K_SPACE:
                     if self.selectDeck:
-                        if self.deckIndex == len(self.deck.card_deck) - 1:
-                            self.deckIndex -= 1
-                        card = self.deck.card_deck[self.deckIndex]
-                        self.avaliableCard.append(card)
-                        self.deck.removeCard(card)
+                        if len(self.deck.card_deck)!=0:
+                            if self.deckIndex == len(self.deck.card_deck) - 1 and self.deckIndex != 0:
+                                self.deckIndex -= 1
+                            card = self.deck.card_deck[self.deckIndex]
+                            self.avaliableCard.append(card)
+                            self.deck.removeCard(card)
                     else:
-                        if self.avaliableCardIndex == len(self.avaliableCard)- 1:
-                            self.avaliableCardIndex -= 1
-                        card = self.avaliableCard.pop(self.avaliableCardIndex)
-                        self.deck.addCard(card)
+                        if len(self.avaliableCard)!=0:
+                            if self.avaliableCardIndex == len(self.avaliableCard)- 1 and self.avaliableCardIndex != 0:
+                                self.avaliableCardIndex -= 1
+                            card = self.avaliableCard.pop(self.avaliableCardIndex)
+                            self.deck.addCard(card)
 
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
@@ -104,11 +106,10 @@ class DeckBuildingState(BaseState):
                 screen.blit(pygame.font.Font(None, 48).render(card.name, True, (0,0,0)), (SCREEN_WIDTH*0.75 + self.avaliableCardSpacing, SCREEN_HEIGHT*0.2 + self.avaliableCardSpacing + SCREEN_HEIGHT*0.2*(idx%4)))
         
         # render selected card detail
-        if self.selectDeck:
-            index = self.deckIndex
-        else:
-            index = self.avaliableCardIndex
-        card = self.deck.card_deck[index]
+        if self.selectDeck and len(self.deck.card_deck) !=0:
+            card = self.deck.card_deck[self.deckIndex]
+        elif not self.selectDeck and len(self.avaliableCard)!=0:
+            card = self.avaliableCard[self.avaliableCardIndex]
         card.renderPosition(screen, (self.selectedCardSpacing , self.selectedCardSpacing), 1)
         screen.blit(pygame.font.Font(None, 48).render(card.name, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing))
         screen.blit(pygame.font.Font(None, 24).render("damage : " + str(card.dmg), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 20))
