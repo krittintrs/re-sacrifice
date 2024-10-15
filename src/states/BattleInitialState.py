@@ -16,10 +16,6 @@ class BattleInitialState(BaseState):
         self.cards = []
         self.entities = []
 
-        # Mock up draw cards
-        for i in range(0, 5):
-            self.cards.append(random.randint(0, 2))
-
         # Create fields
         self.fields = self.create_fields(9)  # Create 9 fields in a single row
 
@@ -36,7 +32,13 @@ class BattleInitialState(BaseState):
         pass
 
     def Enter(self, param):
-        pass
+        print("Enter BattleInitialState")
+
+        self.deck = param['deck']
+        self.cards = param['cards']
+
+        for i in range(len(self.cards)):
+            print("Card: ", self.cards[i].name)
 
     def update(self, dt, events):
         for event in events:
