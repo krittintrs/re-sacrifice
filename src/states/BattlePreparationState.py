@@ -2,7 +2,6 @@ from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
 from src.cardSystem.Card import Card
-from src.cardSystem.Field import Field
 from src.cardSystem.Entity import Entity
 from src.cardSystem.Deck import Deck
 import pygame
@@ -17,23 +16,10 @@ class BattlePreparationState(BaseState):
         self.menu = ["Start Battle", "Edit deck"]
         self.selectIndex = 0
         self.cards = [] # card on hand
-        self.entities = []
         # mock deck
         self.deck = Deck()
         for card in card_dic.values():
             self.deck.addCard(card)
-
-        # Create fields
-        self.fields = self.create_fields(9)  # Create 9 fields in a single row
-
-        # Mock up draw entities
-        # Create an entity
-        player = Entity("Player")
-        self.entities.append(player)
-        player.move_to(self.fields[0], self.fields)  # Place player in the first field
-        # Example: Move the player to another field (e.g., field at index 4)
-        player.move_to(self.fields[4], self.fields)
-
 
     def Exit(self):
         pass
@@ -63,12 +49,10 @@ class BattlePreparationState(BaseState):
                     if self.selectIndex == 0:
                         self.deck.shuffle()
                         for i in range(5):
-                            self.cards.append(self.deck.draw(1))
+                            self.cards.append(self.deck.draw(1)[0])
                         g_state_manager.Change("initial", {
                             'deck':self.deck,
                             'cards': self.cards,
-                            'entities': self.entities,
-                            'fields': self.fields  # Pass the fields here
                         })
                     else:
                         g_state_manager.Change("deck", {
@@ -89,16 +73,4 @@ class BattlePreparationState(BaseState):
         for order, card in enumerate(self.cards):
             c = Card("card", "description","image", 1 ,1 ,1 ,1 )
             c.render(screen, order)
-
-        # Render fields
-        for field in self.fields:
-            field.render(screen, len(self.fields))
-
-    def create_fields(self, num_fields):
-        fields = []
-        for i in range(num_fields):
-            x = i * 100  # Adjust the x position based on index
-            y = 200  # Since you have only one row, y is constant
-            fields.append(Field(i, (x, y)))  # Create and append each field
-        return fields
             
