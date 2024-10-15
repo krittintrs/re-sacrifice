@@ -35,6 +35,13 @@ class Card:
         # Draw the border around the card
         pygame.draw.rect(screen, (0, 0, 0), (start_x, start_y, CARD_WIDTH, CARD_HEIGHT), 1)
 
+        # Draw the card image
+
+        # Draw the card name
+        screen.blit(pygame.font.Font(None, 24).render(self.name, True, (255, 255, 255)), (start_x + 10, start_y + 10))
+
+        # Draw card modified numbers
+
         
     def renderPosition(self, screen, position, scale):
         pygame.draw.rect(screen, (0,0,0), (position[0],position[1],CARD_WIDTH*scale, CARD_HEIGHT*scale), 1)

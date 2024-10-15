@@ -63,8 +63,7 @@ class BattleInitialState(BaseState):
         
         # Mockup render cards
         for order, card in enumerate(self.cards):
-            c = Card("card", "description", 1,1,1,1,1)
-            c.render(screen, order)
+            card.render(screen, order)
 
         # Render fields
         for field in self.fields:
