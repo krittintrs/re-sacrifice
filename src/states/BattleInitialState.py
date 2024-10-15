@@ -58,7 +58,8 @@ class BattleInitialState(BaseState):
                     g_state_manager.Change("select", {
                         'cards': self.cards,
                         'entities': self.entities,
-                        'fields': self.fields  # Pass the fields here
+                        'fields': self.fields,
+                        'dice': self.dice
                     })
 
 
