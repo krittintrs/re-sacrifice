@@ -2,13 +2,15 @@ import pygame
 from src.dependency import *
 
 class Entity:
-    def __init__(self, name, image=None):
+    def __init__(self, name,health = 10, image=None):
         self.name = name
         self.field_index = None  # Keep track of which field it is on
         self.index = None
         self.deck = []
         self.hand = []
         self.selected_card = None
+        self.buff = [] # list of buff (or debuff?) apply on entity
+        self.health = health
         self.stunt = False
         self.image = image
 
@@ -24,7 +26,29 @@ class Entity:
 
         field.place_entity(self)  # Place the entity in the new field
 
-    def render(self, screen, x, y):
+    def add_buff(self, buff):
+        self.buff.append(buff)
+
+    def get_speed(self):
+        if self.selected_card:
+            spd = self.selected_card.speed
+            for buff in self.buff:
+                spd += buff.value[2]
+            return spd
+        else:
+            print("these is no selected card")
+            return
+        
+    # def getSelectedCard(self):
+    #     return 
+
+    def turn_pass(self):
+        for buff in self.buff:
+            if not buff.is_active():
+                self.buff.remove(buff)
+        
+
+    def render(self, screen, x, y, color=(255,0,0)):
         # Define entity size
         entity_width, entity_height = 80, 80  # Example entity size
         
@@ -33,7 +57,7 @@ class Entity:
         entity_y = y + (FIELD_HEIGHT - entity_height) // 2  # Center vertically
 
         # Render the entity (you can customize this)
-        pygame.draw.rect(screen, (255, 0, 0), (entity_x, entity_y, entity_width, entity_height))  # Red square as placeholder
+        pygame.draw.rect(screen, color, (entity_x, entity_y, entity_width, entity_height))  # Red square as placeholder
 
     def update(self, dt, events):
         pass
@@ -41,6 +65,7 @@ class Entity:
 class Player(Entity):
     def __init__(self, name, image=None):
         super().__init__(name, image)
+        self.health = 30
 
     def update(self, dt, events):
         # Implement player-specific update logic here
@@ -48,7 +73,7 @@ class Player(Entity):
 
     def render(self, screen, x, y):
         # Call the parent render method
-        super().render(screen, x, y)
+        super().render(screen, x, y, (0,255,0))
         # Add player-specific rendering logic here if needed
         pass
 
@@ -57,10 +82,10 @@ class Enemy(Entity):
         super().__init__(name, image)
         self.health = 100  # Example additional attribute for Enemy
     
-    def selectCard(self, card):
+    def select_card(self, card):
         self.selected_card = card
 
-    def selectPosition(self, index):
+    def select_position(self, index): 
         self.index = index
 
     def update(self, dt, events):
