@@ -2,7 +2,7 @@ import pygame
 from src.dependency import *
 
 class Card:
-    def __init__(self, name, description, image, speed, dmg, defend, range):
+    def __init__(self, name, description, image, speed, dmg, defend, range, beforeEffect = [],mainEffect = [],afterEffect = []):
         self.name = name
         self.description = description
         self.image = image
@@ -10,6 +10,9 @@ class Card:
         self.dmg = dmg
         self.defend = defend
         self.range = range
+        self.beforeEffect = beforeEffect # list of Effects
+        self.mainEffect = mainEffect
+        self.afterEffect = afterEffect
 
     def start(self, entity, enemy, field):
         # Perform card action
@@ -42,7 +45,7 @@ class Card:
 
         # Draw card modified numbers
 
-    def renderSelected(self, screen, selected):
+    def render_selected(self, screen, selected):
         # Highlight the selected card by rendering a thicker border
         start_x = 80 + selected * (CARD_WIDTH + 30)
         start_y = SCREEN_HEIGHT - CARD_HEIGHT - 10
@@ -50,7 +53,7 @@ class Card:
         # Draw the highlighted border around the card
         pygame.draw.rect(screen, (255, 255, 0), (start_x, start_y, CARD_WIDTH, CARD_HEIGHT), 3)
 
-    def renderPosition(self, screen, position, scale):
+    def render_position(self, screen, position, scale):
         pygame.draw.rect(screen, (0,0,0), (position[0],position[1],CARD_WIDTH*scale, CARD_HEIGHT*scale), 1)
 
     def update(self, dt, events):
