@@ -34,6 +34,7 @@ class BattleSelectState(BaseState):
                 if event.key == pygame.K_RIGHT:
                     self.selected_card = (self.selected_card + 1) % len(self.cards)
                 if event.key == pygame.K_RETURN:
+                    self.selected_card = self.cards[self.selected_card]
                     g_state_manager.Change("action", {
                         'cards': self.cards,
                         'entities': self.entities,
