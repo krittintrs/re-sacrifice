@@ -1,8 +1,8 @@
 class Buff():
-    def __init__(self, name, active_time, entity):
+    def __init__(self, name, duration, value):
         self.name = name
-        self.active_time = active_time
-        self.buff_entity = entity
+        self.duration = duration
+        self.value = value # [1,0,0,0] == [atk,def,spd,range]
 
     def apply(self):
         pass
@@ -11,4 +11,13 @@ class Buff():
         pass
 
     def update(self, dt, events):
-        pass    
+        pass
+
+    # if timeout return true
+    def is_active(self):
+        self.duration -= 1
+        if self.duration >= 0:
+            return True
+        else:
+            return False
+
