@@ -94,7 +94,7 @@ class DeckBuildingState(BaseState):
         # render deck
         deckScale = (SCREEN_WIDTH*0.5)/((CARD_WIDTH + self.deckSpacing * 3)*self.cardPerRow)
         for idx, card in enumerate(self.deck.card_deck):
-            card.renderPosition(screen, (SCREEN_WIDTH * 0.25 + self.deckSpacing + (CARD_WIDTH*deckScale + self.deckSpacing)*(idx%self.cardPerRow) ,SCREEN_HEIGHT*0.2 + self.deckSpacing+ (CARD_HEIGHT*deckScale + self.deckSpacing)*(idx//self.cardPerRow)),deckScale)
+            card.render_position(screen, (SCREEN_WIDTH * 0.25 + self.deckSpacing + (CARD_WIDTH*deckScale + self.deckSpacing)*(idx%self.cardPerRow) ,SCREEN_HEIGHT*0.2 + self.deckSpacing+ (CARD_HEIGHT*deckScale + self.deckSpacing)*(idx//self.cardPerRow)),deckScale)
             screen.blit(pygame.font.Font(None, 24).render(card.name, True, (0,0,0)), (SCREEN_WIDTH * 0.25 + self.deckSpacing + (CARD_WIDTH*deckScale + self.deckSpacing)*(idx%self.cardPerRow) ,SCREEN_HEIGHT*0.2 + self.deckSpacing+ (CARD_HEIGHT*deckScale + self.deckSpacing)*(idx//self.cardPerRow)))
 
         
@@ -102,7 +102,7 @@ class DeckBuildingState(BaseState):
         avaliableCardScale = 0.5
         for idx, card in enumerate(self.avaliableCard):
             if idx//4 == self.avaliableCardIndex//4:
-                card.renderPosition(screen, (SCREEN_WIDTH*0.75 + self.avaliableCardSpacing, SCREEN_HEIGHT*0.2 + self.avaliableCardSpacing + SCREEN_HEIGHT*0.2*(idx%4)), avaliableCardScale)
+                card.render_position(screen, (SCREEN_WIDTH*0.75 + self.avaliableCardSpacing, SCREEN_HEIGHT*0.2 + self.avaliableCardSpacing + SCREEN_HEIGHT*0.2*(idx%4)), avaliableCardScale)
                 screen.blit(pygame.font.Font(None, 48).render(card.name, True, (0,0,0)), (SCREEN_WIDTH*0.75 + self.avaliableCardSpacing, SCREEN_HEIGHT*0.2 + self.avaliableCardSpacing + SCREEN_HEIGHT*0.2*(idx%4)))
         
         # render selected card detail
@@ -110,7 +110,7 @@ class DeckBuildingState(BaseState):
             card = self.deck.card_deck[self.deckIndex]
         elif not self.selectDeck and len(self.avaliableCard)!=0:
             card = self.avaliableCard[self.avaliableCardIndex]
-        card.renderPosition(screen, (self.selectedCardSpacing , self.selectedCardSpacing), 1)
+        card.render_position(screen, (self.selectedCardSpacing , self.selectedCardSpacing), 1)
         screen.blit(pygame.font.Font(None, 48).render(card.name, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing))
         screen.blit(pygame.font.Font(None, 24).render("damage : " + str(card.dmg), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 20))
         screen.blit(pygame.font.Font(None, 24).render("range : " + str(card.range), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 70))

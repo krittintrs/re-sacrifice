@@ -49,7 +49,7 @@ class BattleSelectState(BaseState):
         # render cards
         for order, card in enumerate(self.cards):
             card.render(screen, order)
-            card.renderSelected(screen, self.selected_card)
+            card.render_selected(screen, self.selected_card)
 
         # Render fields
         for field in self.fields:
