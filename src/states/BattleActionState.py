@@ -12,7 +12,7 @@ class BattleActionState(BaseState):
         super(BattleActionState, self).__init__()
         self.effectOrder = {"before": [], "main": [], "after":[]}
 
-    def Enter(self, param):
+    def Enter(self, params):
         """
         params:
             - player = Player() : player entity
@@ -20,15 +20,17 @@ class BattleActionState(BaseState):
             - field = list[fieldTile] : list of fieldTile objects (each fieldTile is one squre)
             - dice = int : dice result 
             - selected_card_index = int : index of selected card in cards
+            - currentTurnOwner = TurnOwner : current turn owner
+            - turn = int : current turn
         """
 
-        print("enter action state")
-        self.player = param['player']
-        self.enemy = param['enemy']
-        self.field = param['field']
-        self.turn = param['turn']
-        self.currentTurnOwner = param['currentTurnOwner']  
-        self.selected_card_index = param['selected_card_index']
+        print(">>>>>> Enter BattleActionState <<<<<<")
+        self.player = params['player']
+        self.enemy = params['enemy']
+        self.field = params['field']
+        self.turn = params['turn']
+        self.currentTurnOwner = params['currentTurnOwner']  
+        self.selected_card_index = params['selected_card_index']
 
         # mock card
         card = self.player.cardsOnHand[self.selected_card_index]
@@ -39,7 +41,7 @@ class BattleActionState(BaseState):
 
         # mock player
         self.player.select_card(card)
-        self.player.move_to(self.field[1], self.field)
+        self.player.move_to(self.field[2], self.field)
         
         # mock enemy
         card.beforeEffect = [Effect("move", 0, card.range)]
@@ -47,6 +49,13 @@ class BattleActionState(BaseState):
         card.afterEffect = [Effect("move", 0, card.range)]
         self.enemy.select_card(card)
         self.enemy.move_to(self.field[7],self.field)
+
+        # apply buff
+        self.player.apply_buff()
+        self.enemy.apply_buff()
+
+        for fieldTile in self.field:
+            print(f'FieldTile {fieldTile.index} is occupied by {fieldTile.entity.name if fieldTile.entity else None}')
 
     def Exit(self):
         pass
@@ -65,35 +74,31 @@ class BattleActionState(BaseState):
                 if event.key == pygame.K_RETURN:
                     pass
 
-        if self.player.get_speed() > self.enemy.get_speed() or (self.player.get_speed() == self.enemy.get_speed() and self.currentTurnOwner == TurnOwner.PLAYER):
-            for beforeEffect in self.player.selected_card.beforeEffect:
-                self.effectOrder["before"].append(["player",beforeEffect])
-            for mainEffect in self.player.selected_card.mainEffect:
-                self.effectOrder["main"].append(["player",mainEffect])
-            for afterEffect in self.player.selected_card.afterEffect:
-                self.effectOrder["after"].append(["player",afterEffect])
+        if self.player.speed > self.enemy.speed or (self.player.speed == self.enemy.speed and self.currentTurnOwner == PlayerType.PLAYER):
+            self.appendEffects(self.player, PlayerType.PLAYER)
+            self.appendEffects(self.enemy, PlayerType.ENEMY)
 
-            for beforeEffect in self.enemy.selected_card.beforeEffect:
-                self.effectOrder["before"].append(["enemy",beforeEffect])
-            for mainEffect in self.enemy.selected_card.mainEffect:
-                self.effectOrder["main"].append(["enemy",mainEffect])
-            for afterEffect in self.enemy.selected_card.afterEffect:
-                self.effectOrder["after"].append(["enemy",afterEffect])
+        elif self.player.speed < self.enemy.speed or (self.player.speed == self.enemy.speed and self.currentTurnOwner == PlayerType.ENEMY):
+            self.appendEffects(self.enemy, PlayerType.ENEMY)
+            self.appendEffects(self.player, PlayerType.PLAYER)
 
-        elif self.player.get_speed() < self.enemy.get_speed() or (self.player.get_speed() == self.enemy.get_speed() and self.currentTurnOwner == TurnOwner.ENEMY):
-            for beforeEffect in self.enemy.selected_card.beforeEffect:
-                self.effectOrder["before"].append(["enemy",beforeEffect])
-            for mainEffect in self.enemy.selected_card.mainEffect:
-                self.effectOrder["main"].append(["enemy",mainEffect])
-            for afterEffect in self.enemy.selected_card.afterEffect:
-                self.effectOrder["after"].append(["enemy",afterEffect])
-            
-            for beforeEffect in self.player.selected_card.beforeEffect:
-                self.effectOrder["before"].append(["player",beforeEffect])
-            for mainEffect in self.player.selected_card.mainEffect:
-                self.effectOrder["main"].append(["player",mainEffect])
-            for afterEffect in self.player.selected_card.afterEffect:
-                self.effectOrder["after"].append(["player",afterEffect])
+        g_state_manager.Change(BattleState.RESOLVE_PHASE, {
+            'player': self.player,
+            'enemy': self.enemy,
+            'field': self.field,
+            'turn': self.turn,
+            'currentTurnOwner': self.currentTurnOwner,
+            'selected_card_index': self.selected_card_index,
+            'effectOrder': self.effectOrder
+        })
+
+    def appendEffects(self, entity, entityType):
+        for beforeEffect in entity.selected_card.beforeEffect:
+            self.effectOrder["before"].append([entityType, beforeEffect])
+        for mainEffect in entity.selected_card.mainEffect:
+            self.effectOrder["main"].append([entityType, mainEffect])
+        for afterEffect in entity.selected_card.afterEffect:
+            self.effectOrder["after"].append([entityType, afterEffect])
 
     def render(self, screen):  
         # Render cards on player's hand

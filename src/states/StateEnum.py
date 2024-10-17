@@ -6,9 +6,10 @@ class BattleState(Enum):
     INITIAL_PHASE = "battleInitial"
     SELECTION_PHASE = "battleSelect"
     ACTION_PHASE = "battleAction"
+    RESOLVE_PHASE = "battleResolve"
     END_PHASE = "battleEnd"
     FINISH_PHASE = "battleFinish"
 
-class TurnOwner(Enum):
+class PlayerType(Enum):
     PLAYER = 1
     ENEMY = 2

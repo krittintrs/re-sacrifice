@@ -13,7 +13,7 @@ class BattlePreparationState(BaseState):
 
         # base turn
         self.turn = 0
-        self.currentTurnOwner = TurnOwner.ENEMY
+        self.currentTurnOwner = PlayerType.ENEMY
     
     def mockDeck(self):
         deck = Deck()
@@ -25,10 +25,10 @@ class BattlePreparationState(BaseState):
         self.deck.shuffle()
         self.player.cardsOnHand = self.deck.draw(5)
 
-    def Enter(self, param):
-        self.deck = param['deck']
-        self.player = param['player']
-        self.enemy = param['enemy']
+    def Enter(self, params):
+        self.deck = params['deck']
+        self.player = params['player']
+        self.enemy = params['enemy']
 
         # mock deck, player, enemy
         self.deck = self.mockDeck() 

@@ -7,13 +7,17 @@ class BattleSelectState(BaseState):
         super(BattleSelectState, self).__init__()
         self.selected_card_index = 0
 
-    def Enter(self, param):
+    def Enter(self, params):
+        print(">>>>>> Enter BattleSelectState <<<<<<")
         # Retrieve the cards, entities, and field from the parameter
-        self.player = param['player']
-        self.enemy = param['enemy']
-        self.field = param['field']
-        self.turn = param['turn']
-        self.currentTurnOwner = param['currentTurnOwner']  
+        self.player = params['player']
+        self.enemy = params['enemy']
+        self.field = params['field']
+        self.turn = params['turn']
+        self.currentTurnOwner = params['currentTurnOwner']  
+
+        for fieldTile in self.field:
+            print(f'FieldTile {fieldTile.index} is occupied by {fieldTile.entity.name if fieldTile.entity else None}')
 
     def Exit(self):
         pass

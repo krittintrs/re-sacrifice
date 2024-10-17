@@ -17,29 +17,31 @@ class BattleInitialState(BaseState):
         # Create field
         self.field = self.create_field(9)  # Create 9 field in a single row
 
-    def Enter(self, param):
-        print("Enter BattleInitialState")
+    def Enter(self, params):
+        print(">>>>>> Enter BattleInitialState <<<<<<")
 
-        self.deck = param['deck']
-        self.player = param['player']
-        self.enemy = param['enemy']
-        self.turn = param['turn']
-        self.currentTurnOwner = param['currentTurnOwner']  
+        self.deck = params['deck']
+        self.player = params['player']
+        self.enemy = params['enemy']
+        self.turn = params['turn']
+        self.currentTurnOwner = params['currentTurnOwner']  
         self.nextTurn()
 
         # Mock move entities
         self.player.move_to(self.field[0], self.field)
         self.enemy.move_to(self.field[8], self.field)
+        for fieldTile in self.field:
+            print(f'FieldTile {fieldTile.index} is occupied by {fieldTile.entity.name if fieldTile.entity else None}')
 
         for card in self.player.cardsOnHand:
             print("Player's Hand Card: ", card.name)
 
     def nextTurn(self):
         # Change turn owner
-        if self.currentTurnOwner == TurnOwner.PLAYER:
-            self.currentTurnOwner = TurnOwner.ENEMY
+        if self.currentTurnOwner == PlayerType.PLAYER:
+            self.currentTurnOwner = PlayerType.ENEMY
         else:
-            self.currentTurnOwner = TurnOwner.PLAYER
+            self.currentTurnOwner = PlayerType.PLAYER
 
         # Increment turn
         self.turn += 1
@@ -118,9 +120,9 @@ class BattleInitialState(BaseState):
             value = [0, 0, 0, 0]    # atk, def, spd, range
             value[diceNumber-1] = 1
             buff = Buff("bonus", 1, value)
-            if self.currentTurnOwner == TurnOwner.PLAYER:   
+            if self.currentTurnOwner == PlayerType.PLAYER:   
                 self.player.add_buff(buff)
-            elif self.currentTurnOwner == TurnOwner.ENEMY:
+            elif self.currentTurnOwner == PlayerType.ENEMY:
                 self.enemy.add_buff(buff)
         else:
             print('no buff')
