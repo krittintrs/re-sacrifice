@@ -6,4 +6,4 @@ g_state_manager = StateMachine()
 
 sprite_collection = SpriteManager().spriteCollection
 
-card_dic = sprite_collection["card"]
+card_dict = sprite_collection["card"]

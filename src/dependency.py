@@ -1,7 +1,6 @@
 import pygame
 from src.constants import *
 from src.resources import *
-from src.cardSystem.Effect import Effect
 
 
 from src.StateMachine import StateMachine

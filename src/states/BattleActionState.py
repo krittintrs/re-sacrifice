@@ -4,6 +4,7 @@ from src.constants import *
 from src.cardSystem.Card import Card
 from src.cardSystem.Buff import Buff
 from src.cardSystem.Field import Field 
+from src.cardSystem.Effect import Effect
 from src.cardSystem.Entity import * 
 import pygame
 import sys
@@ -12,8 +13,7 @@ class BattleActionState(BaseState):
     def __init__(self):
         super(BattleActionState, self).__init__()
         self.playerFirst = True
-        self.subState = 0 # 0 for before, 1 for main, 2 for end
-        self.effectOrder = {"before":[],"main":[],"after":[]}
+        self.effectOrder = {"before": [], "main": [], "after":[]}
 
     def Enter(self, params):
         """
@@ -24,23 +24,30 @@ class BattleActionState(BaseState):
             - dice = int : dice result 
             - selected_card = int : index of selected card in cards
         """
+
         print("enter action state")
         self.cards = params['cards']
         self.fields = params['fields']
-        
         self.dice = params['dice']
         self.selected_card = params['selected_card']
-        # self.entities = params['entities']
 
-        #mock entity and card
+        # mock card
         card = self.cards[params['selected_card']]
-        card.beforeEffect = [Effect("attack", 0,card.range)]
+        card.beforeEffect = [Effect("attack", 0, card.range)]
+        card.mainEffect = [Effect("attack", 0, card.range)]
+        card.afterEffect = [Effect("attack", 0, card.range)]
+
+        # mock player
         self.fields[4].remove_entity()
         self.player = Player("player")
-        self.player.selected_card = card
-        self.player.move_to(self.fields[1],self.fields)
+        self.player.select_card(card)
+        self.player.move_to(self.fields[1], self.fields)
+        
+        # mock enemy
+        card.beforeEffect = [Effect("move", 0, card.range)]
+        card.mainEffect = [Effect("move", 0, card.range)]
+        card.afterEffect = [Effect("move", 0, card.range)]
         self.enemy = Enemy("enemy")
-        card.beforeEffect = [Effect("move", 0,card.range)]
         self.enemy.select_card(card)
         self.enemy.move_to(self.fields[7],self.fields)
 
@@ -49,15 +56,13 @@ class BattleActionState(BaseState):
             self.turn = params['turn']
         else:
             self.turn = 1
-        self.first = 0
         
         self.dice_buff(self.dice)
-
     
     # convert dice value to buff
     def dice_buff(self, dice):
-        if dice < 4: # 1,2,3
-            value = [0,0,0,0] # atk,def,spd,range
+        if dice < 4: # 1, 2, 3
+            value = [0, 0, 0, 0] # atk, def, spd, range
             value[dice-1] = 1
             if self.turn%2 == 1: # let odd turn be a player turn
                 buff = Buff("bonus", 1, value)
@@ -65,7 +70,6 @@ class BattleActionState(BaseState):
             else:
                 buff = Buff("bonus", 1, value)
                 self.enemy.add_buff(buff)
-            
         else:
             return
         
@@ -74,7 +78,6 @@ class BattleActionState(BaseState):
             return "player"
         else:
             return "enemy"
-
 
     def Exit(self):
         pass
@@ -123,9 +126,7 @@ class BattleActionState(BaseState):
             for afterEffect in self.player.selected_card.afterEffect:
                 self.effectOrder["after"].append(["player",afterEffect])
 
-
     def render(self, screen):  
-
         # render cards
         for order, card in enumerate(self.cards):
             card.render(screen, order)

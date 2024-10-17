@@ -13,13 +13,13 @@ class GameMain:
         g_state_manager.SetScreen(self.screen)
 
         states = {
-            "prepare": BattlePreparationState(),
-            "deck":DeckBuildingState(),
-            "initial": BattleInitialState(),
-            "select": BattleSelectState(),
-            "action": BattleActionState(),
-            "end": BattleEndState(),
-            "finish": BattleFinishState()
+            "deckBuilding": DeckBuildingState(),
+            "battlePrepare": BattlePreparationState(),
+            "battleInitial": BattleInitialState(),
+            "battleSelect": BattleSelectState(),
+            "battleAction": BattleActionState(),
+            "battleEnd": BattleEndState(),
+            "battleFinish": BattleFinishState()
         }
         g_state_manager.SetStates(states)
 
@@ -35,8 +35,7 @@ class GameMain:
 
     def PlayGame(self):
         clock = pygame.time.Clock()
-        g_state_manager.Change('prepare', {
-        })
+        g_state_manager.Change('battlePrepare', {})
 
         while True:
             dt = clock.tick(self.max_frame_rate) / 1000.0

@@ -55,7 +55,7 @@ class BattleInitialState(BaseState):
                     self.dice = self.roll_dice()
                     self.roll = True
                 elif event.key == pygame.K_RETURN and self.roll == True:
-                    g_state_manager.Change("select", {
+                    g_state_manager.Change("battleSelect", {
                         'cards': self.cards,
                         'entities': self.entities,
                         'fields': self.fields,

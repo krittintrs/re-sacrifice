@@ -8,18 +8,18 @@ class DeckBuildingState(BaseState):
 
     def __init__(self):
         super(DeckBuildingState, self).__init__()
-        self.avaliableCard = []
+        self.availableCard = []
         self.selectDeck = True
         self.deckIndex = 0
-        self.avaliableCardIndex = 0
+        self.availableCardIndex = 0
         self.cardPerRow = 8
-        self.avaliableCardSpacing = 10
+        self.availableCardSpacing = 10
         self.deckSpacing = 5
         self.selectedCardSpacing = 20
 
-        # mock avaliable card
-        for card in card_dic.values():
-            self.avaliableCard.append(card)
+        # mock available card
+        for card in card_dict.values():
+            self.availableCard.append(card)
         
 
     def Enter(self, params):
@@ -51,65 +51,65 @@ class DeckBuildingState(BaseState):
                         if self.deckIndex + self.cardPerRow < len(self.deck.card_deck):
                             self.deckIndex += self.cardPerRow
                     else:
-                        if self.avaliableCardIndex < len(self.avaliableCard) - 1:
-                            self.avaliableCardIndex += 1
+                        if self.availableCardIndex < len(self.availableCard) - 1:
+                            self.availableCardIndex += 1
                 if event.key == pygame.K_UP:
                     if self.selectDeck:
                         if self.deckIndex - self.cardPerRow >= 0:
                             self.deckIndex -= self.cardPerRow
                     else:
-                        if self.avaliableCardIndex > 0:
-                            self.avaliableCardIndex -= 1
+                        if self.availableCardIndex > 0:
+                            self.availableCardIndex -= 1
                 if event.key == pygame.K_SPACE:
                     if self.selectDeck:
                         if len(self.deck.card_deck)!=0:
                             if self.deckIndex == len(self.deck.card_deck) - 1 and self.deckIndex != 0:
                                 self.deckIndex -= 1
                             card = self.deck.card_deck[self.deckIndex]
-                            self.avaliableCard.append(card)
+                            self.availableCard.append(card)
                             self.deck.removeCard(card)
                     else:
-                        if len(self.avaliableCard)!=0:
-                            if self.avaliableCardIndex == len(self.avaliableCard)- 1 and self.avaliableCardIndex != 0:
-                                self.avaliableCardIndex -= 1
-                            card = self.avaliableCard.pop(self.avaliableCardIndex)
+                        if len(self.availableCard)!=0:
+                            if self.availableCardIndex == len(self.availableCard)- 1 and self.availableCardIndex != 0:
+                                self.availableCardIndex -= 1
+                            card = self.availableCard.pop(self.availableCardIndex)
                             self.deck.addCard(card)
 
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
                 elif event.key == pygame.K_RETURN:
-                    g_state_manager.Change("prepare", {
+                    g_state_manager.Change("battlePrepare", {
                         'deck':self.deck,
                     })
 
     def render(self, screen):
         screen.fill((255,255,255))
         # mock layout
-        pygame.draw.rect(screen, (255,255,0), (0,0, SCREEN_WIDTH * 0.25, SCREEN_HEIGHT), 5)
-        pygame.draw.rect(screen, (255,0,0), (SCREEN_WIDTH * 0.25,0, SCREEN_WIDTH * 0.75, SCREEN_HEIGHT*0.2), 5)
-        pygame.draw.rect(screen, (0,255,0), (SCREEN_WIDTH * 0.25,SCREEN_HEIGHT*0.2, SCREEN_WIDTH * 0.5, SCREEN_HEIGHT*0.8), 5)
-        pygame.draw.rect(screen, (0,0,255), (SCREEN_WIDTH * 0.75,SCREEN_HEIGHT*0.2, SCREEN_WIDTH * 0.25, SCREEN_HEIGHT*0.8), 5)
+        pygame.draw.rect(screen, (255,255,0), (0,0, SCREEN_WIDTH*0.25, SCREEN_HEIGHT), 5)
+        pygame.draw.rect(screen, (255,0,0), (SCREEN_WIDTH*0.25,0, SCREEN_WIDTH*0.75, SCREEN_HEIGHT*0.2), 5)
+        pygame.draw.rect(screen, (0,255,0), (SCREEN_WIDTH*0.25, SCREEN_HEIGHT*0.2, SCREEN_WIDTH*0.5, SCREEN_HEIGHT*0.8), 5)
+        pygame.draw.rect(screen, (0,0,255), (SCREEN_WIDTH*0.75, SCREEN_HEIGHT*0.2, SCREEN_WIDTH*0.25, SCREEN_HEIGHT*0.8), 5)
 
         # render deck
-        deckScale = (SCREEN_WIDTH*0.5)/((CARD_WIDTH + self.deckSpacing * 3)*self.cardPerRow)
+        deckScale = (SCREEN_WIDTH*0.5)/((CARD_WIDTH + self.deckSpacing*3)*self.cardPerRow)
         for idx, card in enumerate(self.deck.card_deck):
-            card.render_position(screen, (SCREEN_WIDTH * 0.25 + self.deckSpacing + (CARD_WIDTH*deckScale + self.deckSpacing)*(idx%self.cardPerRow) ,SCREEN_HEIGHT*0.2 + self.deckSpacing+ (CARD_HEIGHT*deckScale + self.deckSpacing)*(idx//self.cardPerRow)),deckScale)
-            screen.blit(pygame.font.Font(None, 24).render(card.name, True, (0,0,0)), (SCREEN_WIDTH * 0.25 + self.deckSpacing + (CARD_WIDTH*deckScale + self.deckSpacing)*(idx%self.cardPerRow) ,SCREEN_HEIGHT*0.2 + self.deckSpacing+ (CARD_HEIGHT*deckScale + self.deckSpacing)*(idx//self.cardPerRow)))
+            card.render_position(screen, (SCREEN_WIDTH*0.25 + self.deckSpacing + (CARD_WIDTH*deckScale + self.deckSpacing)*(idx%self.cardPerRow) ,SCREEN_HEIGHT*0.2 + self.deckSpacing+ (CARD_HEIGHT*deckScale + self.deckSpacing)*(idx//self.cardPerRow)),deckScale)
+            screen.blit(pygame.font.Font(None, 24).render(card.name, True, (0,0,0)), (SCREEN_WIDTH*0.25 + self.deckSpacing + (CARD_WIDTH*deckScale + self.deckSpacing)*(idx%self.cardPerRow) ,SCREEN_HEIGHT*0.2 + self.deckSpacing+ (CARD_HEIGHT*deckScale + self.deckSpacing)*(idx//self.cardPerRow)))
 
         
-        # render avaliable cards
-        avaliableCardScale = 0.5
-        for idx, card in enumerate(self.avaliableCard):
-            if idx//4 == self.avaliableCardIndex//4:
-                card.render_position(screen, (SCREEN_WIDTH*0.75 + self.avaliableCardSpacing, SCREEN_HEIGHT*0.2 + self.avaliableCardSpacing + SCREEN_HEIGHT*0.2*(idx%4)), avaliableCardScale)
-                screen.blit(pygame.font.Font(None, 48).render(card.name, True, (0,0,0)), (SCREEN_WIDTH*0.75 + self.avaliableCardSpacing, SCREEN_HEIGHT*0.2 + self.avaliableCardSpacing + SCREEN_HEIGHT*0.2*(idx%4)))
+        # render available cards
+        availableCardScale = 0.5
+        for idx, card in enumerate(self.availableCard):
+            if idx//4 == self.availableCardIndex//4:
+                card.render_position(screen, (SCREEN_WIDTH*0.75 + self.availableCardSpacing, SCREEN_HEIGHT*0.2 + self.availableCardSpacing + SCREEN_HEIGHT*0.2*(idx%4)), availableCardScale)
+                screen.blit(pygame.font.Font(None, 48).render(card.name, True, (0,0,0)), (SCREEN_WIDTH*0.75 + self.availableCardSpacing, SCREEN_HEIGHT*0.2 + self.availableCardSpacing + SCREEN_HEIGHT*0.2*(idx%4)))
         
         # render selected card detail
         if self.selectDeck and len(self.deck.card_deck) !=0:
             card = self.deck.card_deck[self.deckIndex]
-        elif not self.selectDeck and len(self.avaliableCard)!=0:
-            card = self.avaliableCard[self.avaliableCardIndex]
+        elif not self.selectDeck and len(self.availableCard)!=0:
+            card = self.availableCard[self.availableCardIndex]
         card.render_position(screen, (self.selectedCardSpacing , self.selectedCardSpacing), 1)
         screen.blit(pygame.font.Font(None, 48).render(card.name, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing))
         screen.blit(pygame.font.Font(None, 24).render("damage : " + str(card.dmg), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 20))
@@ -122,14 +122,14 @@ class DeckBuildingState(BaseState):
         
         # render highlight for selection        
         if self.selectDeck:
-            pygame.draw.rect(screen, (255,255,0), (SCREEN_WIDTH * 0.25 + self.deckSpacing + (CARD_WIDTH*deckScale + self.deckSpacing)*(self.deckIndex%self.cardPerRow) ,SCREEN_HEIGHT*0.2 + self.deckSpacing+ (CARD_HEIGHT*deckScale + self.deckSpacing)*(self.deckIndex//self.cardPerRow), CARD_WIDTH * deckScale, CARD_HEIGHT * deckScale), 3)
+            pygame.draw.rect(screen, (255,255,0), (SCREEN_WIDTH*0.25 + self.deckSpacing + (CARD_WIDTH*deckScale + self.deckSpacing)*(self.deckIndex%self.cardPerRow) ,SCREEN_HEIGHT*0.2 + self.deckSpacing+ (CARD_HEIGHT*deckScale + self.deckSpacing)*(self.deckIndex//self.cardPerRow), CARD_WIDTH*deckScale, CARD_HEIGHT*deckScale), 3)
         else:
-            pygame.draw.rect(screen, (255,255,0), (SCREEN_WIDTH*0.75 + self.avaliableCardSpacing, SCREEN_HEIGHT*0.2 + self.avaliableCardSpacing + SCREEN_HEIGHT*0.2*(self.avaliableCardIndex%4), CARD_WIDTH* avaliableCardScale, CARD_HEIGHT* avaliableCardScale),3)
+            pygame.draw.rect(screen, (255,255,0), (SCREEN_WIDTH*0.75 + self.availableCardSpacing, SCREEN_HEIGHT*0.2 + self.availableCardSpacing + SCREEN_HEIGHT*0.2*(self.availableCardIndex%4), CARD_WIDTH* availableCardScale, CARD_HEIGHT* availableCardScale),3)
 
 
         # render instruction
-        screen.blit(pygame.font.Font(None, 24).render("The middle section is the deck and the right section is the avaliable card to put in the deck", True, (0,0,0)),(SCREEN_WIDTH*0.25 +  self.selectedCardSpacing , self.selectedCardSpacing))
-        screen.blit(pygame.font.Font(None, 24).render("Use 'ARROW' key to nevigate and select card you want to choose    'SPCAE' to choose card to deck or remove it", True, (0,0,0)),(SCREEN_WIDTH*0.25 +  self.selectedCardSpacing , self.selectedCardSpacing + 50))
+        screen.blit(pygame.font.Font(None, 24).render("The middle section is the deck and the right section is the available card to put in the deck", True, (0,0,0)),(SCREEN_WIDTH*0.25 +  self.selectedCardSpacing , self.selectedCardSpacing))
+        screen.blit(pygame.font.Font(None, 24).render("Use 'ARROW' key to navigate and select card you want to choose    'SPACE' to choose card to deck or remove it", True, (0,0,0)),(SCREEN_WIDTH*0.25 +  self.selectedCardSpacing , self.selectedCardSpacing + 50))
         screen.blit(pygame.font.Font(None, 24).render("Press 'ENTER' to go back to preparation state", True, (0,0,0)),(SCREEN_WIDTH*0.25 +  self.selectedCardSpacing , self.selectedCardSpacing + 100))
 
             

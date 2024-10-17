@@ -39,8 +39,11 @@ class Entity:
             print("these is no selected card")
             return
         
-    # def getSelectedCard(self):
-    #     return 
+    def select_card(self, card):
+        self.selected_card = card
+
+    def select_position(self, index): 
+        self.index = index
 
     def turn_pass(self):
         for buff in self.buff:
@@ -81,12 +84,6 @@ class Enemy(Entity):
     def __init__(self, name, image=None):
         super().__init__(name, image)
         self.health = 100  # Example additional attribute for Enemy
-    
-    def select_card(self, card):
-        self.selected_card = card
-
-    def select_position(self, index): 
-        self.index = index
 
     def update(self, dt, events):
         # Implement enemy-specific update logic here

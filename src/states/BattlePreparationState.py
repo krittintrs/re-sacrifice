@@ -18,7 +18,7 @@ class BattlePreparationState(BaseState):
         self.cards = [] # card on hand
         # mock deck
         self.deck = Deck()
-        for card in card_dic.values():
+        for card in card_dict.values():
             self.deck.addCard(card)
 
     def Exit(self):
@@ -29,7 +29,7 @@ class BattlePreparationState(BaseState):
             self.deck = param['deck']
         else:
             self.deck = Deck()
-            for card in card_dic.values():
+            for card in card_dict.values():
                 self.deck.addCard(card)
 
     def update(self, dt, events):
@@ -50,13 +50,13 @@ class BattlePreparationState(BaseState):
                         self.deck.shuffle()
                         for i in range(5):
                             self.cards.append(self.deck.draw(1)[0])
-                        g_state_manager.Change("initial", {
-                            'deck':self.deck,
+                        g_state_manager.Change("battleInitial", {
+                            'deck': self.deck,
                             'cards': self.cards,
                         })
                     else:
-                        g_state_manager.Change("deck", {
-                            'deck':self.deck,
+                        g_state_manager.Change("deckBuilding", {
+                            'deck': self.deck,
                         })
 
 
