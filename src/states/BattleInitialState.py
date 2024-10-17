@@ -1,6 +1,7 @@
 from src.dependency import *
 from src.constants import *
 from src.cardSystem.FieldTile import FieldTile
+from src.cardSystem.Buff import Buff
 import pygame
 import sys
 import random
@@ -22,6 +23,9 @@ class BattleInitialState(BaseState):
         self.deck = param['deck']
         self.player = param['player']
         self.enemy = param['enemy']
+        self.turn = param['turn']
+        self.currentTurnOwner = param['currentTurnOwner']  
+        self.nextTurn()
 
         # Mock move entities
         self.player.move_to(self.field[0], self.field)
@@ -29,6 +33,16 @@ class BattleInitialState(BaseState):
 
         for card in self.player.cardsOnHand:
             print("Player's Hand Card: ", card.name)
+
+    def nextTurn(self):
+        # Change turn owner
+        if self.currentTurnOwner == TurnOwner.PLAYER:
+            self.currentTurnOwner = TurnOwner.ENEMY
+        else:
+            self.currentTurnOwner = TurnOwner.PLAYER
+
+        # Increment turn
+        self.turn += 1
 
     def Exit(self):
         pass
@@ -43,16 +57,16 @@ class BattleInitialState(BaseState):
                     pygame.quit()
                     sys.exit()
                 elif event.key == pygame.K_SPACE and self.roll == False:
-                    self.dice = self.roll_dice()
+                    self.roll_dice()
                     self.roll = True
                 elif event.key == pygame.K_RETURN and self.roll == True:
-                    g_state_manager.Change("battleSelect", {
+                    g_state_manager.Change(BattleState.SELECTION_PHASE, {
                         'player': self.player,
                         'enemy': self.enemy,
                         'field': self.field,
-                        'dice': self.dice
+                        'turn': self.turn,
+                        'currentTurnOwner': self.currentTurnOwner
                     })
-
 
     def render(self, screen):
         # Title
@@ -95,7 +109,18 @@ class BattleInitialState(BaseState):
             pygame.display.flip()  # Update the display to show changes
             pygame.time.delay(10)  # Delay to control the speed of dice rolling
 
-        # Finally, return the real dice number
+        # Roll the dice and convert the value to buff
         final_number = random.randint(1, 6)
-        self.dice = final_number  # Set the final dice number
-        return final_number
+        self.dice_buff(final_number)
+
+    def dice_buff(self, diceNumber):
+        if diceNumber <= 4:               # 1, 2, 3, 4
+            value = [0, 0, 0, 0]    # atk, def, spd, range
+            value[diceNumber-1] = 1
+            buff = Buff("bonus", 1, value)
+            if self.currentTurnOwner == TurnOwner.PLAYER:   
+                self.player.add_buff(buff)
+            elif self.currentTurnOwner == TurnOwner.ENEMY:
+                self.enemy.add_buff(buff)
+        else:
+            print('no buff')

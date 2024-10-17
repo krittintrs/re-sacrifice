@@ -2,8 +2,8 @@ import pygame
 from src.constants import *
 from src.resources import *
 
-
 from src.StateMachine import StateMachine
+from src.states.StateEnum import *
 from src.states.BaseState import BaseState
 from src.states.BattlePreparationState import BattlePreparationState
 from src.states.BattleSelectState import BattleSelectState

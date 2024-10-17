@@ -10,7 +10,6 @@ import sys
 class BattleActionState(BaseState):
     def __init__(self):
         super(BattleActionState, self).__init__()
-        self.playerFirst = True
         self.effectOrder = {"before": [], "main": [], "after":[]}
 
     def Enter(self, param):
@@ -27,11 +26,13 @@ class BattleActionState(BaseState):
         self.player = param['player']
         self.enemy = param['enemy']
         self.field = param['field']
-        self.dice = param['dice']
+        self.turn = param['turn']
+        self.currentTurnOwner = param['currentTurnOwner']  
         self.selected_card_index = param['selected_card_index']
 
         # mock card
         card = self.player.cardsOnHand[self.selected_card_index]
+        print('selected card: ', card.name)
         card.beforeEffect = [Effect("attack", 0, card.range)]
         card.mainEffect = [Effect("attack", 0, card.range)]
         card.afterEffect = [Effect("attack", 0, card.range)]
@@ -46,34 +47,6 @@ class BattleActionState(BaseState):
         card.afterEffect = [Effect("move", 0, card.range)]
         self.enemy.select_card(card)
         self.enemy.move_to(self.field[7],self.field)
-
-        # mock turn
-        if "turn" in param: # should be parse from the previous state
-            self.turn = param['turn']
-        else:
-            self.turn = 1
-        
-        self.dice_buff(self.dice)
-    
-    # convert dice value to buff
-    def dice_buff(self, dice):
-        if dice < 4: # 1, 2, 3
-            value = [0, 0, 0, 0] # atk, def, spd, range
-            value[dice-1] = 1
-            if self.turn%2 == 1: # let odd turn be a player turn
-                buff = Buff("bonus", 1, value)
-                self.player.add_buff(buff)
-            else:
-                buff = Buff("bonus", 1, value)
-                self.enemy.add_buff(buff)
-        else:
-            return
-        
-    def get_turn(self):
-        if self.turn%2 == 1:
-            return "player"
-        else:
-            return "enemy"
 
     def Exit(self):
         pass
@@ -92,7 +65,7 @@ class BattleActionState(BaseState):
                 if event.key == pygame.K_RETURN:
                     pass
 
-        if self.player.get_speed() > self.enemy.get_speed() or (self.player.get_speed() == self.enemy.get_speed() and self.get_turn() == "player"):
+        if self.player.get_speed() > self.enemy.get_speed() or (self.player.get_speed() == self.enemy.get_speed() and self.currentTurnOwner == TurnOwner.PLAYER):
             for beforeEffect in self.player.selected_card.beforeEffect:
                 self.effectOrder["before"].append(["player",beforeEffect])
             for mainEffect in self.player.selected_card.mainEffect:
@@ -107,7 +80,7 @@ class BattleActionState(BaseState):
             for afterEffect in self.enemy.selected_card.afterEffect:
                 self.effectOrder["after"].append(["enemy",afterEffect])
 
-        elif self.player.get_speed() < self.enemy.get_speed() or (self.player.get_speed() == self.enemy.get_speed() and self.get_turn() == "enemy"):
+        elif self.player.get_speed() < self.enemy.get_speed() or (self.player.get_speed() == self.enemy.get_speed() and self.currentTurnOwner == TurnOwner.ENEMY):
             for beforeEffect in self.enemy.selected_card.beforeEffect:
                 self.effectOrder["before"].append(["enemy",beforeEffect])
             for mainEffect in self.enemy.selected_card.mainEffect:

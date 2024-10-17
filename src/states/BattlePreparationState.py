@@ -10,6 +10,10 @@ class BattlePreparationState(BaseState):
         super(BattlePreparationState, self).__init__()
         self.menu = ["Start Battle", "Edit deck"]
         self.selectIndex = 0
+
+        # base turn
+        self.turn = 0
+        self.currentTurnOwner = TurnOwner.ENEMY
     
     def mockDeck(self):
         deck = Deck()
@@ -50,13 +54,15 @@ class BattlePreparationState(BaseState):
                 elif event.key == pygame.K_RETURN:
                     if self.selectIndex == 0:
                         self.initialDraw()
-                        g_state_manager.Change("battleInitial", {
+                        g_state_manager.Change(BattleState.INITIAL_PHASE, {
                             'deck': self.deck,
                             'player': self.player,
                             'enemy': self.enemy,
+                            'turn': self.turn,
+                            'currentTurnOwner': self.currentTurnOwner
                         })
                     else:
-                        g_state_manager.Change("deckBuilding", {
+                        g_state_manager.Change(BattleState.DECK_BUILDING, {
                             'deck': self.deck,
                         })
 

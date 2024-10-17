@@ -3,8 +3,6 @@ from src.dependency import *
 
 pygame.init()
 
-from src.dependency import *
-
 class GameMain:
     def __init__(self):
         self.max_frame_rate = 60
@@ -13,13 +11,13 @@ class GameMain:
         g_state_manager.SetScreen(self.screen)
 
         states = {
-            "deckBuilding": DeckBuildingState(),
-            "battlePrepare": BattlePreparationState(),
-            "battleInitial": BattleInitialState(),
-            "battleSelect": BattleSelectState(),
-            "battleAction": BattleActionState(),
-            "battleEnd": BattleEndState(),
-            "battleFinish": BattleFinishState()
+            BattleState.DECK_BUILDING: DeckBuildingState(),
+            BattleState.PREPARATION_PHASE: BattlePreparationState(),
+            BattleState.INITIAL_PHASE: BattleInitialState(),
+            BattleState.SELECTION_PHASE: BattleSelectState(),
+            BattleState.ACTION_PHASE: BattleActionState(),
+            BattleState.END_PHASE: BattleEndState(),
+            BattleState.FINISH_PHASE: BattleFinishState()
         }
         g_state_manager.SetStates(states)
 
@@ -35,7 +33,7 @@ class GameMain:
 
     def PlayGame(self):
         clock = pygame.time.Clock()
-        g_state_manager.Change('battlePrepare', {
+        g_state_manager.Change(BattleState.PREPARATION_PHASE, {
             'deck': None,
             'player': None,
             'enemy': None

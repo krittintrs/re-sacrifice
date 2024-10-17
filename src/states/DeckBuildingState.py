@@ -79,7 +79,7 @@ class DeckBuildingState(BaseState):
                     pygame.quit()
                     sys.exit()
                 elif event.key == pygame.K_RETURN:
-                    g_state_manager.Change("battlePrepare", {
+                    g_state_manager.Change(BattleState.PREPARATION_PHASE, {
                         'deck':self.deck,
                     })
 
