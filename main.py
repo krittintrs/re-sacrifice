@@ -31,11 +31,15 @@ class GameMain:
         # Draw the HUD background (full width, height 200 at the bottom)
         
         # Dark grey background for HUD
-        pygame.draw.rect(screen, (50, 50, 50), (0, SCREEN_HEIGHT  - HUD_HEIGHT, SCREEN_WIDTH, HUD_HEIGHT))                     
+        pygame.draw.rect(screen, (50, 50, 50), (0, SCREEN_HEIGHT  - HUD_HEIGHT, SCREEN_WIDTH, HUD_HEIGHT)) 
 
     def PlayGame(self):
         clock = pygame.time.Clock()
-        g_state_manager.Change('battlePrepare', {})
+        g_state_manager.Change('battlePrepare', {
+            'deck': None,
+            'player': None,
+            'enemy': None
+        })
 
         while True:
             dt = clock.tick(self.max_frame_rate) / 1000.0

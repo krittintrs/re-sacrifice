@@ -45,9 +45,9 @@ class Card:
 
         # Draw card modified numbers
 
-    def render_selected(self, screen, selected):
+    def render_selected(self, screen, selected_index):
         # Highlight the selected card by rendering a thicker border
-        start_x = 80 + selected * (CARD_WIDTH + 30)
+        start_x = 80 + selected_index * (CARD_WIDTH + 30)
         start_y = SCREEN_HEIGHT - CARD_HEIGHT - 10
         
         # Draw the highlighted border around the card

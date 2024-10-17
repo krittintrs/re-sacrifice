@@ -1,25 +1,22 @@
 import pygame
 import sys
 from src.dependency import *
-from src.cardSystem.Card import Card
-from src.cardSystem.Field import Field
-from src.cardSystem.Entity import Entity
 
 class BattleSelectState(BaseState):
     def __init__(self):
         super(BattleSelectState, self).__init__()
-        self.selected_card = 0
+        self.selected_card_index = 0
+
+    def Enter(self, param):
+        # Retrieve the cards, entities, and field from the parameter
+        self.player = param['player']
+        self.enemy = param['enemy']
+        self.field = param['field']
+        self.dice = param['dice']
 
     def Exit(self):
         pass
-
-    def Enter(self, param):
-        # Retrieve the cards, entities, and fields from the parameter
-        self.cards = param['cards']
-        self.entities = param['entities']
-        self.fields = param['fields']
-        self.dice = param['dice']
-
+    
     def update(self, dt, events):
         for event in events:
             if event.type == pygame.QUIT:
@@ -30,33 +27,28 @@ class BattleSelectState(BaseState):
                     pygame.quit()
                     sys.exit()
                 if event.key == pygame.K_LEFT:
-                    self.selected_card = (self.selected_card - 1) % len(self.cards)
+                    self.selected_card_index = (self.selected_card_index - 1) % len(self.player.cardsOnHand)
                 if event.key == pygame.K_RIGHT:
-                    self.selected_card = (self.selected_card + 1) % len(self.cards)
+                    self.selected_card_index = (self.selected_card_index + 1) % len(self.player.cardsOnHand)
                 if event.key == pygame.K_RETURN:
                     g_state_manager.Change("battleAction", {
-                        'cards': self.cards,
-                        'entities': self.entities,
-                        'fields': self.fields,
+                        'player': self.player,
+                        'enemy': self.enemy,
+                        'field': self.field,
                         'dice': self.dice,
-                        'selected_card': self.selected_card
+                        'selected_card_index': self.selected_card_index
                     })
 
     def render(self, screen):
         # Title
         screen.blit(pygame.font.Font(None, 36).render("Select Your Action: Press Enter to Confirm", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
 
-        # render cards
-        for order, card in enumerate(self.cards):
+        # Render cards on player's hand
+        for order, card in enumerate(self.player.cardsOnHand):
             card.render(screen, order)
-            card.render_selected(screen, self.selected_card)
+            card.render_selected(screen, self.selected_card_index)
 
-        # Render fields
-        for field in self.fields:
-            field.render(screen, len(self.fields))
+        # Render field
+        for fieldTile in self.field:
+            fieldTile.render(screen, len(self.field))
 
-        # Render entities (if needed)
-        for entity in self.entities:
-            # Assuming entities are placed in their respective fields
-            field = self.fields[entity.field_index]  # Get the field where the entity is located
-            field.render(screen, len(self.fields))  # Render the field, which will render the entity inside it

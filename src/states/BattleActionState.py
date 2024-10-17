@@ -1,9 +1,7 @@
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
-from src.cardSystem.Card import Card
 from src.cardSystem.Buff import Buff
-from src.cardSystem.Field import Field 
 from src.cardSystem.Effect import Effect
 from src.cardSystem.Entity import * 
 import pygame
@@ -15,45 +13,43 @@ class BattleActionState(BaseState):
         self.playerFirst = True
         self.effectOrder = {"before": [], "main": [], "after":[]}
 
-    def Enter(self, params):
+    def Enter(self, param):
         """
         params:
-            - cards = list[Card] : list of cards in player hand
-            - entities = lsit[Entity] : list of entities in the field
-            - fields = list[Field] : list of field objects (each field is one squre)
+            - player = Player() : player entity
+            - enemy = Enemy() : enemy entity
+            - field = list[fieldTile] : list of fieldTile objects (each fieldTile is one squre)
             - dice = int : dice result 
-            - selected_card = int : index of selected card in cards
+            - selected_card_index = int : index of selected card in cards
         """
 
         print("enter action state")
-        self.cards = params['cards']
-        self.fields = params['fields']
-        self.dice = params['dice']
-        self.selected_card = params['selected_card']
+        self.player = param['player']
+        self.enemy = param['enemy']
+        self.field = param['field']
+        self.dice = param['dice']
+        self.selected_card_index = param['selected_card_index']
 
         # mock card
-        card = self.cards[params['selected_card']]
+        card = self.player.cardsOnHand[self.selected_card_index]
         card.beforeEffect = [Effect("attack", 0, card.range)]
         card.mainEffect = [Effect("attack", 0, card.range)]
         card.afterEffect = [Effect("attack", 0, card.range)]
 
         # mock player
-        self.fields[4].remove_entity()
-        self.player = Player("player")
         self.player.select_card(card)
-        self.player.move_to(self.fields[1], self.fields)
+        self.player.move_to(self.field[1], self.field)
         
         # mock enemy
         card.beforeEffect = [Effect("move", 0, card.range)]
         card.mainEffect = [Effect("move", 0, card.range)]
         card.afterEffect = [Effect("move", 0, card.range)]
-        self.enemy = Enemy("enemy")
         self.enemy.select_card(card)
-        self.enemy.move_to(self.fields[7],self.fields)
+        self.enemy.move_to(self.field[7],self.field)
 
         # mock turn
-        if "turn" in params: # should be parse from the previous state
-            self.turn = params['turn']
+        if "turn" in param: # should be parse from the previous state
+            self.turn = param['turn']
         else:
             self.turn = 1
         
@@ -127,11 +123,11 @@ class BattleActionState(BaseState):
                 self.effectOrder["after"].append(["player",afterEffect])
 
     def render(self, screen):  
-        # render cards
-        for order, card in enumerate(self.cards):
+        # Render cards on player's hand
+        for order, card in enumerate(self.player.cardsOnHand):
             card.render(screen, order)
-            card.render_selected(screen, self.selected_card)
+            card.render_selected(screen, self.selected_card_index)
 
-        # Render fields
-        for field in self.fields:
-            field.render(screen, len(self.fields))
+        # Render field
+        for fieldTile in self.field:
+            fieldTile.render(screen, len(self.field))

@@ -2,29 +2,29 @@ import pygame
 from src.dependency import *
 
 class Entity:
-    def __init__(self, name,health = 10, image=None):
+    def __init__(self, name, health = 10, image=None):
         self.name = name
         self.field_index = None  # Keep track of which field it is on
         self.index = None
         self.deck = []
-        self.hand = []
+        self.cardsOnHand = []
         self.selected_card = None
         self.buff = [] # list of buff (or debuff?) apply on entity
         self.health = health
         self.stunt = False
         self.image = image
 
-    def move_to(self, field, fields):
-        if field.is_occupied():  # Check if the field is occupied
-            print("Field is already occupied!")
+    def move_to(self, fieldTile, field):
+        if fieldTile.is_occupied():  # Check if the fieldTile is occupied
+            print("fieldTile is already occupied!")
             return
 
-        # Remove from the current field if necessary
+        # Remove from the current fieldTile if necessary
         if self.field_index is not None:
-            current_field = fields[self.field_index]  # Access fields from the passed list
-            current_field.remove_entity()  # Remove from current field
+            current_field = field[self.field_index]  # Access field from the passed list
+            current_field.remove_entity()  # Remove from current fieldTile
 
-        field.place_entity(self)  # Place the entity in the new field
+        fieldTile.place_entity(self)  # Place the entity in the new fieldTile
 
     def add_buff(self, buff):
         self.buff.append(buff)

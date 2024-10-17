@@ -1,36 +1,38 @@
-from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
-from src.cardSystem.Card import Card
-from src.cardSystem.Entity import Entity
+from src.cardSystem.Entity import *
 from src.cardSystem.Deck import Deck
 import pygame
 import sys
-
-import random
-
 
 class BattlePreparationState(BaseState):
     def __init__(self):
         super(BattlePreparationState, self).__init__()
         self.menu = ["Start Battle", "Edit deck"]
         self.selectIndex = 0
-        self.cards = [] # card on hand
-        # mock deck
-        self.deck = Deck()
+    
+    def mockDeck(self):
+        deck = Deck()
         for card in card_dict.values():
-            self.deck.addCard(card)
+            deck.addCard(card)
+        return deck
 
-    def Exit(self):
-        pass
+    def initialDraw(self):
+        self.deck.shuffle()
+        self.player.cardsOnHand = self.deck.draw(5)
 
     def Enter(self, param):
-        if param:
-            self.deck = param['deck']
-        else:
-            self.deck = Deck()
-            for card in card_dict.values():
-                self.deck.addCard(card)
+        self.deck = param['deck']
+        self.player = param['player']
+        self.enemy = param['enemy']
+
+        # mock deck, player, enemy
+        self.deck = self.mockDeck() 
+        self.player = Player("player")    
+        self.enemy = Enemy("enemy")  
+    
+    def Exit(self):
+        pass
 
     def update(self, dt, events):
         for event in events:
@@ -47,12 +49,11 @@ class BattlePreparationState(BaseState):
                     sys.exit()
                 elif event.key == pygame.K_RETURN:
                     if self.selectIndex == 0:
-                        self.deck.shuffle()
-                        for i in range(5):
-                            self.cards.append(self.deck.draw(1)[0])
+                        self.initialDraw()
                         g_state_manager.Change("battleInitial", {
                             'deck': self.deck,
-                            'cards': self.cards,
+                            'player': self.player,
+                            'enemy': self.enemy,
                         })
                     else:
                         g_state_manager.Change("deckBuilding", {
@@ -69,8 +70,7 @@ class BattlePreparationState(BaseState):
             else:
                 screen.blit(pygame.font.Font(None, 24).render(option, True, (255,255,255)), (SCREEN_WIDTH/2 - 400 + idx*400, SCREEN_HEIGHT - HUD_HEIGHT + 100))
     
-        # Mockup render cards
-        for order, card in enumerate(self.cards):
-            c = Card("card", "description","image", 1 ,1 ,1 ,1 )
-            c.render(screen, order)
+        # Render cards on player's hand
+        for order, card in enumerate(self.player.cardsOnHand):
+            card.render(screen, order)
             
