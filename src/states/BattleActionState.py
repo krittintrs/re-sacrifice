@@ -18,10 +18,8 @@ class BattleActionState(BaseState):
             - player = Player() : player entity
             - enemy = Enemy() : enemy entity
             - field = list[fieldTile] : list of fieldTile objects (each fieldTile is one squre)
-            - dice = int : dice result 
-            - selected_card_index = int : index of selected card in cards
-            - currentTurnOwner = TurnOwner : current turn owner
             - turn = int : current turn
+            - currentTurnOwner = TurnOwner : current turn owner
         """
 
         print(">>>>>> Enter BattleActionState <<<<<<")

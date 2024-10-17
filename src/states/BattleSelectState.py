@@ -32,10 +32,10 @@ class BattleSelectState(BaseState):
                     sys.exit()
                 if event.key == pygame.K_LEFT:
                     newIndex = (self.selected_index - 1) % len(self.player.cardsOnHand)
-                    self.change_selected_index(newIndex)
+                    self.change_selection(newIndex)
                 if event.key == pygame.K_RIGHT:
                     newIndex = (self.selected_index + 1) % len(self.player.cardsOnHand)
-                    self.change_selected_index(newIndex)
+                    self.change_selection(newIndex)
                 if event.key == pygame.K_RETURN:
                     selectedCard = self.player.cardsOnHand[self.selected_index]
                     self.player.select_card(selectedCard)
@@ -49,7 +49,7 @@ class BattleSelectState(BaseState):
                         'currentTurnOwner': self.currentTurnOwner,
                     })
 
-    def change_selected_index(self, newIndex):
+    def change_selection(self, newIndex):
         self.player.cardsOnHand[self.selected_index].isSelected = False
         self.player.cardsOnHand[newIndex].isSelected = True
         self.selected_index = newIndex
