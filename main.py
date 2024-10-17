@@ -3,8 +3,6 @@ from src.dependency import *
 
 pygame.init()
 
-from src.dependency import *
-
 class GameMain:
     def __init__(self):
         self.max_frame_rate = 60
@@ -13,13 +11,17 @@ class GameMain:
         g_state_manager.SetScreen(self.screen)
 
         states = {
-            "prepare": BattlePreparationState(),
-            "deck":DeckBuildingState(),
-            "initial": BattleInitialState(),
-            "select": BattleSelectState(),
-            "action": BattleActionState(),
-            "end": BattleEndState(),
-            "finish": BattleFinishState()
+            BattleState.DECK_BUILDING: DeckBuildingState(),
+            BattleState.PREPARATION_PHASE: BattlePreparationState(),
+            BattleState.INITIAL_PHASE: BattleInitialState(),
+            BattleState.SELECTION_PHASE: BattleSelectState(),
+            BattleState.ACTION_PHASE: BattleActionState(),
+            BattleState.RESOLVE_PHASE: BattleResolveState(),
+            SelectionState.ATTACK: SelectAttackState(),
+            SelectionState.BUFF: SelectBuffState(),
+            SelectionState.MOVE: SelectMoveState(),
+            BattleState.END_PHASE: BattleEndState(),
+            BattleState.FINISH_PHASE: BattleFinishState()
         }
         g_state_manager.SetStates(states)
 
@@ -31,11 +33,14 @@ class GameMain:
         # Draw the HUD background (full width, height 200 at the bottom)
         
         # Dark grey background for HUD
-        pygame.draw.rect(screen, (50, 50, 50), (0, SCREEN_HEIGHT  - HUD_HEIGHT, SCREEN_WIDTH, HUD_HEIGHT))                     
+        pygame.draw.rect(screen, (50, 50, 50), (0, SCREEN_HEIGHT  - HUD_HEIGHT, SCREEN_WIDTH, HUD_HEIGHT)) 
 
     def PlayGame(self):
         clock = pygame.time.Clock()
-        g_state_manager.Change('prepare', {
+        g_state_manager.Change(BattleState.PREPARATION_PHASE, {
+            'deck': None,
+            'player': None,
+            'enemy': None
         })
 
         while True:
