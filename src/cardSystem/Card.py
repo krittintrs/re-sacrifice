@@ -2,14 +2,19 @@ import pygame
 from src.dependency import *
 
 class Card:
-    def __init__(self, name, description, image, speed, dmg, defend, range, beforeEffect = [],mainEffect = [],afterEffect = []):
+    def __init__(self, name, description, image, attack, defense, speed, range, beforeEffect = [], mainEffect = [], afterEffect = []):
+        # For Render
         self.name = name
         self.description = description
         self.image = image
+
+        # Card Stats
+        self.attack = attack
+        self.defense = defense
         self.speed = speed
-        self.dmg = dmg
-        self.defend = defend
         self.range = range
+
+        # Card Effects
         self.beforeEffect = beforeEffect # list of Effects
         self.mainEffect = mainEffect
         self.afterEffect = afterEffect

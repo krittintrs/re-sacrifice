@@ -72,7 +72,7 @@ class SpriteManager:
                 except KeyError:
                     xSize, ySize = data['size']
 
-                cardDict[card["name"]] =  Card(
+                cardDict[card["name"]] = Card(
                     name=card["name"],
                     description=card["description"],
                     image=1,
@@ -86,9 +86,9 @@ class SpriteManager:
                     #             yTileSize=ySize,
                     #         )
                     #     ).image,
-                    defend=card["defend"],
+                    attack=card["attack"],
+                    defense=card["defense"],
                     speed=card["speed"],
-                    dmg=card["dmg"],
                     range=card["range"]
                 )
         return cardDict
