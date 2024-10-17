@@ -3,16 +3,27 @@ from src.dependency import *
 
 class Entity:
     def __init__(self, name, health = 10, image=None):
+        # For Render
         self.name = name
-        self.field_index = None  # Keep track of which field it is on
-        self.index = None
+        self.fieldTile_index = None  # Keep track of which field it is on
+        self.image = image
+
+        # Deck & Card
         self.deck = []
         self.cardsOnHand = []
         self.selected_card = None
-        self.buff = [] # list of buff (or debuff?) apply on entity
+
+        # Entity Stats
         self.health = health
+        self.attack = 0
+        self.defense = 0
+        self.speed = 0
+        self.range = 0
         self.stunt = False
-        self.image = image
+        self.buffs = [] # list of buff (or debuff?) apply on entity
+
+    def print_stats(self):
+        print(f'{self.name} stats - HP: {self.health}, ATK: {self.attack}, DEF: {self.defense}, SPD: {self.speed}, RNG: {self.range}')
 
     def move_to(self, fieldTile, field):
         if fieldTile.is_occupied():  # Check if the fieldTile is occupied
@@ -20,24 +31,25 @@ class Entity:
             return
 
         # Remove from the current fieldTile if necessary
-        if self.field_index is not None:
-            current_field = field[self.field_index]  # Access field from the passed list
-            current_field.remove_entity()  # Remove from current fieldTile
-
+        if self.fieldTile_index is not None:
+            field[self.fieldTile_index].remove_entity()  # Remove from current fieldTile
+            
         fieldTile.place_entity(self)  # Place the entity in the new fieldTile
+        self.fieldTile_index = fieldTile.index  # Update the fieldTile index
 
     def add_buff(self, buff):
-        self.buff.append(buff)
-
-    def get_speed(self):
+        self.buffs.append(buff)
+    
+    def apply_buff(self):
         if self.selected_card:
-            spd = self.selected_card.speed
-            for buff in self.buff:
-                spd += buff.value[2]
-            return spd
+            for buff in self.buffs:
+                self.attack += buff.value[0] + self.selected_card.attack
+                self.defense += buff.value[1] + self.selected_card.defense
+                self.speed += buff.value[2] + self.selected_card.speed
+                self.range += buff.value[3] + self.selected_card.range
+            print("buff applied")
         else:
-            print("these is no selected card")
-            return
+            print("no card selected")
         
     def select_card(self, card):
         self.selected_card = card
@@ -46,10 +58,9 @@ class Entity:
         self.index = index
 
     def turn_pass(self):
-        for buff in self.buff:
+        for buff in self.buffs:
             if not buff.is_active():
-                self.buff.remove(buff)
-        
+                self.buffs.remove(buff)
 
     def render(self, screen, x, y, color=(255,0,0)):
         # Define entity size
