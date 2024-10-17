@@ -1,7 +1,9 @@
+import copy
 from src.dependency import *
 from src.constants import *
 from src.cardSystem.Entity import *
 from src.cardSystem.Deck import Deck
+from src.cardSystem.FieldTile import FieldTile
 import pygame
 import sys
 
@@ -12,28 +14,35 @@ class BattlePreparationState(BaseState):
         self.selectIndex = 0
 
         # base turn
-        self.turn = 0
-        self.currentTurnOwner = PlayerType.ENEMY
+        self.turn = 1
+        self.currentTurnOwner = PlayerType.PLAYER
+
+        # Create field
+        self.field = self.create_field(9)  # Create 9 field in a single row
     
     def mockDeck(self):
         deck = Deck()
         for card in card_dict.values():
-            deck.addCard(card)
+            deck.addCard(copy.deepcopy(card))  # Use deepcopy to copy each card
         return deck
-
+    
     def initialDraw(self):
-        self.deck.shuffle()
-        self.player.cardsOnHand = self.deck.draw(5)
+        self.player.deck.shuffle()
+        self.player.cardsOnHand = self.player.deck.draw(5)
+        self.enemy.deck.shuffle()
+        self.enemy.cardsOnHand = self.enemy.deck.draw(5)
 
     def Enter(self, params):
-        self.deck = params['deck']
         self.player = params['player']
         self.enemy = params['enemy']
 
-        # mock deck, player, enemy
-        self.deck = self.mockDeck() 
-        self.player = Player("player")    
+        # mock player
+        self.player = Player("player")   
+        self.player.deck = self.mockDeck() 
+
+        # mock enemy
         self.enemy = Enemy("enemy")  
+        self.enemy.deck = self.mockDeck()
     
     def Exit(self):
         pass
@@ -55,15 +64,15 @@ class BattlePreparationState(BaseState):
                     if self.selectIndex == 0:
                         self.initialDraw()
                         g_state_manager.Change(BattleState.INITIAL_PHASE, {
-                            'deck': self.deck,
                             'player': self.player,
                             'enemy': self.enemy,
+                            'field': self.field,
                             'turn': self.turn,
                             'currentTurnOwner': self.currentTurnOwner
                         })
                     else:
                         g_state_manager.Change(BattleState.DECK_BUILDING, {
-                            'deck': self.deck,
+                            'deck': self.player.deck,
                         })
 
 
@@ -79,4 +88,11 @@ class BattlePreparationState(BaseState):
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
             card.render(screen, order)
-            
+    
+    def create_field(self, num_fieldTile):
+        field = []
+        for i in range(num_fieldTile):
+            x = i * 100  # Adjust the x position based on index
+            y = 200  # Since you have only one row, y is constant
+            field.append(FieldTile(i, (x, y)))  # Create and append each fieldTile
+        return field

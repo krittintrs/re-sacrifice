@@ -9,42 +9,24 @@ import random
 class BattleInitialState(BaseState):
     def __init__(self):
         super(BattleInitialState, self).__init__()
-        self.cards = []
-        self.entities = []
         self.dice = 0
         self.roll = False
-
-        # Create field
-        self.field = self.create_field(9)  # Create 9 field in a single row
 
     def Enter(self, params):
         print(">>>>>> Enter BattleInitialState <<<<<<")
 
-        self.deck = params['deck']
         self.player = params['player']
         self.enemy = params['enemy']
+        self.field = params['field']
         self.turn = params['turn']
         self.currentTurnOwner = params['currentTurnOwner']  
-        self.nextTurn()
 
         # Mock move entities
         self.player.move_to(self.field[0], self.field)
         self.enemy.move_to(self.field[8], self.field)
-        for fieldTile in self.field:
-            print(f'FieldTile {fieldTile.index} is occupied by {fieldTile.entity.name if fieldTile.entity else None}')
 
         for card in self.player.cardsOnHand:
             print("Player's Hand Card: ", card.name)
-
-    def nextTurn(self):
-        # Change turn owner
-        if self.currentTurnOwner == PlayerType.PLAYER:
-            self.currentTurnOwner = PlayerType.ENEMY
-        else:
-            self.currentTurnOwner = PlayerType.PLAYER
-
-        # Increment turn
-        self.turn += 1
 
     def Exit(self):
         pass
@@ -90,14 +72,6 @@ class BattleInitialState(BaseState):
 
         # Render dice result
         screen.blit(pygame.font.Font(None, 36).render("Dice: " + str(self.dice), True, (0, 0, 0)), (10, SCREEN_HEIGHT - HUD_HEIGHT - 30))
-
-    def create_field(self, num_fieldTile):
-        field = []
-        for i in range(num_fieldTile):
-            x = i * 100  # Adjust the x position based on index
-            y = 200  # Since you have only one row, y is constant
-            field.append(FieldTile(i, (x, y)))  # Create and append each fieldTile
-        return field
     
     def roll_dice(self):
         # Play dice sound
@@ -116,10 +90,8 @@ class BattleInitialState(BaseState):
         self.dice_buff(final_number)
 
     def dice_buff(self, diceNumber):
-        if diceNumber <= 4:               # 1, 2, 3, 4
-            value = [0, 0, 0, 0]    # atk, def, spd, range
-            value[diceNumber-1] = 1
-            buff = Buff("bonus", 1, value)
+        if diceNumber < 4:                      # 1, 2, 3
+            buff = bonus_buff[diceNumber - 1]   # Get the buff based on the dice number
             if self.currentTurnOwner == PlayerType.PLAYER:   
                 self.player.add_buff(buff)
             elif self.currentTurnOwner == PlayerType.ENEMY:

@@ -4,20 +4,27 @@ class Buff():
         self.duration = duration
         self.value = value # [1,0,0,0] == [atk,def,spd,range]
 
-    def apply(self):
-        pass
+    def apply(self, entity):
+        if self.is_active():
+            entity.attack += self.value[0]
+            entity.defense += self.value[1]
+            entity.speed += self.value[2]
+            entity.range += self.value[3]
+    
+    def is_active(self):
+        if self.duration == -1: # -1 means infinite duration
+            return True
+        elif self.duration > 0:
+            return True
+        else:
+            return False
+
+    def turn_passed(self):
+        if self.duration > 0:
+            self.duration -= 1
 
     def render(self, screen):
         pass
 
     def update(self, dt, events):
         pass
-
-    # if timeout return true
-    def is_active(self):
-        self.duration -= 1
-        if self.duration >= 0:
-            return True
-        else:
-            return False
-

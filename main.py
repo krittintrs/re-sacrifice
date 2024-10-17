@@ -17,6 +17,9 @@ class GameMain:
             BattleState.SELECTION_PHASE: BattleSelectState(),
             BattleState.ACTION_PHASE: BattleActionState(),
             BattleState.RESOLVE_PHASE: BattleResolveState(),
+            SelectionState.ATTACK: SelectAttackState(),
+            SelectionState.BUFF: SelectBuffState(),
+            SelectionState.MOVE: SelectMoveState(),
             BattleState.END_PHASE: BattleEndState(),
             BattleState.FINISH_PHASE: BattleFinishState()
         }

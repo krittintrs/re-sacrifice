@@ -5,7 +5,7 @@ from src.dependency import *
 class BattleSelectState(BaseState):
     def __init__(self):
         super(BattleSelectState, self).__init__()
-        self.selected_card_index = 0
+        self.selected_index = 0
 
     def Enter(self, params):
         print(">>>>>> Enter BattleSelectState <<<<<<")
@@ -16,8 +16,7 @@ class BattleSelectState(BaseState):
         self.turn = params['turn']
         self.currentTurnOwner = params['currentTurnOwner']  
 
-        for fieldTile in self.field:
-            print(f'FieldTile {fieldTile.index} is occupied by {fieldTile.entity.name if fieldTile.entity else None}')
+        self.player.cardsOnHand[self.selected_index].isSelected = True
 
     def Exit(self):
         pass
@@ -32,18 +31,28 @@ class BattleSelectState(BaseState):
                     pygame.quit()
                     sys.exit()
                 if event.key == pygame.K_LEFT:
-                    self.selected_card_index = (self.selected_card_index - 1) % len(self.player.cardsOnHand)
+                    newIndex = (self.selected_index - 1) % len(self.player.cardsOnHand)
+                    self.change_selected_index(newIndex)
                 if event.key == pygame.K_RIGHT:
-                    self.selected_card_index = (self.selected_card_index + 1) % len(self.player.cardsOnHand)
+                    newIndex = (self.selected_index + 1) % len(self.player.cardsOnHand)
+                    self.change_selected_index(newIndex)
                 if event.key == pygame.K_RETURN:
+                    selectedCard = self.player.cardsOnHand[self.selected_index]
+                    self.player.select_card(selectedCard)
+                    for card in self.player.cardsOnHand:
+                        print(f'Player\'s Hand Card: {card.name}, isSelected: {card.isSelected}')
                     g_state_manager.Change(BattleState.ACTION_PHASE, {
                         'player': self.player,
                         'enemy': self.enemy,
                         'field': self.field,
                         'turn': self.turn,
                         'currentTurnOwner': self.currentTurnOwner,
-                        'selected_card_index': self.selected_card_index
                     })
+
+    def change_selected_index(self, newIndex):
+        self.player.cardsOnHand[self.selected_index].isSelected = False
+        self.player.cardsOnHand[newIndex].isSelected = True
+        self.selected_index = newIndex
 
     def render(self, screen):
         # Title
@@ -52,7 +61,6 @@ class BattleSelectState(BaseState):
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
             card.render(screen, order)
-            card.render_selected(screen, self.selected_card_index)
 
         # Render field
         for fieldTile in self.field:

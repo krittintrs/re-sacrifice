@@ -30,32 +30,28 @@ class BattleActionState(BaseState):
         self.field = params['field']
         self.turn = params['turn']
         self.currentTurnOwner = params['currentTurnOwner']  
-        self.selected_card_index = params['selected_card_index']
 
         # mock card
-        card = self.player.cardsOnHand[self.selected_card_index]
+        card = self.player.selectedCard
         print('selected card: ', card.name)
-        card.beforeEffect = [Effect("attack", 0, card.range)]
-        card.mainEffect = [Effect("attack", 0, card.range)]
-        card.afterEffect = [Effect("attack", 0, card.range)]
+        card.beforeEffect = [Effect(EffectType.ATTACK, 0, card.range)]
+        card.mainEffect = [Effect(EffectType.ATTACK, 0, card.range)]
+        card.afterEffect = [Effect(EffectType.SELF_BUFF, 0, card.range)]
 
         # mock player
-        self.player.select_card(card)
         self.player.move_to(self.field[2], self.field)
         
         # mock enemy
-        card.beforeEffect = [Effect("move", 0, card.range)]
-        card.mainEffect = [Effect("move", 0, card.range)]
-        card.afterEffect = [Effect("move", 0, card.range)]
-        self.enemy.select_card(card)
+        new_card = self.enemy.cardsOnHand[0]
+        new_card.beforeEffect = [Effect(EffectType.MOVE, 0, new_card.range)]
+        new_card.mainEffect = [Effect(EffectType.MOVE, 0, new_card.range)]
+        new_card.afterEffect = [Effect(EffectType.RANGE_BUFF, 0, new_card.range)]
+        self.enemy.select_card(new_card)
         self.enemy.move_to(self.field[7],self.field)
 
-        # apply buff
-        self.player.apply_buff()
-        self.enemy.apply_buff()
-
-        for fieldTile in self.field:
-            print(f'FieldTile {fieldTile.index} is occupied by {fieldTile.entity.name if fieldTile.entity else None}')
+        # apply existing buff
+        self.player.apply_existing_buffs()
+        self.enemy.apply_existing_buffs()
 
     def Exit(self):
         pass
@@ -69,10 +65,6 @@ class BattleActionState(BaseState):
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-                if event.key == pygame.K_SPACE:
-                    pass
-                if event.key == pygame.K_RETURN:
-                    pass
 
         if self.player.speed > self.enemy.speed or (self.player.speed == self.enemy.speed and self.currentTurnOwner == PlayerType.PLAYER):
             self.appendEffects(self.player, PlayerType.PLAYER)
@@ -82,29 +74,33 @@ class BattleActionState(BaseState):
             self.appendEffects(self.enemy, PlayerType.ENEMY)
             self.appendEffects(self.player, PlayerType.PLAYER)
 
+        for card in self.player.cardsOnHand:
+            print(f'Player\'s Hand Card: {card.name}, isSelected: {card.isSelected}')
+
         g_state_manager.Change(BattleState.RESOLVE_PHASE, {
             'player': self.player,
             'enemy': self.enemy,
             'field': self.field,
             'turn': self.turn,
             'currentTurnOwner': self.currentTurnOwner,
-            'selected_card_index': self.selected_card_index,
             'effectOrder': self.effectOrder
         })
 
     def appendEffects(self, entity, entityType):
-        for beforeEffect in entity.selected_card.beforeEffect:
-            self.effectOrder["before"].append([entityType, beforeEffect])
-        for mainEffect in entity.selected_card.mainEffect:
-            self.effectOrder["main"].append([entityType, mainEffect])
-        for afterEffect in entity.selected_card.afterEffect:
-            self.effectOrder["after"].append([entityType, afterEffect])
+        for beforeEffect in entity.selectedCard.beforeEffect:
+            self.effectOrder["before"].append([beforeEffect, entityType])
+        for mainEffect in entity.selectedCard.mainEffect:
+            self.effectOrder["main"].append([mainEffect, entityType])
+        for afterEffect in entity.selectedCard.afterEffect:
+            self.effectOrder["after"].append([afterEffect, entityType])
 
     def render(self, screen):  
+        # Turn
+        screen.blit(pygame.font.Font(None, 36).render(f"Turn {self.turn}", True, (0, 0, 0)), (10, 10))   
+
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
             card.render(screen, order)
-            card.render_selected(screen, self.selected_card_index)
 
         # Render field
         for fieldTile in self.field:

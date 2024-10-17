@@ -11,7 +11,7 @@ class Entity:
         # Deck & Card
         self.deck = []
         self.cardsOnHand = []
-        self.selected_card = None
+        self.selectedCard = None
 
         # Entity Stats
         self.health = health
@@ -40,20 +40,38 @@ class Entity:
     def add_buff(self, buff):
         self.buffs.append(buff)
     
-    def apply_buff(self):
-        if self.selected_card:
-            for buff in self.buffs:
-                self.attack += buff.value[0] + self.selected_card.attack
-                self.defense += buff.value[1] + self.selected_card.defense
-                self.speed += buff.value[2] + self.selected_card.speed
-                self.range += buff.value[3] + self.selected_card.range
-            print("buff applied")
-        else:
-            print("no card selected")
-        
-    def select_card(self, card):
-        self.selected_card = card
+    def apply_existing_buffs(self):
+        # self.print_stats()
+        for buff in self.buffs:
+            buff.apply(self)
+        # self.print_stats()
 
+    def select_card(self, card):
+        print(f'\t{self.name} selected card: {card.name}')
+        self.selectedCard = card
+        self.selectedCard.isSelected = True
+
+        self.attack = card.attack
+        self.defense = card.defense
+        self.speed = card.speed
+        self.range = card.range
+
+    def reset(self):
+        # remove selected card and draw new card
+        self.cardsOnHand.remove(self.selectedCard)
+        self.selectedCard = None
+        self.cardsOnHand.append(self.deck.draw(1)[0])
+
+        # reset stats
+        self.attack = 0
+        self.defense = 0
+        self.speed = 0
+        self.range = 0
+
+        # reset buffs
+        for buff in self.buffs:
+            buff.turn_passed()
+ 
     def select_position(self, index): 
         self.index = index
 
