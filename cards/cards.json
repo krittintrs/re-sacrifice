@@ -2,12 +2,13 @@
     "spriteSheetURL" : "",
     "size":[24,24],
     "cards":[
-        {"name": "card1",
+        {"name": "Move 3",
         "description":"",
-        "speed":1,
-        "dmg":1,
+        "speed":6,
+        "dmg":0,
         "defend":1,
-        "range":1,
+        "range_start":1,
+        "range_end":1,
         "sprite":
             {
                 "x":0,
@@ -16,12 +17,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card2",
+        {"name": "Move 2",
         "description":"",
-        "speed":1,
-        "dmg":1,
-        "defend":1,
-        "range":1,
+        "speed":6,
+        "dmg":0,
+        "defend":2,
+        "range_start":1,
+        "range_end":1,
         "sprite":
             {
                 "x":0,
@@ -30,12 +32,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card3",
+        {"name": "Move 1",
         "description":"",
-        "speed":1,
-        "dmg":1,
-        "defend":1,
-        "range":1,
+        "speed":6,
+        "dmg":0,
+        "defend":3,
+        "range_start":1,
+        "range_end":1,
         "sprite":
             {
                 "x":0,
@@ -44,12 +47,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card4",
+        {"name": "Quick Attack",
         "description":"",
-        "speed":1,
-        "dmg":1,
-        "defend":1,
-        "range":1,
+        "speed":6,
+        "dmg":2,
+        "defend":0,
+        "range_start":1,
+        "range_end":1,
         "sprite":
             {
                 "x":0,
@@ -58,12 +62,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card5",
+        {"name": "Normal Attack",
         "description":"",
-        "speed":1,
-        "dmg":1,
+        "speed":4,
+        "dmg":3,
         "defend":1,
-        "range":1,
+        "range_start":1,
+        "range_end":1,
         "sprite":
             {
                 "x":0,
@@ -72,12 +77,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card6",
+        {"name": "Heavy Attack",
         "description":"",
-        "speed":1,
-        "dmg":1,
-        "defend":1,
-        "range":1,
+        "speed":2,
+        "dmg":4,
+        "defend":3,
+        "range_start":1,
+        "range_end":1,
         "sprite":
             {
                 "x":0,
@@ -86,12 +92,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card7",
+        {"name": "Versatile Range Attack",
         "description":"",
-        "speed":1,
+        "speed":5,
         "dmg":1,
-        "defend":1,
-        "range":1,
+        "defend":0,
+        "range_start":1,
+        "range_end":3,
         "sprite":
             {
                 "x":0,
@@ -100,12 +107,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card8",
+        {"name": "Mid Range Attack",
         "description":"",
-        "speed":1,
-        "dmg":1,
-        "defend":1,
-        "range":1,
+        "speed":3,
+        "dmg":2,
+        "defend":0,
+        "range_start":2,
+        "range_end":4,
         "sprite":
             {
                 "x":0,
@@ -114,12 +122,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card9",
+        {"name": "Long Range Attack",
         "description":"",
         "speed":1,
-        "dmg":1,
-        "defend":1,
-        "range":1,
+        "dmg":3,
+        "defend":0,
+        "range_start":3,
+        "range_end":5,
         "sprite":
             {
                 "x":0,
@@ -128,12 +137,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card10",
+        {"name": "Sweep Attack",
         "description":"",
-        "speed":1,
-        "dmg":1,
-        "defend":1,
-        "range":1,
+        "speed":3,
+        "dmg":2,
+        "defend":0,
+        "range_start":1,
+        "range_end":2,
         "sprite":
             {
                 "x":0,
@@ -142,12 +152,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card11",
+        {"name": "Mini Fireball",
         "description":"",
         "speed":1,
         "dmg":1,
-        "defend":1,
-        "range":1,
+        "defend":0,
+        "range_start":1,
+        "range_end":9,
         "sprite":
             {
                 "x":0,
@@ -156,12 +167,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card12",
+        {"name": "Quick Defense",
         "description":"",
-        "speed":1,
-        "dmg":1,
-        "defend":1,
-        "range":1,
+        "speed":6,
+        "dmg":0,
+        "defend":3,
+        "range_start":1,
+        "range_end":1,
         "sprite":
             {
                 "x":0,
@@ -170,12 +182,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card13",
+        {"name": "Normal Defense",
         "description":"",
-        "speed":1,
-        "dmg":1,
-        "defend":1,
-        "range":1,
+        "speed":4,
+        "dmg":0,
+        "defend":4,
+        "range_start":1,
+        "range_end":1,
         "sprite":
             {
                 "x":0,
@@ -184,12 +197,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card14",
+        {"name": "Heavy Defense",
         "description":"",
-        "speed":1,
-        "dmg":1,
-        "defend":1,
-        "range":1,
+        "speed":2,
+        "dmg":0,
+        "defend":5,
+        "range_start":1,
+        "range_end":1,
         "sprite":
             {
                 "x":0,
@@ -198,12 +212,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card15",
+        {"name": "Push Attack",
         "description":"",
-        "speed":1,
+        "speed":3,
         "dmg":1,
         "defend":1,
-        "range":1,
+        "range_start":3,
+        "range_end":5,
         "sprite":
             {
                 "x":0,
@@ -212,12 +227,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card16",
+        {"name": "Pull Attack",
         "description":"",
-        "speed":1,
+        "speed":3,
         "dmg":1,
         "defend":1,
-        "range":1,
+        "range_start":1,
+        "range_end":2,
         "sprite":
             {
                 "x":0,
@@ -226,12 +242,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card17",
+        {"name": "Block Attack",
         "description":"",
-        "speed":1,
+        "speed":3,
         "dmg":1,
         "defend":1,
-        "range":1,
+        "range_start":2,
+        "range_end":3,
         "sprite":
             {
                 "x":0,
@@ -240,12 +257,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card18",
+        {"name": "Attack Boost",
         "description":"",
-        "speed":1,
-        "dmg":1,
+        "speed":5,
+        "dmg":null,
         "defend":1,
-        "range":1,
+        "range_start":0,
+        "range_end":0,
         "sprite":
             {
                 "x":0,
@@ -254,12 +272,13 @@
                 "colorKey":-1
             }
         },
-        {"name": "card19",
+        {"name": "Defense Boost",
         "description":"",
-        "speed":1,
-        "dmg":1,
+        "speed":5,
+        "dmg":null,
         "defend":1,
-        "range":1,
+        "range_start":0,
+        "range_end":0,
         "sprite":
             {
                 "x":0,
@@ -268,12 +287,718 @@
                 "colorKey":-1
             }
         },
-        {"name": "card20",
+        {"name": "Speed Boost",
+        "description":"",
+        "speed":5,
+        "dmg":null,
+        "defend":1,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Range Boost",
+        "description":"",
+        "speed":5,
+        "dmg":null,
+        "defend":1,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Cleanse",
+        "description":"",
+        "speed":4,
+        "dmg":null,
+        "defend":2,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Permanent Attack Boost",
+        "description":"",
+        "speed":1,
+        "dmg":null,
+        "defend":1,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Permanent Defense Boost",
+        "description":"",
+        "speed":1,
+        "dmg":null,
+        "defend":1,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Permanent Speed Boost",
+        "description":"",
+        "speed":1,
+        "dmg":null,
+        "defend":1,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Attack Debuff",
+        "description":"",
+        "speed":3,
+        "dmg":0,
+        "defend":1,
+        "range_start":1,
+        "range_end":3,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Defense Debuff",
+        "description":"",
+        "speed":3,
+        "dmg":0,
+        "defend":1,
+        "range_start":1,
+        "range_end":3,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Speed Debuff",
+        "description":"",
+        "speed":3,
+        "dmg":0,
+        "defend":1,
+        "range_start":1,
+        "range_end":3,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Range Debuff",
+        "description":"",
+        "speed":3,
+        "dmg":0,
+        "defend":1,
+        "range_start":1,
+        "range_end":3,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Movement Debuff",
+        "description":"",
+        "speed":3,
+        "dmg":0,
+        "defend":1,
+        "range_start":1,
+        "range_end":3,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Evade",
+        "description":"",
+        "speed":6,
+        "dmg":null,
+        "defend":0,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Discard",
+        "description":"",
+        "speed":4,
+        "dmg":0,
+        "defend":2,
+        "range_start":1,
+        "range_end":9,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Deep Sleep",
+        "description":"",
+        "speed":1,
+        "dmg":0,
+        "defend":0,
+        "range_start":1,
+        "range_end":2,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Deep Sleep",
+        "description":"",
+        "speed":3,
+        "dmg":0,
+        "defend":1,
+        "range_start":1,
+        "range_end":2,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Angel Blessing",
+        "description":"",
+        "speed":5,
+        "dmg":null,
+        "defend":1,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Destiny draw",
+        "description":"",
+        "speed":5,
+        "dmg":null,
+        "defend":0,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Reset Hand",
+        "description":"",
+        "speed":3,
+        "dmg":null,
+        "defend":0,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Kamikaze",
+        "description":"",
+        "speed":5,
+        "dmg":2,
+        "defend":2,
+        "range_start":1,
+        "range_end":3,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Goblin Dash",
+        "description":"",
+        "speed":4,
+        "dmg":3,
+        "defend":2,
+        "range_start":1,
+        "range_end":1,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Stone Shield",
+        "description":"",
+        "speed":3,
+        "dmg":1,
+        "defend":5,
+        "range_start":1,
+        "range_end":1,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Meditation",
+        "description":"",
+        "speed":4,
+        "dmg":null,
+        "defend":3,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Call backup",
+        "description":"",
+        "speed":6,
+        "dmg":null,
+        "defend":0,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Excalibur",
+        "description":"",
+        "speed":1,
+        "dmg":6,
+        "defend":4,
+        "range_start":1,
+        "range_end":2,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Goblin Bomb",
+        "description":"",
+        "speed":3,
+        "dmg":3,
+        "defend":2,
+        "range_start":1,
+        "range_end":4,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Backup",
+        "description":"",
+        "speed":3,
+        "dmg":2,
+        "defend":2,
+        "range_start":4,
+        "range_end":6,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Mega Heal",
+        "description":"",
+        "speed":6,
+        "dmg":null,
+        "defend":0,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Ditto",
+        "description":"",
+        "speed":0,
+        "dmg":0,
+        "defend":0,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Meteor",
+        "description":"",
+        "speed":4,
+        "dmg":3,
+        "defend":1,
+        "range_start":1,
+        "range_end":3,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "True Damage",
+        "description":"",
+        "speed":3,
+        "dmg":4,
+        "defend":0,
+        "range_start":1,
+        "range_end":3,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Shadow Clone Jutsu",
+        "description":"",
+        "speed":5,
+        "dmg":null,
+        "defend":1,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "You shall not pass",
+        "description":"",
+        "speed":5,
+        "dmg":2,
+        "defend":0,
+        "range_start":1,
+        "range_end":4,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "I cast Punch",
+        "description":"",
+        "speed":6,
+        "dmg":1,
+        "defend":0,
+        "range_start":1,
+        "range_end":1,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Kite Attack",
+        "description":"",
+        "speed":4,
+        "dmg":3,
+        "defend":1,
+        "range_start":1,
+        "range_end":1,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Sharp Shooter",
+        "description":"",
+        "speed":4,
+        "dmg":4,
+        "defend":0,
+        "range_start":2,
+        "range_end":5,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Arrow shower",
+        "description":"",
+        "speed":3,
+        "dmg":2,
+        "defend":0,
+        "range_start":4,
+        "range_end":9,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Bull's Eye",
+        "description":"",
+        "speed":5,
+        "dmg":null,
+        "defend":1,
+        "range_start":0,
+        "range_end":0,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Sabotage",
+        "description":"",
+        "speed":5,
+        "dmg":2,
+        "defend":2,
+        "range_start":1,
+        "range_end":1,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Small Stab",
+        "description":"",
+        "speed":6,
+        "dmg":2,
+        "defend":0,
+        "range_start":1,
+        "range_end":1,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Big Stab",
+        "description":"",
+        "speed":4,
+        "dmg":4,
+        "defend":2,
+        "range_start":1,
+        "range_end":1,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Parry",
         "description":"",
         "speed":1,
         "dmg":1,
+        "defend":4,
+        "range_start":1,
+        "range_end":1,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Blindness",
+        "description":"",
+        "speed":5,
+        "dmg":0,
+        "defend":0,
+        "range_start":1,
+        "range_end":4,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Muddy Field",
+        "description":"",
+        "speed":5,
+        "dmg":0,
+        "defend":0,
+        "range_start":1,
+        "range_end":4,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Sword Strike",
+        "description":"",
+        "speed":3,
+        "dmg":4,
+        "defend":3,
+        "range_start":1,
+        "range_end":1,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Bash Strike",
+        "description":"",
+        "speed":4,
+        "dmg":3,
+        "defend":2,
+        "range_start":1,
+        "range_end":1,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Blood Sacrifice",
+        "description":"",
+        "speed":3,
+        "dmg":5,
+        "defend":0,
+        "range_start":1,
+        "range_end":3,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Ground Defense",
+        "description":"",
+        "speed":1,
+        "dmg":2,
+        "defend":6,
+        "range_start":1,
+        "range_end":1,
+        "sprite":
+            {
+                "x":0,
+                "y":0,
+                "scalefactor":3,
+                "colorKey":-1
+            }
+        },
+        {"name": "Empower",
+        "description":"",
+        "speed":6,
+        "dmg":null,
         "defend":1,
-        "range":1,
+        "range_start":0,
+        "range_end":0,
         "sprite":
             {
                 "x":0,
@@ -282,6 +1007,7 @@
                 "colorKey":-1
             }
         }
+        
     ]
     
 }

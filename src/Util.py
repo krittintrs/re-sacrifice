@@ -89,7 +89,8 @@ class SpriteManager:
                     defend=card["defend"],
                     speed=card["speed"],
                     dmg=card["dmg"],
-                    range=card["range"]
+                    range_start=card["range_start"],
+                    range_end=card["range_end"]
                 )
         return cardDict
 

@@ -2,14 +2,15 @@ import pygame
 from src.dependency import *
 
 class Card:
-    def __init__(self, name, description, image, speed, dmg, defend, range):
+    def __init__(self, name, description, image, speed, dmg, defend, range_start, range_end):
         self.name = name
         self.description = description
         self.image = image
         self.speed = speed
         self.dmg = dmg
         self.defend = defend
-        self.range = range
+        self.range_start = range_start
+        self.range_end = range_end
 
     def start(self, entity, enemy, field):
         # Perform card action
