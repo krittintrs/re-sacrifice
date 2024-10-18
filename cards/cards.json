@@ -15,7 +15,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+        "effect":{
+            "beforeEffect": {},
+            "mainEffect": {
+            "type": "move",
+            "minRange": 0,
+            "maxRange": 3
+            },
+            "afterEffect": {}
+        }        
         },
         {"name": "Move 2",
         "description":"",
@@ -30,7 +39,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "move",
+                "minRange": 0,
+                "maxRange": 2
+                },
+                "afterEffect": {}
+            }     
         },
         {"name": "Move 1",
         "description":"",
@@ -45,7 +63,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "move",
+                "minRange": 0,
+                "maxRange": 1
+                },
+                "afterEffect": {}
+            }     
         },
         {"name": "Quick Attack",
         "description":"",
@@ -60,7 +87,12 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {},
+                "afterEffect": {}
+            }     
         },
         {"name": "Normal Attack",
         "description":"",
@@ -75,7 +107,12 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Heavy Attack",
         "description":"",
@@ -90,7 +127,12 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Versatile Range Attack",
         "description":"",
@@ -105,7 +147,12 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Mid Range Attack",
         "description":"",
@@ -120,7 +167,12 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Long Range Attack",
         "description":"",
@@ -135,7 +187,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 1
+                },
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Sweep Attack",
         "description":"",
@@ -150,7 +211,12 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Mini Fireball",
         "description":"",
@@ -165,7 +231,12 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Quick Defense",
         "description":"",
@@ -180,7 +251,12 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Normal Defense",
         "description":"",
@@ -195,7 +271,12 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Heavy Defense",
         "description":"",
@@ -210,7 +291,12 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Push Attack",
         "description":"",
@@ -225,7 +311,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "push",
+                "minRange": 1,
+                "maxRange": 2
+                },
+                "afterEffect": {}
+            }  
         },
         {"name": "Pull Attack",
         "description":"",
@@ -240,7 +335,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "pull",
+                "minRange": 1,
+                "maxRange": 2
+                },
+                "afterEffect": {}
+            }  
         },
         {"name": "Block Attack",
         "description":"",
@@ -255,7 +359,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "debuff",
+                    "minRange": 0,
+                    "maxRange": 4,
+                    "buff": {
+                        "name": "stopMovement",
+                        "duration": 1,
+                        "value": [0, 0, 0, 0]
+                      }
+                },
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Attack Boost",
         "description":"",
@@ -270,7 +388,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+        "effect":{
+            "beforeEffect": {},
+            "mainEffect": {
+            "type": "buff",
+            "minRange": 0,
+            "maxRange": 0,
+            "buff": {
+                "name": "ATK",
+                "duration": 2,
+                "value": [2, 0, 0, 0]
+              }
+            },
+            "afterEffect": {}
+        } 
         },
         {"name": "Defense Boost",
         "description":"",
@@ -285,7 +417,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "buff",
+                "minRange": 0,
+                "maxRange": 0,
+                "buff": {
+                    "name": "DEF",
+                    "duration": 2,
+                    "value": [0, 2, 0, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Speed Boost",
         "description":"",
@@ -300,7 +446,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "buff",
+                "minRange": 0,
+                "maxRange": 0,
+                "buff": {
+                    "name": "SPD",
+                    "duration": 2,
+                    "value": [0, 0, 2, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Range Boost",
         "description":"",
@@ -315,7 +475,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "buff",
+                "minRange": 0,
+                "maxRange": 0,
+                "buff": {
+                    "name": "RNG",
+                    "duration": 2,
+                    "value": [0, 0, 0, 2]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Cleanse",
         "description":"",
@@ -330,7 +504,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "cleanse",
+                "minRange": 0,
+                "maxRange": 0
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Permanent Attack Boost",
         "description":"",
@@ -345,7 +528,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "buff",
+                "minRange": 0,
+                "maxRange": 0,
+                "buff": {
+                    "name": "PermaATK",
+                    "duration": -1,
+                    "value": [1, 0, -1, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Permanent Defense Boost",
         "description":"",
@@ -360,7 +557,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "buff",
+                "minRange": 0,
+                "maxRange": 0,
+                "buff": {
+                    "name": "PermaDEF",
+                    "duration": -1,
+                    "value": [-1, 1, 0, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Permanent Speed Boost",
         "description":"",
@@ -375,7 +586,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "buff",
+                "minRange": 0,
+                "maxRange": 0,
+                "buff": {
+                    "name": "PermaSPD",
+                    "duration": -1,
+                    "value": [0, -1, 1, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Attack Debuff",
         "description":"",
@@ -390,7 +615,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "debuff",
+                "minRange": 1,
+                "maxRange": 3,
+                "buff": {
+                    "name": "ATKDebuff",
+                    "duration": 2,
+                    "value": [-2, 0, 0, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Defense Debuff",
         "description":"",
@@ -405,7 +644,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "debuff",
+                "minRange": 1,
+                "maxRange": 3,
+                "buff": {
+                    "name": "DEFDebuff",
+                    "duration": 2,
+                    "value": [0, -2, 0, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Speed Debuff",
         "description":"",
@@ -420,7 +673,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "debuff",
+                "minRange": 1,
+                "maxRange": 3,
+                "buff": {
+                    "name": "SPDDebuff",
+                    "duration": 2,
+                    "value": [0, 0, -2, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Range Debuff",
         "description":"",
@@ -435,7 +702,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "debuff",
+                "minRange": 1,
+                "maxRange": 3,
+                "buff": {
+                    "name": "RNGDebuff",
+                    "duration": 2,
+                    "value": [0, 0, 0, -2]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Movement Debuff",
         "description":"",
@@ -450,7 +731,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "debuff",
+                "minRange": 1,
+                "maxRange": 3,
+                "buff": {
+                    "name": "MovementDebuff",
+                    "duration": 2,
+                    "value": [0, 0, 0, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Evade",
         "description":"",
@@ -465,7 +760,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "buff",
+                    "minRange": 0,
+                    "maxRange": 0,
+                    "buff": {
+                        "name": "Evade",
+                        "duration": 1,
+                        "value": [0, 0, 0, 0]
+                      }
+                    },
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Discard",
         "description":"",
@@ -480,7 +789,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "discard",
+                "minRange": 1,
+                "maxRange": 9
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Deep Sleep",
         "description":"",
@@ -495,9 +813,23 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "debuff",
+                "minRange": 1,
+                "maxRange": 2,
+                "buff": {
+                    "name": "DeepSleep",
+                    "duration": 2,
+                    "value": [0, 0, 0, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
-        {"name": "Deep Sleep",
+        {"name": "Sand Throw",
         "description":"",
         "speed":3,
         "dmg":0,
@@ -510,7 +842,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "SandThrow",
+                    "minRange": 1,
+                    "maxRange": 2,
+                    "buff": {
+                        "name": "DeepSleep",
+                        "duration": 1,
+                        "value": [0, 0, 0, 0]
+                      }
+                },
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Angel Blessing",
         "description":"",
@@ -525,7 +871,20 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 1
+                },
+                "mainEffect": {
+                    "type": "AngelBlessing",
+                    "minRange": 0,
+                    "maxRange": 0
+                },
+                "afterEffect": {}
+            }  
         },
         {"name": "Destiny draw",
         "description":"",
@@ -540,7 +899,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "DestinyDraw",
+                    "minRange": 0,
+                    "maxRange": 0
+                },
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Reset Hand",
         "description":"",
@@ -555,7 +923,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                    "type": "Reset",
+                    "minRange": 0,
+                    "maxRange": 0
+                },
+                "afterEffect": {}
+            }  
         },
         {"name": "Kamikaze",
         "description":"",
@@ -570,7 +947,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                    "type": "Kamikaze",
+                    "minRange": 0,
+                    "maxRange": 0
+                },
+                "afterEffect": {}
+            }  
         },
         {"name": "Goblin Dash",
         "description":"",
@@ -585,7 +971,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 3
+                },
+                "afterEffect": {}
+            }  
         },
         {"name": "Stone Shield",
         "description":"",
@@ -600,7 +995,12 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {},
+                "afterEffect": {}
+            }  
         },
         {"name": "Meditation",
         "description":"",
@@ -615,7 +1015,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "buff",
+                "minRange": 0,
+                "maxRange": 0,
+                "buff": {
+                    "name": "DeepSleep",
+                    "duration": 2,
+                    "value": [1, 1, 0, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Call backup",
         "description":"",
@@ -630,7 +1044,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "spawn",
+                "minRange": 0,
+                "maxRange": 0
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Excalibur",
         "description":"",
@@ -645,7 +1068,12 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Goblin Bomb",
         "description":"",
@@ -660,7 +1088,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "debuff",
+                "minRange": 1,
+                "maxRange": 4,
+                "buff": {
+                    "name": "fire",
+                    "duration": 3,
+                    "value": [0, 0, 0, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Backup",
         "description":"",
@@ -675,7 +1117,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "move",
+                    "minRange": 1,
+                    "maxRange": 9
+                },
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Mega Heal",
         "description":"",
@@ -690,7 +1141,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "heal",
+                "minRange": 0,
+                "maxRange": 0
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Ditto",
         "description":"",
@@ -705,7 +1165,16 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "ditto",
+                    "minRange": 0,
+                    "maxRange": 0
+                },
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Meteor",
         "description":"",
@@ -720,7 +1189,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "debuff",
+                "minRange": 1,
+                "maxRange": 3,
+                "buff": {
+                    "name": "fire",
+                    "duration": 3,
+                    "value": [0, 0, 0, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "True Damage",
         "description":"",
@@ -735,7 +1218,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "debuff",
+                "minRange": 1,
+                "maxRange": 3,
+                "buff": {
+                    "name": "ignoreDEF",
+                    "duration": 1,
+                    "value": [0, 0, 0, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Shadow Clone Jutsu",
         "description":"",
@@ -750,7 +1247,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "buff",
+                "minRange": 0,
+                "maxRange": 0,
+                "buff": {
+                    "name": "multi",
+                    "duration": 1,
+                    "value": [0, 0, 0, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "You shall not pass",
         "description":"",
@@ -765,7 +1276,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "debuff",
+                "minRange": 1,
+                "maxRange": 4,
+                "buff": {
+                    "name": "stopMovement",
+                    "duration": 2,
+                    "value": [0, 0, 0, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "I cast Punch",
         "description":"",
@@ -780,7 +1305,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "debuff",
+                "minRange": 1,
+                "maxRange": 1,
+                "buff": {
+                    "name": "DeepSleep",
+                    "duration": 2,
+                    "value": [0, 0, 0, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Kite Attack",
         "description":"",
@@ -795,7 +1334,24 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 2
+                },
+                "mainEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 2
+                },
+                "afterEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 2
+                }
+            } 
         },
         {"name": "Sharp Shooter",
         "description":"",
@@ -810,7 +1366,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "buff",
+                    "minRange": 0,
+                    "maxRange": 0,
+                    "buff": {
+                        "name": "critical",
+                        "duration": 1,
+                        "value": [0, 0, 0, 0]
+                      }
+                },
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Arrow shower",
         "description":"",
@@ -825,7 +1395,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "buff",
+                    "minRange": 0,
+                    "maxRange": 0,
+                    "buff": {
+                        "name": "critical",
+                        "duration": 1,
+                        "value": [0, 0, 0, 0]
+                      }
+                },
+                "mainEffect": {},
+                "afterEffect": {}
+            } 
         },
         {"name": "Bull's Eye",
         "description":"",
@@ -840,7 +1424,21 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {},
+                "mainEffect": {
+                "type": "buff",
+                "minRange": 0,
+                "maxRange": 0,
+                "buff": {
+                    "name": "critical",
+                    "duration": 1,
+                    "value": [0, 0, 0, 0]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Sabotage",
         "description":"",
@@ -855,7 +1453,30 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "buff",
+                    "minRange": 0,
+                    "maxRange": 0,
+                    "buff": {
+                        "name": "critical",
+                        "duration": 1,
+                        "value": [0, 0, 0, 0]
+                      }
+                },
+                "mainEffect": {
+                "type": "debuff",
+                "minRange": 1,
+                "maxRange": 1,
+                "buff": {
+                    "name": "RNG",
+                    "duration": 1,
+                    "value": [0, 0, 0, 1]
+                  }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Small Stab",
         "description":"",
@@ -870,7 +1491,20 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 2
+                },
+                "mainEffect": {},
+                "afterEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 2
+                }
+            } 
         },
         {"name": "Big Stab",
         "description":"",
@@ -885,7 +1519,20 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 2
+                },
+                "mainEffect": {},
+                "afterEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 2
+                }
+            } 
         },
         {"name": "Parry",
         "description":"",
@@ -900,7 +1547,20 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 2
+                },
+                "mainEffect": {},
+                "afterEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 2
+                }
+            } 
         },
         {"name": "Blindness",
         "description":"",
@@ -915,7 +1575,29 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 2
+                },
+                "mainEffect": {
+                    "type": "debuff",
+                    "minRange": 1,
+                    "maxRange": 4,
+                    "buff": {
+                        "name": "blind",
+                        "duration": 2,
+                        "value": [-1, 0, 0, -1]
+                      }
+                },
+                "afterEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 2
+                }
+            } 
         },
         {"name": "Muddy Field",
         "description":"",
@@ -930,7 +1612,29 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 2
+                },
+                "mainEffect": {
+                    "type": "debuff",
+                    "minRange": 1,
+                    "maxRange": 4,
+                    "buff": {
+                        "name": "-1move",
+                        "duration": 2,
+                        "value": [0, 0, 0, 0]
+                      }
+                },
+                "afterEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 2
+                }
+            } 
         },
         {"name": "Sword Strike",
         "description":"",
@@ -945,7 +1649,25 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "buffmove",
+                    "minRange": 0,
+                    "maxRange": 1
+                },
+                "mainEffect": {
+                    "type": "buff",
+                    "minRange": 0,
+                    "maxRange": 0,
+                    "buff": {
+                        "name": "empower",
+                        "duration": 1,
+                        "value": [1, 1, 0, 0]
+                      }
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Bash Strike",
         "description":"",
@@ -960,7 +1682,20 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "buffmove",
+                    "minRange": 0,
+                    "maxRange": 1
+                },
+                "mainEffect": {},
+                "afterEffect": {
+                    "type": "push",
+                    "minRange": 0,
+                    "maxRange": 3
+                }
+            } 
         },
         {"name": "Blood Sacrifice",
         "description":"",
@@ -975,7 +1710,20 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "buffmove",
+                    "minRange": 0,
+                    "maxRange": 1
+                },
+                "mainEffect": {
+                    "type": "bloodSacrifice",
+                    "minRange": 0,
+                    "maxRange": 3
+                },
+                "afterEffect": {}
+            } 
         },
         {"name": "Ground Defense",
         "description":"",
@@ -990,7 +1738,20 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "buffmove",
+                    "minRange": 0,
+                    "maxRange": 1
+                },
+                "mainEffect": {},
+                "afterEffect": {
+                    "type": "move",
+                    "minRange": 0,
+                    "maxRange": 2
+                }
+            } 
         },
         {"name": "Empower",
         "description":"",
@@ -1005,7 +1766,25 @@
                 "y":0,
                 "scalefactor":3,
                 "colorKey":-1
-            }
+            },
+            "effect":{
+                "beforeEffect": {
+                    "type": "buffmove",
+                    "minRange": 0,
+                    "maxRange": 1
+                },
+                "mainEffect": {
+                    "type": "buff",
+                    "minRange": 0,
+                    "maxRange": 0,
+                    "buff": {
+                        "name": "empower",
+                        "duration": 2,
+                        "value": [1, 1, 0, 0]
+                      }
+                },
+                "afterEffect": {}
+            } 
         }
         
     ]
