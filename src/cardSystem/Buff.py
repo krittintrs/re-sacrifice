@@ -5,11 +5,10 @@ class Buff():
         self.value = value # [1,0,0,0] == [atk,def,spd,range]
 
     def apply(self, entity):
-        if self.is_active():
-            entity.attack += self.value[0]
-            entity.defense += self.value[1]
-            entity.speed += self.value[2]
-            entity.range += self.value[3]
+        entity.attack += self.value[0]
+        entity.defense += self.value[1]
+        entity.speed += self.value[2]
+        entity.range += self.value[3]
     
     def is_active(self):
         if self.duration == -1: # -1 means infinite duration
@@ -19,7 +18,7 @@ class Buff():
         else:
             return False
 
-    def turn_passed(self):
+    def next_turn(self):
         if self.duration > 0:
             self.duration -= 1
 

@@ -41,10 +41,9 @@ class Entity:
         self.buffs.append(buff)
     
     def apply_existing_buffs(self):
-        # self.print_stats()
         for buff in self.buffs:
-            buff.apply(self)
-        # self.print_stats()
+            if buff.is_active():
+                buff.apply(self)
 
     def select_card(self, card):
         print(f'\t{self.name} selected card: {card.name}')
@@ -56,7 +55,7 @@ class Entity:
         self.speed = card.speed
         self.range = card.range
 
-    def reset(self):
+    def next_turn(self):
         # remove selected card and draw new card
         self.cardsOnHand.remove(self.selectedCard)
         self.selectedCard = None
@@ -70,15 +69,12 @@ class Entity:
 
         # reset buffs
         for buff in self.buffs:
-            buff.turn_passed()
+            buff.next_turn()
+            if not buff.is_active():
+                self.buffs.remove(buff)
  
     def select_position(self, index): 
         self.index = index
-
-    def turn_pass(self):
-        for buff in self.buffs:
-            if not buff.is_active():
-                self.buffs.remove(buff)
 
     def render(self, screen, x, y, color=(255,0,0)):
         # Define entity size

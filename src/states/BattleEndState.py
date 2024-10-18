@@ -15,7 +15,7 @@ class BattleEndState(BaseState):
         self.turn = params['turn']
         self.currentTurnOwner = params['currentTurnOwner']  
 
-    def nextTurn(self):
+    def next_turn(self):
         # Change turn owner
         if self.currentTurnOwner == PlayerType.PLAYER:
             self.currentTurnOwner = PlayerType.ENEMY
@@ -25,9 +25,9 @@ class BattleEndState(BaseState):
         # Increment turn
         self.turn += 1
 
-        # Reset Entity
-        self.player.reset()
-        self.enemy.reset()
+        # Turn Pass Entity
+        self.player.next_turn()
+        self.enemy.next_turn()
 
     def Exit(self):
         pass
@@ -44,7 +44,7 @@ class BattleEndState(BaseState):
                 if event.key == pygame.K_SPACE:
                     pass
                 if event.key == pygame.K_RETURN:
-                    self.nextTurn()
+                    self.next_turn()
                     g_state_manager.Change(BattleState.INITIAL_PHASE, {
                         'player': self.player,
                         'enemy': self.enemy,
