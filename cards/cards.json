@@ -4,9 +4,9 @@
     "cards":[
         {"name": "card1",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -18,9 +18,9 @@
         },
         {"name": "card2",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -32,9 +32,9 @@
         },
         {"name": "card3",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -46,9 +46,9 @@
         },
         {"name": "card4",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -60,9 +60,9 @@
         },
         {"name": "card5",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -74,9 +74,9 @@
         },
         {"name": "card6",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -88,9 +88,9 @@
         },
         {"name": "card7",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -102,9 +102,9 @@
         },
         {"name": "card8",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -116,9 +116,9 @@
         },
         {"name": "card9",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -130,9 +130,9 @@
         },
         {"name": "card10",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -144,9 +144,9 @@
         },
         {"name": "card11",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -158,9 +158,9 @@
         },
         {"name": "card12",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -172,9 +172,9 @@
         },
         {"name": "card13",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -186,9 +186,9 @@
         },
         {"name": "card14",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -200,9 +200,9 @@
         },
         {"name": "card15",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -214,9 +214,9 @@
         },
         {"name": "card16",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -228,9 +228,9 @@
         },
         {"name": "card17",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -242,9 +242,9 @@
         },
         {"name": "card18",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -256,9 +256,9 @@
         },
         {"name": "card19",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {
@@ -270,9 +270,9 @@
         },
         {"name": "card20",
         "description":"",
+        "attack":1,
+        "defense":1,
         "speed":1,
-        "dmg":1,
-        "defend":1,
         "range":1,
         "sprite":
             {

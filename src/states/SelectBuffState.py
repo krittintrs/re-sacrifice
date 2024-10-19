@@ -4,9 +4,9 @@ from src.constants import *
 import pygame
 import sys
 
-class BattleEndState(BaseState):
+class SelectBuffState(BaseState):
     def __init__(self):
-        super(BattleEndState, self).__init__()
+        super(SelectBuffState, self).__init__()
 
     def Enter(self, params):
         self.player = params['player']
@@ -14,20 +14,9 @@ class BattleEndState(BaseState):
         self.field = params['field']
         self.turn = params['turn']
         self.currentTurnOwner = params['currentTurnOwner']  
-
-    def next_turn(self):
-        # Change turn owner
-        if self.currentTurnOwner == PlayerType.PLAYER:
-            self.currentTurnOwner = PlayerType.ENEMY
-        else:
-            self.currentTurnOwner = PlayerType.PLAYER
-
-        # Increment turn
-        self.turn += 1
-
-        # Turn Pass Entity
-        self.player.next_turn()
-        self.enemy.next_turn()
+        self.effectOrder = params['effectOrder']
+        self.effect = params['effect']
+        self.effectOwner = params['effectOwner']
 
     def Exit(self):
         pass
@@ -44,19 +33,23 @@ class BattleEndState(BaseState):
                 if event.key == pygame.K_SPACE:
                     pass
                 if event.key == pygame.K_RETURN:
-                    self.next_turn()
-                    g_state_manager.Change(BattleState.INITIAL_PHASE, {
+                    print('!!!! SelectBuffState !!!!')
+                    print(f'Owner: {self.effectOwner}')
+                    print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
+
+                    g_state_manager.Change(BattleState.RESOLVE_PHASE, {
                         'player': self.player,
                         'enemy': self.enemy,
                         'field': self.field,
                         'turn': self.turn,
-                        'currentTurnOwner': self.currentTurnOwner
+                        'currentTurnOwner': self.currentTurnOwner,
+                        'effectOrder': self.effectOrder
                     })
 
     def render(self, screen):
         # Turn
-        screen.blit(pygame.font.Font(None, 36).render(f"End Phase - Turn {self.turn}", True, (0, 0, 0)), (10, 10))   
-
+        screen.blit(pygame.font.Font(None, 36).render(f"SelectBuffState - Turn {self.turn}", True, (0, 0, 0)), (10, 10))   
+        
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
             card.render(screen, order)
