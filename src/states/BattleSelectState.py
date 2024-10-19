@@ -1,25 +1,26 @@
 import pygame
 import sys
 from src.dependency import *
-from src.cardSystem.Card import Card
-from src.cardSystem.Field import Field
-from src.cardSystem.Entity import Entity
 
 class BattleSelectState(BaseState):
     def __init__(self):
         super(BattleSelectState, self).__init__()
-        self.selected_card = 0
+        self.selected_index = 0
+
+    def Enter(self, params):
+        print(">>>>>> Enter BattleSelectState <<<<<<")
+        # Retrieve the cards, entities, and field from the parameter
+        self.player = params['player']
+        self.enemy = params['enemy']
+        self.field = params['field']
+        self.turn = params['turn']
+        self.currentTurnOwner = params['currentTurnOwner']  
+
+        self.player.cardsOnHand[self.selected_index].isSelected = True
 
     def Exit(self):
         pass
-
-    def Enter(self, param):
-        # Retrieve the cards, entities, and fields from the parameter
-        self.cards = param['cards']
-        self.entities = param['entities']
-        self.fields = param['fields']
-        self.dice = param['dice']
-
+    
     def update(self, dt, events):
         for event in events:
             if event.type == pygame.QUIT:
@@ -30,33 +31,38 @@ class BattleSelectState(BaseState):
                     pygame.quit()
                     sys.exit()
                 if event.key == pygame.K_LEFT:
-                    self.selected_card = (self.selected_card - 1) % len(self.cards)
+                    newIndex = (self.selected_index - 1) % len(self.player.cardsOnHand)
+                    self.change_selection(newIndex)
                 if event.key == pygame.K_RIGHT:
-                    self.selected_card = (self.selected_card + 1) % len(self.cards)
+                    newIndex = (self.selected_index + 1) % len(self.player.cardsOnHand)
+                    self.change_selection(newIndex)
                 if event.key == pygame.K_RETURN:
-                    g_state_manager.Change("action", {
-                        'cards': self.cards,
-                        'entities': self.entities,
-                        'fields': self.fields,
-                        'dice': self.dice,
-                        'selected_card': self.selected_card
+                    selectedCard = self.player.cardsOnHand[self.selected_index]
+                    self.player.select_card(selectedCard)
+                    for card in self.player.cardsOnHand:
+                        print(f'Player\'s Hand Card: {card.name}, isSelected: {card.isSelected}')
+                    g_state_manager.Change(BattleState.ACTION_PHASE, {
+                        'player': self.player,
+                        'enemy': self.enemy,
+                        'field': self.field,
+                        'turn': self.turn,
+                        'currentTurnOwner': self.currentTurnOwner,
                     })
+
+    def change_selection(self, newIndex):
+        self.player.cardsOnHand[self.selected_index].isSelected = False
+        self.player.cardsOnHand[newIndex].isSelected = True
+        self.selected_index = newIndex
 
     def render(self, screen):
         # Title
-        screen.blit(pygame.font.Font(None, 36).render("Select Your Action: Press Enter to Confirm", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
+        screen.blit(pygame.font.Font(None, 36).render("Select Card: Press Enter to Confirm", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
 
-        # render cards
-        for order, card in enumerate(self.cards):
+        # Render cards on player's hand
+        for order, card in enumerate(self.player.cardsOnHand):
             card.render(screen, order)
-            card.renderSelected(screen, self.selected_card)
 
-        # Render fields
-        for field in self.fields:
-            field.render(screen, len(self.fields))
+        # Render field
+        for fieldTile in self.field:
+            fieldTile.render(screen, len(self.field))
 
-        # Render entities (if needed)
-        for entity in self.entities:
-            # Assuming entities are placed in their respective fields
-            field = self.fields[entity.field_index]  # Get the field where the entity is located
-            field.render(screen, len(self.fields))  # Render the field, which will render the entity inside it

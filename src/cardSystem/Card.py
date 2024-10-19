@@ -2,18 +2,23 @@ import pygame
 from src.dependency import *
 
 class Card:
-    def __init__(self, name, description, image, speed, dmg, defend, range_start, range_end, beforeEffect, mainEffect, afterEffect):
+    def __init__(self, name, description, image, attack, defense, speed, range, beforeEffect = [], mainEffect = [], afterEffect = []):
+        # For Render
         self.name = name
         self.description = description
         self.image = image
+        self.isSelected = False
+
+        # Card Stats
+        self.attack = attack
+        self.defense = defense
         self.speed = speed
-        self.dmg = dmg
-        self.defend = defend
-        self.range_start = range_start
-        self.range_end = range_end
-        self.beforeEffect  = beforeEffect
-        self.mainEffect  = mainEffect
-        self.afterEffect  = afterEffect
+        self.range = range
+
+        # Card Effects
+        self.beforeEffect = beforeEffect # list of Effects
+        self.mainEffect = mainEffect
+        self.afterEffect = afterEffect
 
     def start(self, entity, enemy, field):
         # Perform card action
@@ -46,15 +51,20 @@ class Card:
 
         # Draw card modified numbers
 
-    def renderSelected(self, screen, selected):
-        # Highlight the selected card by rendering a thicker border
-        start_x = 80 + selected * (CARD_WIDTH + 30)
-        start_y = SCREEN_HEIGHT - CARD_HEIGHT - 10
-        
-        # Draw the highlighted border around the card
-        pygame.draw.rect(screen, (255, 255, 0), (start_x, start_y, CARD_WIDTH, CARD_HEIGHT), 3)
+        # if selected
+        if self.isSelected:
+            # Highlight the selected card by rendering a thicker border
+            pygame.draw.rect(screen, (255, 255, 0), (start_x, start_y, CARD_WIDTH, CARD_HEIGHT), 3)
 
-    def renderPosition(self, screen, position, scale):
+    # def render_selected(self, screen, selected_index):
+    #     # Highlight the selected card by rendering a thicker border
+    #     start_x = 80 + selected_index * (CARD_WIDTH + 30)
+    #     start_y = SCREEN_HEIGHT - CARD_HEIGHT - 10
+        
+    #     # Draw the highlighted border around the card
+    #     pygame.draw.rect(screen, (255, 255, 0), (start_x, start_y, CARD_WIDTH, CARD_HEIGHT), 3)
+
+    def render_position(self, screen, position, scale):
         pygame.draw.rect(screen, (0,0,0), (position[0],position[1],CARD_WIDTH*scale, CARD_HEIGHT*scale), 1)
 
     def update(self, dt, events):
