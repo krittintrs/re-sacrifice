@@ -90,7 +90,10 @@ class SpriteManager:
                     speed=card["speed"],
                     dmg=card["dmg"],
                     range_start=card["range_start"],
-                    range_end=card["range_end"]
+                    range_end=card["range_end"],
+                    beforeEffect=card["effect"]["beforeEffect"],
+                    mainEffect=card["effect"]["mainEffect"],
+                    afterEffect=card["effect"]["afterEffect"]
                 )
         return cardDict
 
