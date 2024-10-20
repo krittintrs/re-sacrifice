@@ -21,6 +21,9 @@ class Card:
         self.mainEffect = mainEffect
         self.afterEffect = afterEffect
 
+    def print_stats(self):
+        print(f'{self.name} stats - ATK: {self.attack}, DEF: {self.defense}, SPD: {self.speed}, RNG: {self.range_start}-{self.range_end}')
+        
     def start(self, entity, enemy, field):
         # Perform card action
         pass

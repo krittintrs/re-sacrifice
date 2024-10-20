@@ -1,3 +1,4 @@
+from src.cardSystem.Deck import Deck
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
@@ -38,7 +39,8 @@ class DeckBuildingState(BaseState):
         
 
     def Enter(self, params):
-        self.deck = params["deck"]
+        self.player = params['player']
+        self.player.deck = Deck()
 
     def Exit(self):
         pass
@@ -54,7 +56,7 @@ class DeckBuildingState(BaseState):
             # high light card that mouse hover on
             # deck
             if self.middle_panel.collidepoint(mouse_pos):
-                for idx in range(0,len(self.deck.card_deck)):
+                for idx in range(0,len(self.player.deck.card_deck)):
                     rect = pygame.Rect((self.leftBorder + self.deckSpacing + (CARD_WIDTH*self.deckScale + self.deckSpacing)*(idx%self.cardPerRow), self.topBorder + self.deckSpacing + (CARD_HEIGHT*self.deckScale + self.deckSpacing)*(idx//self.cardPerRow),int(CARD_WIDTH * self.deckScale), int(CARD_HEIGHT * self.deckScale)))
                     if rect.collidepoint(mouse_pos):
                         self.isMouseOn = True
@@ -80,18 +82,20 @@ class DeckBuildingState(BaseState):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # Left-click
                     if self.isMouseOn and self.selectDeck:
-                        if len(self.deck.card_deck)!=0:
-                            if self.deckIndex == len(self.deck.card_deck) - 1 and self.deckIndex != 0:
+                        if len(self.player.deck.card_deck)!=0:
+                            if self.deckIndex == len(self.player.deck.card_deck) - 1 and self.deckIndex != 0:
                                 self.deckIndex -= 1
-                            card = self.deck.card_deck[self.deckIndex]
+                            card = self.player.deck.card_deck[self.deckIndex]
                             self.availableCard.append(card)
-                            self.deck.removeCard(card)
+                            self.player.deck.removeCard(card)
+                            print('player deck size AFTER RM: ', len(self.player.deck.card_deck))
                     elif self.isMouseOn and not self.selectDeck:
-                        if len(self.availableCard)!=0 and not self.deck.isCardLimitReach():
+                        if len(self.availableCard)!=0 and not self.player.deck.isCardLimitReach():
                             if self.availableCardIndex == len(self.availableCard)- 1 and self.availableCardIndex != 0:
                                 self.availableCardIndex -= 1
                             card = self.availableCard.pop(self.availableCardIndex)
-                            self.deck.addCard(card)
+                            self.player.deck.addCard(card)
+                            print('player deck size AFTER ADD: ', len(self.player.deck.card_deck))
 
 
             if event.type == pygame.MOUSEWHEEL and self.right_panel.collidepoint(mouse_pos):
@@ -107,7 +111,7 @@ class DeckBuildingState(BaseState):
                     sys.exit()
                 elif event.key == pygame.K_RETURN:
                     g_state_manager.Change(BattleState.PREPARATION_PHASE, {
-                        'player': None,
+                        'player': self.player,
                         'enemy': None
                     })
 
@@ -123,7 +127,7 @@ class DeckBuildingState(BaseState):
 
         # render deck
         self.deckScale = (SCREEN_WIDTH*0.5)/((CARD_WIDTH + self.deckSpacing*3)*self.cardPerRow)
-        for idx, card in enumerate(self.deck.card_deck):
+        for idx, card in enumerate(self.player.deck.card_deck):
             scaled_image = pygame.transform.scale(card.image, (int(CARD_WIDTH * self.deckScale), int(CARD_HEIGHT * self.deckScale)))
             screen.blit(scaled_image, (self.leftBorder + self.deckSpacing + (CARD_WIDTH*self.deckScale + self.deckSpacing)*(idx%self.cardPerRow), self.topBorder + self.deckSpacing + (CARD_HEIGHT*self.deckScale + self.deckSpacing)*(idx//self.cardPerRow)))
         
@@ -134,8 +138,8 @@ class DeckBuildingState(BaseState):
                 scaled_image = pygame.transform.scale(card.image, (int(CARD_WIDTH * self.availableCardScale), int(CARD_HEIGHT * self.availableCardScale)))
                 screen.blit(scaled_image, (self.rightBorder + self.availableCardSpacing, self.topBorder + self.availableCardSpacing + self.topBorder*(idx-self.availableCardWindow)))
         # render selected card detail
-        if self.selectDeck and len(self.deck.card_deck) !=0:
-            card = self.deck.card_deck[self.deckIndex]
+        if self.selectDeck and len(self.player.deck.card_deck) !=0:
+            card = self.player.deck.card_deck[self.deckIndex]
         elif not self.selectDeck and len(self.availableCard)!=0:
             card = self.availableCard[self.availableCardIndex]
         screen.blit(card.image, (self.selectedCardSpacing, self.selectedCardSpacing))
@@ -156,11 +160,15 @@ class DeckBuildingState(BaseState):
 
 
         # render deck and available card information
-        screen.blit(pygame.font.Font(None, 24).render(f"Deck {len(self.deck.card_deck)}/30", True, (0,0,0)),(self.rightBorder - 100 , self.topBorder -20))
+        screen.blit(pygame.font.Font(None, 24).render(f"Deck {len(self.player.deck.card_deck)}/30", True, (0,0,0)),(self.rightBorder - 100 , self.topBorder -20))
         screen.blit(pygame.font.Font(None, 24).render(f"Available Cards {len(self.availableCard)}", True, (0,0,0)),(SCREEN_WIDTH - 160 , self.topBorder -20))
 
 
         # render scroll wheel
         scroll_wheel_y = self.topBorder + ((SCREEN_HEIGHT*0.8-60)/len(self.availableCard) * self.availableCardWindow)
         pygame.draw.rect(screen, (100,100,100), (SCREEN_WIDTH * 0.98, scroll_wheel_y, SCREEN_WIDTH * 0.02, 60))
-            
+
+         # render instruction
+        screen.blit(pygame.font.Font(None, 24).render("The middle section is the deck and the right section is the available card to put in the deck", True, (0,0,0)),(SCREEN_WIDTH*0.25 +  self.selectedCardSpacing , self.selectedCardSpacing))
+        screen.blit(pygame.font.Font(None, 24).render("Use 'ARROW' key to navigate and select card you want to choose    'SPACE' to choose card to deck or remove it", True, (0,0,0)),(SCREEN_WIDTH*0.25 +  self.selectedCardSpacing , self.selectedCardSpacing + 50))
+        screen.blit(pygame.font.Font(None, 24).render("Press 'ENTER' to go back to preparation state", True, (0,0,0)),(SCREEN_WIDTH*0.25 +  self.selectedCardSpacing , self.selectedCardSpacing + 100))
