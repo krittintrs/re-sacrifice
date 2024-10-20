@@ -95,29 +95,28 @@ class DeckBuildingState(BaseState):
         # render deck
         deckScale = (SCREEN_WIDTH*0.5)/((CARD_WIDTH + self.deckSpacing*3)*self.cardPerRow)
         for idx, card in enumerate(self.deck.card_deck):
-            card.render_position(screen, (SCREEN_WIDTH*0.25 + self.deckSpacing + (CARD_WIDTH*deckScale + self.deckSpacing)*(idx%self.cardPerRow) ,SCREEN_HEIGHT*0.2 + self.deckSpacing+ (CARD_HEIGHT*deckScale + self.deckSpacing)*(idx//self.cardPerRow)),deckScale)
-            screen.blit(pygame.font.Font(None, 24).render(card.name, True, (0,0,0)), (SCREEN_WIDTH*0.25 + self.deckSpacing + (CARD_WIDTH*deckScale + self.deckSpacing)*(idx%self.cardPerRow) ,SCREEN_HEIGHT*0.2 + self.deckSpacing+ (CARD_HEIGHT*deckScale + self.deckSpacing)*(idx//self.cardPerRow)))
-
+            scaled_image = pygame.transform.scale(card.image, (int(CARD_WIDTH * deckScale), int(CARD_HEIGHT * deckScale)))
+            screen.blit(scaled_image, (SCREEN_WIDTH*0.25 + self.deckSpacing + (CARD_WIDTH*deckScale + self.deckSpacing)*(idx%self.cardPerRow), SCREEN_HEIGHT*0.2 + self.deckSpacing + (CARD_HEIGHT*deckScale + self.deckSpacing)*(idx//self.cardPerRow)))
         
         # render available cards
         availableCardScale = 0.5
         for idx, card in enumerate(self.availableCard):
             if idx//4 == self.availableCardIndex//4:
-                card.render_position(screen, (SCREEN_WIDTH*0.75 + self.availableCardSpacing, SCREEN_HEIGHT*0.2 + self.availableCardSpacing + SCREEN_HEIGHT*0.2*(idx%4)), availableCardScale)
-                screen.blit(pygame.font.Font(None, 48).render(card.name, True, (0,0,0)), (SCREEN_WIDTH*0.75 + self.availableCardSpacing, SCREEN_HEIGHT*0.2 + self.availableCardSpacing + SCREEN_HEIGHT*0.2*(idx%4)))
+                scaled_image = pygame.transform.scale(card.image, (int(CARD_WIDTH * availableCardScale), int(CARD_HEIGHT * availableCardScale)))
+                screen.blit(scaled_image, (SCREEN_WIDTH*0.75 + self.availableCardSpacing, SCREEN_HEIGHT*0.2 + self.availableCardSpacing + SCREEN_HEIGHT*0.2*(idx%4)))
         
         # render selected card detail
         if self.selectDeck and len(self.deck.card_deck) !=0:
             card = self.deck.card_deck[self.deckIndex]
         elif not self.selectDeck and len(self.availableCard)!=0:
             card = self.availableCard[self.availableCardIndex]
-        card.render_position(screen, (self.selectedCardSpacing , self.selectedCardSpacing), 1)
-        screen.blit(pygame.font.Font(None, 48).render(card.name, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing))
-        screen.blit(pygame.font.Font(None, 24).render("damage : " + str(card.dmg), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 20))
-        screen.blit(pygame.font.Font(None, 24).render("range : " + str(card.range), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 70))
-        screen.blit(pygame.font.Font(None, 24).render("defend : " + str(card.defend), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 120))
-        screen.blit(pygame.font.Font(None, 24).render("speed : " + str(card.speed), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 170))
-        screen.blit(pygame.font.Font(None, 24).render("description : " + card.description, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 220))
+        screen.blit(card.image, (self.selectedCardSpacing, self.selectedCardSpacing))
+        screen.blit(pygame.font.Font(None, 36).render(card.name, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 10))
+        screen.blit(pygame.font.Font(None, 24).render("damage : " + str(card.attack), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 50))
+        screen.blit(pygame.font.Font(None, 24).render("range : " + str(card.range_end), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 80))
+        screen.blit(pygame.font.Font(None, 24).render("defend : " + str(card.defense), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 110))
+        screen.blit(pygame.font.Font(None, 24).render("speed : " + str(card.speed), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 140))
+        screen.blit(pygame.font.Font(None, 24).render("description : " + card.description, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 170))
     
         
         
