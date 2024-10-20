@@ -20,6 +20,7 @@ class SpriteManager:
         #         "./sprite/Arrow.json",
         #     ]
         # )
+
         self.spriteCollection["card"] = self.loadCards("./cards/cards.json")
 
     # copy from breakout
@@ -54,8 +55,9 @@ class SpriteManager:
                 continue
         return resDict
     
+    # load card and its information
     def loadCards(self, url):
-        cardDict = {} 
+        cardDict = {} #result dictionary
         with open(url) as jsonData:
             data = json.load(jsonData)
             mySpritesheet = SpriteSheet(data["spriteSheetURL"])
@@ -65,39 +67,40 @@ class SpriteManager:
                 except KeyError:
                     colorkey = None
                 try:
-                    xSize = card.get('xsize', data['size'][0])  # If xsize is not present, use default size
-                    ySize = card.get('ysize', data['size'][1])  # If ysize is not present, use default size
+                    xSize = card['xsize']
+                    ySize = card['ysize']
                 except KeyError:
                     xSize, ySize = data['size']
 
-                # Create the Card object for each card entry
                 cardDict[card["name"]] = Card(
                     name=card["name"],
-                    description=card.get("description", ""),  # Use empty string if description is missing
-                    image=Sprite(
-                        mySpritesheet.image_at(
-                            card["sprite"]["x"],
-                            card["sprite"]["y"],
-                            card["sprite"]["scalefactor"],
-                            (255,0,255),
-                            xTileSize=xSize,
-                            yTileSize=ySize,
-                        )
-                    ).image,
+                    description=card["description"],
+                    image=1,
+                    # image=Sprite(
+                    #         mySpritesheet.image_at(
+                    #             card["sprite"]["x"],
+                    #             card["sprite"]["y"],
+                    #             card["sprite"]["scalefactor"],
+                    #             colorkey,
+                    #             xTileSize=xSize,
+                    #             yTileSize=ySize,
+                    #         )
+                    #     ).image,
+                    defend=card["defend"],
                     speed=card["speed"],
-                    attack=card["attack"],  
-                    defense=card["defense"],  
+                    dmg=card["dmg"],
                     range_start=card["range_start"],
                     range_end=card["range_end"],
-                    beforeEffect=card["effect"].get("beforeEffect", {}),
-                    mainEffect=card["effect"].get("mainEffect", {}),
-                    afterEffect=card["effect"].get("afterEffect", {})
+                    beforeEffect=card["effect"]["beforeEffect"],
+                    mainEffect=card["effect"]["mainEffect"],
+                    afterEffect=card["effect"]["afterEffect"]
                 )
         return cardDict
 
 class SpriteSheet(object):
     def __init__(self, filename):
         try:
+            self.sheet = pygame.image.load(filename)
             self.sheet = pygame.image.load(filename)
             if not self.sheet.get_alpha():
                 self.sheet.set_colorkey((0, 0, 0))

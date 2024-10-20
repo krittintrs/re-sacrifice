@@ -22,10 +22,8 @@ class BattlePreparationState(BaseState):
     
     def mockDeck(self):
         deck = Deck()
-        # for i, card in enumerate(card_dict.values()):
-        #     if i >= 5:
-        #         break
-        #     deck.addCard(card)
+        for card in card_dict.values():
+            deck.addCard(copy.deepcopy(card))  # Use deepcopy to copy each card
         return deck
     
     def initialDraw(self):
