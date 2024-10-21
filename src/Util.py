@@ -84,9 +84,12 @@ class SpriteManager:
                             yTileSize=ySize,
                         )
                     ).image,
+                    id=card["id"],
+                    class_=card["class"],
+                    type=card["type"],
                     speed=card["speed"],
                     attack=card["attack"],  
-                    defense=card["defense"],  
+                    defense=card["defense"],
                     range_start=card["range_start"],
                     range_end=card["range_end"],
                     beforeEffect=card["effect"].get("beforeEffect", {}),
