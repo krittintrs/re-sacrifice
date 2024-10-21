@@ -22,10 +22,10 @@ class BattlePreparationState(BaseState):
     
     def mockDeck(self):
         deck = Deck()
-        # for i, card in enumerate(card_dict.values()):
-        #     if i >= 5:
-        #         break
-        #     deck.addCard(card)
+        for i, card in enumerate(card_dict.values()):
+            if i >= 5:
+                break
+            deck.addCard(card)
         return deck
     
     def initialDraw(self):
@@ -38,13 +38,18 @@ class BattlePreparationState(BaseState):
         self.player = params['player']
         self.enemy = params['enemy']
 
-        # mock player
-        self.player = Player("player")   
-        self.player.deck = self.mockDeck() 
+        if self.player is None:
+            # mock player
+            self.player = Player("player")   
 
         # mock enemy
         self.enemy = Enemy("enemy")  
         self.enemy.deck = self.mockDeck()
+
+        if len(self.player.deck.card_deck) > 0:
+            print('player deck size: ', len(self.player.deck.card_deck))
+        else:
+            print('player deck is None')
     
     def Exit(self):
         pass
@@ -74,7 +79,7 @@ class BattlePreparationState(BaseState):
                         })
                     else:
                         g_state_manager.Change(BattleState.DECK_BUILDING, {
-                            'deck': self.player.deck,
+                            'player': self.player,
                         })
 
 

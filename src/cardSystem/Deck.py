@@ -30,6 +30,12 @@ class Deck:
         else:
             print("Card not found in deck or discard pile")
 
+    def isCardLimitReach(self):
+        if len(self.card_deck) >= 30:
+            return True
+        else:
+            return False
+
     def render(self, screen):
         # Draw the deck
         pygame.draw.rect(screen, (0, 0, 0), (10, 10, 100, 150), 1)

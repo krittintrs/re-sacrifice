@@ -39,6 +39,7 @@ class BattleSelectState(BaseState):
                 if event.key == pygame.K_RETURN:
                     selectedCard = self.player.cardsOnHand[self.selected_index]
                     self.player.select_card(selectedCard)
+                    selectedCard.print_stats()
                     for card in self.player.cardsOnHand:
                         print(f'Player\'s Hand Card: {card.name}, isSelected: {card.isSelected}')
                     g_state_manager.Change(BattleState.ACTION_PHASE, {
