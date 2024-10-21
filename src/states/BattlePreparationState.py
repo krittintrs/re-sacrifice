@@ -23,8 +23,6 @@ class BattlePreparationState(BaseState):
     def mockDeck(self):
         deck = Deck()
         for i, card in enumerate(card_dict.values()):
-            if i >= 5:
-                break
             deck.addCard(card)
         return deck
     
