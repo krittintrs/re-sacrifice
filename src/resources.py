@@ -54,3 +54,21 @@ class EffectType(Enum):
     DITTO = "ditto"
     BLOOD_SACRIFICE = "bloodSacrifice"
     DISCARD = "discard"
+
+class CardType(Enum):
+    MOVE = "Move"
+    ATTACK = "Attack"
+    DEFENSE = "Defense"
+    BUFF = "Buff"
+    DEBUFF = "Debuff"
+    SPECIAL = "Special"
+
+
+class CardClass(Enum):
+    COMMON = "Common"
+    GK_NOW = "GK Now"
+    GK_PAST = "GK Past"
+    RH_MAN = "RH Man"
+    WARRIOR = "Warrior"
+    RANGER = "Ranger"
+    MAGE = "Mage"
