@@ -20,6 +20,8 @@ class DeckBuildingState(BaseState):
         self.selectedCardSpacing = 20
         self.availableCardWindow = 0
         self.isMouseOn = False
+        self.cardClass = CardClass #[CardClass.COMMON, CardClass.WARRIOR, CardClass.RANGER, CardClass.MAGE]
+        self.cardEffect = [EffectType.ATTACK, EffectType.MOVE, EffectType.SELF_BUFF, EffectType.RANGE_BUFF, EffectType.PULL, EffectType.PUSH, EffectType.DEBUFF, EffectType.BUFF, EffectType.CLEANSE, EffectType.HEAL, EffectType.DISCARD]
         
         self.leftBorder = SCREEN_WIDTH * 0.25
         self.topBorder = SCREEN_HEIGHT * 0.2
@@ -30,10 +32,22 @@ class DeckBuildingState(BaseState):
         self.middlePanel = pygame.Rect((self.leftBorder, self.topBorder, SCREEN_WIDTH*0.5, SCREEN_HEIGHT*0.8))
         self.rightPanel = pygame.Rect((self.rightBorder, self.topBorder, self.leftBorder, SCREEN_HEIGHT*0.8))
 
-        self.buttons = []
-        for idx, effect in enumerate(EffectType):
-            button = Button(self.rightBorder -200 +83*(idx%6), self.topBorder - 120 + 28*(idx//6), 80, 25,(150,150,150), (100,200,100), (100,100,50), effect.value, 20)
-            self.buttons.append(button)
+        self.effectButton = []
+        for idx, effect in enumerate(self.cardEffect):
+            button = Button(self.rightBorder  +73*(idx%4), self.topBorder - 105 + 28*(idx//4), 70, 25,(150,150,150), (100,200,100), (100,100,50), effect.value, 15)
+            self.effectButton.append(button)
+
+        self.classButton = []
+        for idx, class_ in enumerate(self.cardClass):
+            button = Button(self.leftBorder+10 +83*idx, self.topBorder - 115, 80, 25,(150,150,150), (100,200,100), (100,100,50), class_.value, 20)
+            self.classButton.append(button)
+
+        self.typeButton = []
+        for idx, type in enumerate(CardType):
+            button = Button(self.leftBorder+10 +83*idx, self.topBorder - 60, 80, 25,(150,150,150), (100,200,100), (100,100,50), type.value, 20)
+            self.typeButton.append(button)
+
+        self.sortButton = Button(self.leftBorder + 100, self.topBorder - 30 , 80, 25,(150,150,150), (100,200,100), (100,100,50), "sort", 20)
 
         self.deckScale = (self.rightBorder - self.leftBorder)/((CARD_WIDTH + self.deckSpacing*3)*self.cardPerRow)
         self.availableCardScale = 0.5
@@ -53,20 +67,31 @@ class DeckBuildingState(BaseState):
     def Exit(self):
         pass
     
-    def filter(self, types, classes, effects):
+    def filter(self, types, classes, effects): # each argument represent condition ex. types = ["Move"]
         result = []
+        # flag to check condition
+        type_flag = False
+        class_flag = False
+        effect_flag = False
+
         for card in self.inventory:
+            # get a set of card effect type
             card_effect = set()
             for effect in (card.beforeEffect + card.mainEffect + card.afterEffect):
                 card_effect.add(effect.type)
-            if effects.issubset(card_effect):
+
+            # check condition
+            effect_flag = effects.issubset(card_effect)
+            type_flag = card.type in types
+            class_flag = card.class_ in classes
+
+            if effect_flag and type_flag and class_flag:
                 result.append(card)
-            elif card.type in types:
-                result.append(card)
-            elif card.class_ in classes:
-                result.append(card)
-            # elif card.be
         return result
+
+    # sort card based on ID
+    def sort_card(self,cards):
+        cards.sort(key=lambda card: int(card.id[1:]))
 
 
     def update(self, dt, events):
@@ -107,13 +132,37 @@ class DeckBuildingState(BaseState):
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # Left-click
+
+                    # if mouse click filter
                     effects = set()
-                    for button in self.buttons:
-                        button.is_clicked(event)
-                        if button.clicked:
+                    types = []
+                    classes = []
+                    for button in self.effectButton:
+                        button.clicked(event)
+                        if button.isClick:
                             effects.add(button.text)
-                    self.availableCard = self.filter([],[],effects).copy()
-                    print(len(self.availableCard))
+                    for button in self.classButton:
+                        button.clicked(event)
+                        if button.isClick:
+                            classes.append(button.text)
+                    for button in self.typeButton:
+                        button.clicked(event)
+                        if button.isClick:
+                            types.append(button.text)
+                    # if no type filter is selected > select all
+                    if len(types)==0:
+                        for type in CardType:
+                            types.append(type.value)
+
+                    # if no class filter is selected > select all
+                    if len(classes)==0:
+                        for class_ in self.cardClass:
+                            classes.append(class_.value)
+    
+                    # filter available card
+                    self.availableCard = self.filter(types,classes,effects).copy()
+
+                    #click card on deck
                     if self.isMouseOn and self.selectDeck:
                         if len(self.player.deck.card_deck)!=0:
                             card = self.player.deck.card_deck[self.deckIndex]
@@ -123,6 +172,7 @@ class DeckBuildingState(BaseState):
                             if self.deckIndex >= len(self.player.deck.card_deck) - 1 and self.deckIndex != 0:
                                 self.deckIndex -= 1
                             print('player deck size AFTER RM: ', len(self.player.deck.card_deck))
+                    # click card on available list
                     elif self.isMouseOn and not self.selectDeck:
                         if len(self.availableCard)!=0 and not self.player.deck.isCardLimitReach():
                             card = self.availableCard.pop(self.availableCardIndex)
@@ -131,6 +181,13 @@ class DeckBuildingState(BaseState):
                             if self.availableCardIndex >= len(self.availableCard)- 1 and self.availableCardIndex != 0:
                                 self.availableCardIndex -= 1
                             print('player deck size AFTER ADD: ', len(self.player.deck.card_deck))
+
+                    # click sort button
+                    if self.sortButton.clicked(event):
+                        self.sortButton.isClick = False
+                        self.sort_card(self.availableCard)
+                        self.sort_card(self.player.deck.card_deck)
+                        self.sort_card(self.inventory)
 
 
 
@@ -175,6 +232,9 @@ class DeckBuildingState(BaseState):
             if idx in range(self.availableCardWindow, self.availableCardWindow + 4):
                 scaled_image = pygame.transform.scale(card.image, (int(CARD_WIDTH * self.availableCardScale), int(CARD_HEIGHT * self.availableCardScale)))
                 screen.blit(scaled_image, (self.rightBorder + self.availableCardSpacing, self.topBorder + self.availableCardSpacing + self.topBorder*(idx-self.availableCardWindow)))
+                screen.blit(pygame.font.Font(None, 20).render( card.name, True, (0,0,0)),(self.rightBorder + self.availableCardSpacing + 120, self.topBorder +10+ self.availableCardSpacing + self.topBorder*(idx-self.availableCardWindow)))
+                screen.blit(pygame.font.Font(None, 17).render( card.type, True, (0,0,0)),(self.rightBorder + self.availableCardSpacing + 120, self.topBorder +40+ self.availableCardSpacing + self.topBorder*(idx-self.availableCardWindow)))
+                screen.blit(pygame.font.Font(None, 15).render( "ATK: "+str(card.attack)+" DEF: "+str(card.defense)+" Range: "+str(card.range_start)+"-"+str(card.range_end)+" SPD: "+str(card.speed), True, (0,0,0)),(self.rightBorder + self.availableCardSpacing + 120, self.topBorder +70+ self.availableCardSpacing + self.topBorder*(idx-self.availableCardWindow)))
         # render selected card detail
         if self.selectDeck and len(self.player.deck.card_deck) !=0:
             card = self.player.deck.card_deck[self.deckIndex]
@@ -218,8 +278,25 @@ class DeckBuildingState(BaseState):
             pygame.draw.rect(screen, (100,100,100), (SCREEN_WIDTH * 0.98, scroll_wheel_y, SCREEN_WIDTH * 0.02, 60))
 
         # render filter button
-        for button in self.buttons:
+        for button in self.effectButton:
             button.draw(screen)
+
+        for button in self.typeButton:
+            button.draw(screen)
+
+        for button in self.classButton:
+            button.draw(screen)
+        
+        # render filter description
+        screen.blit(pygame.font.Font(None, 30).render("Card Class", True, (0,0,0)),(self.leftBorder +15, 10))
+        screen.blit(pygame.font.Font(None, 30).render("Card Type", True, (0,0,0)),(self.leftBorder +15, self.topBorder -80))
+        screen.blit(pygame.font.Font(None, 30).render("Effect Type", True, (0,0,0)),(self.rightBorder +80, 10))
+
+        # render sort button
+        self.sortButton.draw(screen)
+
+
+
 
 
 
@@ -231,7 +308,7 @@ class Button:
         self.clicked_color = clicked_color
         self.hover_color = hover_color
         self.text = text
-        self.clicked = False
+        self.isClick = False
         self.font = pygame.font.Font(None, font_size)
         self.text_surface = self.font.render(self.text, True, (0,0,0))
         self.text_rect = self.text_surface.get_rect(center=self.rect.center)
@@ -240,14 +317,14 @@ class Button:
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             pygame.draw.rect(screen, self.hover_color, self.rect)
-        elif self.clicked:
+        elif self.isClick:
             pygame.draw.rect(screen, self.clicked_color, self.rect)
         else:
             pygame.draw.rect(screen, self.color, self.rect)
         screen.blit(self.text_surface, self.text_rect)
 
-    def is_clicked(self, event):
+    def clicked(self, event):
         if self.rect.collidepoint(event.pos):
-            self.clicked = not self.clicked
+            self.isClick = not self.isClick
             return True
         return False
