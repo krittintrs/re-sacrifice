@@ -1,6 +1,7 @@
 import pygame
 import json
 from src.cardSystem.Card import Card
+from src.cardSystem.Effect import Effect
 
 class Sprite:
     def __init__(self, image):
@@ -20,7 +21,7 @@ class SpriteManager:
         #         "./sprite/Arrow.json",
         #     ]
         # )
-        self.spriteCollection["card"] = self.loadCards("./cards/cards.json")
+        self.spriteCollection["card"] = self.loadCards("./cards/cards2.json")
 
     # copy from breakout
     def loadSprites(self, urlList):
@@ -70,6 +71,19 @@ class SpriteManager:
                 except KeyError:
                     xSize, ySize = data['size']
 
+                # extract and create effects list for creating card
+                temp_effect_dict = {}
+                for type in card["effect"]:
+                    temp_effect_dict[type] = []
+                    if type == "buff":
+                        for effect in card["effect"].get(type, []):
+                            if effect:
+                                temp_effect_dict[type].append(Effect(effect["type"], effect["minRange"], effect["maxRange"], effect["buff"]))
+                    else:
+                        for effect in card["effect"].get(type, []):
+                            if effect:
+                                temp_effect_dict[type].append(Effect(effect["type"], effect["minRange"], effect["maxRange"]))
+
                 # Create the Card object for each card entry
                 cardDict[card["name"]] = Card(
                     name=card["name"],
@@ -92,9 +106,9 @@ class SpriteManager:
                     defense=card["defense"],
                     range_start=card["range_start"],
                     range_end=card["range_end"],
-                    beforeEffect=card["effect"].get("beforeEffect", {}),
-                    mainEffect=card["effect"].get("mainEffect", {}),
-                    afterEffect=card["effect"].get("afterEffect", {})
+                    beforeEffect=temp_effect_dict["beforeEffect"],
+                    mainEffect=temp_effect_dict["mainEffect"],
+                    afterEffect=temp_effect_dict["afterEffect"]
                 )
         return cardDict
 
