@@ -1,0 +1,455 @@
+{
+  "frames": {
+    "GBKing_Attack-0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Attack-1": {
+      "frame": {
+        "x": 64,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 64,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Attack-2": {
+      "frame": {
+        "x": 128,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 128,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Attack-3": {
+      "frame": {
+        "x": 192,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 192,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Attack-4": {
+      "frame": {
+        "x": 256,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 256,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Attack-5": {
+      "frame": {
+        "x": 320,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 320,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Attack-6": {
+      "frame": {
+        "x": 384,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 384,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Attack-7": {
+      "frame": {
+        "x": 448,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 448,
+        "y": 0,
+        "w": 64,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Death-0": {
+      "frame": {
+        "x": 0,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Death-1": {
+      "frame": {
+        "x": 64,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 64,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Death-2": {
+      "frame": {
+        "x": 128,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 128,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Death-3": {
+      "frame": {
+        "x": 192,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 192,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Death-4": {
+      "frame": {
+        "x": 256,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 256,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Death-5": {
+      "frame": {
+        "x": 320,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 320,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Death-6": {
+      "frame": {
+        "x": 384,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 384,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Death-7": {
+      "frame": {
+        "x": 448,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 448,
+        "y": 70,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Idle-0": {
+      "frame": {
+        "x": 0,
+        "y": 180,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 180,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Idle-1": {
+      "frame": {
+        "x": 64,
+        "y": 180,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 64,
+        "y": 180,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Idle-2": {
+      "frame": {
+        "x": 128,
+        "y": 180,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 128,
+        "y": 180,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Idle-3": {
+      "frame": {
+        "x": 192,
+        "y": 180,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 192,
+        "y": 180,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Idle-4": {
+      "frame": {
+        "x": 256,
+        "y": 180,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 256,
+        "y": 180,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    },
+    "GBKing_Idle-5": {
+      "frame": {
+        "x": 320,
+        "y": 180,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 320,
+        "y": 180,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 256
+      }
+    }
+  },
+  "meta": {
+    "app": "sprite-sheet-to-json",
+    "version": "1.0.0",
+    "image": "GolbinKing.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 512,
+      "h": 256
+    },
+    "scale": "1"
+  }
+}
