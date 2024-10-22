@@ -2,8 +2,11 @@ import pygame
 from src.dependency import *
 
 class Card:
-    def __init__(self, name, description, image, attack, defense, speed, range_start, range_end, beforeEffect = [], mainEffect = [], afterEffect = []):
+    def __init__(self, id, name, class_, type, description, image, attack, defense, speed, range_start, range_end, beforeEffect = [], mainEffect = [], afterEffect = []):
         # For Render
+        self.id = id
+        self.class_ = class_
+        self.type = type
         self.name = name
         self.description = description
         self.image = image
@@ -21,6 +24,9 @@ class Card:
         self.mainEffect = mainEffect
         self.afterEffect = afterEffect
 
+    def print_stats(self):
+        print(f'{self.name} stats - ATK: {self.attack}, DEF: {self.defense}, SPD: {self.speed}, RNG: {self.range_start}-{self.range_end}')
+        
     def start(self, entity, enemy, field):
         # Perform card action
         pass
