@@ -186,8 +186,6 @@ class DeckBuildingState(BaseState):
                             if self.availableCardIndex >= len(self.availableCard)- 1 and self.availableCardIndex != 0:
                                 self.availableCardIndex = (self.availableCardIndex -1)%4 
                                 self.availableCardWindow = max(0,self.availableCardWindow-1)
-                            print(self.availableCardIndex)
-                            print(self.availableCardWindow)
                             print('player deck size AFTER ADD: ', len(self.player.deck.card_deck))
 
                     # click sort button

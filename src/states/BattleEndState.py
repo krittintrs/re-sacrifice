@@ -26,6 +26,8 @@ class BattleEndState(BaseState):
         self.turn += 1
 
         # Turn Pass Entity
+        print(f'Player hand: {len(self.player.cardsOnHand)}')
+        print(f'Enemy hand: {len(self.enemy.cardsOnHand)}')
         self.player.next_turn()
         self.enemy.next_turn()
 
