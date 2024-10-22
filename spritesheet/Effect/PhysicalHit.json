@@ -1,0 +1,37 @@
+{
+  "sprites": [
+    {
+      "fileName": "meleehit1.png",
+      "width": 96,
+      "height": 96,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "fileName": "meleehit2.png",
+      "width": 96,
+      "height": 96,
+      "x": 96,
+      "y": 0
+    },
+    {
+      "fileName": "meleehit3.png",
+      "width": 96,
+      "height": 96,
+      "x": 192,
+      "y": 0
+    },
+    {
+      "fileName": "meleehit4.png",
+      "width": 96,
+      "height": 96,
+      "x": 288,
+      "y": 0
+    }
+  ],
+  "packMode": "grid",
+  "padding": 0,
+  "backgroundColor": "rgba(0, 0, 0, 0)",
+  "spriteSheetWidth": 384,
+  "spriteSheetHeight": 96
+}
