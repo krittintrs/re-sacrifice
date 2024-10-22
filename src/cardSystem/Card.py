@@ -52,23 +52,29 @@ class Card:
         screen.blit(self.image, (start_x, start_y))
 
         # Draw card modified numbers
+        color = (0, 0, 0)
+        self.buff = None
+        if self.buff == 'buff':
+            color = (0, 167, 0)
+        elif self.buff == 'debuff':
+            color = (230, 0, 0)
         # Draw the speed value
         font = pygame.font.Font(None, 24)
-        text = font.render(f'{self.speed}', True, (0, 0, 0))
-        screen.blit(text, (start_x + 170, start_y + 16))
+        text = font.render(f'{self.speed}', True, color)
+        screen.blit(text, (start_x + 171, start_y + 15))
 
         # Draw the attack value
         font = pygame.font.Font(None, 20)
-        text = font.render(f'{self.attack}', True, (0, 0, 0))
+        text = font.render(f'{self.attack}', True, color)
         screen.blit(text, (start_x + 45, start_y + 212))
 
         # Draw the range value
         font2 = pygame.font.Font(None, 16)
-        text = font2.render(f'{self.range_start}-{self.range_end}', True, (0, 0, 0))
+        text = font2.render(f'{self.range_start}-{self.range_end}', True, color)
         screen.blit(text, (start_x + 91, start_y + 213))
 
         # Draw the defense value
-        text = font.render(f'{self.defense}', True, (0, 0, 0))
+        text = font.render(f'{self.defense}', True, color)
         screen.blit(text, (start_x + 146, start_y + 212))
 
         # if selected
