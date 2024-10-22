@@ -21,7 +21,7 @@ class SpriteManager:
         #         "./sprite/Arrow.json",
         #     ]
         # )
-        self.spriteCollection["card"] = self.loadCards("./cards/cards2.json")
+        self.spriteCollection["card"] = self.loadCards("./cards/cards_corrected.json")
 
     # copy from breakout
     def loadSprites(self, urlList):
