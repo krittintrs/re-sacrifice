@@ -132,7 +132,6 @@ class DeckBuildingState(BaseState):
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # Left-click
-
                     # if mouse click filter
                     effects = set()
                     types = []
@@ -141,14 +140,17 @@ class DeckBuildingState(BaseState):
                         button.clicked(event)
                         if button.isClick:
                             effects.add(button.text)
+                            self.availableCardWindow = 0
                     for button in self.classButton:
                         button.clicked(event)
                         if button.isClick:
                             classes.append(button.text)
+                            self.availableCardWindow = 0
                     for button in self.typeButton:
                         button.clicked(event)
                         if button.isClick:
                             types.append(button.text)
+                            self.availableCardWindow = 0
                     # if no type filter is selected > select all
                     if len(types)==0:
                         for type in CardType:
@@ -161,6 +163,9 @@ class DeckBuildingState(BaseState):
     
                     # filter available card
                     self.availableCard = self.filter(types,classes,effects).copy()
+
+                    
+
 
                     #click card on deck
                     if self.isMouseOn and self.selectDeck:
@@ -179,7 +184,10 @@ class DeckBuildingState(BaseState):
                             self.inventory.remove(card)
                             self.player.deck.addCard(card)
                             if self.availableCardIndex >= len(self.availableCard)- 1 and self.availableCardIndex != 0:
-                                self.availableCardIndex -= 1
+                                self.availableCardIndex = (self.availableCardIndex -1)%4 
+                                self.availableCardWindow = max(0,self.availableCardWindow-1)
+                            print(self.availableCardIndex)
+                            print(self.availableCardWindow)
                             print('player deck size AFTER ADD: ', len(self.player.deck.card_deck))
 
                     # click sort button
@@ -188,15 +196,19 @@ class DeckBuildingState(BaseState):
                         self.sort_card(self.availableCard)
                         self.sort_card(self.player.deck.card_deck)
                         self.sort_card(self.inventory)
+                        self.availableCardWindow = 0
+
+
+                    
 
 
 
             if event.type == pygame.MOUSEWHEEL and self.rightPanel.collidepoint(mouse_pos):
                 self.availableCardWindow -= event.y * self.scroll_speed
-                if self.availableCardWindow < 0:
+                if self.availableCardWindow < 0 or len(self.availableCard) <= 4:
                     self.availableCardWindow = 0
-                elif self.availableCardWindow > len(self.availableCard) - 1:
-                    self.availableCardWindow = len(self.availableCard) - 1
+                elif self.availableCardWindow > len(self.availableCard) - 4:
+                    self.availableCardWindow = len(self.availableCard) - 4
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -236,7 +248,7 @@ class DeckBuildingState(BaseState):
                 screen.blit(pygame.font.Font(None, 17).render( card.type, True, (0,0,0)),(self.rightBorder + self.availableCardSpacing + 120, self.topBorder +40+ self.availableCardSpacing + self.topBorder*(idx-self.availableCardWindow)))
                 screen.blit(pygame.font.Font(None, 15).render( "ATK: "+str(card.attack)+" DEF: "+str(card.defense)+" Range: "+str(card.range_start)+"-"+str(card.range_end)+" SPD: "+str(card.speed), True, (0,0,0)),(self.rightBorder + self.availableCardSpacing + 120, self.topBorder +70+ self.availableCardSpacing + self.topBorder*(idx-self.availableCardWindow)))
         # render selected card detail
-        if self.selectDeck and len(self.player.deck.card_deck) !=0:
+        if self.selectDeck and len(self.player.deck.card_deck) !=0 and self.deckIndex < len(self.player.deck.card_deck):
             card = self.player.deck.card_deck[self.deckIndex]
             screen.blit(card.image, (self.selectedCardSpacing, self.selectedCardSpacing))
             screen.blit(pygame.font.Font(None, 36).render(card.name, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 10))
@@ -246,7 +258,7 @@ class DeckBuildingState(BaseState):
             screen.blit(pygame.font.Font(None, 24).render("speed : " + str(card.speed), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 140))
             screen.blit(pygame.font.Font(None, 24).render("description : " + card.description, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 170))
     
-        elif not self.selectDeck and len(self.availableCard)!=0:
+        elif not self.selectDeck and len(self.availableCard)!=0 and self.availableCardIndex < len(self.availableCard):
             card = self.availableCard[self.availableCardIndex]
             screen.blit(card.image, (self.selectedCardSpacing, self.selectedCardSpacing))
             screen.blit(pygame.font.Font(None, 36).render(card.name, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 10))
@@ -327,4 +339,5 @@ class Button:
         if self.rect.collidepoint(event.pos):
             self.isClick = not self.isClick
             return True
-        return False
+        else:
+            return False
