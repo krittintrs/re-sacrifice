@@ -30,7 +30,7 @@ class SpriteManager:
                     try:
                         colorkey = sprite["colorKey"]
                     except KeyError:
-                        colorkey = None
+                        colorkey = -1
                     try:
                         xSize = sprite['width']
                         ySize = sprite['height']
@@ -49,7 +49,7 @@ class SpriteManager:
                             xTileSize=xSize,
                             yTileSize=ySize,
                         )
-                    )
+                    ).image
                 resDict.update(dic)
                 continue
         return resDict

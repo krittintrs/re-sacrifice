@@ -1,7 +1,8 @@
 class Buff():
-    def __init__(self, name, duration, value):
+    def __init__(self, name, duration, value, image):
         self.name = name
         self.duration = duration
+        self.image = image
         self.value = value # [1,0,0,0] == [atk,def,spd,range]
 
     def apply(self, entity):
@@ -23,7 +24,7 @@ class Buff():
             self.duration -= 1
 
     def render(self, screen):
-        pass
+        screen.blit(self.image, (100,100))
 
     def update(self, dt, events):
         pass

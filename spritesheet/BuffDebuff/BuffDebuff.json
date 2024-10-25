@@ -2,84 +2,84 @@
   "spriteSheetURL": "spritesheet/BuffDebuff/BuffDebuff.png",
   "sprites": [
     {
-      "name": "attack.png",
+      "name": "attack_icon",
       "width": 20,
       "height": 20,
       "x": 0,
       "y": 0
     },
     {
-      "name": "buff.png",
+      "name": "buff_icon",
       "width": 10,
       "height": 10,
       "x": 25,
       "y": 5
     },
     {
-      "name": "can'tmove.png",
+      "name": "can'tmove_icon",
       "width": 20,
       "height": 20,
       "x": 40,
       "y": 0
     },
     {
-      "name": "clone.png",
+      "name": "clone_icon",
       "width": 20,
       "height": 20,
       "x": 60,
       "y": 0
     },
     {
-      "name": "critical.png",
+      "name": "critical_icon",
       "width": 20,
       "height": 20,
       "x": 0,
       "y": 20
     },
     {
-      "name": "debuff.png",
+      "name": "debuff_icon",
       "width": 10,
       "height": 10,
       "x": 25,
       "y": 25
     },
     {
-      "name": "defense.png",
+      "name": "defense_icon",
       "width": 20,
       "height": 20,
       "x": 40,
       "y": 20
     },
     {
-      "name": "fire.png",
+      "name": "fire_icon",
       "width": 20,
       "height": 20,
       "x": 60,
       "y": 20
     },
     {
-      "name": "move.png",
+      "name": "move_icon",
       "width": 20,
       "height": 20,
       "x": 0,
       "y": 40
     },
     {
-      "name": "range.png",
+      "name": "range_icon",
       "width": 20,
       "height": 20,
       "x": 20,
       "y": 40
     },
     {
-      "name": "sleep.png",
+      "name": "sleep_icon",
       "width": 20,
       "height": 20,
       "x": 40,
       "y": 40
     },
     {
-      "name": "speed.png",
+      "name": "speed_icon",
       "width": 20,
       "height": 20,
       "x": 60,
