@@ -1,6 +1,6 @@
 import pygame
 from src.dependency import *
-from src.cardSystem.Deck import Deck
+from src.battleSystem.Deck import Deck
 
 class Entity:
     def __init__(self, name, health = 10, image=None):
@@ -89,49 +89,4 @@ class Entity:
         pygame.draw.rect(screen, color, (entity_x, entity_y, entity_width, entity_height))  # Red square as placeholder
 
     def update(self, dt, events):
-        pass
-
-class Player(Entity):
-    def __init__(self, name, image=None):
-        super().__init__(name, image)
-        self.health = 30
-
-    def update(self, dt, events):
-        # Implement player-specific update logic here
-        pass
-
-    def render(self, screen, x, y):
-        # Call the parent render method
-        super().render(screen, x, y, (0,255,0))
-        # Add player-specific rendering logic here if needed
-        pass
-
-class Enemy(Entity):
-    def __init__(self, name, image=None):
-        super().__init__(name, image)
-        self.health = 100  # Example additional attribute for Enemy
-
-    def update(self, dt, events):
-        # Implement enemy-specific update logic here
-        pass
-
-    def render(self, screen, x, y):
-        # Call the parent render method
-        super().render(screen, x, y)
-        # Add enemy-specific rendering logic here if needed
-        pass
-
-class Boss(Enemy):
-    def __init__(self, name, image=None):
-        super().__init__(name, image)
-        self.attack = 20  # Example additional attribute for Boss
-
-    def update(self, dt, events):
-        # Implement boss-specific update logic here
-        pass
-
-    def render(self, screen, x, y):
-        # Call the parent render method
-        super().render(screen, x, y)
-        # Add boss-specific rendering logic here if needed
         pass

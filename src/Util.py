@@ -1,7 +1,7 @@
 import pygame
 import json
-from src.cardSystem.Card import Card
-from src.cardSystem.Effect import Effect
+from src.battleSystem.Card import Card
+from src.battleSystem.Effect import Effect
 
 class Sprite:
     def __init__(self, image):

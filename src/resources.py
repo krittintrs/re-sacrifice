@@ -1,7 +1,7 @@
 from enum import Enum
 from src.Util import SpriteManager
 from src.StateMachine import StateMachine
-from src.cardSystem.Buff import Buff
+from src.battleSystem.Buff import Buff
 
 g_state_manager = StateMachine()
 

@@ -1,7 +1,7 @@
 from src.dependency import *
 from src.constants import *
-from src.cardSystem.FieldTile import FieldTile
-from src.cardSystem.Buff import Buff
+from src.battleSystem.FieldTile import FieldTile
+from src.battleSystem.Buff import Buff
 import pygame
 import sys
 import random
