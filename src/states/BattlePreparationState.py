@@ -1,7 +1,8 @@
 import copy
 from src.dependency import *
 from src.constants import *
-from src.battleSystem.battleEntity.Entity import *
+from src.battleSystem.battleEntity.Player import Player
+from src.battleSystem.battleEntity.Enemy import Enemy
 from src.battleSystem.Deck import Deck
 from src.battleSystem.FieldTile import FieldTile
 import pygame
