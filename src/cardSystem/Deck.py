@@ -1,3 +1,4 @@
+import copy
 import random
 import pygame
 
@@ -29,6 +30,12 @@ class Deck:
             self.discard_pile.remove(card)
         else:
             print("Card not found in deck or discard pile")
+
+    def isCardLimitReach(self):
+        if len(self.card_deck) >= 30:
+            return True
+        else:
+            return False
 
     def render(self, screen):
         # Draw the deck

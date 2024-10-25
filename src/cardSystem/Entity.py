@@ -1,5 +1,6 @@
 import pygame
 from src.dependency import *
+from src.cardSystem.Deck import Deck
 
 class Entity:
     def __init__(self, name, health = 10, image=None):
@@ -9,7 +10,7 @@ class Entity:
         self.image = image
 
         # Deck & Card
-        self.deck = []
+        self.deck = Deck()
         self.cardsOnHand = []
         self.selectedCard = None
 
@@ -50,10 +51,10 @@ class Entity:
         self.selectedCard = card
         self.selectedCard.isSelected = True
 
-        self.attack = card.attack
-        self.defense = card.defense
-        self.speed = card.speed
-        self.range = card.range
+        # self.attack = card.attack
+        # self.defense = card.defense
+        # self.speed = card.speed
+        # self.range = card.range
 
     def next_turn(self):
         # remove selected card and draw new card

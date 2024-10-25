@@ -25,6 +25,8 @@ class BattleInitialState(BaseState):
         self.player.move_to(self.field[0], self.field)
         self.enemy.move_to(self.field[8], self.field)
 
+        self.roll = False
+
         for card in self.player.cardsOnHand:
             print("Player's Hand Card: ", card.name)
 
