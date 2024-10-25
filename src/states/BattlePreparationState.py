@@ -1,9 +1,9 @@
 import copy
 from src.dependency import *
 from src.constants import *
-from src.cardSystem.Entity import *
-from src.cardSystem.Deck import Deck
-from src.cardSystem.FieldTile import FieldTile
+from src.battleSystem.battleEntity.Entity import *
+from src.battleSystem.Deck import Deck
+from src.battleSystem.FieldTile import FieldTile
 import pygame
 import sys
 

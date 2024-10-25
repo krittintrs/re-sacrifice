@@ -1,9 +1,9 @@
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
-from src.cardSystem.Buff import Buff
-from src.cardSystem.Effect import Effect
-from src.cardSystem.Entity import * 
+from src.battleSystem.Buff import Buff
+from src.battleSystem.Effect import Effect
+from src.battleSystem.battleEntity.Entity import * 
 import pygame
 import sys
 
