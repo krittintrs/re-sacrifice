@@ -11,16 +11,11 @@ class Sprite:
 class SpriteManager:
     def __init__(self):
         self.spriteCollection = {}
-        # self.spriteCollection = self.loadSprites(
-        #     [
-        #         "./sprite/MiddlePaddle.json",
-        #         "./sprite/SmallPaddle.json",
-        #         "./sprite/Brick.json",
-        #         "./sprite/Ball.json",
-        #         "./sprite/Heart.json",
-        #         "./sprite/Arrow.json",
-        #     ]
-        # )
+        self.spriteCollection = self.loadSprites(
+            [
+                "./spritesheet/BuffDebuff/BuffDebuff.json",
+            ]
+        )
         self.spriteCollection["card"] = self.loadCards("./cards/cards_corrected.json")
 
     # copy from breakout
@@ -37,15 +32,19 @@ class SpriteManager:
                     except KeyError:
                         colorkey = None
                     try:
-                        xSize = sprite['xsize']
-                        ySize = sprite['ysize']
+                        xSize = sprite['width']
+                        ySize = sprite['height']
                     except KeyError:
-                        xSize, ySize = data['size']
+                        xSize, ySize = None, None
+                    try: 
+                        scalefactor = sprite["scalefactor"]
+                    except KeyError:
+                        scalefactor = 1
                     dic[sprite["name"]] = Sprite(
                         mySpritesheet.image_at(
                             sprite["x"],
                             sprite["y"],
-                            sprite["scalefactor"],
+                            scalefactor,
                             colorkey,
                             xTileSize=xSize,
                             yTileSize=ySize,

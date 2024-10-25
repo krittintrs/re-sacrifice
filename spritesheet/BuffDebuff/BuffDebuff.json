@@ -1,84 +1,85 @@
 {
+  "spriteSheetURL": "spritesheet/BuffDebuff/BuffDebuff.png",
   "sprites": [
     {
-      "fileName": "attack.png",
+      "name": "attack.png",
       "width": 20,
       "height": 20,
       "x": 0,
       "y": 0
     },
     {
-      "fileName": "buff.png",
+      "name": "buff.png",
       "width": 10,
       "height": 10,
       "x": 25,
       "y": 5
     },
     {
-      "fileName": "can'tmove.png",
+      "name": "can'tmove.png",
       "width": 20,
       "height": 20,
       "x": 40,
       "y": 0
     },
     {
-      "fileName": "clone.png",
+      "name": "clone.png",
       "width": 20,
       "height": 20,
       "x": 60,
       "y": 0
     },
     {
-      "fileName": "critical.png",
+      "name": "critical.png",
       "width": 20,
       "height": 20,
       "x": 0,
       "y": 20
     },
     {
-      "fileName": "debuff.png",
+      "name": "debuff.png",
       "width": 10,
       "height": 10,
       "x": 25,
       "y": 25
     },
     {
-      "fileName": "defense.png",
+      "name": "defense.png",
       "width": 20,
       "height": 20,
       "x": 40,
       "y": 20
     },
     {
-      "fileName": "fire.png",
+      "name": "fire.png",
       "width": 20,
       "height": 20,
       "x": 60,
       "y": 20
     },
     {
-      "fileName": "move.png",
+      "name": "move.png",
       "width": 20,
       "height": 20,
       "x": 0,
       "y": 40
     },
     {
-      "fileName": "range.png",
+      "name": "range.png",
       "width": 20,
       "height": 20,
       "x": 20,
       "y": 40
     },
     {
-      "fileName": "sleep.png",
+      "name": "sleep.png",
       "width": 20,
       "height": 20,
       "x": 40,
       "y": 40
     },
     {
-      "fileName": "speed.png",
+      "name": "speed.png",
       "width": 20,
       "height": 20,
       "x": 60,
