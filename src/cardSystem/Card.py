@@ -69,9 +69,15 @@ class Card:
         screen.blit(text, (start_x + 45, start_y + 212))
 
         # Draw the range value
-        font2 = pygame.font.Font(None, 16)
-        text = font2.render(f'{self.range_start}-{self.range_end}', True, color)
-        screen.blit(text, (start_x + 91, start_y + 213))
+        if self.range_start == self.range_end:
+            font2 = pygame.font.Font(None, 20)
+            text = font2.render(f'{self.range_start}', True, color)
+            screen.blit(text, (start_x + 96, start_y + 212))
+        else:
+            font2 = pygame.font.Font(None, 16)
+            text = font2.render(f'{self.range_start}-{self.range_end}', True, color)
+            screen.blit(text, (start_x + 91, start_y + 213))
+        
 
         # Draw the defense value
         text = font.render(f'{self.defense}', True, color)
