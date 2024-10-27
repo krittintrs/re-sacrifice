@@ -17,6 +17,45 @@ class SelectAttackState(BaseState):
         self.effectOrder = params['effectOrder']
         self.effect = params['effect']
         self.effectOwner = params['effectOwner']
+        self.choosing = False
+
+        self.leftSkip = False
+        self.rightSkip = False
+
+        self.selectAttackTile = -1
+
+        if self.effectOwner == PlayerType.PLAYER:
+            self.leftMinTileIndex = self.player.fieldTile_index - self.effect.minRange
+            self.leftMaxTileIndex = self.player.fieldTile_index - self.effect.maxRange
+            self.rightMinTileIndex = self.player.fieldTile_index + self.effect.minRange
+            self.rightMaxTileIndex = self.player.fieldTile_index + self.effect.maxRange         
+
+            if self.leftMinTileIndex < 0:
+                self.leftMinTileIndex = 0
+                self.leftMaxTileIndex = 0
+                self.leftSkip = True
+            elif self.leftMaxTileIndex < 0:
+                self.leftMaxTileIndex = 0
+
+            if self.rightMinTileIndex > 8:
+                self.rightMinTileIndex = 8
+                self.rightMaxTileIndex = 8
+                self.rightSkip = True
+            elif self.rightMaxTileIndex > 8:
+                self.rightMaxTileIndex = 8
+            
+            self.selectAttackTile = 0
+            if self.rightSkip and self.leftSkip:
+                    self.selectAttackTile = -1
+        
+        self.avilableAttackTile = []
+        for i in range(self.leftMaxTileIndex, self.leftMinTileIndex+1):
+            if not self.leftSkip:
+                self.avilableAttackTile.append(i)
+        
+        for j in range(self.rightMinTileIndex, self.rightMaxTileIndex+1):
+            if not self.rightSkip:
+                self.avilableAttackTile.append(j)
 
     def Exit(self):
         pass
@@ -32,6 +71,14 @@ class SelectAttackState(BaseState):
                     sys.exit()
                 if event.key == pygame.K_SPACE:
                     pass
+                if event.key == pygame.K_LEFT and self.selectAttackTile>=0:
+                    self.selectAttackTile = self.selectAttackTile - 1
+                    if self.selectAttackTile < 0:
+                        self.selectAttackTile = len(self.avilableAttackTile) - 1
+                if event.key == pygame.K_RIGHT and self.selectAttackTile>=0:
+                    self.selectAttackTile = self.selectAttackTile + 1
+                    if self.selectAttackTile > len(self.avilableAttackTile) - 1:
+                        self.selectAttackTile = 0
                 if event.key == pygame.K_RETURN:
                     print('!!!! SelectAttackState !!!!')
                     print(f'Owner: {self.effectOwner}')
@@ -55,7 +102,17 @@ class SelectAttackState(BaseState):
             card.render(screen, order)
 
         # Render field
-        for fieldTile in self.field:
-            fieldTile.render(screen, len(self.field))
+        for fieldTile in self.field:               
+            # Render the range of the attack
+            if self.effectOwner == PlayerType.PLAYER:
 
-        
+                if fieldTile.index in set(self.avilableAttackTile):
+                    fieldTile.rgb = (255,0,0)
+                else:
+                    fieldTile.rgb = (0,0,0)
+                
+                if fieldTile.index == self.avilableAttackTile[self.selectAttackTile]:
+                    fieldTile.rgb = (255,0,255)
+                
+            fieldTile.render(screen, len(self.field))
+            fieldTile.rgb = (0,0,0)

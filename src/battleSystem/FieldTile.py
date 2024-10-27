@@ -6,6 +6,7 @@ class FieldTile:
         self.index = index  # Index in the row
         self.position = position  # (x, y) coordinates for rendering
         self.entity = None  # Store the entity occupying the fieldTile
+        self.rgb = (0,0,0)
 
     def is_occupied(self):
         return self.entity is not None
@@ -28,7 +29,7 @@ class FieldTile:
 
         # Draw the fieldTile
         rect = pygame.Rect(start_x + self.index * (FIELD_WIDTH + FIELD_GAP), y, FIELD_WIDTH, FIELD_HEIGHT)
-        pygame.draw.rect(screen, (0, 0, 0), rect, 1)  # fieldTile outline
+        pygame.draw.rect(screen, self.rgb, rect, 1)  # fieldTile outline
 
         # Render the entity if present
         if self.entity:
