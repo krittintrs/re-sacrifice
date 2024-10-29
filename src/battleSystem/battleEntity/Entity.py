@@ -88,5 +88,10 @@ class Entity:
         # Render the entity (you can customize this)
         pygame.draw.rect(screen, color, (entity_x, entity_y, entity_width, entity_height))  # Red square as placeholder
 
+        # Render Buff Icon
+        for index, buff in enumerate(self.buffs):
+            if buff.image is not None:
+                screen.blit(buff.image, (entity_x + index * 20, 100))
+
     def update(self, dt, events):
         pass

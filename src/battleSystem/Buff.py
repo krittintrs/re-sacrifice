@@ -24,7 +24,7 @@ class Buff():
             self.duration -= 1
 
     def render(self, screen):
-        screen.blit(self.image, (100,100))
+        pass
 
     def update(self, dt, events):
         pass

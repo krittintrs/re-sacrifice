@@ -30,6 +30,11 @@ class BattleInitialState(BaseState):
         for card in self.player.cardsOnHand:
             print("Player's Hand Card: ", card.name)
 
+        # Render buff
+        # Mock buff
+        mock_buff = Buff('bonus_attack', 1, [1, 0, 0, 0], sprite_collection['attack_icon'])
+        self.player.add_buff(mock_buff)
+
     def Exit(self):
         pass
 
@@ -68,13 +73,6 @@ class BattleInitialState(BaseState):
         # Render field
         for fieldTile in self.field:
             fieldTile.render(screen, len(self.field))
-
-        # Render buff
-        # Mock buff
-        mock_buff = Buff('bonus_attack', 1, [1, 0, 0, 0], sprite_collection['attack_icon'])
-        self.player.add_buff(mock_buff)
-        for buff in self.player.buffs:
-            buff.render(screen)
 
         # Clear only the dice result area (fill the area with the background color)
         pygame.draw.rect(screen, (255, 255, 255), (10, SCREEN_HEIGHT - HUD_HEIGHT - 40, 150, 40))  # Adjust size and position based on your layout
