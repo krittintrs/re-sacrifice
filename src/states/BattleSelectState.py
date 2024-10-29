@@ -18,6 +18,13 @@ class BattleSelectState(BaseState):
 
         self.player.cardsOnHand[self.selected_index].isSelected = True
 
+        print(f'Player Buffs: {self.player.buffs}')
+        print(f'Enemy Buffs: {self.enemy.buffs}')
+
+        # apply buff to all cards on hand
+        self.player.apply_buffs_to_cardsOnHand()
+        self.enemy.apply_buffs_to_cardsOnHand()
+
     def Exit(self):
         pass
     

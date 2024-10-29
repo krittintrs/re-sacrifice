@@ -24,7 +24,7 @@ class BattlePreparationState(BaseState):
     def mockDeck(self):
         deck = Deck()
         for i, card in enumerate(card_dict.values()):
-            deck.addCard(card)
+            deck.addCard(copy.copy(card))
         return deck
     
     def initialDraw(self):

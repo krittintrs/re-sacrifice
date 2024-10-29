@@ -25,10 +25,18 @@ class BattleInitialState(BaseState):
         self.player.move_to(self.field[0], self.field)
         self.enemy.move_to(self.field[8], self.field)
 
+        self.dice = 0
         self.roll = False
 
         for card in self.player.cardsOnHand:
             print("Player's Hand Card: ", card.name)
+
+        print(f'Player Buffs: {self.player.buffs}')
+        print(f'Enemy Buffs: {self.enemy.buffs}')
+
+        # apply buff to all cards on hand
+        self.player.apply_buffs_to_cardsOnHand()
+        self.enemy.apply_buffs_to_cardsOnHand()
 
     def Exit(self):
         pass
@@ -88,12 +96,13 @@ class BattleInitialState(BaseState):
             pygame.time.delay(10)  # Delay to control the speed of dice rolling
 
         # Roll the dice and convert the value to buff
-        final_number = random.randint(1, 6)
+        final_number = self.dice
         self.dice_buff(final_number)
 
     def dice_buff(self, diceNumber):
+        print(f'Dice Number: {diceNumber}')
         if diceNumber < 4:                      # 1, 2, 3
-            buff = bonus_buff[diceNumber - 1]   # Get the buff based on the dice number
+            buff = Buff(dice_roll_buff[diceNumber - 1])   # Get the buff based on the dice number
             if self.currentTurnOwner == PlayerType.PLAYER:   
                 self.player.add_buff(buff)
             elif self.currentTurnOwner == PlayerType.ENEMY:
