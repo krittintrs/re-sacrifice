@@ -25,6 +25,7 @@ class BattleInitialState(BaseState):
         self.player.move_to(self.field[0], self.field)
         self.enemy.move_to(self.field[8], self.field)
 
+        self.dice = 0
         self.roll = False
 
         for card in self.player.cardsOnHand:
@@ -34,6 +35,12 @@ class BattleInitialState(BaseState):
         # Mock buff
         mock_buff = Buff('bonus_attack', 1, [1, 0, 0, 0], sprite_collection['attack_icon'])
         self.player.add_buff(mock_buff)
+        print(f'Player Buffs: {self.player.buffs}')
+        print(f'Enemy Buffs: {self.enemy.buffs}')
+
+        # apply buff to all cards on hand
+        self.player.apply_buffs_to_cardsOnHand()
+        self.enemy.apply_buffs_to_cardsOnHand()
 
     def Exit(self):
         pass
@@ -47,7 +54,7 @@ class BattleInitialState(BaseState):
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-                elif event.key == pygame.K_SPACE and self.roll == False:
+                elif event.key == pygame.K_SPACE and self.roll == False and self.currentTurnOwner == PlayerType.PLAYER:
                     self.roll_dice()
                     self.roll = True
                 elif event.key == pygame.K_RETURN and self.roll == True:
@@ -58,11 +65,33 @@ class BattleInitialState(BaseState):
                         'turn': self.turn,
                         'currentTurnOwner': self.currentTurnOwner
                     })
+        
+        if self.currentTurnOwner == PlayerType.ENEMY and self.roll == False:
+            self.roll_dice()
+            self.roll = True
 
     def render(self, screen):
+        # Turn
+        screen.blit(pygame.font.Font(None, 36).render(f"Initial Phase - Turn {self.turn}: {self.currentTurnOwner.value}'s turn", True, (0, 0, 0)), (10, 10))   
+
         # Title
         if self.roll:
-            screen.blit(pygame.font.Font(None, 36).render("Cards:    Press Enter start", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
+            screen.blit(pygame.font.Font(None, 36).render("Cards:    Press Enter start", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))
+            if self.dice < 4:
+                text = f'{self.currentTurnOwner.value} got {dice_roll_buff[self.dice - 1].name}'
+            else:
+                text = f'{self.currentTurnOwner.value} got No Buff'
+
+            text_surface = pygame.font.Font(None, 36).render(text, True, (255, 255, 255))
+            text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - HUD_HEIGHT))
+
+            # Draw the brown rectangle behind the text (with some padding)
+            padding = 10
+            pygame.draw.rect(screen, (139, 69, 19), (text_rect.x - padding, text_rect.y - padding,
+                                                    text_rect.width + 2 * padding, text_rect.height + 2 * padding))
+
+            # Blit the text surface on top of the rectangle
+            screen.blit(text_surface, text_rect)
         else:
             screen.blit(pygame.font.Font(None, 36).render("Cards:    Press Spacebar to Roll the dice", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
         
@@ -93,12 +122,13 @@ class BattleInitialState(BaseState):
             pygame.time.delay(10)  # Delay to control the speed of dice rolling
 
         # Roll the dice and convert the value to buff
-        final_number = random.randint(1, 6)
+        final_number = self.dice
         self.dice_buff(final_number)
 
     def dice_buff(self, diceNumber):
+        print(f'Dice Number: {diceNumber}')
         if diceNumber < 4:                      # 1, 2, 3
-            buff = bonus_buff[diceNumber - 1]   # Get the buff based on the dice number
+            buff = Buff(dice_roll_buff[diceNumber - 1])   # Get the buff based on the dice number
             if self.currentTurnOwner == PlayerType.PLAYER:   
                 self.player.add_buff(buff)
             elif self.currentTurnOwner == PlayerType.ENEMY:

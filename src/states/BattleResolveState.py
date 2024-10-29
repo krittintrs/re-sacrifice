@@ -19,7 +19,13 @@ class BattleResolveState(BaseState):
 
         # self.player.print_stats()
         # self.enemy.print_stats()
-        print(f'effectOrder: {self.effectOrder}')
+        # print(f'effectOrder: {self.effectOrder}')
+        print(f'Player Buffs: {self.player.buffs}')
+        print(f'Enemy Buffs: {self.enemy.buffs}')
+
+        # apply buff to all cards on hand
+        self.player.apply_buffs_to_cardsOnHand()
+        self.enemy.apply_buffs_to_cardsOnHand()
 
     def Exit(self):
         pass

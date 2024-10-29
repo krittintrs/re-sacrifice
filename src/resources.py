@@ -1,7 +1,7 @@
 from enum import Enum
 from src.Util import SpriteManager
 from src.StateMachine import StateMachine
-from src.battleSystem.Buff import Buff
+from src.battleSystem.Buff import *
 
 g_state_manager = StateMachine()
 
@@ -9,11 +9,11 @@ sprite_collection = SpriteManager().spriteCollection
 
 card_dict = sprite_collection["card"]
 
-bonus_buff = [
-    Buff('bonus_attack', 1, [1, 0, 0, 0], image=None),
-    Buff('bonus_defense', 1, [0, 1, 0, 0], image=None),
-    Buff('bonus_speed', 1, [0, 0, 1, 0], image=None),
-]
+dice_roll_buff = {
+    0: BuffConf('bonus_attack', 1, [1, 0, 0, 0]),
+    1: BuffConf('bonus_defense', 1, [0, 1, 0, 0]),
+    2: BuffConf('bonus_speed', 1, [0, 0, 1, 0])
+}
 
 class BattleState(Enum):
     DECK_BUILDING = "deckBuilding"
@@ -31,8 +31,8 @@ class SelectionState(Enum):
     BUFF = "buff"
 
 class PlayerType(Enum):
-    PLAYER = 1
-    ENEMY = 2
+    PLAYER = "Player"
+    ENEMY = "Enemy"
 
 class EffectType(Enum):
     ATTACK = "attack"

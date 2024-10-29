@@ -18,6 +18,13 @@ class BattleSelectState(BaseState):
 
         self.player.cardsOnHand[self.selected_index].isSelected = True
 
+        print(f'Player Buffs: {self.player.buffs}')
+        print(f'Enemy Buffs: {self.enemy.buffs}')
+
+        # apply buff to all cards on hand
+        self.player.apply_buffs_to_cardsOnHand()
+        self.enemy.apply_buffs_to_cardsOnHand()
+
     def Exit(self):
         pass
     
@@ -56,6 +63,9 @@ class BattleSelectState(BaseState):
         self.selected_index = newIndex
 
     def render(self, screen):
+        # Turn
+        screen.blit(pygame.font.Font(None, 36).render(f"Selection Phase - Turn {self.turn}", True, (0, 0, 0)), (10, 10))   
+
         # Title
         screen.blit(pygame.font.Font(None, 36).render("Select Card: Press Enter to Confirm", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
 
