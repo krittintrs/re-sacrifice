@@ -50,7 +50,7 @@ class BattleInitialState(BaseState):
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-                elif event.key == pygame.K_SPACE and self.roll == False:
+                elif event.key == pygame.K_SPACE and self.roll == False and self.currentTurnOwner == PlayerType.PLAYER:
                     self.roll_dice()
                     self.roll = True
                 elif event.key == pygame.K_RETURN and self.roll == True:
@@ -61,8 +61,15 @@ class BattleInitialState(BaseState):
                         'turn': self.turn,
                         'currentTurnOwner': self.currentTurnOwner
                     })
+        
+        if self.currentTurnOwner == PlayerType.ENEMY and self.roll == False:
+            self.roll_dice()
+            self.roll = True
 
     def render(self, screen):
+        # Turn
+        screen.blit(pygame.font.Font(None, 36).render(f"Initial Phase - Turn {self.turn}: {self.currentTurnOwner.value}'s turn", True, (0, 0, 0)), (10, 10))   
+
         # Title
         if self.roll:
             screen.blit(pygame.font.Font(None, 36).render("Cards:    Press Enter start", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))
