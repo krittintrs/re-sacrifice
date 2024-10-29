@@ -33,3 +33,5 @@ class FieldTile:
         # Render the entity if present
         if self.entity:
             self.entity.render(screen, rect.x, rect.y)
+            for buff in self.entity.buffs:
+                buff.render(screen)

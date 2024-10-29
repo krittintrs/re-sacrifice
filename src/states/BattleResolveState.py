@@ -58,6 +58,10 @@ class BattleResolveState(BaseState):
                 'turn': self.turn,
                 'currentTurnOwner': self.currentTurnOwner
             })
+            
+    # Update buff
+        for buff in self.player.buffs:
+            buff.update(dt, events)
 
     def resolveCardEffect(self, effect, effectOwner):
         if effect.type == EffectType.ATTACK:

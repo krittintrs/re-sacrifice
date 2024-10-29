@@ -50,6 +50,10 @@ class BattleSelectState(BaseState):
                         'currentTurnOwner': self.currentTurnOwner,
                     })
 
+        # Update buff
+        for buff in self.player.buffs:
+            buff.update(dt, events)
+
     def change_selection(self, newIndex):
         self.player.cardsOnHand[self.selected_index].isSelected = False
         self.player.cardsOnHand[newIndex].isSelected = True
