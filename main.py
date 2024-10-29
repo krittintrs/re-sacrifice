@@ -38,8 +38,7 @@ class GameMain:
     def PlayGame(self):
         clock = pygame.time.Clock()
         g_state_manager.Change(BattleState.PREPARATION_PHASE, {
-            'deck': None,
-            'player': None,
+            'player': default_player,
             'enemy': None
         })
 

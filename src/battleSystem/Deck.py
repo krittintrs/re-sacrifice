@@ -36,6 +36,12 @@ class Deck:
             return True
         else:
             return False
+        
+    def isCardMinimumReach(self):
+        if len(self.card_deck) < 20:
+            return False
+        else:
+            return True
 
     def render(self, screen):
         # Draw the deck

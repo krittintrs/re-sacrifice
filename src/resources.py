@@ -1,13 +1,20 @@
 from enum import Enum
-from src.Util import SpriteManager
+from src.Util import SpriteManager, DeckLoader
 from src.StateMachine import StateMachine
 from src.battleSystem.Buff import Buff
+from src.battleSystem.battleEntity.Player import Player
 
 g_state_manager = StateMachine()
 
 sprite_collection = SpriteManager().spriteCollection
 
 card_dict = sprite_collection["card"]
+
+dect_dict = DeckLoader(card_dict).deck_dict
+
+default_deck = dect_dict["default"]
+default_player = Player("player")
+default_player.deck = default_deck
 
 bonus_buff = [
     Buff('bonus_attack', 1, [1, 0, 0, 0]),

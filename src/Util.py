@@ -2,6 +2,8 @@ import pygame
 import json
 from src.battleSystem.Card import Card
 from src.battleSystem.Effect import Effect
+from src.battleSystem.Deck import Deck
+import copy
 
 class Sprite:
     def __init__(self, image):
@@ -135,3 +137,21 @@ class SpriteSheet(object):
         return pygame.transform.scale(
             image, (xTileSize * scalingfactor, yTileSize * scalingfactor)
         )
+    
+class DeckLoader():
+    def __init__(self, card_dict):
+        self.deck_dict = self.loadDeck(card_dict)
+
+    def loadDeck(self,card_dict):
+        url = "./cards/decks.json"
+        deck_dict = {}
+        with open(url) as jsonData:
+            data = json.load(jsonData)
+            for deck_type in data:
+                deck = Deck()
+                for card in data[deck_type]:
+                    for i in range(card["quantity"]):
+                        deck.addCard(copy.copy(card_dict[card["name"]]))
+                deck_dict[deck_type] = deck
+        
+        return deck_dict
