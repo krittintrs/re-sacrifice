@@ -50,6 +50,7 @@ class SelectAttackState(BaseState):
             self.rightMaxTileIndex = 8
         
         self.selectAttackTile = 0
+
         if self.rightSkip and self.leftSkip:
                 self.selectAttackTile = -1
 
@@ -93,17 +94,20 @@ class SelectAttackState(BaseState):
                     print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
 
                     if self.effectOwner == PlayerType.PLAYER:
-                        if self.field[self.avilableAttackTile[self.selectAttackTile]].is_occupied() and self.selectAttackTile>=0:
-                            damage = self.player.attack - self.field[self.avilableAttackTile[self.selectAttackTile]].entity.defense
-                            if damage > 0:
-                                self.field[self.avilableAttackTile[self.selectAttackTile]].entity.health -= damage
-                                self.field[self.avilableAttackTile[self.selectAttackTile]].entity.stunt = True
-                                print(f'{self.field[self.avilableAttackTile[self.selectAttackTile]].entity} takes {damage} damage')
+                        if self.selectAttackTile>=0 and self.effect.maxRange>0:
+                            if self.field[self.avilableAttackTile[self.selectAttackTile]].is_occupied():
+                                damage = self.player.attack - self.field[self.avilableAttackTile[self.selectAttackTile]].entity.defense
+                                if damage > 0:
+                                    self.field[self.avilableAttackTile[self.selectAttackTile]].entity.health -= damage
+                                    self.field[self.avilableAttackTile[self.selectAttackTile]].entity.stunt = True
+                                    print(f'{self.field[self.avilableAttackTile[self.selectAttackTile]].entity} takes {damage} damage')
+                                else:
+                                    print(f'{self.field[self.avilableAttackTile[self.selectAttackTile]].entity} takes no damage')
+                                self.field[self.avilableAttackTile[self.selectAttackTile]].entity.print_stats()
                             else:
-                                print(f'{self.field[self.avilableAttackTile[self.selectAttackTile]].entity} takes no damage')
-                            self.field[self.avilableAttackTile[self.selectAttackTile]].entity.print_stats()
+                                print("no entity on the targeted tile")
                         else:
-                            print("no entity on the targeted tile")
+                            print("there is no attack happen")
 
                     g_state_manager.Change(BattleState.RESOLVE_PHASE, {
                         'player': self.player,
@@ -125,13 +129,12 @@ class SelectAttackState(BaseState):
         # Render field
         for fieldTile in self.field:               
             # Render the range of the attack
-            if self.effectOwner == PlayerType.PLAYER:
 
-                if fieldTile.index in set(self.avilableAttackTile):
-                    fieldTile.rgb = (255,0,0)
-                else:
-                    fieldTile.rgb = (0,0,0)
-                
+            if fieldTile.index in set(self.avilableAttackTile):
+                fieldTile.rgb = (255,0,0)
+            else:
+                fieldTile.rgb = (0,0,0)
+            if self.selectAttackTile>=0:
                 if fieldTile.index == self.avilableAttackTile[self.selectAttackTile]:
                     fieldTile.rgb = (255,0,255)
                 

@@ -111,13 +111,12 @@ class SelectMoveState(BaseState):
         # Render field
         for fieldTile in self.field:               
             # Render the range of the attack
-            if self.effectOwner == PlayerType.PLAYER:
 
-                if fieldTile.index in set(self.avilableMoveTile):
-                    fieldTile.rgb = (255,0,0)
-                else:
-                    fieldTile.rgb = (0,0,0)
-                
+            if fieldTile.index in set(self.avilableMoveTile):
+                fieldTile.rgb = (255,0,0)
+            else:
+                fieldTile.rgb = (0,0,0)
+            if self.selectMoveTile>=0:
                 if fieldTile.index == self.avilableMoveTile[self.selectMoveTile]:
                     fieldTile.rgb = (255,0,255)
                 

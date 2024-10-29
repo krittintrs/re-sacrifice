@@ -30,9 +30,10 @@ class BattleActionState(BaseState):
         self.currentTurnOwner = params['currentTurnOwner']  
 
         # mock card
+        #################################
         card = self.player.selectedCard
         print('selected card: ', card.name)
-        card.beforeEffect = [Effect(EffectType.ATTACK, card.range_start, card.range_end)]
+        card.beforeEffect = [Effect(EffectType.MOVE, card.range_start, card.range_end)]
         card.mainEffect = [Effect(EffectType.ATTACK, card.range_start, card.range_end)]
         card.afterEffect = [Effect(EffectType.SELF_BUFF, card.range_start, card.range_end)]
 
@@ -40,9 +41,10 @@ class BattleActionState(BaseState):
         self.player.move_to(self.field[2], self.field)
         
         # mock enemy
+        #################################
         new_card = self.enemy.cardsOnHand[0]
         new_card.beforeEffect = [Effect(EffectType.MOVE, new_card.range_start, new_card.range_end)]
-        new_card.mainEffect = [Effect(EffectType.MOVE, new_card.range_start, new_card.range_end)]
+        new_card.mainEffect = [Effect(EffectType.ATTACK, new_card.range_start, new_card.range_end)]
         new_card.afterEffect = [Effect(EffectType.RANGE_BUFF, new_card.range_start, new_card.range_end)]
         self.enemy.select_card(new_card)
         self.enemy.move_to(self.field[7],self.field)
