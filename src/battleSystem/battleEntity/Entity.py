@@ -78,7 +78,12 @@ class Entity:
         # Render Buff Icon
         for index, buff in enumerate(self.buffs):
             if buff.image is not None:
-                screen.blit(buff.image, (entity_x + index * 20, 100))
+                buff.x = entity_x + index * 20
+                buff.y = 100
+                screen.blit(buff.image, (buff.x, 100))
+
+                # try to render buff icon border
+                pygame.draw.rect(screen, (0, 0, 0), (buff.x, buff.y, buff.rect.width, buff.rect.height), 1)
 
     def update(self, dt, events):
         pass

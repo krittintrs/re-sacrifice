@@ -89,6 +89,10 @@ class BattleActionState(BaseState):
             'currentTurnOwner': self.currentTurnOwner,
             'effectOrder': self.effectOrder
         })
+    
+        # Update buff
+        for buff in self.player.buffs:
+            buff.update(dt, events)
 
     def appendEffects(self, entity, entityType):
         for beforeEffect in entity.selectedCard.beforeEffect:

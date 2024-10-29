@@ -55,6 +55,10 @@ class BattleEndState(BaseState):
                         'currentTurnOwner': self.currentTurnOwner
                     })
 
+        # Update buff
+        for buff in self.player.buffs:
+            buff.update(dt, events)
+
     def render(self, screen):
         # Turn
         screen.blit(pygame.font.Font(None, 36).render(f"End Phase - Turn {self.turn}", True, (0, 0, 0)), (10, 10))   
