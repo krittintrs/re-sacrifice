@@ -65,7 +65,22 @@ class BattleInitialState(BaseState):
     def render(self, screen):
         # Title
         if self.roll:
-            screen.blit(pygame.font.Font(None, 36).render("Cards:    Press Enter start", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
+            screen.blit(pygame.font.Font(None, 36).render("Cards:    Press Enter start", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))
+            if self.dice < 4:
+                text = f'{self.currentTurnOwner.value} got {dice_roll_buff[self.dice - 1].name}'
+            else:
+                text = f'{self.currentTurnOwner.value} got No Buff'
+
+            text_surface = pygame.font.Font(None, 36).render(text, True, (255, 255, 255))
+            text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - HUD_HEIGHT))
+
+            # Draw the brown rectangle behind the text (with some padding)
+            padding = 10
+            pygame.draw.rect(screen, (139, 69, 19), (text_rect.x - padding, text_rect.y - padding,
+                                                    text_rect.width + 2 * padding, text_rect.height + 2 * padding))
+
+            # Blit the text surface on top of the rectangle
+            screen.blit(text_surface, text_rect)
         else:
             screen.blit(pygame.font.Font(None, 36).render("Cards:    Press Spacebar to Roll the dice", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
         

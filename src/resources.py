@@ -31,8 +31,8 @@ class SelectionState(Enum):
     BUFF = "buff"
 
 class PlayerType(Enum):
-    PLAYER = 1
-    ENEMY = 2
+    PLAYER = "Player"
+    ENEMY = "Enemy"
 
 class EffectType(Enum):
     ATTACK = "attack"
