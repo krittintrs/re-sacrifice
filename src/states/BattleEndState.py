@@ -9,11 +9,18 @@ class BattleEndState(BaseState):
         super(BattleEndState, self).__init__()
 
     def Enter(self, params):
+        print("\n>>>>>> Enter BattleEndState <<<<<<")
         self.player = params['player']
         self.enemy = params['enemy']
         self.field = params['field']
         self.turn = params['turn']
         self.currentTurnOwner = params['currentTurnOwner']  
+
+        # For Debug Buffs
+        print(f'Player Buffs: {self.player.buffs}')
+        self.player.print_buffs()
+        print(f'Enemy Buffs: {self.enemy.buffs}')
+        self.enemy.print_buffs()
 
     def next_turn(self):
         # Change turn owner
@@ -26,8 +33,6 @@ class BattleEndState(BaseState):
         self.turn += 1
 
         # Turn Pass Entity
-        print(f'Player hand: {len(self.player.cardsOnHand)}')
-        print(f'Enemy hand: {len(self.enemy.cardsOnHand)}')
         self.player.next_turn()
         self.enemy.next_turn()
 

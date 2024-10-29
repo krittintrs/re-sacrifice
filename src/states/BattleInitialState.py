@@ -13,7 +13,7 @@ class BattleInitialState(BaseState):
         self.roll = False
 
     def Enter(self, params):
-        print(">>>>>> Enter BattleInitialState <<<<<<")
+        print("\n>>>>>> Enter BattleInitialState <<<<<<")
 
         self.player = params['player']
         self.enemy = params['enemy']
@@ -32,7 +32,7 @@ class BattleInitialState(BaseState):
             print("Player's Hand Card: ", card.name)
 
         # Mock buff
-        mock_buff = Buff('bonus_attack', 1, [1, 0, 0, 0], sprite_collection['attack_icon'])
+        mock_buff = Buff(BuffConf('bonus_attack', 1, [1, 0, 0, 0], sprite_collection['attack_icon']))
         self.player.add_buff(mock_buff)
         print(f'Player Buffs: {self.player.buffs}')
         print(f'Enemy Buffs: {self.enemy.buffs}')
@@ -68,7 +68,7 @@ class BattleInitialState(BaseState):
         if self.currentTurnOwner == PlayerType.ENEMY and self.roll == False:
             self.roll_dice()
             self.roll = True
-            
+
         # Update buff
         for buff in self.player.buffs:
             buff.update(dt, events)

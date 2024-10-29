@@ -9,7 +9,7 @@ class BattleResolveState(BaseState):
         super(BattleResolveState, self).__init__()
 
     def Enter(self, params):
-        print(">>>>>> Enter BattleResolveState <<<<<<")
+        print("\n>>>>>> Enter BattleResolveState <<<<<<")
         self.player = params['player']
         self.enemy = params['enemy']
         self.field = params['field']
@@ -17,11 +17,11 @@ class BattleResolveState(BaseState):
         self.currentTurnOwner = params['currentTurnOwner']  
         self.effectOrder = params['effectOrder']
 
-        # self.player.print_stats()
-        # self.enemy.print_stats()
-        # print(f'effectOrder: {self.effectOrder}')
+        # For Debug Buffs
         print(f'Player Buffs: {self.player.buffs}')
+        self.player.print_buffs()
         print(f'Enemy Buffs: {self.enemy.buffs}')
+        self.enemy.print_buffs()
 
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()

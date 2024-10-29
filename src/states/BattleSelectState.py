@@ -8,7 +8,7 @@ class BattleSelectState(BaseState):
         self.selected_index = 0
 
     def Enter(self, params):
-        print(">>>>>> Enter BattleSelectState <<<<<<")
+        print("\n>>>>>> Enter BattleSelectState <<<<<<")
         # Retrieve the cards, entities, and field from the parameter
         self.player = params['player']
         self.enemy = params['enemy']
@@ -18,8 +18,11 @@ class BattleSelectState(BaseState):
 
         self.player.cardsOnHand[self.selected_index].isSelected = True
 
+        # For Debug Buffs
         print(f'Player Buffs: {self.player.buffs}')
+        self.player.print_buffs()
         print(f'Enemy Buffs: {self.enemy.buffs}')
+        self.enemy.print_buffs()
 
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()

@@ -22,7 +22,7 @@ class BattleActionState(BaseState):
             - currentTurnOwner = TurnOwner : current turn owner
         """
 
-        print(">>>>>> Enter BattleActionState <<<<<<")
+        print("\n>>>>>> Enter BattleActionState <<<<<<")
         self.player = params['player']
         self.enemy = params['enemy']
         self.field = params['field']
@@ -47,8 +47,11 @@ class BattleActionState(BaseState):
         self.enemy.select_card(new_card)
         self.enemy.move_to(self.field[7],self.field)
 
+        # For Debug Buffs
         print(f'Player Buffs: {self.player.buffs}')
+        self.player.print_buffs()
         print(f'Enemy Buffs: {self.enemy.buffs}')
+        self.enemy.print_buffs()
         
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()

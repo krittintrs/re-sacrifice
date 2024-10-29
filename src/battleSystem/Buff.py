@@ -1,3 +1,5 @@
+import pygame
+
 class BuffConf():
     def __init__(self, name, duration, value, image=None):
         self.name = name
@@ -5,17 +7,21 @@ class BuffConf():
         self.image = image
         self.value = value  # [1,0,0,0] == [atk,def,spd,range]
 
+class Buff():
+    def __init__(self, conf):
+        self.name = conf.name
+        self.duration = conf.duration
+        self.value = conf.value # [1,0,0,0] == [atk,def,spd,range]
+        self.image = conf.image
+
         self.x = 0
         self.y = 0
         self.rect = pygame.Rect(self.x, self.y, 20, 20)
 
         self.tooltipFlag = False
 
-class Buff():
-    def __init__(self, conf):
-        self.name = conf.name
-        self.duration = conf.duration
-        self.value = conf.value # [1,0,0,0] == [atk,def,spd,range]
+    def print(self):
+        print(f'{self.name}: {self.value} / {self.duration}')
 
     def apply(self, card):
         card.buffed_attack += self.value[0]

@@ -22,6 +22,10 @@ class Entity:
     def print_stats(self):
         print(f'{self.name} stats - HP: {self.health}, ATK: {self.attack}, DEF: {self.defense}, SPD: {self.speed}, RNG: {self.range}')
 
+    def print_buffs(self):
+        for buff in self.buffs:
+            buff.print()
+
     def move_to(self, fieldTile, field):
         if fieldTile.is_occupied():  # Check if the fieldTile is occupied
             print("fieldTile is already occupied!")
@@ -58,6 +62,9 @@ class Entity:
         # count down buffs
         for buff in self.buffs:
             buff.next_turn()
+
+        # remove expired buffs
+        for buff in self.buffs:
             if not buff.is_active():
                 self.buffs.remove(buff)
  
