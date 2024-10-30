@@ -4,11 +4,12 @@ from src.resources import *
 
 
 class BuffConf():
-    def __init__(self, name, duration, value, image=None):
+    def __init__(self, name, duration, value, sprite_collection, image=None):
         self.name = name
         self.duration = duration
         self.image = image
         self.value = value  # [1,0,0,0] == [atk,def,spd,range]
+        self.sprite_collection = sprite_collection
 
 class Buff():
     def __init__(self, conf):
@@ -22,6 +23,8 @@ class Buff():
         self.rect = pygame.Rect(self.x, self.y, 20, 20)
 
         self.tooltipFlag = False
+
+        self.sprite_collection = conf.sprite_collection
 
     def print(self):
         print(f'{self.name}: {self.value} / {self.duration}')
@@ -66,7 +69,7 @@ class Buff():
 
             # Render buff or debuff icon border
             if is_positive:
-                screen.blit(sprite_collection['buff_icon'], (self.x, 110))
+                screen.blit(self.sprite_collection['buff_icon'], (self.x, 110))
                 pass
             elif is_negative:
                 # Red border for negative buff
