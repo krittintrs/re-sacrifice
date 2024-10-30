@@ -33,7 +33,7 @@ class BattleActionState(BaseState):
         #################################
         card = self.player.selectedCard
         print('selected card: ', card.name)
-        card.mainEffect.append(Effect("attack", card.range_start, card.range_end))
+        card.mainEffect.append(Effect(EffectType.ATTACK, card.range_start, card.range_end))
         # print(card.mainEffect[0].type)
         # print(len(card.beforeEffect))
         # print(len(card.mainEffect))
@@ -48,7 +48,7 @@ class BattleActionState(BaseState):
         # mock enemy
         #################################
         new_card = self.enemy.cardsOnHand[0]
-        new_card.mainEffect.append(Effect("attack", new_card.range_start, new_card.range_end))
+        new_card.mainEffect.append(Effect(EffectType.ATTACK, new_card.range_start, new_card.range_end))
         # new_card.beforeEffect = [Effect(EffectType.MOVE, new_card.range_start, new_card.range_end)]
         # new_card.mainEffect = [Effect(EffectType.ATTACK, new_card.range_start, new_card.range_end)]
         # new_card.afterEffect = [Effect(EffectType.RANGE_BUFF, new_card.range_start, new_card.range_end)]

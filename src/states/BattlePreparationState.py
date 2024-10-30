@@ -45,6 +45,7 @@ class BattlePreparationState(BaseState):
         self.enemy = Enemy("enemy")  
         self.enemy.deck = self.mockDeck()
 
+        #Set up the initial default position of player and enemy
         self.player.fieldTile_index  = 2
         self.enemy.fieldTile_index = 7
 

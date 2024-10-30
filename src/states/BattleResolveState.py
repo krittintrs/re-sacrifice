@@ -61,7 +61,7 @@ class BattleResolveState(BaseState):
             })
 
     def resolveCardEffect(self, effect, effectOwner):
-        if effect.type == "attack":
+        if effect.type == EffectType.ATTACK:
             g_state_manager.Change(SelectionState.ATTACK, {
                 'player': self.player,
                 'enemy': self.enemy,
@@ -72,7 +72,7 @@ class BattleResolveState(BaseState):
                 'effect': effect,
                 'effectOwner': effectOwner
             })
-        elif effect.type == "move":
+        elif effect.type == EffectType.MOVE:
             g_state_manager.Change(SelectionState.MOVE, {
                 'player': self.player,
                 'enemy': self.enemy,
