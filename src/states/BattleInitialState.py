@@ -72,6 +72,8 @@ class BattleInitialState(BaseState):
         # Update buff
         for buff in self.player.buffs:
             buff.update(dt, events)
+        for buff in self.enemy.buffs:
+            buff.update(dt, events)
 
     def render(self, screen):
         # Turn

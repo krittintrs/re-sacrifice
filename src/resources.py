@@ -10,9 +10,9 @@ sprite_collection = SpriteManager().spriteCollection
 card_dict = sprite_collection["card"]
 
 dice_roll_buff = {
-    0: BuffConf('bonus_attack', 1, [1, 0, 0, 0]),
-    1: BuffConf('bonus_defense', 1, [0, 1, 0, 0]),
-    2: BuffConf('bonus_speed', 1, [0, 0, 1, 0])
+    0: BuffConf('bonus_attack', 1, [1, 0, 0, 0], sprite_collection['attack_icon']),
+    1: BuffConf('bonus_defense', 1, [0, 1, 0, 0], sprite_collection['defense_icon']),
+    2: BuffConf('bonus_speed', 1, [0, 0, 1, 0], sprite_collection['speed_icon']),
 }
 
 class BattleState(Enum):
