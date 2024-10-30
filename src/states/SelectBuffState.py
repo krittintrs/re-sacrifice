@@ -92,6 +92,15 @@ class SelectBuffState(BaseState):
                     print(f'Owner: {self.effectOwner}')
                     print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
 
+                    if self.effectOwner == PlayerType.PLAYER:
+                        if self.selectffTile>=0 and self.effect.maxRange>0:
+                            if self.field[self.avilableAttackTile[self.selectAttackTile]].is_occupied():
+                                print("apply buff")
+                            else:
+                                print("no entity on the targeted tile")
+                        else:
+                            print("there is no buff happen")
+
                     g_state_manager.Change(BattleState.RESOLVE_PHASE, {
                         'player': self.player,
                         'enemy': self.enemy,
