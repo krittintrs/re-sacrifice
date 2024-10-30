@@ -1,30 +1,18 @@
 import pygame
 from src.dependency import *
-from src.resources import *
-
-
-class BuffConf():
-    def __init__(self, name, duration, value, sprite_collection, image=None):
-        self.name = name
-        self.duration = duration
-        self.image = image
-        self.value = value  # [1,0,0,0] == [atk,def,spd,range]
-        self.sprite_collection = sprite_collection
 
 class Buff():
     def __init__(self, conf):
         self.name = conf.name
         self.duration = conf.duration
         self.value = conf.value # [1,0,0,0] == [atk,def,spd,range]
-        self.image = conf.image
+        self.imageName = conf.imageName
 
         self.x = 0
         self.y = 0
         self.rect = pygame.Rect(self.x, self.y, 20, 20)
 
         self.tooltipFlag = False
-
-        self.sprite_collection = conf.sprite_collection
 
     def print(self):
         print(f'{self.name}: {self.value} / {self.duration}')
@@ -59,9 +47,9 @@ class Buff():
             self.tooltipFlag = False
 
     def render(self, screen):
-        if self.image is not None:
+        if self.imageName is not None:
             self.y = 100
-            screen.blit(self.image, (self.x, 100))
+            screen.blit(self.imageName, (self.x, 100))
 
             # Determine if the buff is positive or negative
             is_positive = any(v > 0 for v in self.value)
@@ -69,7 +57,7 @@ class Buff():
 
             # Render buff or debuff icon border
             if is_positive:
-                screen.blit(self.sprite_collection['buff_icon'], (self.x, 110))
+                screen.blit(sprite_collection['buff_icon'], (self.x, 110))
                 pass
             elif is_negative:
                 # Red border for negative buff

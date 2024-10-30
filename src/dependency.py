@@ -1,6 +1,7 @@
 import pygame
 from src.constants import *
 from src.resources import *
+from src.buff_def import *
 
 from src.StateMachine import StateMachine
 from src.states.BaseState import BaseState
