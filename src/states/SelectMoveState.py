@@ -91,6 +91,17 @@ class SelectMoveState(BaseState):
                     print('!!!! SelectMoveState !!!!')
                     print(f'Owner: {self.effectOwner}')
                     print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
+
+                    if self.effectOwner == PlayerType.PLAYER:
+                        if self.selectMoveTile>=0 and self.effect.maxRange>0:
+                            if not self.field[self.avilableMoveTile[self.selectMoveTile]].is_occupied():
+                                self.player.move_to(self.field[self.avilableMoveTile[self.selectMoveTile]], self.field)
+                                print(f"{self.effectOwner} move to {self.avilableMoveTile[self.selectMoveTile]}")
+                            else:
+                                print("can not move, there is an entity of that tile")
+                        else:
+                            print("there is no movement happen")
+
                     g_state_manager.Change(BattleState.RESOLVE_PHASE, {
                         'player': self.player,
                         'enemy': self.enemy,
@@ -102,7 +113,7 @@ class SelectMoveState(BaseState):
 
     def render(self, screen):
         # Turn
-        screen.blit(pygame.font.Font(None, 36).render(f"SelectMoveState - Turn {self.turn}", True, (0, 0, 0)), (10, 10))   
+        screen.blit(pygame.font.Font(None, 36).render(f"SelectMoveState - Turn {self.turn} - {self.effectOwner}", True, (0, 0, 0)), (10, 10))   
 
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):

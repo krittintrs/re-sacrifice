@@ -120,7 +120,7 @@ class SelectAttackState(BaseState):
 
     def render(self, screen):
         # Turn
-        screen.blit(pygame.font.Font(None, 36).render(f"SelectAttackState - Turn {self.turn}", True, (0, 0, 0)), (10, 10))   
+        screen.blit(pygame.font.Font(None, 36).render(f"SelectAttackState - Turn {self.turn} - {self.effectOwner}", True, (0, 0, 0)), (10, 10))   
 
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):

@@ -22,8 +22,8 @@ class BattleInitialState(BaseState):
         self.currentTurnOwner = params['currentTurnOwner']  
 
         # Mock move entities
-        self.player.move_to(self.field[0], self.field)
-        self.enemy.move_to(self.field[8], self.field)
+        self.player.move_to(self.field[self.player.fieldTile_index], self.field)
+        self.enemy.move_to(self.field[self.enemy.fieldTile_index], self.field)
 
         self.roll = False
 

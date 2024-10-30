@@ -40,6 +40,7 @@ class BattleResolveState(BaseState):
         
         if self.effectOrder["before"]:
             for effectDetail in self.effectOrder["before"]:
+                print(effectDetail[0].type)
                 self.resolveCardEffect(effectDetail[0], effectDetail[1])
                 self.effectOrder["before"].remove(effectDetail)
         elif self.effectOrder["main"]:
@@ -60,7 +61,7 @@ class BattleResolveState(BaseState):
             })
 
     def resolveCardEffect(self, effect, effectOwner):
-        if effect.type == EffectType.ATTACK:
+        if effect.type == "attack":
             g_state_manager.Change(SelectionState.ATTACK, {
                 'player': self.player,
                 'enemy': self.enemy,
@@ -71,7 +72,7 @@ class BattleResolveState(BaseState):
                 'effect': effect,
                 'effectOwner': effectOwner
             })
-        elif effect.type == EffectType.MOVE:
+        elif effect.type == "move":
             g_state_manager.Change(SelectionState.MOVE, {
                 'player': self.player,
                 'enemy': self.enemy,
