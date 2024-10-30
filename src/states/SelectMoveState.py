@@ -124,14 +124,16 @@ class SelectMoveState(BaseState):
             # Render the range of the attack
 
             if fieldTile.index in set(self.avilableMoveTile):
-                fieldTile.rgb = (255,0,0)
+                fieldTile.color = (255,0,0)
             else:
-                fieldTile.rgb = (0,0,0)
+                fieldTile.color = (0,0,0)
             if self.selectMoveTile>=0:
                 if fieldTile.index == self.avilableMoveTile[self.selectMoveTile]:
-                    fieldTile.rgb = (255,0,255)
+                    fieldTile.color = (255,0,255)
+                    fieldTile.solid = 0
                 
             fieldTile.render(screen, len(self.field))
-            fieldTile.rgb = (0,0,0)
+            fieldTile.color = (0,0,0)
+            fieldTile.solid = 1
 
         
