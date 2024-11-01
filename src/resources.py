@@ -8,13 +8,20 @@ g_state_manager = StateMachine()
 
 sprite_collection = SpriteManager().spriteCollection
 
-card_dict = sprite_collection["card"]
+card_dict = sprite_collection["card"] # old version
+CARD_DEFS = sprite_collection["card_conf"]# dict { "name": CardConf class}
 
-dect_dict = DeckLoader(card_dict).deck_dict
+DECK_DEFS = DeckLoader().deck_conf# dict {"name" : DeckConf class}
 
-default_deck = dect_dict["default"]
-default_player = Player("player")
-default_player.deck = default_deck
+# for i in CARD_DEFS:
+#     print(i, end=" : \n")
+#     CARD_DEFS[i].display_attributes()
+#     print("------------------")
+
+# for i in DECK_DEFS:
+#     print(i, end=" : \n")
+#     print(DECK_DEFS[i].card_dict)
+
 
 bonus_buff = [
     Buff('bonus_attack', 1, [1, 0, 0, 0]),

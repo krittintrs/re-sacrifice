@@ -1,11 +1,21 @@
 import copy
 import random
 import pygame
+from src.battleSystem.Card import Card
 
 class Deck:
     def __init__(self):
         self.card_deck = []
         self.discard_pile = []
+
+    def read_conf(self,deck_conf, card_conf):
+        self.card_deck = []
+        for card_info in deck_conf.card_dict:
+            for i in range(card_info["quantity"]):
+                card = Card()
+                card.read_conf(card_conf[card_info["name"]])
+                self.card_deck.append(card)
+
     
     def draw(self, number):
         drawn_cards = self.card_deck[:number]
