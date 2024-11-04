@@ -9,63 +9,103 @@ class GameMain:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
         g_state_manager.SetScreen(self.screen)
+        self.state = "start"  # Start with the start screen
 
-        states = {
-            BattleState.DECK_BUILDING: DeckBuildingState(),
-            BattleState.PREPARATION_PHASE: BattlePreparationState(),
-            BattleState.INITIAL_PHASE: BattleInitialState(),
-            BattleState.SELECTION_PHASE: BattleSelectState(),
-            BattleState.ACTION_PHASE: BattleActionState(),
-            BattleState.RESOLVE_PHASE: BattleResolveState(),
-            SelectionState.ATTACK: SelectAttackState(),
-            SelectionState.BUFF: SelectBuffState(),
-            SelectionState.MOVE: SelectMoveState(),
-            BattleState.END_PHASE: BattleEndState(),
-            BattleState.FINISH_PHASE: BattleFinishState()
+        # Define battle and RPG states
+        self.states = {
+            "battle": {
+                BattleState.DECK_BUILDING: DeckBuildingState(),
+                BattleState.PREPARATION_PHASE: BattlePreparationState(),
+                BattleState.INITIAL_PHASE: BattleInitialState(),
+                BattleState.SELECTION_PHASE: BattleSelectState(),
+                BattleState.ACTION_PHASE: BattleActionState(),
+                BattleState.RESOLVE_PHASE: BattleResolveState(),
+                SelectionState.ATTACK: SelectAttackState(),
+                SelectionState.BUFF: SelectBuffState(),
+                SelectionState.MOVE: SelectMoveState(),
+                BattleState.END_PHASE: BattleEndState(),
+                BattleState.FINISH_PHASE: BattleFinishState(),
+            },
+            "rpg": {
+                "start": TutorialState(),# Add RPG start state here
+                "town" : RPGStartState(),
+                "tavern": TavernMapState()
+            }
         }
-        g_state_manager.SetStates(states)
+
+        # Set initial states for battle mode
+        g_state_manager.SetStates(self.states["battle"])
 
     def RenderBackground(self):
         self.screen.fill((255, 255, 255))
-        self.CreateBattleField(self.screen)
+        if self.state == "battle":
+            self.CreateBattleField(self.screen)
+        elif self.state == "rpg":
+            self.RenderMap()
 
     def CreateBattleField(self, screen):
         # Draw the HUD background (full width, height 200 at the bottom)
-        
-        # Dark grey background for HUD
-        pygame.draw.rect(screen, (50, 50, 50), (0, SCREEN_HEIGHT  - HUD_HEIGHT, SCREEN_WIDTH, HUD_HEIGHT)) 
+        pygame.draw.rect(screen, (50, 50, 50), (0, SCREEN_HEIGHT - HUD_HEIGHT, SCREEN_WIDTH, HUD_HEIGHT)) 
+
+    def RenderMap(self):
+        # Draw a simple grid-based map for RPG movement
+        self.screen.fill((0, 128, 0))  # Green background for RPG map
+
+    def StartScreen(self):
+        self.screen.fill((0, 0, 0))
+        font = pygame.font.Font(None, 74)
+        text_rpg = font.render("Press R for RPG Mode", True, (255, 255, 255))
+        text_battle = font.render("Press B for Battle Mode", True, (255, 255, 255))
+        self.screen.blit(text_rpg, (100, 200))
+        self.screen.blit(text_battle, (100, 300))
+        pygame.display.flip()
 
     def PlayGame(self):
         clock = pygame.time.Clock()
-        g_state_manager.Change(BattleState.PREPARATION_PHASE, {
-            'deck': None,
-            'player': None,
-            'enemy': None
-        })
 
         while True:
             dt = clock.tick(self.max_frame_rate) / 1000.0
-
-            #input
             events = pygame.event.get()
 
-            #update
-            g_state_manager.update(dt, events)
+            # Start screen state
+            if self.state == "start":
+                self.StartScreen()
+                for event in events:
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        return
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_r:
+                            # Change to RPG state and set RPG start state in state manager
+                            self.state = "rpg"
+                            g_state_manager.SetStates(self.states["rpg"])
+                            print("set state")
+                            g_state_manager.Change("start",{})  # Initialize RPGStartState
+                            print("change state")
+                        elif event.key == pygame.K_b:
+                            # Change to Battle state and set initial battle phase in state manager
+                            self.state = "battle"
+                            g_state_manager.SetStates(self.states["battle"])
+                            g_state_manager.Change(BattleState.PREPARATION_PHASE, {
+                                'deck': None,
+                                'player': None,
+                                'enemy': None
+                            })
 
-            #bg render
-            self.RenderBackground()
-            #render
-            g_state_manager.render()
-            
-            #screen update
-            pygame.display.update()
+            # Battle state
+            elif self.state == "battle":
+                g_state_manager.update(dt, events)
+                self.RenderBackground()
+                g_state_manager.render()
+                pygame.display.update()
 
-            for event in events:
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    return
+            # RPG state
+            elif self.state == "rpg":
+                g_state_manager.update(dt, events)
+                self.RenderBackground()  # Display the map
+                g_state_manager.render()  # Render player and other RPG elements
+                pygame.display.update()
 
 if __name__ == '__main__':
     main = GameMain()
-
     main.PlayGame()
