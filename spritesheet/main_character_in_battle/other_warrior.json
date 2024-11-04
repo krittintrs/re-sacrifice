@@ -2,7 +2,7 @@
   "type": "animation",
   "spriteSheetURL": "spritesheet/main_character_in_battle/other_warrior.png",
   "animations": {
-    "knockDown": {
+    "knockDown_warrior": {
       "sprites": [
         {
           "fileName": "warrior-knock-dwn-00.png",
@@ -55,7 +55,7 @@
         }
       ]
     },
-    "walk": {
+    "walk_warrior": {
       "sprites": [
         {
           "fileName": "warrior-walk-00.png",

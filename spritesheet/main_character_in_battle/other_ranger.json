@@ -2,7 +2,7 @@
   "type": "animation",
   "spriteSheetURL": "spritesheet/main_character_in_battle/other_ranger.png",
   "animations": {
-    "knockDown": {
+    "knockDown_ranger": {
       "sprites": [
         {
           "fileName": "ranger-knock-dwn-00.png",
@@ -55,7 +55,7 @@
         }
       ]
     },
-    "walk": {
+    "walk_ranger": {
       "sprites": [
         {
           "fileName": "ranger-walk-00.png",
