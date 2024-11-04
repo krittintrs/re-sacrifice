@@ -47,6 +47,10 @@ class BattlePreparationState(BaseState):
             self.enemy = Enemy("enemy")  
             self.enemy.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)
 
+        #Set up the initial default position of player and enemy
+        self.player.fieldTile_index  = 2
+        self.enemy.fieldTile_index = 7
+
         if len(self.player.deck.card_deck) > 0:
             print('player deck size: ', len(self.player.deck.card_deck))
         else:
