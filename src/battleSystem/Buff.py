@@ -58,12 +58,10 @@ class Buff():
 
             # Render buff or debuff icon border
             if is_positive:
-                screen.blit(sprite_collection['buff_icon'], (self.x + 10, 110))
-                pass
+                screen.blit(gBuffIcon_image_list["buff"], (self.x + 10, 110))
             elif is_negative:
                 # Red border for negative buff
-                pygame.draw.rect(screen, (255, 0, 0), (self.x + 10,
-                                 self.y, self.rect.width, self.rect.height), 1)
+                screen.blit(gBuffIcon_image_list["debuff"], (self.x + 10, 110))
 
             # try to render buff icon border
             # pygame.draw.rect(screen, (0, 0, 0), (buff_x_position, buff.y, buff.rect.width, buff.rect.height), 1)
