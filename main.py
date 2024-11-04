@@ -1,7 +1,11 @@
 import pygame
-from src.dependency import *
 
+pygame.mixer.pre_init(44100, -16, 2, 4096)
 pygame.init()
+music_channel = pygame.mixer.Channel(0)
+music_channel.set_volume(0.2)
+
+from src.dependency import *
 
 class GameMain:
     def __init__(self):

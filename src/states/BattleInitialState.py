@@ -117,8 +117,7 @@ class BattleInitialState(BaseState):
     
     def roll_dice(self):
         # Play dice sound
-        dice_sound = pygame.mixer.Sound("sounds/dice_roll.mp3")
-        dice_sound.play()
+        gSounds['dice_roll'].play()
 
         # Render dice rolling animation
         for _ in range(30):  # Increase the number of iterations for a smoother effect
