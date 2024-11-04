@@ -2,7 +2,10 @@ import pygame
 import json
 from src.EnumResources import EffectType
 from src.battleSystem.Card import Card
+from src.battleSystem.card_defs import CardConf
 from src.battleSystem.Effect import Effect
+from src.battleSystem.deck_defs import DeckConf
+import copy
 
 class Sprite:
     def __init__(self, image):
@@ -18,6 +21,8 @@ class SpriteManager:
             ]
         )
         self.spriteCollection["card"] = self.loadCards("./cards/cards_corrected.json")
+        self.spriteCollection["card_conf"] = self.loadCardConf("./cards/cards_corrected.json")
+
 
     # copy from breakout
     def loadSprites(self, urlList):
@@ -189,6 +194,64 @@ class SpriteManager:
                     afterEffect=temp_effect_dict["afterEffect"]
                 )
         return cardDict
+    
+
+    def loadCardConf(self, url):
+        card_conf= {} 
+        with open(url) as jsonData:
+            data = json.load(jsonData)
+            mySpritesheet = SpriteSheet(data["spriteSheetURL"])
+            for card in data["cards"]:
+                try:
+                    colorkey = card["sprite"]["colorKey"]
+                except KeyError:
+                    colorkey = None
+                try:
+                    xSize = card.get('xsize', data['size'][0])  # If xsize is not present, use default size
+                    ySize = card.get('ysize', data['size'][1])  # If ysize is not present, use default size
+                except KeyError:
+                    xSize, ySize = data['size']
+
+                # extract and create effects list for creating card
+                temp_effect_dict = {}
+                for type in card["effect"]:
+                    temp_effect_dict[type] = []
+                    if type == "buff":
+                        for effect in card["effect"].get(type, []):
+                            if effect:
+                                temp_effect_dict[type].append(Effect(effect["type"], effect["minRange"], effect["maxRange"], effect["buff"]))
+                    else:
+                        for effect in card["effect"].get(type, []):
+                            if effect:
+                                temp_effect_dict[type].append(Effect(effect["type"], effect["minRange"], effect["maxRange"]))
+
+                # Create the Card object for each card entry
+                card_conf[card["name"]] = CardConf(
+                    name=card["name"],
+                    description=card.get("description", ""),  # Use empty string if description is missing
+                    image=Sprite(
+                        mySpritesheet.image_at(
+                            card["sprite"]["x"],
+                            card["sprite"]["y"],
+                            card["sprite"]["scalefactor"],
+                            (255,0,255),
+                            xTileSize=xSize,
+                            yTileSize=ySize,
+                        )
+                    ).image,
+                    id=card["id"],
+                    class_=card["class"],
+                    type=card["type"],
+                    speed=card["speed"],
+                    attack=card["attack"],  
+                    defense=card["defense"],
+                    range_start=card["range_start"],
+                    range_end=card["range_end"],
+                    beforeEffect=temp_effect_dict["beforeEffect"],
+                    mainEffect=temp_effect_dict["mainEffect"],
+                    afterEffect=temp_effect_dict["afterEffect"]
+                )
+        return card_conf
 
 class SpriteSheet(object):
     def __init__(self, filename):
@@ -214,3 +277,20 @@ class SpriteSheet(object):
         return pygame.transform.scale(
             image, (xTileSize * scalingfactor, yTileSize * scalingfactor)
         )
+    
+class DeckLoader():
+    def __init__(self):
+        self.deck_conf = self.loadDeck()
+
+    def loadDeck(self):
+        url = "./cards/decks.json"
+        deck_conf = {}
+        with open(url) as jsonData:
+            data = json.load(jsonData)
+            for deck_type in data:
+                deck_conf[deck_type] = DeckConf(data[deck_type])
+        
+        return deck_conf
+    
+
+    
