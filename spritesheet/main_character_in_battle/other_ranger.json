@@ -1,97 +1,107 @@
 {
-  "sprites": [
-    {
-      "fileName": "adventurer-knock-dwn-00.png",
-      "width": 50,
-      "height": 37,
-      "x": 0,
-      "y": 0
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/main_character_in_battle/other_ranger.png",
+  "animations": {
+    "knockDown": {
+      "sprites": [
+        {
+          "fileName": "ranger-knock-dwn-00.png",
+          "width": 50,
+          "height": 37,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "fileName": "ranger-knock-dwn-01.png",
+          "width": 50,
+          "height": 37,
+          "x": 50,
+          "y": 0
+        },
+        {
+          "fileName": "ranger-knock-dwn-02.png",
+          "width": 50,
+          "height": 37,
+          "x": 100,
+          "y": 0
+        },
+        {
+          "fileName": "ranger-knock-dwn-03.png",
+          "width": 50,
+          "height": 37,
+          "x": 150,
+          "y": 0
+        },
+        {
+          "fileName": "ranger-knock-dwn-04.png",
+          "width": 50,
+          "height": 37,
+          "x": 0,
+          "y": 37
+        },
+        {
+          "fileName": "ranger-knock-dwn-05.png",
+          "width": 50,
+          "height": 37,
+          "x": 50,
+          "y": 37
+        },
+        {
+          "fileName": "ranger-knock-dwn-06.png",
+          "width": 50,
+          "height": 37,
+          "x": 100,
+          "y": 37
+        }
+      ]
     },
-    {
-      "fileName": "adventurer-knock-dwn-01.png",
-      "width": 50,
-      "height": 37,
-      "x": 50,
-      "y": 0
-    },
-    {
-      "fileName": "adventurer-knock-dwn-02.png",
-      "width": 50,
-      "height": 37,
-      "x": 100,
-      "y": 0
-    },
-    {
-      "fileName": "adventurer-knock-dwn-03.png",
-      "width": 50,
-      "height": 37,
-      "x": 150,
-      "y": 0
-    },
-    {
-      "fileName": "adventurer-knock-dwn-04.png",
-      "width": 50,
-      "height": 37,
-      "x": 0,
-      "y": 37
-    },
-    {
-      "fileName": "adventurer-knock-dwn-05.png",
-      "width": 50,
-      "height": 37,
-      "x": 50,
-      "y": 37
-    },
-    {
-      "fileName": "adventurer-knock-dwn-06.png",
-      "width": 50,
-      "height": 37,
-      "x": 100,
-      "y": 37
-    },
-    {
-      "fileName": "adventurer-walk-00.png",
-      "width": 50,
-      "height": 37,
-      "x": 150,
-      "y": 37
-    },
-    {
-      "fileName": "adventurer-walk-01.png",
-      "width": 50,
-      "height": 37,
-      "x": 0,
-      "y": 74
-    },
-    {
-      "fileName": "adventurer-walk-02.png",
-      "width": 50,
-      "height": 37,
-      "x": 50,
-      "y": 74
-    },
-    {
-      "fileName": "adventurer-walk-03.png",
-      "width": 50,
-      "height": 37,
-      "x": 100,
-      "y": 74
-    },
-    {
-      "fileName": "adventurer-walk-04.png",
-      "width": 50,
-      "height": 37,
-      "x": 150,
-      "y": 74
-    },
-    {
-      "fileName": "adventurer-walk-05.png",
-      "width": 50,
-      "height": 37,
-      "x": 0,
-      "y": 111
+    "walk": {
+      "sprites": [
+        {
+          "fileName": "ranger-walk-00.png",
+          "width": 50,
+          "height": 37,
+          "x": 150,
+          "y": 37
+        },
+        {
+          "fileName": "ranger-walk-01.png",
+          "width": 50,
+          "height": 37,
+          "x": 0,
+          "y": 74
+        },
+        {
+          "fileName": "ranger-walk-02.png",
+          "width": 50,
+          "height": 37,
+          "x": 50,
+          "y": 74
+        },
+        {
+          "fileName": "ranger-walk-03.png",
+          "width": 50,
+          "height": 37,
+          "x": 100,
+          "y": 74
+        },
+        {
+          "fileName": "ranger-walk-04.png",
+          "width": 50,
+          "height": 37,
+          "x": 150,
+          "y": 74
+        },
+        {
+          "fileName": "ranger-walk-05.png",
+          "width": 50,
+          "height": 37,
+          "x": 0,
+          "y": 111
+        }
+      ]
     }
-  ],
+  },
   "packMode": "grid",
   "padding": 0,
   "backgroundColor": "rgba(0, 0, 0, 0)",
