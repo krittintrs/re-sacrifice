@@ -38,8 +38,10 @@ class BattlePreparationState(BaseState):
         self.enemy = params['enemy']
 
         if self.player is None:
+            # mock player class
+            
             # mock player
-            self.player = Player("player")
+            self.player = Player("player", )
             self.player.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)
 
         if self.enemy is None:

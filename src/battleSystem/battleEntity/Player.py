@@ -1,4 +1,5 @@
 from src.battleSystem.battleEntity.Entity import Entity
+from src.dependency import *
 
 
 class Player(Entity):
@@ -12,6 +13,8 @@ class Player(Entity):
 
     def render(self, screen, x, y):
         # Call the parent render method
-        super().render(screen, x, y, (0, 255, 0))
+        # super().render(screen, x, y, (0, 255, 0))
+
         # Add player-specific rendering logic here if needed
+        screen.blit(self.image, (x, y))
         pass

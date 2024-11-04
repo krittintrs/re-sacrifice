@@ -1,0 +1,109 @@
+{
+    "type": "animation",
+    "spriteSheetURL": "spritesheet/main_character_in_battle/mage.png",
+    "animations": {
+      "cast_mage": {
+        "sprites": [
+          {
+            "fileName": "cast_mage1",
+            "width": 50,
+            "height": 37,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "fileName": "cast_mage2",
+            "width": 50,
+            "height": 37,
+            "x": 50,
+            "y": 0
+          },
+          {
+            "fileName": "cast_mage3",
+            "width": 50,
+            "height": 37,
+            "x": 100,
+            "y": 0
+          },
+          {
+            "fileName": "cast_mage4",
+            "width": 50,
+            "height": 37,
+            "x": 150,
+            "y": 0
+          }
+        ]
+      },
+      "castloop_mage": {
+        "sprites": [
+          {
+            "fileName": "castloop_mage1",
+            "width": 50,
+            "height": 37,
+            "x": 200,
+            "y": 0
+          },
+          {
+            "fileName": "castloop_mage2",
+            "width": 50,
+            "height": 37,
+            "x": 0,
+            "y": 37
+          }
+        ]
+      },
+      "multiAttack_mage": {
+        "sprites": [
+          {
+            "fileName": "multi_mage1",
+            "width": 50,
+            "height": 37,
+            "x": 50,
+            "y": 37
+          },
+          {
+            "fileName": "multi_mage2",
+            "width": 50,
+            "height": 37,
+            "x": 200,
+            "y": 37
+          }
+        ]
+      },
+      "singleAttack_mage": {
+        "sprites": [
+          {
+            "fileName": "single_mage1",
+            "width": 50,
+            "height": 37,
+            "x": 200,
+            "y": 74
+          }
+        ]
+      },
+      "idle_mage": {
+        "sprites": [
+          {
+            "fileName": "idle_mage1",
+            "width": 50,
+            "height": 37,
+            "x": 200,
+            "y": 111
+          },
+          {
+            "fileName": "idle_mage2",
+            "width": 50,
+            "height": 37,
+            "x": 0,
+            "y": 148
+          }
+        ]
+      }
+    },
+    "packMode": "grid",
+    "padding": 0,
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "spriteSheetWidth": 250,
+    "spriteSheetHeight": 185
+  }
+  

@@ -20,6 +20,11 @@ class SpriteManager:
             [
                 "./spritesheet/BuffDebuff/BuffDebuff.json",
                 "./spritesheet/main_character_in_battle/warrior.json",
+                "./spritesheet/main_character_in_battle/ranger.json",
+                "./spritesheet/main_character_in_battle/mage.json",
+                "./spritesheet/main_character_in_battle/other_warrior.json",
+                "./spritesheet/main_character_in_battle/other_ranger.json",
+                "./spritesheet/main_character_in_battle/other_mage.json"
             ]
         )
         self.spriteCollection["card"] = self.loadCards("./cards/cards_corrected.json")
