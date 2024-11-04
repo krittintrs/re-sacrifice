@@ -83,7 +83,7 @@ class BattleInitialState(BaseState):
         if self.roll:
             screen.blit(pygame.font.Font(None, 36).render("Cards:    Press Enter start", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))
             if self.dice < 4:
-                text = f'{self.currentTurnOwner.value} got {dice_roll_buff[self.dice - 1].name}'
+                text = f'{self.currentTurnOwner.value} got {DICE_ROLL_BUFF[self.dice - 1].name}'
             else:
                 text = f'{self.currentTurnOwner.value} got No Buff'
 
@@ -133,7 +133,7 @@ class BattleInitialState(BaseState):
     def dice_buff(self, diceNumber):
         print(f'Dice Number: {diceNumber}')
         if diceNumber < 4:                      # 1, 2, 3
-            buff = Buff(dice_roll_buff[diceNumber - 1])   # Get the buff based on the dice number
+            buff = Buff(DICE_ROLL_BUFF[diceNumber - 1])   # Get the buff based on the dice number
             if self.currentTurnOwner == PlayerType.PLAYER:   
                 self.player.add_buff(buff)
             elif self.currentTurnOwner == PlayerType.ENEMY:
