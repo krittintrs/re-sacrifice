@@ -4,6 +4,7 @@ from src.constants import *
 from src.battleSystem.Buff import Buff
 from src.battleSystem.Effect import Effect
 from src.battleSystem.battleEntity.Entity import * 
+from src.Render import *
 import pygame
 import sys
 
@@ -116,8 +117,8 @@ class BattleActionState(BaseState):
             self.effectOrder["after"].append([afterEffect, entityType])
 
     def render(self, screen):  
-        # Turn
-        screen.blit(pygame.font.Font(None, 36).render(f"Turn {self.turn}", True, (0, 0, 0)), (10, 10))   
+        RenderTurn(screen, 'Action State', self.turn, self.currentTurnOwner)
+        RenderEntityStats(screen, self.player, self.enemy)
 
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):

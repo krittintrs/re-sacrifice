@@ -1,6 +1,7 @@
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
+from src.Render import *
 import pygame
 import sys
 
@@ -117,8 +118,8 @@ class SelectMoveState(BaseState):
             buff.update(dt, events)
 
     def render(self, screen):
-        # Turn
-        screen.blit(pygame.font.Font(None, 36).render(f"SelectMoveState - Turn {self.turn} - {self.effectOwner}", True, (0, 0, 0)), (10, 10))   
+        RenderTurn(screen, 'SelectMoveState', self.turn, self.currentTurnOwner)
+        RenderEntityStats(screen, self.player, self.enemy)
 
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):

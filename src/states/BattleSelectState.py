@@ -1,6 +1,7 @@
 import pygame
 import sys
 from src.dependency import *
+from src.Render import *
 
 class BattleSelectState(BaseState):
     def __init__(self):
@@ -72,8 +73,8 @@ class BattleSelectState(BaseState):
         self.selected_index = newIndex
 
     def render(self, screen):
-        # Turn
-        screen.blit(pygame.font.Font(None, 36).render(f"Selection Phase - Turn {self.turn}", True, (0, 0, 0)), (10, 10))   
+        RenderTurn(screen, 'Selection State', self.turn, self.currentTurnOwner)
+        RenderEntityStats(screen, self.player, self.enemy)
 
         # Title
         screen.blit(pygame.font.Font(None, 36).render("Select Card: Press Enter to Confirm", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   

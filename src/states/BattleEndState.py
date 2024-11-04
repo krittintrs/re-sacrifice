@@ -1,6 +1,7 @@
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
+from src.Render import *
 import pygame
 import sys
 
@@ -67,8 +68,8 @@ class BattleEndState(BaseState):
             buff.update(dt, events)
 
     def render(self, screen):
-        # Turn
-        screen.blit(pygame.font.Font(None, 36).render(f"End Phase - Turn {self.turn}", True, (0, 0, 0)), (10, 10))   
+        RenderTurn(screen, 'End State', self.turn, self.currentTurnOwner)
+        RenderEntityStats(screen, self.player, self.enemy)
 
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
@@ -77,5 +78,6 @@ class BattleEndState(BaseState):
         # Render field
         for fieldTile in self.field:
             fieldTile.render(screen, len(self.field))
+
 
         

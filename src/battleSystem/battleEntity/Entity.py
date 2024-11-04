@@ -16,11 +16,25 @@ class Entity:
 
         # Entity Stats
         self.health = health
+        self.attack = 0
+        self.defense = 0
+        self.speed = 0
         self.stunt = False
         self.buffs = [] # list of buff (or debuff?) apply on entity
 
     def print_stats(self):
-        print(f'{self.name} stats - HP: {self.health}, ATK: {self.attack}, DEF: {self.defense}, SPD: {self.speed}, RNG: {self.range}')
+        print(f'{self.name} stats - HP: {self.health}, ATK: {self.attack}, DEF: {self.defense}, SPD: {self.speed}')
+
+    def display_stats(self):
+        self.attack = self.selectedCard.buffed_attack
+        self.defense = self.selectedCard.buffed_defense
+        self.speed = self.selectedCard.buffed_speed
+
+    def reset_stats(self):
+        self.attack = 0
+        self.defense = 0
+        self.speed = 0
+        self.range = 0
 
     def print_buffs(self):
         for buff in self.buffs:

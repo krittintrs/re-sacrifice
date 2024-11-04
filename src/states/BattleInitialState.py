@@ -2,6 +2,7 @@ from src.dependency import *
 from src.constants import *
 from src.battleSystem.FieldTile import FieldTile
 from src.battleSystem.Buff import *
+from src.Render import *
 import pygame
 import sys
 import random
@@ -76,9 +77,9 @@ class BattleInitialState(BaseState):
             buff.update(dt, events)
 
     def render(self, screen):
-        # Turn
-        screen.blit(pygame.font.Font(None, 36).render(f"Initial Phase - Turn {self.turn}: {self.currentTurnOwner.value}'s turn", True, (0, 0, 0)), (10, 10))   
-
+        RenderTurn(screen, 'Initial State', self.turn, self.currentTurnOwner)
+        RenderEntityStats(screen, self.player, self.enemy)
+            
         # Title
         if self.roll:
             screen.blit(pygame.font.Font(None, 36).render("Cards:    Press Enter start", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))
