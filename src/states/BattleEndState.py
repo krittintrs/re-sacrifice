@@ -16,13 +16,7 @@ class BattleEndState(BaseState):
         self.field = params['field']
         self.turn = params['turn']
         self.currentTurnOwner = params['currentTurnOwner']  
-
-        # For Debug Buffs
-        print(f'Player Buffs: {self.player.buffs}')
-        self.player.print_buffs()
-        print(f'Enemy Buffs: {self.enemy.buffs}')
-        self.enemy.print_buffs()
-
+        
     def next_turn(self):
         # Change turn owner
         if self.currentTurnOwner == PlayerType.PLAYER:

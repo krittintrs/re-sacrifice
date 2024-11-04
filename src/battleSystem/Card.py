@@ -56,6 +56,19 @@ class Card:
     def print_stats(self):
         print(f'{self.name} stats - ATK: {self.attack}, DEF: {self.defense}, SPD: {self.speed}, RNG: {self.range_start}-{self.range_end}')
 
+    def print_effects(self):
+        print(f'{self.name} effects')
+        print('Before Effects:')
+        for effect in self.beforeEffect:
+            print(effect.type)
+        print('Main Effects:')
+        for effect in self.mainEffect:
+            print(effect.type)
+        print('After Effects:')
+        for effect in self.afterEffect:
+            print(effect.type)
+        print('>>>>>>>>><<<<<<<<<<')
+
     def reset_stats(self):
         self.buffed_attack = self.attack
         self.buffed_defense = self.defense

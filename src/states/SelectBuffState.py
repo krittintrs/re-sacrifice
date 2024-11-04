@@ -64,6 +64,18 @@ class SelectBuffState(BaseState):
         
         self.avilableBuffTile = list( dict.fromkeys(self.avilableBuffTile) )
 
+        print('\n!!!! SelectBuffState !!!!')
+        print(f'Owner: {self.effectOwner}')
+        print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
+
+        # apply buff to all cards on hand
+        self.player.apply_buffs_to_cardsOnHand()
+        self.enemy.apply_buffs_to_cardsOnHand()
+
+        # display entity stats
+        self.player.display_stats()
+        self.enemy.display_stats()
+
     def Exit(self):
         pass
 
@@ -89,10 +101,6 @@ class SelectBuffState(BaseState):
                             if self.selectBuffTile > len(self.avilableBuffTile) - 1:
                                 self.selectBuffTile = 0
                 if event.key == pygame.K_RETURN:
-                    print('!!!! SelectBuffState !!!!')
-                    print(f'Owner: {self.effectOwner}')
-                    print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
-
                     if self.effectOwner == PlayerType.PLAYER:
                         if self.selectffTile>=0 and self.effect.maxRange>0:
                             if self.field[self.avilableAttackTile[self.selectAttackTile]].is_occupied():
@@ -119,6 +127,7 @@ class SelectBuffState(BaseState):
     def render(self, screen):
         RenderTurn(screen, 'SelectBuffState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
+        RenderEntitySelection(screen, self.player, self.enemy)
 
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):

@@ -65,6 +65,18 @@ class SelectAttackState(BaseState):
         
         self.avilableAttackTile = list( dict.fromkeys(self.avilableAttackTile) )
 
+        print('\n!!!! SelectAttackState !!!!')
+        print(f'Owner: {self.effectOwner}')
+        print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
+
+        # apply buff to all cards on hand
+        self.player.apply_buffs_to_cardsOnHand()
+        self.enemy.apply_buffs_to_cardsOnHand()
+
+        # display entity stats
+        self.player.display_stats()
+        self.enemy.display_stats()
+
     def Exit(self):
         pass
 
@@ -90,19 +102,17 @@ class SelectAttackState(BaseState):
                         if self.selectAttackTile > len(self.avilableAttackTile) - 1:
                             self.selectAttackTile = 0
                 if event.key == pygame.K_RETURN:
-                    print('!!!! SelectAttackState !!!!')
-                    print(f'Owner: {self.effectOwner}')
-                    print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
-
                     if self.effectOwner == PlayerType.PLAYER:
                         if self.selectAttackTile>=0 and self.effect.maxRange>0:
                             if self.field[self.avilableAttackTile[self.selectAttackTile]].is_occupied():
                                 damage = self.player.attack - self.field[self.avilableAttackTile[self.selectAttackTile]].entity.defense
                                 if damage > 0:
+                                    gSounds['attack'].play()
                                     self.field[self.avilableAttackTile[self.selectAttackTile]].entity.health -= damage
                                     self.field[self.avilableAttackTile[self.selectAttackTile]].entity.stunt = True
                                     print(f'{self.field[self.avilableAttackTile[self.selectAttackTile]].entity} takes {damage} damage')
                                 else:
+                                    gSounds['block'].play()
                                     print(f'{self.field[self.avilableAttackTile[self.selectAttackTile]].entity} takes no damage')
                                 self.field[self.avilableAttackTile[self.selectAttackTile]].entity.print_stats()
                             else:
@@ -127,6 +137,7 @@ class SelectAttackState(BaseState):
     def render(self, screen):
         RenderTurn(screen, 'SelectAttackState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
+        RenderEntitySelection(screen, self.player, self.enemy)
 
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):

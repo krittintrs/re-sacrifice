@@ -18,15 +18,13 @@ class BattleResolveState(BaseState):
         self.currentTurnOwner = params['currentTurnOwner']  
         self.effectOrder = params['effectOrder']
 
-        # For Debug Buffs
-        print(f'Player Buffs: {self.player.buffs}')
-        self.player.print_buffs()
-        print(f'Enemy Buffs: {self.enemy.buffs}')
-        self.enemy.print_buffs()
-
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
         self.enemy.apply_buffs_to_cardsOnHand()
+
+        # display entity stats
+        self.player.display_stats()
+        self.enemy.display_stats()
 
     def Exit(self):
         pass
@@ -113,6 +111,7 @@ class BattleResolveState(BaseState):
     def render(self, screen):
         RenderTurn(screen, 'Resolve State', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
+        RenderEntitySelection(screen, self.player, self.enemy)
 
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):

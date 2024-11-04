@@ -63,6 +63,17 @@ class SelectMoveState(BaseState):
         
         self.avilableMoveTile = list( dict.fromkeys(self.avilableMoveTile) )
         
+        print('\n!!!! SelectMoveState !!!!')
+        print(f'Owner: {self.effectOwner}')
+        print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
+        
+        # apply buff to all cards on hand
+        self.player.apply_buffs_to_cardsOnHand()
+        self.enemy.apply_buffs_to_cardsOnHand()
+
+        # display entity stats
+        self.player.display_stats()
+        self.enemy.display_stats()
 
     def Exit(self):
         pass
@@ -89,10 +100,6 @@ class SelectMoveState(BaseState):
                         if self.selectMoveTile > len(self.avilableMoveTile) - 1:
                             self.selectMoveTile = 0
                 if event.key == pygame.K_RETURN:
-                    print('!!!! SelectMoveState !!!!')
-                    print(f'Owner: {self.effectOwner}')
-                    print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
-
                     if self.effectOwner == PlayerType.PLAYER:
                         if self.selectMoveTile>=0 and self.effect.maxRange>0:
                             if not self.field[self.avilableMoveTile[self.selectMoveTile]].is_occupied():
@@ -120,6 +127,7 @@ class SelectMoveState(BaseState):
     def render(self, screen):
         RenderTurn(screen, 'SelectMoveState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
+        RenderEntitySelection(screen, self.player, self.enemy)
 
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):

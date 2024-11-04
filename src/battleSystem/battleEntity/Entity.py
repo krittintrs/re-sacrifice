@@ -63,7 +63,6 @@ class Entity:
                     buff.apply(card)
 
     def select_card(self, card):
-        print(f'\t{self.name} selected card: {card.name}')
         self.selectedCard = card
         self.selectedCard.isSelected = True
 
@@ -81,6 +80,9 @@ class Entity:
         for buff in self.buffs:
             if not buff.is_active():
                 self.buffs.remove(buff)
+
+        # reset entity stats
+        self.reset_stats()
  
     def select_position(self, index): 
         self.index = index
