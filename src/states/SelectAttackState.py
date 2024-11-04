@@ -119,15 +119,29 @@ class SelectAttackState(BaseState):
                                 print("no entity on the targeted tile")
                         else:
                             print("there is no attack happen")
-
-                    g_state_manager.Change(BattleState.RESOLVE_PHASE, {
-                        'player': self.player,
-                        'enemy': self.enemy,
-                        'field': self.field,
-                        'turn': self.turn,
-                        'currentTurnOwner': self.currentTurnOwner,
-                        'effectOrder': self.effectOrder
-                    })
+                    
+                    if self.player.health > 0 and self.enemy.health > 0:
+                        g_state_manager.Change(BattleState.RESOLVE_PHASE, {
+                            'player': self.player,
+                            'enemy': self.enemy,
+                            'field': self.field,
+                            'turn': self.turn,
+                            'currentTurnOwner': self.currentTurnOwner,
+                            'effectOrder': self.effectOrder
+                        })
+                    else:
+                        if self.player.health <= 0:
+                            self.winner = PlayerType.ENEMY
+                        elif self.enemy.health <= 0:
+                            self.winner = PlayerType.PLAYER
+                        g_state_manager.Change(BattleState.FINISH_PHASE, {
+                            'player': self.player,
+                            'enemy': self.enemy,
+                            'field': self.field,
+                            'turn': self.turn,
+                            'currentTurnOwner': self.currentTurnOwner,
+                            'winner': self.winner
+                        })
                     
         for buff in self.player.buffs:
             buff.update(dt, events)

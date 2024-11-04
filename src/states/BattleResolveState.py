@@ -57,13 +57,27 @@ class BattleResolveState(BaseState):
                 self.resolveCardEffect(effectDetail[0], effectDetail[1])
                 self.effectOrder["after"].remove(effectDetail)
         else:
-            g_state_manager.Change(BattleState.END_PHASE, {
-                'player': self.player,
-                'enemy': self.enemy,
-                'field': self.field,
-                'turn': self.turn,
-                'currentTurnOwner': self.currentTurnOwner
-            })
+            if self.player.health > 0 and self.enemy.health > 0:
+                g_state_manager.Change(BattleState.END_PHASE, {
+                    'player': self.player,
+                    'enemy': self.enemy,
+                    'field': self.field,
+                    'turn': self.turn,
+                    'currentTurnOwner': self.currentTurnOwner
+                })
+            else:
+                if self.player.health <= 0:
+                    self.winner = PlayerType.ENEMY
+                elif self.enemy.health <= 0:
+                    self.winner = PlayerType.PLAYER
+                g_state_manager.Change(BattleState.FINISH_PHASE, {
+                    'player': self.player,
+                    'enemy': self.enemy,
+                    'field': self.field,
+                    'turn': self.turn,
+                    'currentTurnOwner': self.currentTurnOwner,
+                    'winner': self.winner
+                })
             
     # Update buff
         for buff in self.player.buffs:
