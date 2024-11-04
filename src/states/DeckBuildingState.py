@@ -59,8 +59,14 @@ class DeckBuildingState(BaseState):
         
 
     def Enter(self, params):
-        self.player = params['player']
-        self.player.deck = Deck()
+        self.edit_player_deck = params['edit_player_deck']
+        if self.edit_player_deck:
+            self.player = params['player']
+            self.enemy = params['enemy']
+        else:
+            self.player = params['enemy']
+            self.enemy = params['player']
+
 
         self.availableCard = self.inventory
 
@@ -212,11 +218,33 @@ class DeckBuildingState(BaseState):
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
+                elif event.key == pygame.K_d:
+                    self.deckIndex = 0
+                    self.player.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)
+                elif event.key == pygame.K_w:
+                    self.deckIndex = 0
+                    self.player.deck.read_conf(DECK_DEFS["warrior"], CARD_DEFS)
+                elif event.key == pygame.K_r:
+                    self.deckIndex = 0
+                    self.player.deck.read_conf(DECK_DEFS["ranger"], CARD_DEFS)
+                elif event.key == pygame.K_m:
+                    self.deckIndex = 0
+                    self.player.deck.read_conf(DECK_DEFS["mage"], CARD_DEFS)
+
                 elif event.key == pygame.K_RETURN:
-                    g_state_manager.Change(BattleState.PREPARATION_PHASE, {
-                        'player': self.player,
-                        'enemy': None
-                    })
+                    if self.player.deck.isCardMinimumReach():
+                        if self.edit_player_deck:
+                            g_state_manager.Change(BattleState.PREPARATION_PHASE, {
+                                'player': self.player,
+                                'enemy': self.enemy
+                            })
+                        else:
+                            g_state_manager.Change(BattleState.PREPARATION_PHASE, {
+                                'player': self.enemy,
+                                'enemy': self.player
+                            })
+                    else:
+                        print("Player deck must have at least 20 cards")
 
             
 

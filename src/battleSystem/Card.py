@@ -2,7 +2,7 @@ import pygame
 from src.dependency import *
 
 class Card:
-    def __init__(self, id, name, class_, type, description, image, attack, defense, speed, range_start, range_end, beforeEffect = [], mainEffect = [], afterEffect = []):
+    def __init__(self, id=None, name=None, class_=None, type=None, description=None, image=None, attack=None, defense=None, speed=None, range_start=None, range_end=None, beforeEffect = [], mainEffect = [], afterEffect = []):
         # For Render
         self.id = id
         self.class_ = class_
@@ -30,6 +30,28 @@ class Card:
         self.beforeEffect = beforeEffect # list of Effects
         self.mainEffect = mainEffect
         self.afterEffect = afterEffect
+
+    def read_conf(self, conf):
+        # For Render
+        self.id = conf.id
+        self.class_ = conf.class_
+        self.type = conf.type
+        self.name = conf.name
+        self.description = conf.description
+        self.image = conf.image
+        self.isSelected = False
+
+        # Card Stats
+        self.attack = conf.attack
+        self.defense = conf.defense
+        self.speed = conf.speed
+        self.range_start = conf.range_start
+        self.range_end = conf.range_end
+
+        # Card Effects
+        self.beforeEffect = getattr(conf, "beforeEffect", [])
+        self.mainEffect = getattr(conf, "mainEffect", [])
+        self.afterEffect = getattr(conf, "afterEffect", [])
 
     def print_stats(self):
         print(f'{self.name} stats - ATK: {self.attack}, DEF: {self.defense}, SPD: {self.speed}, RNG: {self.range_start}-{self.range_end}')

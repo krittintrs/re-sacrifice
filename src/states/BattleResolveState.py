@@ -46,6 +46,7 @@ class BattleResolveState(BaseState):
         
         if self.effectOrder["before"]:
             for effectDetail in self.effectOrder["before"]:
+                print(effectDetail[0].type)
                 self.resolveCardEffect(effectDetail[0], effectDetail[1])
                 self.effectOrder["before"].remove(effectDetail)
         elif self.effectOrder["main"]:

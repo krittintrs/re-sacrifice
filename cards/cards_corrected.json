@@ -95,8 +95,8 @@
                 "mainEffect": [
                     {
                         "type": "move",
-                        "minRange": 0,
-                        "maxRange": 0
+                        "minRange": 1,
+                        "maxRange": 1
                     }
                 ],
                 "afterEffect": [
