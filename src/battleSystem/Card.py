@@ -19,6 +19,13 @@ class Card:
         self.range_start = range_start
         self.range_end = range_end
 
+        # Card Buffed Stats
+        self.buffed_attack = attack
+        self.buffed_defense = defense
+        self.buffed_speed = speed
+        self.buffed_range_start = range_start
+        self.buffed_range_end = range_end
+
         # Card Effects
         self.beforeEffect = beforeEffect # list of Effects
         self.mainEffect = mainEffect
@@ -48,7 +55,14 @@ class Card:
 
     def print_stats(self):
         print(f'{self.name} stats - ATK: {self.attack}, DEF: {self.defense}, SPD: {self.speed}, RNG: {self.range_start}-{self.range_end}')
-        
+
+    def reset_stats(self):
+        self.buffed_attack = self.attack
+        self.buffed_defense = self.defense
+        self.buffed_speed = self.speed
+        self.buffed_range_start = self.range_start
+        self.buffed_range_end = self.range_end
+
     def start(self, entity, enemy, field):
         # Perform card action
         pass
@@ -74,35 +88,56 @@ class Card:
         screen.blit(self.image, (start_x, start_y))
 
         # Draw card modified numbers
-        color = (0, 0, 0)
-        self.buff = None
-        if self.buff == 'buff':
-            color = (0, 167, 0)
-        elif self.buff == 'debuff':
-            color = (230, 0, 0)
+        normal_color = (0, 0, 0)
+        buff_color = (0, 167, 0)
+        debuff_color = (230, 0, 0)
+        
         # Draw the speed value
+        if self.buffed_speed > self.speed:
+            color = buff_color
+        elif self.buffed_speed < self.speed:
+            color = debuff_color
+        else:
+            color = normal_color
         font = pygame.font.Font(None, 24)
-        text = font.render(f'{self.speed}', True, color)
+        text = font.render(f'{self.buffed_speed}', True, color)
         screen.blit(text, (start_x + 171, start_y + 15))
 
         # Draw the attack value
+        if self.buffed_attack > self.attack:
+            color = buff_color
+        elif self.buffed_attack < self.attack:
+            color = debuff_color
+        else:
+            color = normal_color
         font = pygame.font.Font(None, 20)
-        text = font.render(f'{self.attack}', True, color)
+        text = font.render(f'{self.buffed_attack}', True, color)
         screen.blit(text, (start_x + 45, start_y + 212))
 
         # Draw the range value
+        if self.buffed_range_end > self.range_end:
+            color = buff_color
+        elif self.buffed_range_end < self.range_end:
+            color = debuff_color
+        else:
+            color = normal_color
         if self.range_start == self.range_end:
             font2 = pygame.font.Font(None, 20)
-            text = font2.render(f'{self.range_start}', True, color)
+            text = font2.render(f'{self.buffed_range_end}', True, color)
             screen.blit(text, (start_x + 96, start_y + 212))
         else:
             font2 = pygame.font.Font(None, 16)
-            text = font2.render(f'{self.range_start}-{self.range_end}', True, color)
+            text = font2.render(f'{self.buffed_range_start}-{self.buffed_range_end}', True, color)
             screen.blit(text, (start_x + 91, start_y + 213))
-        
 
         # Draw the defense value
-        text = font.render(f'{self.defense}', True, color)
+        if self.buffed_defense > self.defense:
+            color = buff_color
+        elif self.buffed_defense < self.defense:
+            color = debuff_color
+        else:
+            color = normal_color
+        text = font.render(f'{self.buffed_defense}', True, color)
         screen.blit(text, (start_x + 146, start_y + 212))
 
         # if selected

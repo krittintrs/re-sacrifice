@@ -24,7 +24,7 @@ class BattlePreparationState(BaseState):
     def mockDeck(self):
         deck = Deck()
         for i, card in enumerate(card_dict.values()):
-            deck.addCard(card)
+            deck.addCard(copy.copy(card))
         return deck
     
     def initialDraw(self):
@@ -94,6 +94,12 @@ class BattlePreparationState(BaseState):
                             'enemy':self.enemy,
                             'edit_player_deck':False
                         })
+
+        # Update buff
+        for buff in self.player.buffs:
+            buff.update(dt, events)
+        for buff in self.enemy.buffs:
+            buff.update(dt, events)
 
 
     def render(self, screen):

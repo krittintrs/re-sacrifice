@@ -16,15 +16,15 @@ class Entity:
 
         # Entity Stats
         self.health = health
-        self.attack = 0
-        self.defense = 0
-        self.speed = 0
-        self.range = 0
         self.stunt = False
         self.buffs = [] # list of buff (or debuff?) apply on entity
 
     def print_stats(self):
         print(f'{self.name} stats - HP: {self.health}, ATK: {self.attack}, DEF: {self.defense}, SPD: {self.speed}, RNG: {self.range}')
+
+    def print_buffs(self):
+        for buff in self.buffs:
+            buff.print()
 
     def move_to(self, fieldTile, field):
         if fieldTile.is_occupied():  # Check if the fieldTile is occupied
@@ -41,20 +41,17 @@ class Entity:
     def add_buff(self, buff):
         self.buffs.append(buff)
     
-    def apply_existing_buffs(self):
-        for buff in self.buffs:
-            if buff.is_active():
-                buff.apply(self)
+    def apply_buffs_to_cardsOnHand(self):
+        for card in self.cardsOnHand:
+            card.reset_stats()
+            for buff in self.buffs:
+                if buff.is_active():
+                    buff.apply(card)
 
     def select_card(self, card):
         print(f'\t{self.name} selected card: {card.name}')
         self.selectedCard = card
         self.selectedCard.isSelected = True
-
-        # self.attack = card.attack
-        # self.defense = card.defense
-        # self.speed = card.speed
-        # self.range = card.range
 
     def next_turn(self):
         # remove selected card and draw new card
@@ -62,15 +59,12 @@ class Entity:
         self.selectedCard = None
         self.cardsOnHand.append(self.deck.draw(1)[0])
 
-        # reset stats
-        self.attack = 0
-        self.defense = 0
-        self.speed = 0
-        self.range = 0
-
-        # reset buffs
+        # count down buffs
         for buff in self.buffs:
             buff.next_turn()
+
+        # remove expired buffs
+        for buff in self.buffs:
             if not buff.is_active():
                 self.buffs.remove(buff)
  
@@ -87,6 +81,11 @@ class Entity:
 
         # Render the entity (you can customize this)
         pygame.draw.rect(screen, color, (entity_x, entity_y, entity_width, entity_height))  # Red square as placeholder
+
+        # Render Buff Icon
+        for index, buff in enumerate(self.buffs):
+            buff.x = entity_x + index * 20
+            buff.render(screen)
 
     def update(self, dt, events):
         pass

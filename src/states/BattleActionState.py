@@ -22,7 +22,7 @@ class BattleActionState(BaseState):
             - currentTurnOwner = TurnOwner : current turn owner
         """
 
-        print(">>>>>> Enter BattleActionState <<<<<<")
+        print("\n>>>>>> Enter BattleActionState <<<<<<")
         self.player = params['player']
         self.enemy = params['enemy']
         self.field = params['field']
@@ -55,9 +55,15 @@ class BattleActionState(BaseState):
         self.enemy.select_card(new_card)
         # self.enemy.move_to(self.field[7],self.field)
 
-        # apply existing buff
-        self.player.apply_existing_buffs()
-        self.enemy.apply_existing_buffs()
+        # For Debug Buffs
+        print(f'Player Buffs: {self.player.buffs}')
+        self.player.print_buffs()
+        print(f'Enemy Buffs: {self.enemy.buffs}')
+        self.enemy.print_buffs()
+        
+        # apply buff to all cards on hand
+        self.player.apply_buffs_to_cardsOnHand()
+        self.enemy.apply_buffs_to_cardsOnHand()
 
     def Exit(self):
         pass
@@ -72,11 +78,14 @@ class BattleActionState(BaseState):
                     pygame.quit()
                     sys.exit()
 
-        if self.player.speed > self.enemy.speed or (self.player.speed == self.enemy.speed and self.currentTurnOwner == PlayerType.PLAYER):
+        playerSpeed = self.player.selectedCard.buffed_speed
+        enemySpeed = self.enemy.selectedCard.buffed_speed
+
+        if playerSpeed > enemySpeed or (playerSpeed == enemySpeed and self.currentTurnOwner == PlayerType.PLAYER):
             self.appendEffects(self.player, PlayerType.PLAYER)
             self.appendEffects(self.enemy, PlayerType.ENEMY)
 
-        elif self.player.speed < self.enemy.speed or (self.player.speed == self.enemy.speed and self.currentTurnOwner == PlayerType.ENEMY):
+        elif playerSpeed < enemySpeed or (playerSpeed == enemySpeed and self.currentTurnOwner == PlayerType.ENEMY):
             self.appendEffects(self.enemy, PlayerType.ENEMY)
             self.appendEffects(self.player, PlayerType.PLAYER)
 
@@ -91,6 +100,12 @@ class BattleActionState(BaseState):
             'currentTurnOwner': self.currentTurnOwner,
             'effectOrder': self.effectOrder
         })
+    
+        # Update buff
+        for buff in self.player.buffs:
+            buff.update(dt, events)
+        for buff in self.enemy.buffs:
+            buff.update(dt, events)
 
     def appendEffects(self, entity, entityType):
         for beforeEffect in entity.selectedCard.beforeEffect:
