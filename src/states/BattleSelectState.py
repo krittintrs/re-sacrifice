@@ -28,6 +28,8 @@ class BattleSelectState(BaseState):
         self.player.apply_buffs_to_cardsOnHand()
         self.enemy.apply_buffs_to_cardsOnHand()
 
+        self.player.ChangeAnimation("cast")
+
     def Exit(self):
         pass
     

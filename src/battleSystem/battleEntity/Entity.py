@@ -8,7 +8,7 @@ class Entity:
         self.fieldTile_index = None  # Keep track of which field it is on
         self.image = image
         self.animation_list = animation_list
-        self.curr_animation = "single_attack"  # Start with the idle animation
+        self.curr_animation = "idle"  # Start with the idle animation
         self.frame_index = 0  # Frame index for animations
         self.frame_timer = 0  # Timer to manage frame rate
         self.frame_duration = 0.1  # Duration for each frame (adjust as needed)
@@ -87,8 +87,9 @@ class Entity:
         if self.animation_list and self.curr_animation in self.animation_list:
             # Retrieve frames from the animation object
             animation = self.animation_list[self.curr_animation]
-            animation_frames = getattr(animation, 'frames', None) or animation.get_frames()
-            if animation_frames and len(animation_frames) > 0:
+            animation_frames = animation.get_frames()
+            
+            if animation_frames:
                 # Update frame index based on the timer
                 self.frame_timer += 0.015  # Increase by seconds elapsed
                 if self.frame_timer >= self.frame_duration:
@@ -97,9 +98,8 @@ class Entity:
                 
                 # Render current animation frame
                 current_frame = animation_frames[self.frame_index]
-                screen.blit(current_frame, (entity_x, entity_y))
+                screen.blit(current_frame, (entity_x - 55, entity_y - 20))
         else:
-            # Placeholder red rectangle if no animation is provided
             pygame.draw.rect(screen, color, (entity_x, entity_y, entity_width, entity_height))
         
         # Render Buff Icons
@@ -107,9 +107,12 @@ class Entity:
             buff.x = entity_x + index * 20
             buff.render(screen)
 
-    def update(self, dt, events):
-        if self.curr_animation:
-            self.curr_animation.update(dt)
-
     def ChangeAnimation(self, name):
-        self.curr_animation = self.animation_list[name]
+        print(f'{self.name} changing animation to {name}')
+        if name in self.animation_list:
+            self.curr_animation = name
+            self.frame_index = 0
+            self.frame_timer = 0
+        else:
+            print(f'Animation {name} not found in animation list for {self.name}')
+
