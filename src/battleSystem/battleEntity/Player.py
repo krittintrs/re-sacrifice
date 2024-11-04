@@ -3,9 +3,10 @@ from src.dependency import *
 
 
 class Player(Entity):
-    def __init__(self, name, image=None):
-        super().__init__(name, image)
+    def __init__(self, name, job, animationList ,image=None):
+        super().__init__(name, animationList, image=image)
         self.health = 30
+        self.job = job
 
     def update(self, dt, events):
         # Implement player-specific update logic here
@@ -13,8 +14,8 @@ class Player(Entity):
 
     def render(self, screen, x, y):
         # Call the parent render method
-        # super().render(screen, x, y, (0, 255, 0))
+        super().render(screen, x, y, (0, 255, 0))
 
         # Add player-specific rendering logic here if needed
-        screen.blit(self.image, (x, y))
+        # screen.blit(self.image, (x, y))
         pass

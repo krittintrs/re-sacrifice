@@ -39,9 +39,10 @@ class BattlePreparationState(BaseState):
 
         if self.player is None:
             # mock player class
-            
+            job = PlayerClass.WARRIOR
+            gPlayer_animation_list = gMage_animation_list
             # mock player
-            self.player = Player("player", )
+            self.player = Player("player", job, gPlayer_animation_list)
             self.player.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)
 
         if self.enemy is None:

@@ -3,11 +3,15 @@ from src.dependency import *
 from src.battleSystem.Deck import Deck
 
 class Entity:
-    def __init__(self, name, health = 10, image=None):
-        # For Render
+    def __init__(self, name, animation_list=None, health=10, image=None):
         self.name = name
         self.fieldTile_index = None  # Keep track of which field it is on
         self.image = image
+        self.animation_list = animation_list
+        self.curr_animation = "single_attack"  # Start with the idle animation
+        self.frame_index = 0  # Frame index for animations
+        self.frame_timer = 0  # Timer to manage frame rate
+        self.frame_duration = 0.1  # Duration for each frame (adjust as needed)
 
         # Deck & Card
         self.deck = Deck()
@@ -71,21 +75,41 @@ class Entity:
     def select_position(self, index): 
         self.index = index
 
-    def render(self, screen, x, y, color=(255,0,0)):
+    def render(self, screen, x, y, color=(255, 0, 0)):
         # Define entity size
         entity_width, entity_height = 80, 80  # Example entity size
         
         # Calculate centered position within the field
         entity_x = x + (FIELD_WIDTH - entity_width) // 2  # Center horizontally
         entity_y = y + (FIELD_HEIGHT - entity_height) // 2  # Center vertically
-
-        # Render the entity (you can customize this)
-        pygame.draw.rect(screen, color, (entity_x, entity_y, entity_width, entity_height))  # Red square as placeholder
-
-        # Render Buff Icon
+        
+        # Update animation frame
+        if self.animation_list and self.curr_animation in self.animation_list:
+            # Retrieve frames from the animation object
+            animation = self.animation_list[self.curr_animation]
+            animation_frames = getattr(animation, 'frames', None) or animation.get_frames()
+            if animation_frames and len(animation_frames) > 0:
+                # Update frame index based on the timer
+                self.frame_timer += 0.015  # Increase by seconds elapsed
+                if self.frame_timer >= self.frame_duration:
+                    self.frame_timer = 0
+                    self.frame_index = (self.frame_index + 1) % len(animation_frames)
+                
+                # Render current animation frame
+                current_frame = animation_frames[self.frame_index]
+                screen.blit(current_frame, (entity_x, entity_y))
+        else:
+            # Placeholder red rectangle if no animation is provided
+            pygame.draw.rect(screen, color, (entity_x, entity_y, entity_width, entity_height))
+        
+        # Render Buff Icons
         for index, buff in enumerate(self.buffs):
             buff.x = entity_x + index * 20
             buff.render(screen)
 
     def update(self, dt, events):
-        pass
+        if self.curr_animation:
+            self.curr_animation.update(dt)
+
+    def ChangeAnimation(self, name):
+        self.curr_animation = self.animation_list[name]

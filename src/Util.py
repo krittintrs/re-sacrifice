@@ -51,7 +51,7 @@ class SpriteManager:
                                 mySpritesheet.image_at(
                                     sprite["x"],
                                     sprite["y"],
-                                    sprite.get("scale", 1),  # Use the scale from the sprite or default to 1
+                                    sprite.get("scale", 3),  # Use the scale from the sprite or default to 1
                                     colorkey=-1,  # Default color key if not provided
                                     xTileSize=xSize,
                                     yTileSize=ySize,
@@ -64,7 +64,7 @@ class SpriteManager:
                             idle_img = mySpritesheet.image_at(
                                 idle_info["x"],
                                 idle_info["y"],
-                                idle_info.get("scale", 1),
+                                idle_info.get("scale", 3),
                                 colorkey=-1,
                                 xTileSize=xSize,
                                 yTileSize=ySize
@@ -341,6 +341,9 @@ class Animation:
         self.interval_time = interval_time
         self.looping = looping
         self.times_played = 0
+
+    def get_frames(self):
+        return self.images
 
     def Refresh(self):
         self.timer = 0
