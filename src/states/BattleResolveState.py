@@ -1,6 +1,7 @@
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
+from src.Render import *
 import pygame
 import sys
 
@@ -17,15 +18,13 @@ class BattleResolveState(BaseState):
         self.currentTurnOwner = params['currentTurnOwner']  
         self.effectOrder = params['effectOrder']
 
-        # For Debug Buffs
-        print(f'Player Buffs: {self.player.buffs}')
-        self.player.print_buffs()
-        print(f'Enemy Buffs: {self.enemy.buffs}')
-        self.enemy.print_buffs()
-
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
         self.enemy.apply_buffs_to_cardsOnHand()
+
+        # display entity stats
+        self.player.display_stats()
+        self.enemy.display_stats()
 
     def Exit(self):
         pass
@@ -58,13 +57,27 @@ class BattleResolveState(BaseState):
                 self.resolveCardEffect(effectDetail[0], effectDetail[1])
                 self.effectOrder["after"].remove(effectDetail)
         else:
-            g_state_manager.Change(BattleState.END_PHASE, {
-                'player': self.player,
-                'enemy': self.enemy,
-                'field': self.field,
-                'turn': self.turn,
-                'currentTurnOwner': self.currentTurnOwner
-            })
+            if self.player.health > 0 and self.enemy.health > 0:
+                g_state_manager.Change(BattleState.END_PHASE, {
+                    'player': self.player,
+                    'enemy': self.enemy,
+                    'field': self.field,
+                    'turn': self.turn,
+                    'currentTurnOwner': self.currentTurnOwner
+                })
+            else:
+                if self.player.health <= 0:
+                    self.winner = PlayerType.ENEMY
+                elif self.enemy.health <= 0:
+                    self.winner = PlayerType.PLAYER
+                g_state_manager.Change(BattleState.FINISH_PHASE, {
+                    'player': self.player,
+                    'enemy': self.enemy,
+                    'field': self.field,
+                    'turn': self.turn,
+                    'currentTurnOwner': self.currentTurnOwner,
+                    'winner': self.winner
+                })
             
     # Update buff
         for buff in self.player.buffs:
@@ -110,8 +123,9 @@ class BattleResolveState(BaseState):
             print(f'{effectOwner.name} self buff')
 
     def render(self, screen):
-        # Turn
-        screen.blit(pygame.font.Font(None, 36).render(f"Resolve Phase - Turn {self.turn}", True, (0, 0, 0)), (10, 10))   
+        RenderTurn(screen, 'Resolve State', self.turn, self.currentTurnOwner)
+        RenderEntityStats(screen, self.player, self.enemy)
+        RenderEntitySelection(screen, self.player, self.enemy)
 
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
