@@ -3,7 +3,7 @@ from src.battleSystem.battleEntity.Entity import Entity
 class Enemy(Entity):
     def __init__(self, name, animationlist):
         super().__init__(name, animationlist)
-        self.health = 1  # Example additional attribute for Enemy
+        self.health = 6  # Example additional attribute for Enemy
 
     def update(self, dt, events):
         # Implement enemy-specific update logic here

@@ -77,8 +77,6 @@ class SelectAttackState(BaseState):
         self.player.display_stats()
         self.enemy.display_stats()
 
-        self.player.ChangeAnimation("multi_attack")
-
     def Exit(self):
         pass
 
@@ -107,6 +105,7 @@ class SelectAttackState(BaseState):
                     if self.effectOwner == PlayerType.PLAYER:
                         if self.selectAttackTile>=0 and self.effect.maxRange>0:
                             if self.field[self.avilableAttackTile[self.selectAttackTile]].is_occupied():
+                                self.player.ChangeAnimation("multi_attack")
                                 damage = self.player.attack - self.field[self.avilableAttackTile[self.selectAttackTile]].entity.defense
                                 if damage > 0:
                                     gSounds['attack'].play()
@@ -155,11 +154,7 @@ class SelectAttackState(BaseState):
     def render(self, screen):
         RenderTurn(screen, 'SelectAttackState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
-        RenderEntitySelection(screen, self.player, self.enemy)
-
-        # Render cards on player's hand
-        for order, card in enumerate(self.player.cardsOnHand):
-            card.render(screen, order)
+        RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
 
         # Render field
         for fieldTile in self.field:               

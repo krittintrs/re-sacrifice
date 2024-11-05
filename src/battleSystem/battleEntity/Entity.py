@@ -69,10 +69,12 @@ class Entity:
         self.selectedCard = card
         self.selectedCard.isSelected = True
 
-    def next_turn(self):
-        # remove selected card and draw new card
+    def remove_selected_card(self):
         self.cardsOnHand.remove(self.selectedCard)
         self.selectedCard = None
+        
+    def next_turn(self):
+        # draw new card
         self.cardsOnHand.append(self.deck.draw(1)[0])
 
         # count down buffs

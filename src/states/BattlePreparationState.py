@@ -21,14 +21,11 @@ class BattlePreparationState(BaseState):
         # Create field
         self.field = self.create_field(9)  # Create 9 field in a single row
     
-    def mockDeck(self):
-        deck = Deck()
-        for i, card in enumerate(card_dict.values()):
-            deck.addCard(copy.copy(card))
-        return deck
-    
     def initialDraw(self):
         self.player.deck.shuffle()
+        # for card in self.player.deck.card_deck:
+        #     if card.name in ["Move 1", "Move 2", "Move 3"]:
+        #         self.player.cardsOnHand.append(card)
         self.player.cardsOnHand = self.player.deck.draw(5)
         self.enemy.deck.shuffle()
         self.enemy.cardsOnHand = self.enemy.deck.draw(5)
