@@ -33,7 +33,7 @@ class BattleInitialState(BaseState):
             print("Player's Hand Card: ", card.name)
 
         # Mock buff
-        mock_buff = Buff(BuffConf('bonus_attack', 1, [1, 0, 0, 0], sprite_collection['attack_icon']))
+        mock_buff = Buff(BuffConf('bonus_attack', 1, [1, 0, 0, 0], gBuffIcon_image_list['attack']))
         self.player.add_buff(mock_buff)
         print(f'Player Buffs: {self.player.buffs}')
         print(f'Enemy Buffs: {self.enemy.buffs}')
@@ -75,6 +75,8 @@ class BattleInitialState(BaseState):
             buff.update(dt, events)
         for buff in self.enemy.buffs:
             buff.update(dt, events)
+
+        self.player.update(dt)
 
     def render(self, screen):
         RenderTurn(screen, 'Initial State', self.turn, self.currentTurnOwner)

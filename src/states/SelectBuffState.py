@@ -138,6 +138,8 @@ class SelectBuffState(BaseState):
         for buff in self.enemy.buffs:
             buff.update(dt, events)
 
+        self.player.update(dt)
+
     def render(self, screen):
         RenderTurn(screen, 'SelectBuffState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)

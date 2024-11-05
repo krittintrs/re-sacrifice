@@ -8,7 +8,7 @@ class BuffConf():
         self.imageName = imageName
         
 DICE_ROLL_BUFF = {
-    0: BuffConf('bonus_attack', 1, [1, 0, 0, 0], sprite_collection['attack_icon']),
-    1: BuffConf('bonus_defense', 1, [0, 1, 0, 0], sprite_collection['defense_icon']),
-    2: BuffConf('bonus_speed', 1, [0, 0, 1, 0], sprite_collection['speed_icon']),
+    0: BuffConf('bonus_attack', 1, [1, 0, 0, 0], gBuffIcon_image_list['attack']),
+    1: BuffConf('bonus_defense', 1, [0, 1, 0, 0], gBuffIcon_image_list['defense']),
+    2: BuffConf('bonus_speed', 1, [0, 0, 1, 0], gBuffIcon_image_list['speed']),
 }

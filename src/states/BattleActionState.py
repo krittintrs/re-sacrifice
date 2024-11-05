@@ -95,6 +95,8 @@ class BattleActionState(BaseState):
             buff.update(dt, events)
         for buff in self.enemy.buffs:
             buff.update(dt, events)
+
+        self.player.update(dt)
     
     def sortEffects(self):
         playerSpeed = self.player.selectedCard.buffed_speed

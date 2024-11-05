@@ -19,6 +19,11 @@ class PlayerType(Enum):
     PLAYER = "Player"
     ENEMY = "Enemy"
 
+class PlayerClass(Enum):
+    WARRIOR = "Warrior"
+    RANGER = "Ranger"
+    MAGE = "Mage"
+
 class EffectType(Enum):
     ATTACK = "attack"
     MOVE = "move"

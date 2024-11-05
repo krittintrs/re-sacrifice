@@ -29,6 +29,8 @@ class BattleSelectState(BaseState):
         self.player.apply_buffs_to_cardsOnHand()
         self.enemy.apply_buffs_to_cardsOnHand()
 
+        self.player.ChangeAnimation("cast")
+
     def Exit(self):
         pass
     
@@ -66,6 +68,8 @@ class BattleSelectState(BaseState):
             buff.update(dt, events)
         for buff in self.enemy.buffs:
             buff.update(dt, events)
+            
+        self.player.update(dt)
 
     def change_selection(self, newIndex):
         self.player.cardsOnHand[self.selected_index].isSelected = False

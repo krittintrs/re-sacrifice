@@ -79,11 +79,12 @@ class BattleResolveState(BaseState):
                     'winner': self.winner
                 })
             
-    # Update buff
         for buff in self.player.buffs:
             buff.update(dt, events)
         for buff in self.enemy.buffs:
             buff.update(dt, events)
+
+        self.player.update(dt)
 
     def resolveCardEffect(self, effect, effectOwner):
         if effect.type == EffectType.ATTACK:

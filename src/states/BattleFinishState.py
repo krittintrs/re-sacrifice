@@ -40,6 +40,8 @@ class BattleFinishState(BaseState):
             buff.update(dt, events)
         for buff in self.enemy.buffs:
             buff.update(dt, events)
+            
+        self.player.update(dt)
 
     def render(self, screen):
         RenderTurn(screen, 'End State', self.turn, self.currentTurnOwner)

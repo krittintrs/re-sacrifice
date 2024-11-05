@@ -1,97 +1,109 @@
 {
-  "sprites": [
-    {
-      "fileName": "adventurer-knock-dwn-00.png",
-      "width": 50,
-      "height": 37,
-      "x": 0,
-      "y": 0
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/main_character_in_battle/other_mage.png",
+  "animations": {
+    "knockDown_mage": {
+      "loop": "False",
+      "sprites": [
+        {
+          "fileName": "other-mage-knock-dwn-00.png",
+          "width": 50,
+          "height": 37,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "fileName": "other-mage-knock-dwn-01.png",
+          "width": 50,
+          "height": 37,
+          "x": 50,
+          "y": 0
+        },
+        {
+          "fileName": "other-mage-knock-dwn-02.png",
+          "width": 50,
+          "height": 37,
+          "x": 100,
+          "y": 0
+        },
+        {
+          "fileName": "other-mage-knock-dwn-03.png",
+          "width": 50,
+          "height": 37,
+          "x": 150,
+          "y": 0
+        },
+        {
+          "fileName": "other-mage-knock-dwn-04.png",
+          "width": 50,
+          "height": 37,
+          "x": 0,
+          "y": 37
+        },
+        {
+          "fileName": "other-mage-knock-dwn-05.png",
+          "width": 50,
+          "height": 37,
+          "x": 50,
+          "y": 37
+        },
+        {
+          "fileName": "other-mage-knock-dwn-06.png",
+          "width": 50,
+          "height": 37,
+          "x": 100,
+          "y": 37
+        }
+      ]
     },
-    {
-      "fileName": "adventurer-knock-dwn-01.png",
-      "width": 50,
-      "height": 37,
-      "x": 50,
-      "y": 0
-    },
-    {
-      "fileName": "adventurer-knock-dwn-02.png",
-      "width": 50,
-      "height": 37,
-      "x": 100,
-      "y": 0
-    },
-    {
-      "fileName": "adventurer-knock-dwn-03.png",
-      "width": 50,
-      "height": 37,
-      "x": 150,
-      "y": 0
-    },
-    {
-      "fileName": "adventurer-knock-dwn-04.png",
-      "width": 50,
-      "height": 37,
-      "x": 0,
-      "y": 37
-    },
-    {
-      "fileName": "adventurer-knock-dwn-05.png",
-      "width": 50,
-      "height": 37,
-      "x": 50,
-      "y": 37
-    },
-    {
-      "fileName": "adventurer-knock-dwn-06.png",
-      "width": 50,
-      "height": 37,
-      "x": 100,
-      "y": 37
-    },
-    {
-      "fileName": "adventurer-walk-00.png",
-      "width": 50,
-      "height": 37,
-      "x": 150,
-      "y": 37
-    },
-    {
-      "fileName": "adventurer-walk-01.png",
-      "width": 50,
-      "height": 37,
-      "x": 0,
-      "y": 74
-    },
-    {
-      "fileName": "adventurer-walk-02.png",
-      "width": 50,
-      "height": 37,
-      "x": 50,
-      "y": 74
-    },
-    {
-      "fileName": "adventurer-walk-03.png",
-      "width": 50,
-      "height": 37,
-      "x": 100,
-      "y": 74
-    },
-    {
-      "fileName": "adventurer-walk-04.png",
-      "width": 50,
-      "height": 37,
-      "x": 150,
-      "y": 74
-    },
-    {
-      "fileName": "adventurer-walk-05.png",
-      "width": 50,
-      "height": 37,
-      "x": 0,
-      "y": 111
+    "walk_mage": {
+      "loop": "False",
+      "sprites": [
+        {
+          "fileName": "other-mage-walk-00.png",
+          "width": 50,
+          "height": 37,
+          "x": 150,
+          "y": 37
+        },
+        {
+          "fileName": "other-mage-walk-01.png",
+          "width": 50,
+          "height": 37,
+          "x": 0,
+          "y": 74
+        },
+        {
+          "fileName": "other-mage-walk-02.png",
+          "width": 50,
+          "height": 37,
+          "x": 50,
+          "y": 74
+        },
+        {
+          "fileName": "other-mage-walk-03.png",
+          "width": 50,
+          "height": 37,
+          "x": 100,
+          "y": 74
+        },
+        {
+          "fileName": "other-mage-walk-04.png",
+          "width": 50,
+          "height": 37,
+          "x": 150,
+          "y": 74
+        },
+        {
+          "fileName": "other-mage-walk-05.png",
+          "width": 50,
+          "height": 37,
+          "x": 0,
+          "y": 111
+        }
+      ]
     }
-  ],
+  },
   "packMode": "grid",
   "padding": 0,
   "backgroundColor": "rgba(0, 0, 0, 0)",

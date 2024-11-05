@@ -77,6 +77,8 @@ class SelectAttackState(BaseState):
         self.player.display_stats()
         self.enemy.display_stats()
 
+        self.player.ChangeAnimation("multi_attack")
+
     def Exit(self):
         pass
 
@@ -147,6 +149,8 @@ class SelectAttackState(BaseState):
             buff.update(dt, events)
         for buff in self.enemy.buffs:
             buff.update(dt, events)
+
+        self.player.update(dt)
 
     def render(self, screen):
         RenderTurn(screen, 'SelectAttackState', self.turn, self.currentTurnOwner)
