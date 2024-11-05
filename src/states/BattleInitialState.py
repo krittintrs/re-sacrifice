@@ -2,6 +2,7 @@ from src.dependency import *
 from src.constants import *
 from src.battleSystem.FieldTile import FieldTile
 from src.battleSystem.Buff import *
+from src.Render import *
 import pygame
 import sys
 import random
@@ -78,9 +79,9 @@ class BattleInitialState(BaseState):
         self.player.update(dt)
 
     def render(self, screen):
-        # Turn
-        screen.blit(pygame.font.Font(None, 36).render(f"Initial Phase - Turn {self.turn}: {self.currentTurnOwner.value}'s turn", True, (0, 0, 0)), (10, 10))   
-
+        RenderTurn(screen, 'Initial State', self.turn, self.currentTurnOwner)
+        RenderEntityStats(screen, self.player, self.enemy)
+            
         # Title
         if self.roll:
             screen.blit(pygame.font.Font(None, 36).render("Cards:    Press Enter start", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))
@@ -118,8 +119,7 @@ class BattleInitialState(BaseState):
     
     def roll_dice(self):
         # Play dice sound
-        dice_sound = pygame.mixer.Sound("sounds/dice_roll.mp3")
-        dice_sound.play()
+        gSounds['dice_roll'].play()
 
         # Render dice rolling animation
         for _ in range(30):  # Increase the number of iterations for a smoother effect

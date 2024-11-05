@@ -1,6 +1,7 @@
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
+from src.Render import *
 import pygame
 import sys
 
@@ -62,6 +63,17 @@ class SelectMoveState(BaseState):
         
         self.avilableMoveTile = list( dict.fromkeys(self.avilableMoveTile) )
         
+        print('\n!!!! SelectMoveState !!!!')
+        print(f'Owner: {self.effectOwner}')
+        print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
+        
+        # apply buff to all cards on hand
+        self.player.apply_buffs_to_cardsOnHand()
+        self.enemy.apply_buffs_to_cardsOnHand()
+
+        # display entity stats
+        self.player.display_stats()
+        self.enemy.display_stats()
 
     def Exit(self):
         pass
@@ -88,10 +100,6 @@ class SelectMoveState(BaseState):
                         if self.selectMoveTile > len(self.avilableMoveTile) - 1:
                             self.selectMoveTile = 0
                 if event.key == pygame.K_RETURN:
-                    print('!!!! SelectMoveState !!!!')
-                    print(f'Owner: {self.effectOwner}')
-                    print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
-
                     if self.effectOwner == PlayerType.PLAYER:
                         if self.selectMoveTile>=0 and self.effect.maxRange>0:
                             if not self.field[self.avilableMoveTile[self.selectMoveTile]].is_occupied():
@@ -102,14 +110,28 @@ class SelectMoveState(BaseState):
                         else:
                             print("there is no movement happen")
 
-                    g_state_manager.Change(BattleState.RESOLVE_PHASE, {
-                        'player': self.player,
-                        'enemy': self.enemy,
-                        'field': self.field,
-                        'turn': self.turn,
-                        'currentTurnOwner': self.currentTurnOwner,
-                        'effectOrder': self.effectOrder
-                    })
+                    if self.player.health > 0 and self.enemy.health > 0:
+                        g_state_manager.Change(BattleState.RESOLVE_PHASE, {
+                            'player': self.player,
+                            'enemy': self.enemy,
+                            'field': self.field,
+                            'turn': self.turn,
+                            'currentTurnOwner': self.currentTurnOwner,
+                            'effectOrder': self.effectOrder
+                        })
+                    else:
+                        if self.player.health <= 0:
+                            self.winner = PlayerType.ENEMY
+                        elif self.enemy.health <= 0:
+                            self.winner = PlayerType.PLAYER
+                        g_state_manager.Change(BattleState.FINISH_PHASE, {
+                            'player': self.player,
+                            'enemy': self.enemy,
+                            'field': self.field,
+                            'turn': self.turn,
+                            'currentTurnOwner': self.currentTurnOwner,
+                            'winner': self.winner
+                        })
 
         for buff in self.player.buffs:
             buff.update(dt, events)
@@ -119,8 +141,9 @@ class SelectMoveState(BaseState):
         self.player.update(dt)
 
     def render(self, screen):
-        # Turn
-        screen.blit(pygame.font.Font(None, 36).render(f"SelectMoveState - Turn {self.turn} - {self.effectOwner}", True, (0, 0, 0)), (10, 10))   
+        RenderTurn(screen, 'SelectMoveState', self.turn, self.currentTurnOwner)
+        RenderEntityStats(screen, self.player, self.enemy)
+        RenderEntitySelection(screen, self.player, self.enemy)
 
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
