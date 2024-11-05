@@ -126,11 +126,7 @@ class BattleResolveState(BaseState):
     def render(self, screen):
         RenderTurn(screen, 'Resolve State', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
-        RenderEntitySelection(screen, self.player, self.enemy)
-
-        # Render cards on player's hand
-        for order, card in enumerate(self.player.cardsOnHand):
-            card.render(screen, order)
+        RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
 
         # Render field
         for fieldTile in self.field:

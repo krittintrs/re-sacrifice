@@ -16,6 +16,9 @@ class BattleEndState(BaseState):
         self.field = params['field']
         self.turn = params['turn']
         self.currentTurnOwner = params['currentTurnOwner']  
+
+        self.player.remove_selected_card()
+        self.enemy.remove_selected_card()
         
     def next_turn(self):
         # Change turn owner
@@ -66,6 +69,8 @@ class BattleEndState(BaseState):
     def render(self, screen):
         RenderTurn(screen, 'End State', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
+
+        screen.blit(pygame.font.Font(None, 36).render("End Action: Press Enter to Draw New Card", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
 
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
