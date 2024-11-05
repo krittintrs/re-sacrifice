@@ -17,5 +17,8 @@ from src.states.SelectBuffState import SelectBuffState
 from src.states.SelectMoveState import SelectMoveState
 from src.states.BattleEndState import BattleEndState
 from src.states.BattleFinishState import BattleFinishState
+from src.rpg.states.RPGStartState import RPGStartState
+from src.rpg.states.TavernMapState import TavernMapState
+from src.rpg.states.TutorialState import TutorialState
 
 from src.resources import gBuffIcon_image_list
