@@ -8,8 +8,9 @@ class Player(Entity):
         self.health = 30
         self.job = job
 
-    def update(self, dt, events):
+    def update(self, dt):
         # Implement player-specific update logic here
+        super().update(dt)
         pass
 
     def render(self, screen, x, y):

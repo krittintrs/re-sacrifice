@@ -3,6 +3,7 @@
   "spriteSheetURL": "spritesheet/main_character_in_battle/other_warrior.png",
   "animations": {
     "knockDown_warrior": {
+      "loop": "False",
       "sprites": [
         {
           "fileName": "warrior-knock-dwn-00.png",

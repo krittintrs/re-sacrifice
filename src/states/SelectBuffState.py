@@ -115,6 +115,8 @@ class SelectBuffState(BaseState):
         for buff in self.enemy.buffs:
             buff.update(dt, events)
 
+        self.player.update(dt)
+
     def render(self, screen):
         # Turn
         screen.blit(pygame.font.Font(None, 36).render(f"SelectBuffState - Turn {self.turn}", True, (0, 0, 0)), (10, 10))   

@@ -75,6 +75,8 @@ class BattleInitialState(BaseState):
         for buff in self.enemy.buffs:
             buff.update(dt, events)
 
+        self.player.update(dt)
+
     def render(self, screen):
         # Turn
         screen.blit(pygame.font.Font(None, 36).render(f"Initial Phase - Turn {self.turn}: {self.currentTurnOwner.value}'s turn", True, (0, 0, 0)), (10, 10))   

@@ -3,6 +3,7 @@
   "spriteSheetURL": "spritesheet/main_character_in_battle/other_ranger.png",
   "animations": {
     "knockDown_ranger": {
+      "loop": "False",
       "sprites": [
         {
           "fileName": "ranger-knock-dwn-00.png",

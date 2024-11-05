@@ -75,6 +75,17 @@ class Entity:
     def select_position(self, index): 
         self.index = index
 
+    def update(self, dt):
+        # Check if an animation is set and update it
+        if self.curr_animation in self.animation_list:
+            animation = self.animation_list[self.curr_animation]
+            animation.update(dt)  # Progress the animation with delta time
+
+            # If the animation has finished, switch to the idle animation
+            if animation.is_finished() and self.curr_animation != "idle":
+                self.ChangeAnimation("idle")
+                print(f'{self.name} animation changed to idle')
+
     def render(self, screen, x, y, color=(255, 0, 0)):
         # Define entity size
         entity_width, entity_height = 80, 80  # Example entity size
@@ -89,9 +100,15 @@ class Entity:
             animation = self.animation_list[self.curr_animation]
             animation_frames = animation.get_frames()
             
+            # Check if the animation has finished and switch to idle if necessary
+            if animation.is_finished() and self.curr_animation != "idle":
+                self.ChangeAnimation("idle")  # Automatically switch to idle animation
+                animation = self.animation_list[self.curr_animation]  # Update to idle animation
+                animation_frames = animation.get_frames()  # Update frames
+
             if animation_frames:
                 # Update frame index based on the timer
-                self.frame_timer += 0.015  # Increase by seconds elapsed
+                self.frame_timer += 0.01  # Increase by seconds elapsed
                 if self.frame_timer >= self.frame_duration:
                     self.frame_timer = 0
                     self.frame_index = (self.frame_index + 1) % len(animation_frames)
@@ -100,6 +117,7 @@ class Entity:
                 current_frame = animation_frames[self.frame_index]
                 screen.blit(current_frame, (entity_x - 55, entity_y - 20))
         else:
+            # Placeholder red rectangle if no animation is provided
             pygame.draw.rect(screen, color, (entity_x, entity_y, entity_width, entity_height))
         
         # Render Buff Icons
@@ -108,11 +126,11 @@ class Entity:
             buff.render(screen)
 
     def ChangeAnimation(self, name):
-        print(f'{self.name} changing animation to {name}')
         if name in self.animation_list:
             self.curr_animation = name
             self.frame_index = 0
             self.frame_timer = 0
+            self.animation_list[name].Refresh()  # Start from the beginning of the new animation
+            print(f'{self.name} animation changed to {name}')
         else:
             print(f'Animation {name} not found in animation list for {self.name}')
-

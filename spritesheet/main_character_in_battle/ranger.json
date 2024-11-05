@@ -3,6 +3,7 @@
   "spriteSheetURL": "spritesheet/main_character_in_battle/ranger.png",
   "animations": {
     "cast_ranger": {
+      "loop": "False",
       "sprites": [
         {
           "fileName": "cast_ranger1.png",
@@ -35,6 +36,7 @@
       ]
     },
     "castloop_ranger": {
+      "loop": "False",
       "sprites": [
         {
           "fileName": "castloop_ranger1.png",
@@ -67,6 +69,7 @@
       ]
     },
     "idle_ranger": {
+      "loop": "True",
       "sprites": [
         {
           "fileName": "idle_ranger1.png",
@@ -92,6 +95,7 @@
       ]
     },
     "multiAttack_ranger": {
+      "loop": "False",
       "sprites": [
         {
           "fileName": "multi_ranger1.png",
@@ -138,6 +142,7 @@
       ]
     },
     "singleAttack_ranger": {
+      "loop": "False",
       "sprites": [
         {
           "fileName": "single_ranger1.png",

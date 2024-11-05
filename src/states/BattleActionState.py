@@ -107,6 +107,8 @@ class BattleActionState(BaseState):
         for buff in self.enemy.buffs:
             buff.update(dt, events)
 
+        self.player.update(dt)
+
     def appendEffects(self, entity, entityType):
         for beforeEffect in entity.selectedCard.beforeEffect:
             self.effectOrder["before"].append([beforeEffect, entityType])

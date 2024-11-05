@@ -70,10 +70,10 @@ class SpriteManager:
                                 yTileSize=ySize
                             )
                         # Handle loop setting
-                        loop = animation_data.get('loop', True)  # Default to True if not specified
+                        loop = animation_data.get('loop', 'true').lower() == 'true'  # Convert string to boolean, default to True if not specified
                         dic[animation_name] = Sprite(
                             None,
-                            animation=Animation(images, idleSprite=idle_img, looping=loop, interval_time=sprite.get("interval_time", 100)),
+                            animation=Animation(images, looping=loop, idleSprite=idle_img, interval_time=sprite.get("interval_time", 1)),
                         )
 
                     resDict.update(dic)
@@ -332,7 +332,7 @@ class DeckLoader():
         return deck_conf
     
 class Animation:
-    def __init__(self, images, idleSprite=None, looping=True, interval_time=0.15):
+    def __init__(self, images, looping, idleSprite=None, interval_time=0.15, name="Animation"):
         self.images = images
         self.timer = 0
         self.index = 0
@@ -341,6 +341,8 @@ class Animation:
         self.interval_time = interval_time
         self.looping = looping
         self.times_played = 0
+        self.finished = False
+        self.name = name  # Identifier for debugging
 
     def get_frames(self):
         return self.images
@@ -349,9 +351,11 @@ class Animation:
         self.timer = 0
         self.index = 0
         self.times_played = 0
+        self.finished = False
 
     def update(self, dt):
         self.timer += dt
+        
         if self.timer >= self.interval_time:
             self.index += 1
             if self.index >= len(self.images):
@@ -360,4 +364,8 @@ class Animation:
                     self.index = 0
                 else:
                     self.index = len(self.images) - 1
+                    self.finished = True
             self.image = self.images[self.index]
+
+    def is_finished(self):
+        return self.finished

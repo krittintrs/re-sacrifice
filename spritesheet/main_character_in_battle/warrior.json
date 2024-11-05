@@ -3,6 +3,7 @@
   "spriteSheetURL": "spritesheet/main_character_in_battle/warrior.png",
   "animations": {
     "cast_warrior": {
+      "loop": "False",
       "sprites": [
         {
           "fileName": "cast_warrior1",
@@ -35,6 +36,7 @@
       ]
     },
     "castloop_warrior": {
+      "loop": "False",
       "sprites": [
         {
           "fileName": "castloop_warrior1",
@@ -67,6 +69,7 @@
       ]
     },
     "multiAttack_warrior": {
+      "loop": "False",
       "sprites": [
         {
           "fileName": "multi_warrior1",
@@ -113,6 +116,7 @@
       ]
     },
     "singleAttack_warrior": {
+      "loop": "False",
       "sprites": [
         {
           "fileName": "single_warrior1",
@@ -152,6 +156,7 @@
       ]
     },
     "idle_warrior": {
+      "loop": "True",
       "sprites": [
         {
           "fileName": "idle_warrior1",
