@@ -144,6 +144,7 @@ class SelectBuffState(BaseState):
         RenderTurn(screen, 'SelectBuffState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
+        RenderCurrentAction(screen, self.effect, self.effectOwner)
 
         # Render field
         for fieldTile in self.field:               
