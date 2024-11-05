@@ -127,9 +127,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "",
-                        "minRange": 0,
-                        "maxRange": 0
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 1
                     }
                 ],
                 "afterEffect": [
@@ -160,9 +160,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "",
-                        "minRange": 0,
-                        "maxRange": 0
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 1
                     }
                 ],
                 "afterEffect": [
@@ -193,9 +193,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "",
-                        "minRange": 0,
-                        "maxRange": 0
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 1
                     }
                 ],
                 "afterEffect": [
@@ -226,9 +226,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "",
-                        "minRange": 0,
-                        "maxRange": 0
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 3
                     }
                 ],
                 "afterEffect": [
@@ -259,9 +259,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "",
-                        "minRange": 0,
-                        "maxRange": 0
+                        "type": "attack",
+                        "minRange": 2,
+                        "maxRange": 4
                     }
                 ],
                 "afterEffect": [
@@ -289,9 +289,9 @@
             "effect": {
                 "beforeEffect": [
                     {
-                        "type": "move",
-                        "minRange": 0,
-                        "maxRange": 1
+                        "type": "attack",
+                        "minRange": 3,
+                        "maxRange": 5
                     }
                 ],
                 "mainEffect": [
@@ -329,9 +329,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "",
-                        "minRange": 0,
-                        "maxRange": 0
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 2
                     }
                 ],
                 "afterEffect": [
@@ -362,9 +362,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "",
-                        "minRange": 0,
-                        "maxRange": 0
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 9
                     }
                 ],
                 "afterEffect": [
@@ -1433,9 +1433,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "if",
-                        "minRange": 0,
-                        "maxRange": 0
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 1
                     }
                 ],
                 "afterEffect": [
@@ -1466,9 +1466,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "",
-                        "minRange": 0,
-                        "maxRange": 0
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 1
                     }
                 ],
                 "afterEffect": [
@@ -1499,9 +1499,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "minRange": 0,
-                        "maxRange": 0,
-                        "type": "add"
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 3
                     }
                 ],
                 "afterEffect": [
@@ -1604,17 +1604,30 @@
             },
             "effect": {
                 "beforeEffect": [
-                    {}
-                ],
-                "mainEffect": [
                     {
                         "minRange": 0,
                         "maxRange": 2,
                         "type": "move"
                     }
                 ],
+                "mainEffect": [
+                    {
+                        "minRange": 0,
+                        "maxRange": 2,
+                        "type": "move"
+                    },
+                    {
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 1
+                    }
+                ],
                 "afterEffect": [
-                    {}
+                    {
+                        "minRange": 0,
+                        "maxRange": 2,
+                        "type": "move"
+                    }
                 ]
             }
         },
@@ -1641,9 +1654,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "",
-                        "minRange": 0,
-                        "maxRange": 0,
+                        "type": "attack",
+                        "minRange": 2,
+                        "maxRange": 5,
                         "buff": {
                             "name": "fire",
                             "duration": 3,
@@ -1688,9 +1701,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "",
-                        "minRange": 0,
-                        "maxRange": 0
+                        "type": "attack",
+                        "minRange": 4,
+                        "maxRange": 9
                     }
                 ],
                 "afterEffect": [
@@ -1791,9 +1804,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "add",
-                        "minRange": 0,
-                        "maxRange": 0,
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 3,
                         "buff": {
                             "name": "fire",
                             "duration": 3,
@@ -1834,9 +1847,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "ignore",
-                        "minRange": 0,
-                        "maxRange": 0,
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 3,
                         "buff": {
                             "name": "ignoreDEF",
                             "duration": 1,
@@ -2010,9 +2023,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "",
-                        "minRange": 0,
-                        "maxRange": 0
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 1
                     }
                 ],
                 "afterEffect": [
@@ -2044,9 +2057,9 @@
             "effect": {
                 "beforeEffect": [
                     {
-                        "type": "buff",
-                        "minRange": 0,
-                        "maxRange": 0,
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 1,
                         "buff": {
                             "name": "critical",
                             "duration": 1,
@@ -2245,9 +2258,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "minRange": 0,
-                        "maxRange": 0,
-                        "type": "-"
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 3
                     }
                 ],
                 "afterEffect": [
@@ -2286,9 +2299,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "minRange": 0,
-                        "maxRange": 3,
-                        "type": "move"
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 1
                     }
                 ],
                 "afterEffect": [
@@ -2470,9 +2483,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "",
-                        "minRange": 0,
-                        "maxRange": 0,
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 2,
                         "buff": {
                             "name": "empower",
                             "duration": 1,
@@ -2517,9 +2530,9 @@
                 ],
                 "mainEffect": [
                     {
-                        "minRange": 0,
-                        "maxRange": 0,
-                        "type": "add"
+                        "type": "attack",
+                        "minRange": 1,
+                        "maxRange": 4
                     }
                 ],
                 "afterEffect": [
