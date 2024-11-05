@@ -2,8 +2,8 @@ from src.battleSystem.battleEntity.Enemy import Enemy
 
 
 class Boss(Enemy):
-    def __init__(self, name, image=None):
-        super().__init__(name, image)
+    def __init__(self, name):
+        super().__init__(name)
         self.attack = 20  # Example additional attribute for Boss
 
     def update(self, dt, events):

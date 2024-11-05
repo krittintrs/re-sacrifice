@@ -47,7 +47,7 @@ class BattlePreparationState(BaseState):
 
         if self.enemy is None:
             # mock enemy
-            self.enemy = Enemy("enemy")  
+            self.enemy = Enemy("enemy", gNormalGoblin_animation_list)
             self.enemy.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)
 
         #Set up the initial default position of player and enemy

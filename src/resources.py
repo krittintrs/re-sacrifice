@@ -55,3 +55,10 @@ gMage_animation_list = {
     "knock_down": sprite_collection["knockDown_mage"].animation,
     "walk": sprite_collection["walk_mage"].animation
 }
+
+gNormalGoblin_animation_list = {
+    "idle": sprite_collection["normalGoblinIdle"].animation,
+    "attack": sprite_collection["normalGoblinAttack"].animation,
+    "death": sprite_collection["normalGoblinDeath"].animation,
+    "walk": sprite_collection["normalGoblinWalk"].animation
+}

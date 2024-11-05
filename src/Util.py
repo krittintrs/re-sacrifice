@@ -24,7 +24,11 @@ class SpriteManager:
                 "./spritesheet/main_character_in_battle/mage.json",
                 "./spritesheet/main_character_in_battle/other_warrior.json",
                 "./spritesheet/main_character_in_battle/other_ranger.json",
-                "./spritesheet/main_character_in_battle/other_mage.json"
+                "./spritesheet/main_character_in_battle/other_mage.json",
+                "./spritesheet/Goblin/NormalGoblin/normalGob_Attack.json",
+                "./spritesheet/Goblin/NormalGoblin/normalGob_Death.json",
+                "./spritesheet/Goblin/NormalGoblin/normalGob_Idle.json",
+                "./spritesheet/Goblin/NormalGoblin/normalGob_Walk.json",
             ]
         )
         self.spriteCollection["card"] = self.loadCards("./cards/cards_corrected.json")
@@ -45,14 +49,18 @@ class SpriteManager:
                     for animation_name, animation_data in data["animations"].items():
                         images = []
                         for sprite in animation_data["sprites"]:
+                            if "Goblin" in animation_name:
+                                scale = sprite.get("scale", 3) 
+                            else:
+                                scale = sprite.get("scale", 4) 
                             xSize = sprite.get('width', None)  # Use the new width
                             ySize = sprite.get('height', None)  # Use the new height
                             images.append(
                                 mySpritesheet.image_at(
                                     sprite["x"],
                                     sprite["y"],
-                                    sprite.get("scale", 4),  # Use the scale from the sprite or default to 1
-                                    colorkey=-1,  # Default color key if not provided
+                                    scale,  
+                                    colorkey=-1,  
                                     xTileSize=xSize,
                                     yTileSize=ySize,
                                 )

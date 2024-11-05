@@ -3,10 +3,9 @@ from src.dependency import *
 from src.battleSystem.Deck import Deck
 
 class Entity:
-    def __init__(self, name, animation_list=None, health=10, image=None):
+    def __init__(self, name, animation_list=None, health=10):
         self.name = name
         self.fieldTile_index = None  # Keep track of which field it is on
-        self.image = image
         self.animation_list = animation_list
         self.curr_animation = "idle"  # Start with the idle animation
         self.frame_index = 0  # Frame index for animations
@@ -131,7 +130,10 @@ class Entity:
                 
                 # Render current animation frame
                 current_frame = animation_frames[self.frame_index]
-                screen.blit(current_frame, (entity_x - 55, entity_y - 20))
+                if self.name == 'player':
+                    screen.blit(current_frame, (entity_x, entity_y))
+                else:
+                    screen.blit(pygame.transform.flip(current_frame, True, False), (entity_x, entity_y))
         else:
             # Placeholder red rectangle if no animation is provided
             pygame.draw.rect(screen, color, (entity_x, entity_y, entity_width, entity_height))

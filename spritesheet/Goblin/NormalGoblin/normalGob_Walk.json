@@ -3,7 +3,7 @@
   "spriteSheetURL": "spritesheet/Goblin/NormalGoblin/normalGob_Walk.png",
   "animations": {
     "normalGoblinWalk": {
-      "loop": "True",
+      "loop": "False",
       "sprites": [
         {
           "fileName": "normalGob_Walk1-0",
