@@ -15,6 +15,11 @@ class SelectionState(Enum):
     MOVE = "move"
     BUFF = "buff"
 
+class RPGState(Enum):
+    START = "start"
+    TOWN = "town"
+    TAVERN = "tavern"
+
 class PlayerType(Enum):
     PLAYER = "Player"
     ENEMY = "Enemy"
