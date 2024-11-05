@@ -87,41 +87,78 @@ class BattleResolveState(BaseState):
         self.player.update(dt)
 
     def resolveCardEffect(self, effect, effectOwner):
-        if effect.type == EffectType.ATTACK:
-            g_state_manager.Change(SelectionState.ATTACK, {
-                'player': self.player,
-                'enemy': self.enemy,
-                'field': self.field,
-                'turn': self.turn,
-                'currentTurnOwner': self.currentTurnOwner,
-                'effectOrder': self.effectOrder,
-                'effect': effect,
-                'effectOwner': effectOwner
-            })
-        elif effect.type == EffectType.MOVE:
-            g_state_manager.Change(SelectionState.MOVE, {
-                'player': self.player,
-                'enemy': self.enemy,
-                'field': self.field,
-                'turn': self.turn,
-                'currentTurnOwner': self.currentTurnOwner,
-                'effectOrder': self.effectOrder,
-                'effect': effect,
-                'effectOwner': effectOwner
-            })
-        elif effect.type == EffectType.RANGE_BUFF:
-            g_state_manager.Change(SelectionState.BUFF, {  
-                'player': self.player,
-                'enemy': self.enemy,
-                'field': self.field,
-                'turn': self.turn,
-                'currentTurnOwner': self.currentTurnOwner,
-                'effectOrder': self.effectOrder,
-                'effect': effect,
-                'effectOwner': effectOwner
-            })
-        elif effect.type == EffectType.SELF_BUFF:
-            print(f'{effectOwner.name} self buff')
+        match effect.type:
+            case EffectType.ATTACK:
+                g_state_manager.Change(SelectionState.ATTACK, {
+                    'player': self.player,
+                    'enemy': self.enemy,
+                    'field': self.field,
+                    'turn': self.turn,
+                    'currentTurnOwner': self.currentTurnOwner,
+                    'effectOrder': self.effectOrder,
+                    'effect': effect,
+                    'effectOwner': effectOwner
+                })
+            case EffectType.MOVE:
+                g_state_manager.Change(SelectionState.MOVE, {
+                    'player': self.player,
+                    'enemy': self.enemy,
+                    'field': self.field,
+                    'turn': self.turn,
+                    'currentTurnOwner': self.currentTurnOwner,
+                    'effectOrder': self.effectOrder,
+                    'effect': effect,
+                    'effectOwner': effectOwner
+                })
+            case EffectType.RANGE_BUFF:
+                g_state_manager.Change(SelectionState.BUFF, {
+                    'player': self.player,
+                    'enemy': self.enemy,
+                    'field': self.field,
+                    'turn': self.turn,
+                    'currentTurnOwner': self.currentTurnOwner,
+                    'effectOrder': self.effectOrder,
+                    'effect': effect,
+                    'effectOwner': effectOwner
+                })
+            case EffectType.SELF_BUFF:
+                print(f'{effectOwner.name} self buff')
+            case EffectType.PUSH:
+                pass
+            case EffectType.PULL:
+                pass
+            case EffectType.CLEANSE:
+                pass
+            case EffectType.DISCARD:
+                pass
+            case EffectType.SAND_THROW:
+                pass
+            case EffectType.ANGEL_BLESSING:
+                pass
+            case EffectType.DESTINY_DRAW:
+                pass
+            case EffectType.RESET_HAND:
+                pass
+            case EffectType.WARRIOR:
+                pass
+            case EffectType.BLOOD_SACRIFICE:
+                pass
+            case EffectType.CRITICAL:
+                pass
+            case EffectType.TRUE_DAMAGE:
+                pass
+            case EffectType.NEXT_MULTI:
+                pass
+            case EffectType.KAMIKAZE:
+                pass
+            case EffectType.SPAWN:
+                pass
+            case EffectType.HEAL:
+                pass
+            case EffectType.COPY:
+                pass
+            case _:
+                print(f'Unknown effect type: {effect.type}')
 
     def render(self, screen):
         RenderTurn(screen, 'Resolve State', self.turn, self.currentTurnOwner)
