@@ -11,7 +11,7 @@ import sys
 class BattlePreparationState(BaseState):
     def __init__(self):
         super(BattlePreparationState, self).__init__()
-        self.menu = ["Start Battle", "Edit deck"]
+        self.menu = ["Start Battle", "Edit deck", "Edit enemy deck"]
         self.selectIndex = 0
 
         # base turn
@@ -24,7 +24,7 @@ class BattlePreparationState(BaseState):
     def mockDeck(self):
         deck = Deck()
         for i, card in enumerate(card_dict.values()):
-            deck.addCard(card)
+            deck.addCard(copy.copy(card))
         return deck
     
     def initialDraw(self):
@@ -39,11 +39,17 @@ class BattlePreparationState(BaseState):
 
         if self.player is None:
             # mock player
-            self.player = Player("player")   
+            self.player = Player("player")
+            self.player.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)
 
-        # mock enemy
-        self.enemy = Enemy("enemy")  
-        self.enemy.deck = self.mockDeck()
+        if self.enemy is None:
+            # mock enemy
+            self.enemy = Enemy("enemy")  
+            self.enemy.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)
+
+        #Set up the initial default position of player and enemy
+        self.player.fieldTile_index  = 2
+        self.enemy.fieldTile_index = 7
 
         if len(self.player.deck.card_deck) > 0:
             print('player deck size: ', len(self.player.deck.card_deck))
@@ -60,9 +66,9 @@ class BattlePreparationState(BaseState):
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:
-                    self.selectIndex = (self.selectIndex + 1)%2
+                    self.selectIndex = (self.selectIndex + 1)%len(self.menu)
                 if event.key == pygame.K_LEFT:
-                    self.selectIndex = (self.selectIndex - 1)%2
+                    self.selectIndex = (self.selectIndex - 1)%len(self.menu)
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
@@ -76,10 +82,24 @@ class BattlePreparationState(BaseState):
                             'turn': self.turn,
                             'currentTurnOwner': self.currentTurnOwner
                         })
+                    elif self.selectIndex == 1:
+                        g_state_manager.Change(BattleState.DECK_BUILDING, {
+                            'player': self.player,
+                            'enemy':self.enemy,
+                            'edit_player_deck':True
+                        })
                     else:
                         g_state_manager.Change(BattleState.DECK_BUILDING, {
                             'player': self.player,
+                            'enemy':self.enemy,
+                            'edit_player_deck':False
                         })
+
+        # Update buff
+        for buff in self.player.buffs:
+            buff.update(dt, events)
+        for buff in self.enemy.buffs:
+            buff.update(dt, events)
 
 
     def render(self, screen):

@@ -1,6 +1,7 @@
 import pygame
 import sys
 from src.dependency import *
+from src.Render import *
 
 class BattleSelectState(BaseState):
     def __init__(self):
@@ -8,7 +9,7 @@ class BattleSelectState(BaseState):
         self.selected_index = 0
 
     def Enter(self, params):
-        print(">>>>>> Enter BattleSelectState <<<<<<")
+        print("\n>>>>>> Enter BattleSelectState <<<<<<")
         # Retrieve the cards, entities, and field from the parameter
         self.player = params['player']
         self.enemy = params['enemy']
@@ -17,6 +18,16 @@ class BattleSelectState(BaseState):
         self.currentTurnOwner = params['currentTurnOwner']  
 
         self.player.cardsOnHand[self.selected_index].isSelected = True
+
+        # For Debug Buffs
+        print(f'Player Buffs: {self.player.buffs}')
+        self.player.print_buffs()
+        print(f'Enemy Buffs: {self.enemy.buffs}')
+        self.enemy.print_buffs()
+
+        # apply buff to all cards on hand
+        self.player.apply_buffs_to_cardsOnHand()
+        self.enemy.apply_buffs_to_cardsOnHand()
 
     def Exit(self):
         pass
@@ -50,12 +61,21 @@ class BattleSelectState(BaseState):
                         'currentTurnOwner': self.currentTurnOwner,
                     })
 
+        # Update buff
+        for buff in self.player.buffs:
+            buff.update(dt, events)
+        for buff in self.enemy.buffs:
+            buff.update(dt, events)
+
     def change_selection(self, newIndex):
         self.player.cardsOnHand[self.selected_index].isSelected = False
         self.player.cardsOnHand[newIndex].isSelected = True
         self.selected_index = newIndex
 
     def render(self, screen):
+        RenderTurn(screen, 'Selection State', self.turn, self.currentTurnOwner)
+        RenderEntityStats(screen, self.player, self.enemy)
+
         # Title
         screen.blit(pygame.font.Font(None, 36).render("Select Card: Press Enter to Confirm", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
 
