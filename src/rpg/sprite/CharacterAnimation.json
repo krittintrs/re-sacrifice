@@ -1,5 +1,5 @@
 {
-    "spriteSheetURL": "src\\rpg\\sprite\\character_walk.png",
+    "spriteSheetURL": "src/rpg/sprite/character_walk.png",
     "type":"animation",
     "size":[16,32],
     "sprites":[

@@ -46,9 +46,9 @@ class TutorialState:
         # Classes for selection
         self.classes = ["Mage", "Warrior", "Ranger"]
         self.selected_class_index = 0  # Start with the first class selected
-        self.class_img_path = {'Mage': "src\\rpg\sprite\Classes\mage.png",
-                          'Warrior':"src\\rpg\sprite\Classes\warrior.png",
-                          'Ranger':"src\\rpg\sprite\Classes\\ranger.png"}
+        self.class_img_path = {'Mage': "src/rpg/sprite/Classes/mage.png",
+                          'Warrior':"src/rpg/sprite/Classes/warrior.png",
+                          'Ranger':"src/rpg/sprite/Classes/ranger.png"}
         self.class_desc = {'Mage': "Magic go boom",
                           'Warrior':"ching ching",
                           'Ranger':"Pung Pung"}
@@ -61,7 +61,7 @@ class TutorialState:
         self.title_font = pygame.font.Font(None, 48)  # Font for the title
         
         # Video setup for cutscene
-        self.cutscene_video = cv2.VideoCapture("src\\rpg\cutscene\Cutscene1.mp4")
+        self.cutscene_video = cv2.VideoCapture("src/rpg/cutscene/Cutscene1.mp4")
         self.playing_cutscene = False
         
     def update(self, dt,events):
