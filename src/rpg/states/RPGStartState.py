@@ -15,6 +15,7 @@ import re
 from src.rpg.NPC import NPC
 from src.rpg.Prompts import *
 from src.resources import g_state_manager
+from src.EnumResources import RPGState
 
 genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")
 # Create the model
@@ -120,7 +121,7 @@ class RPGStartState:
         # self.player = self.params['player']
         self.params['rpg_player'].x  = 620
         self.params['rpg_player'].y  = 634
-        g_state_manager.Change('tavern', self.params)
+        g_state_manager.Change(RPGState.TAVERN, self.params)
         
     def interact_with_npc(self, npc):
         # Calculate direction to face player and update NPC sprite

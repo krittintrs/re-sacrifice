@@ -31,9 +31,9 @@ class GameMain:
                 BattleState.FINISH_PHASE: BattleFinishState(),
             },
             "rpg": {
-                "start": TutorialState(),# Add RPG start state here
-                "town" : RPGStartState(),
-                "tavern": TavernMapState()
+                RPGState.START: TutorialState(),# Add RPG start state here
+                RPGState.TOWN: RPGStartState(),
+                RPGState.TAVERN: TavernMapState()
             }
         }
 
@@ -83,9 +83,7 @@ class GameMain:
                             # Change to RPG state and set RPG start state in state manager
                             self.state = "rpg"
                             g_state_manager.SetStates(self.states["rpg"])
-                            print("set state")
-                            g_state_manager.Change("start",{})  # Initialize RPGStartState
-                            print("change state")
+                            g_state_manager.Change(RPGState.START,{})  # Initialize RPGStartState
                         elif event.key == pygame.K_b:
                             # Change to Battle state and set initial battle phase in state manager
                             self.state = "battle"

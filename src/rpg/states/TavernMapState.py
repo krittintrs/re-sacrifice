@@ -9,6 +9,7 @@ from src.rpg.Player import Player
 from src.rpg.StateMachine import StateMachine
 from src.rpg.Prompts import PROMPTS
 from src.resources import g_state_manager
+from src.EnumResources import RPGState
 
 class TavernMapState:
     def __init__(self):
@@ -98,7 +99,7 @@ class TavernMapState:
         # Transition back to the RPGStartState
         self.params["rpg_player"].x = 625
         self.params["rpg_player"].y = 326
-        g_state_manager.Change('town', self.params)
+        g_state_manager.Change(RPGState.TOWN, self.params)
         
     def interact_with_bar(self):
         # Transition back to the RPGStartState

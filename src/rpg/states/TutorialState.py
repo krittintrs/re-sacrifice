@@ -9,6 +9,7 @@ from src.rpg.entity.playerState.PlayerIdleState import PlayerIdleState
 from src.rpg.entity.playerState.PlayerWalkState import PlayerWalkState
 from src.resources import g_state_manager
 import cv2
+from src.EnumResources import RPGState
 
 class TutorialState:
     def __init__(self):
@@ -117,12 +118,12 @@ class TutorialState:
             else:
                 self.current_stage = "class_select"
         elif self.current_stage == "cutscene":
-            g_state_manager.Change('town', self.params)  # Transition to RPG start state
+            g_state_manager.Change(RPGState.TOWN, self.params)  # Transition to RPG start state
 
     def skip_cutscene(self):
         self.playing_cutscene = False
         self.cutscene_video.release()  # Release video resource
-        g_state_manager.Change('town', self.params)
+        g_state_manager.Change(RPGState.TOWN, self.params)
         
     def render_cutscene(self, screen):
         ret, frame = self.cutscene_video.read()
