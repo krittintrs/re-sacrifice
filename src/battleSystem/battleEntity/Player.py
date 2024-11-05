@@ -15,7 +15,7 @@ class Player(Entity):
 
     def render(self, screen, x, y):
         # Call the parent render method
-        super().render(screen, x - 55, y - 20, (0, 255, 0))
+        super().render(screen, x, y, (0, 255, 0))
 
         # Add player-specific rendering logic here if needed
         # screen.blit(self.image, (x, y))

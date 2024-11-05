@@ -133,9 +133,9 @@ class Entity:
                 # Render current animation frame
                 current_frame = animation_frames[self.frame_index]
                 if self.name == 'player':
-                    screen.blit(current_frame, (entity_x, entity_y))
+                    screen.blit(current_frame, (entity_x -55, entity_y -20))
                 else:
-                    screen.blit(pygame.transform.flip(current_frame, True, False), (entity_x, entity_y))
+                    screen.blit(pygame.transform.flip(current_frame, True, False), (entity_x - 185, entity_y - 185))
         else:
             # Placeholder red rectangle if no animation is provided
             pygame.draw.rect(screen, color, (entity_x, entity_y, entity_width, entity_height))

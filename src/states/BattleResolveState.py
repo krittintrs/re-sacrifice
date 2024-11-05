@@ -85,7 +85,8 @@ class BattleResolveState(BaseState):
             buff.update(dt, events)
 
         self.player.update(dt)
-
+        self.enemy.update(dt)
+        
     def resolveCardEffect(self, effect, effectOwner):
         if effect.type == EffectType.ATTACK:
             g_state_manager.Change(SelectionState.ATTACK, {

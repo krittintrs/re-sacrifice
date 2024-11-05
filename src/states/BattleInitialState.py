@@ -77,7 +77,8 @@ class BattleInitialState(BaseState):
             buff.update(dt, events)
 
         self.player.update(dt)
-
+        self.enemy.update(dt)
+        
     def render(self, screen):
         RenderTurn(screen, 'Initial State', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)

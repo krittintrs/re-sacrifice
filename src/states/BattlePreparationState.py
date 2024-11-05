@@ -102,7 +102,7 @@ class BattlePreparationState(BaseState):
             buff.update(dt, events)
     
         self.player.update(dt)
-
+        self.enemy.update(dt)
 
     def render(self, screen):
         # Title

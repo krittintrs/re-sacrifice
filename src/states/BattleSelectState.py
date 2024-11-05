@@ -70,7 +70,8 @@ class BattleSelectState(BaseState):
             buff.update(dt, events)
             
         self.player.update(dt)
-
+        self.enemy.update(dt)
+        
     def change_selection(self, newIndex):
         self.player.cardsOnHand[self.selected_index].isSelected = False
         self.player.cardsOnHand[newIndex].isSelected = True
