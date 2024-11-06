@@ -24,8 +24,23 @@ def RenderEntityStats(screen, player, enemy):
     ]
     for i, stat in enumerate(enemy_stats):
         screen.blit(pygame.font.Font(None, 24).render(stat, True, (255, 0, 0)), (SCREEN_WIDTH - 100, STATS_OFFSET + i * 20))
+   
+def RenderSelectedCard(screen, playerSelectedCard, enemySelectedCard):
+    screen.blit(pygame.font.Font(None, 36).render("Player's", True, (255, 255, 255)), (50, SCREEN_HEIGHT - HUD_HEIGHT // 2 - 30))
+    screen.blit(pygame.font.Font(None, 36).render("Card", True, (255, 255, 255)), (50, SCREEN_HEIGHT - HUD_HEIGHT // 2))
 
-def RenderEntitySelection(screen, player, enemy):
-    screen.blit(pygame.font.Font(None, 36).render("Player's Card: " + str(player.selectedCard.name), True, (0, 0, 0)), (10, SCREEN_HEIGHT - HUD_HEIGHT - 30))
-    screen.blit(pygame.font.Font(None, 36).render("Enemy's Card: " + str(enemy.selectedCard.name), True, (0, 0, 0)), (SCREEN_WIDTH - 500, SCREEN_HEIGHT - HUD_HEIGHT - 30))
+    screen.blit(pygame.font.Font(None, 36).render("Enemy's", True, (255, 255, 255)), (SCREEN_WIDTH - 150, SCREEN_HEIGHT - HUD_HEIGHT // 2 - 30))
+    screen.blit(pygame.font.Font(None, 36).render("Card", True, (255, 255, 255)), (SCREEN_WIDTH - 150, SCREEN_HEIGHT - HUD_HEIGHT // 2))
+
+    playerSelectedCard.render(screen, 0.5)
+    enemySelectedCard.render(screen, 3.5)
+
+def RenderCurrentAction(screen, effect, effectOwner):
+    font = pygame.font.Font(None, 36)
+    text = font.render(f"Current Action: {effect.type} ({effectOwner.value})", True, (0, 0, 0))
     
+    # Calculate the position to center the text horizontally
+    text_rect = text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - HUD_HEIGHT - 50))
+    
+    # Blit the text to the screen
+    screen.blit(text, text_rect)

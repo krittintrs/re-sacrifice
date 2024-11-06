@@ -1,3 +1,4 @@
+from src.battleSystem.Card import Card
 from src.battleSystem.Deck import Deck
 from src.states.BaseState import BaseState
 from src.dependency import *
@@ -20,8 +21,8 @@ class DeckBuildingState(BaseState):
         self.selectedCardSpacing = 20
         self.availableCardWindow = 0
         self.isMouseOn = False
-        self.cardClass = CardClass #[CardClass.COMMON, CardClass.WARRIOR, CardClass.RANGER, CardClass.MAGE]
-        self.cardEffect = [EffectType.ATTACK, EffectType.MOVE, EffectType.SELF_BUFF, EffectType.RANGE_BUFF, EffectType.PULL, EffectType.PUSH, EffectType.DEBUFF, EffectType.BUFF, EffectType.CLEANSE, EffectType.HEAL, EffectType.DISCARD]
+        self.cardClass = list(CardClass)
+        self.cardEffect = list(EffectType)
         
         self.leftBorder = SCREEN_WIDTH * 0.25
         self.topBorder = SCREEN_HEIGHT * 0.2
@@ -53,8 +54,11 @@ class DeckBuildingState(BaseState):
         self.availableCardScale = 0.5
 
         self.scroll_speed = 1
-        # mock inventory card
-        for card in card_dict.values():
+
+        # TODO: mock inventory card
+        for card_def in CARD_DEFS.values():
+            card = Card()
+            card.read_conf(card_def)
             self.inventory.append(card)
         
 
@@ -84,7 +88,7 @@ class DeckBuildingState(BaseState):
             # get a set of card effect type
             card_effect = set()
             for effect in (card.beforeEffect + card.mainEffect + card.afterEffect):
-                card_effect.add(effect.type)
+                card_effect.add(effect.type.value)
 
             # check condition
             effect_flag = effects.issubset(card_effect)
