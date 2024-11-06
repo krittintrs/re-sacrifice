@@ -1,11 +1,9 @@
 import pygame
 import json
 from src.EnumResources import EffectType
-from src.battleSystem.Card import Card
 from src.battleSystem.card_defs import CardConf
 from src.battleSystem.Effect import Effect
 from src.battleSystem.deck_defs import DeckConf
-import copy
 
 class Sprite:
     def __init__(self, image, animation=None):
@@ -116,27 +114,21 @@ class SpriteManager:
 
                 # extract and create effects list for creating card
                 temp_effect_dict = {}
-                for type in card["effect"]:
-                    temp_effect_dict[type] = []
-                    if type == "buff":
-                        for effect in card["effect"].get(type, []):
-                            if effect:
-                                try:
-                                    effect_type = EffectType(effect["type"])
-                                except ValueError:
-                                    print(f"Unknown effect type: {effect['type']}")
-                                    continue
-                                temp_effect_dict[type].append(Effect(effect_type, effect["minRange"], effect["maxRange"], effect["buff"]))
-                    else:
-                        for effect in card["effect"].get(type, []):
-                            if effect:
-                                if effect:
-                                    try:
-                                        effect_type = EffectType(effect["type"])
-                                    except ValueError:
-                                        print(f"Unknown effect type: {effect['type']}")
-                                        continue
-                                    temp_effect_dict[type].append(Effect(effect_type, effect["minRange"], effect["maxRange"]))
+                for effectPeriod in card["effect"]:
+                    temp_effect_dict[effectPeriod] = []
+                    for effect in card["effect"].get(effectPeriod, []):
+                        if effect:
+                            try:
+                                effect_type = EffectType(effect["type"])
+                            except ValueError:
+                                print(f"Unknown effect type: {effect['type']}")
+                                continue
+                            try:
+                                effect_buff = effect["buff"]
+                            except KeyError:
+                                effect_buff = None
+                            temp_effect_dict[effectPeriod].append(Effect(effect_type, effect["minRange"], effect["maxRange"], effect_buff))
+                            print(effect_type, effect_buff)
 
                 # Create the Card object for each card entry
                 card_conf[card["name"]] = CardConf(
