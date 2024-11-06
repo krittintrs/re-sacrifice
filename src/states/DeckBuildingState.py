@@ -22,7 +22,7 @@ class DeckBuildingState(BaseState):
         self.availableCardWindow = 0
         self.isMouseOn = False
         self.cardClass = list(CardClass)
-        self.cardEffect = list(EffectType)
+        self.cardEffect = [EffectType.ATTACK, EffectType.MOVE, EffectType.SELF_BUFF, EffectType.RANGE_BUFF, EffectType.PULL, EffectType.PUSH, EffectType.CLEANSE]
         
         self.leftBorder = SCREEN_WIDTH * 0.25
         self.topBorder = SCREEN_HEIGHT * 0.2
