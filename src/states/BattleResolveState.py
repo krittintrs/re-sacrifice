@@ -2,6 +2,7 @@ from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
 from src.Render import *
+from src.battleSystem.Buff import Buff
 import pygame
 import sys
 
@@ -122,7 +123,12 @@ class BattleResolveState(BaseState):
                     'effectOwner': effectOwner
                 })
             case EffectType.SELF_BUFF:
-                print(f'{effectOwner.name} self buff')
+                buff = self.getBuffFromEffect(effect)
+                print(f'{effectOwner.name} self buff: {buff.name}')
+                if effectOwner == PlayerType.PLAYER:
+                    self.player.add_buff(buff)
+                elif effectOwner == PlayerType.ENEMY:
+                    self.enemy.add_buff(buff)
             case EffectType.PUSH:
                 pass
             case EffectType.PULL:
@@ -159,6 +165,13 @@ class BattleResolveState(BaseState):
                 pass
             case _:
                 print(f'Unknown effect type: {effect.type}')
+
+    def getBuffFromEffect(self, effect):
+        if effect.buffName:
+            return Buff(CARD_BUFF[effect.buffName])
+        else:
+            print(f'Buff not found: {effect.buffName}')
+            return False
 
     def render(self, screen):
         RenderTurn(screen, 'Resolve State', self.turn, self.currentTurnOwner)
