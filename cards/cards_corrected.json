@@ -877,8 +877,8 @@
                 "mainEffect": [
                     {
                         "type": "range_buff",
-                        "minRange": 0,
-                        "maxRange": 0,
+                        "minRange": 1,
+                        "maxRange": 3,
                         "buff": "attack_debuff"
                     }
                 ],
@@ -911,8 +911,8 @@
                 "mainEffect": [
                     {
                         "type": "range_buff",
-                        "minRange": 0,
-                        "maxRange": 0,
+                        "minRange": 1,
+                        "maxRange": 3,
                         "buff": "defense_debuff"
                     }
                 ],
@@ -945,8 +945,8 @@
                 "mainEffect": [
                     {
                         "type": "range_buff",
-                        "minRange": 0,
-                        "maxRange": 0,
+                        "minRange": 1,
+                        "maxRange": 3,
                         "buff": "speed_debuff"
                     }
                 ],
@@ -979,8 +979,8 @@
                 "mainEffect": [
                     {
                         "type": "range_buff",
-                        "minRange": 0,
-                        "maxRange": 0,
+                        "minRange": 1,
+                        "maxRange": 3,
                         "buff": "range_debuff"
                     }
                 ],
@@ -1013,8 +1013,8 @@
                 "mainEffect": [
                     {
                         "type": "range_buff",
-                        "minRange": 0,
-                        "maxRange": 0,
+                        "minRange": 1,
+                        "maxRange": 3,
                         "buff": "move_debuff"
                     }
                 ],
