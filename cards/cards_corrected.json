@@ -558,16 +558,7 @@
                         "type": "range_buff",
                         "minRange": 0,
                         "maxRange": 4,
-                        "buff": {
-                            "name": "stopMovement",
-                            "duration": 1,
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": ["stop_movement"]
                     }
                 ],
                 "mainEffect": [
@@ -608,7 +599,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": "attack_boost"
+                        "buff": ["attack_boost"]
                     }
                 ],
                 "afterEffect": [
@@ -642,7 +633,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": "defense_boost"
+                        "buff": ["defense_boost"]
                     }
                 ],
                 "afterEffect": [
@@ -676,7 +667,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": "speed_boost"
+                        "buff": ["speed_boost"]
                     }
                 ],
                 "afterEffect": [
@@ -710,7 +701,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": "range_boost"
+                        "buff": ["range_boost"]
                     }
                 ],
                 "afterEffect": [
@@ -777,7 +768,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": "perm_attack_boost"
+                        "buff": ["perm_attack_boost_1", "perm_attack_boost_2"]
                     }
                 ],
                 "afterEffect": [
@@ -811,7 +802,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": "perm_defense_boost"
+                        "buff": ["perm_defense_boost_1", "perm_defense_boost_2"]
                     }
                 ],
                 "afterEffect": [
@@ -845,7 +836,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": "perm_speed_boost"
+                        "buff": ["perm_speed_boost_1", "perm_speed_boost_2"]
                     }
                 ],
                 "afterEffect": [
@@ -879,7 +870,7 @@
                         "type": "range_buff",
                         "minRange": 1,
                         "maxRange": 3,
-                        "buff": "attack_debuff"
+                        "buff": ["attack_debuff"]
                     }
                 ],
                 "afterEffect": [
@@ -913,7 +904,7 @@
                         "type": "range_buff",
                         "minRange": 1,
                         "maxRange": 3,
-                        "buff": "defense_debuff"
+                        "buff": ["defense_debuff"]
                     }
                 ],
                 "afterEffect": [
@@ -947,7 +938,7 @@
                         "type": "range_buff",
                         "minRange": 1,
                         "maxRange": 3,
-                        "buff": "speed_debuff"
+                        "buff": ["speed_debuff"]
                     }
                 ],
                 "afterEffect": [
@@ -981,7 +972,7 @@
                         "type": "range_buff",
                         "minRange": 1,
                         "maxRange": 3,
-                        "buff": "range_debuff"
+                        "buff": ["range_debuff"]
                     }
                 ],
                 "afterEffect": [
@@ -1015,7 +1006,7 @@
                         "type": "range_buff",
                         "minRange": 1,
                         "maxRange": 3,
-                        "buff": "move_debuff"
+                        "buff": ["move_debuff"]
                     }
                 ],
                 "afterEffect": [
@@ -1046,16 +1037,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": {
-                            "name": "Evade",
-                            "duration": 1,
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": ["evade"]
                     }
                 ],
                 "mainEffect": [
@@ -1125,16 +1107,7 @@
                         "type": "range_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": {
-                            "name": "sleep",
-                            "duration": 2,
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": ["sleep"]
                     }
                 ],
                 "afterEffect": [
@@ -1165,16 +1138,7 @@
                         "type": "sand_throw",
                         "minRange": 1,
                         "maxRange": 2,
-                        "buff": {
-                            "name": "sleep",
-                            "duration": 1,
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": ["sleep"]
                     }
                 ],
                 "mainEffect": [
@@ -1323,16 +1287,7 @@
                         "type": "self_buff",
                         "minRange": 1,
                         "maxRange": 1,
-                        "buff": {
-                            "name": "empower",
-                            "duration": 2,
-                            "value": [
-                                1,
-                                1,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": ["empower"]
                     }
                 ],
                 "afterEffect": [
@@ -1490,16 +1445,7 @@
                         "type": "self_buff",
                         "minRange": 1,
                         "maxRange": 1,
-                        "buff": {
-                            "name": "empower",
-                            "duration": 2,
-                            "value": [
-                                1,
-                                1,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": ["empower"]
                     }
                 ],
                 "afterEffect": [
@@ -1588,16 +1534,7 @@
                         "type": "attack",
                         "minRange": 2,
                         "maxRange": 5,
-                        "buff": {
-                            "name": "fire",
-                            "duration": 3,
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": ["fire"]
                     }
                 ],
                 "afterEffect": [
@@ -1668,16 +1605,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": {
-                            "name": "crit+",
-                            "duration": 2,
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": ["crit+"]
                     }
                 ],
                 "afterEffect": [
@@ -1715,16 +1643,7 @@
                         "type": "range_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": {
-                            "name": "RNG +1 DEBUFF",
-                            "duration": 2,
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                1
-                            ]
-                        }
+                        "buff": ["sabotage"]
                     }
                 ],
                 "afterEffect": [
@@ -1758,16 +1677,7 @@
                         "type": "attack",
                         "minRange": 1,
                         "maxRange": 3,
-                        "buff": {
-                            "name": "fire",
-                            "duration": 3,
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": ["fire"]
                     }
                 ],
                 "afterEffect": [
@@ -1867,16 +1777,7 @@
                         "type": "range_buff",
                         "minRange": 0,
                         "maxRange": 4,
-                        "buff": {
-                            "name": "stopMovement",
-                            "duration": 1,
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": "stop_movement"
                     }
                 ],
                 "afterEffect": [
@@ -1910,16 +1811,7 @@
                         "type": "range_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": {
-                            "name": "sleep",
-                            "duration": 2,
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": ["sleep"]
                     }
                 ],
                 "afterEffect": [
@@ -2076,16 +1968,7 @@
                         "type": "range_buff",
                         "minRange": 1,
                         "maxRange": 4,
-                        "buff": {
-                            "name": "ATK -1, RNG -1",
-                            "duration": 2,
-                            "value": [
-                                -1,
-                                0,
-                                0,
-                                -1
-                            ]
-                        }
+                        "buff": ["blindness"]
                     }
                 ],
                 "afterEffect": [
@@ -2127,16 +2010,7 @@
                         "type": "range_buff",
                         "minRange": 1,
                         "maxRange": 4,
-                        "buff": {
-                            "name": "MOVE -1",
-                            "duration": 2,
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": ["muddy"]
                     }
                 ],
                 "afterEffect": [
@@ -2274,31 +2148,13 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": {
-                            "name": "sleep",
-                            "duration": 2,
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": ["sleep"]
                     },
                     {
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": {
-                            "name": "ATK +1, DEF +1",
-                            "duration": 2,
-                            "value": [
-                                1,
-                                1,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": ["meditation"]
                     }
                 ],
                 "afterEffect": [
@@ -2403,16 +2259,7 @@
                         "type": "range_buff",
                         "minRange": 1,
                         "maxRange": 4,
-                        "buff": {
-                            "name": "fire",
-                            "duration": 3,
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": ["fire"]
                     }
                 ],
                 "afterEffect": [
