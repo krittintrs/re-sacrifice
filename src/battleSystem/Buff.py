@@ -1,7 +1,6 @@
 import pygame
 from src.dependency import *
 
-
 class Buff():
     def __init__(self, conf):
         self.name = conf.name
@@ -68,17 +67,19 @@ class Buff():
 
         if self.tooltipFlag:
             font = pygame.font.SysFont("Arial", 20)  # Smaller size for slimmer appearance
-            duration = sum(v for v in self.value if v != 0)
-            if is_positive:
-                if duration > 1:
-                    tooltip_text = f"Gain {self.name} for {duration} turns"
-                else:
-                    tooltip_text = f"Gain {self.name} for {duration} turn"
-            elif is_negative:
-                if duration > 1:
-                    tooltip_text = f"Lose {self.name} for {duration} turns"
-                else:
-                    tooltip_text = f"Lose {self.name} for {duration} turn"
+            if self.duration == -1:
+                tooltip_text = f"Gain {self.name} permanently"
+            else:
+                if is_positive:
+                    if self.duration > 1:
+                        tooltip_text = f"Gain {self.name} for {self.duration} turns"
+                    else:
+                        tooltip_text = f"Gain {self.name} for {self.duration} turn"
+                elif is_negative:
+                    if self.duration > 1:
+                        tooltip_text = f"Lose {self.name} for {self.duration} turns"
+                    else:
+                        tooltip_text = f"Lose {self.name} for {self.duration} turn"
             
             # Use a lighter gray color to make the font look less strong
             text_surface = font.render(tooltip_text, True, (0, 0, 0)) 
