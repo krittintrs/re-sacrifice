@@ -111,4 +111,4 @@ class BattleActionState(BaseState):
 
         # Render field
         for fieldTile in self.field:
-            fieldTile.render(screen, len(self.field))
+            fieldTile.render(screen)

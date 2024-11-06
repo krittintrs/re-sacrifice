@@ -1,9 +1,12 @@
 from src.battleSystem.battleEntity.Entity import Entity
+from src.dependency import *
 
 class Enemy(Entity):
     def __init__(self, name, animationlist):
         super().__init__(name, animationlist)
         self.health = 6  # Example additional attribute for Enemy
+
+        self.x, self.y = 1200, SCREEN_HEIGHT // 3 - FIELD_HEIGHT // 2  # Initial position for rendering
 
     def update(self, dt):
         super().update(dt)

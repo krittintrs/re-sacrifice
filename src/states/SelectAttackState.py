@@ -171,6 +171,6 @@ class SelectAttackState(BaseState):
                     fieldTile.color = (255,0,255)
                     fieldTile.solid = 0
                 
-            fieldTile.render(screen, len(self.field))
+            fieldTile.render(screen)
             fieldTile.color = (0,0,0)
             fieldTile.solid = 1

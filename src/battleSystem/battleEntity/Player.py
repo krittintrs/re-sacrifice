@@ -8,6 +8,8 @@ class Player(Entity):
         self.health = 30
         self.job = job
 
+        self.x, self.y = 0, SCREEN_HEIGHT // 3 - FIELD_HEIGHT // 2  # Initial position for rendering
+
     def update(self, dt):
         # Implement player-specific update logic here
         super().update(dt)

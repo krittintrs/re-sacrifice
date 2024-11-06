@@ -1,6 +1,12 @@
 import pygame
 from src.dependency import *
 from src.battleSystem.Deck import Deck
+import tween
+
+# Define the global font variable
+# You can adjust the font size and type as needed
+g_font = pygame.font.Font(None, 36)
+
 
 class Entity:
     def __init__(self, name, animation_list=None, health=10):
@@ -23,7 +29,11 @@ class Entity:
         self.defense = 0
         self.speed = 0
         self.stunt = False
-        self.buffs = [] # list of buff (or debuff?) apply on entity
+        self.buffs = []  # list of buff (or debuff?) apply on entity
+
+        # Position
+        self.target_position = None  # Target position for movement
+        self.tweening = None  # Tween object for smooth movement
 
     def print_stats(self):
         print(f'{self.name} stats - HP: {self.health}, ATK: {self.attack}, DEF: {self.defense}, SPD: {self.speed}')
@@ -48,16 +58,25 @@ class Entity:
             print("fieldTile is already occupied!")
             return
 
-        # Remove from the current fieldTile if necessary
+        # Start walking animation
+        self.ChangeAnimation("walk")
+
+        # Set up tween to move the entity smoothly to the target position
+        target_x, target_y = fieldTile.position  # Target tile position
+        self.tweening = tween.to(
+            self, "x", target_x, 1, "linear")  # Tween x position
+
+        # Update fieldTile and position references
         if self.fieldTile_index is not None:
-            field[self.fieldTile_index].remove_entity()  # Remove from current fieldTile
-            
+            # Remove from current fieldTile
+            field[self.fieldTile_index].remove_entity()
+
         fieldTile.place_entity(self)  # Place the entity in the new fieldTile
         self.fieldTile_index = fieldTile.index  # Update the fieldTile index
 
     def add_buff(self, buff):
         self.buffs.append(buff)
-    
+
     def apply_buffs_to_cardsOnHand(self):
         for card in self.cardsOnHand:
             card.reset_stats()
@@ -72,7 +91,7 @@ class Entity:
     def remove_selected_card(self):
         self.cardsOnHand.remove(self.selectedCard)
         self.selectedCard = None
-        
+
     def next_turn(self):
         # draw new card
         self.cardsOnHand.append(self.deck.draw(1)[0])
@@ -88,11 +107,20 @@ class Entity:
 
         # reset entity stats
         self.reset_stats()
- 
-    def select_position(self, index): 
+
+    def select_position(self, index):
         self.index = index
 
     def update(self, dt):
+        # Update the tween if it exists
+        if self.tweening:
+            self.tweening._update(dt)  # Tween progress
+
+            # Stop walking animation and switch to idle when done
+            if not self.tweening:
+                self.ChangeAnimation("idle")
+                self.tweening = None
+
         # Check if an animation is set and update it
         if self.curr_animation in self.animation_list:
             animation = self.animation_list[self.curr_animation]
@@ -104,23 +132,34 @@ class Entity:
                 print(f'{self.name} animation changed to idle')
 
     def render(self, screen, x, y, color=(255, 0, 0)):
+        # Use tweened x, y position if tween is in progress
+        render_x, render_y = (self.x, self.y) if self.tweening else (x, y)
+
         # Define entity size
         entity_width, entity_height = 80, 80  # Example entity size
-        
+
         # Calculate centered position within the field
-        entity_x = x + (FIELD_WIDTH - entity_width) // 2  # Center horizontally
-        entity_y = y + (FIELD_HEIGHT - entity_height) // 2  # Center vertically
-        
+        # Center horizontally
+        entity_x = render_x + (FIELD_WIDTH - entity_width) // 2
+        # Center vertically
+        entity_y = render_y + (FIELD_HEIGHT - entity_height) // 2
+
+        # Define adjustable offsets for player and enemy
+        offset_x = -55 if self.name == 'player' else -185
+        offset_y = -20 if self.name == 'player' else -185
+
         # Update animation frame
         if self.animation_list and self.curr_animation in self.animation_list:
             # Retrieve frames from the animation object
             animation = self.animation_list[self.curr_animation]
             animation_frames = animation.get_frames()
-            
+
             # Check if the animation has finished and switch to idle if necessary
             if animation.is_finished() and self.curr_animation != "idle":
-                self.ChangeAnimation("idle")  # Automatically switch to idle animation
-                animation = self.animation_list[self.curr_animation]  # Update to idle animation
+                # Automatically switch to idle animation
+                self.ChangeAnimation("idle")
+                # Update to idle animation
+                animation = self.animation_list[self.curr_animation]
                 animation_frames = animation.get_frames()  # Update frames
 
             if animation_frames:
@@ -129,17 +168,17 @@ class Entity:
                 if self.frame_timer >= self.frame_duration:
                     self.frame_timer = 0
                     self.frame_index = (self.frame_index + 1) % len(animation_frames)
-                
-                # Render current animation frame
+
+                # Render current animation frame with offsets applied
                 current_frame = animation_frames[self.frame_index]
-                if self.name == 'player':
-                    screen.blit(current_frame, (entity_x -55, entity_y -20))
-                else:
-                    screen.blit(pygame.transform.flip(current_frame, True, False), (entity_x - 185, entity_y - 185))
+                screen.blit(pygame.transform.flip(current_frame, True if self.name != 'player' else False, False),
+                            (entity_x + offset_x, entity_y + offset_y))
+
         else:
             # Placeholder red rectangle if no animation is provided
-            pygame.draw.rect(screen, color, (entity_x, entity_y, entity_width, entity_height))
-        
+            pygame.draw.rect(
+                screen, color, (entity_x, entity_y, entity_width, entity_height))
+
         # Render Buff Icons
         for index, buff in enumerate(self.buffs):
             buff.x = entity_x + index * 20
@@ -150,7 +189,9 @@ class Entity:
             self.curr_animation = name
             self.frame_index = 0
             self.frame_timer = 0
-            self.animation_list[name].Refresh()  # Start from the beginning of the new animation
+            # Start from the beginning of the new animation
+            self.animation_list[name].Refresh()
             print(f'{self.name} animation changed to {name}')
         else:
-            print(f'Animation {name} not found in animation list for {self.name}')
+            print(
+                f'Animation {name} not found in animation list for {self.name}')
