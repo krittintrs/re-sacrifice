@@ -33,6 +33,7 @@ class BattleActionState(BaseState):
         # player
         player_selected_card = self.player.selectedCard
         player_selected_card.print_effects()
+        self.player.applyClassPassive()
         
         # enemy
         enemy_selected_card = self.enemy.cardsOnHand[0]

@@ -8,6 +8,20 @@ class Player(Entity):
         self.health = 30
         self.job = job
 
+    def applyClassPassive(self):
+        print("class passive called")
+        match self.job:
+            case PlayerClass.WARRIOR:
+                print("match warrior")
+                print(len(self.buffs))
+                print(CardClass.WARRIOR)
+                print(self.selectedCard.class_)
+                if len(self.buffs) >= 1 and self.selectedCard.class_ == CardClass.WARRIOR.value:
+                    print(CardClass.WARRIOR)
+                    print("warrior passive activate")
+                    
+
+
     def update(self, dt):
         # Implement player-specific update logic here
         super().update(dt)
