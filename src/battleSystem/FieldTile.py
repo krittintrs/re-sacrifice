@@ -12,10 +12,14 @@ class FieldTile:
     def is_occupied(self):
         return self.entity is not None
 
-    def place_entity(self, entity):
+    def place_entity(self, entity, target_x):
         if not self.is_occupied():  # Only place if the fieldTile is empty
             self.entity = entity
             entity.field_index = self.index  # Update entity's fieldTile index
+
+            if target_x == entity.x:
+                print(f'{entity.name} is idle')
+                entity.facing_left = False if entity.name == "player" else True
 
     def remove_entity(self):
         self.entity = None

@@ -34,6 +34,7 @@ class Entity:
         # Position
         self.target_position = None  # Target position for movement
         self.tweening = None  # Tween object for smooth movement
+        self.facing_left = False  # True if the entity should face left
 
     def print_stats(self):
         print(f'{self.name} stats - HP: {self.health}, ATK: {self.attack}, DEF: {self.defense}, SPD: {self.speed}')
@@ -61,17 +62,19 @@ class Entity:
         # Start walking animation
         self.ChangeAnimation("walk")
 
-        # Set up tween to move the entity smoothly to the target position
-        target_x, target_y = fieldTile.position  # Target tile position
+        # Determine if the target is left or right of the current position
+        self.target_position, _ = fieldTile.position
+        self.facing_left = self.target_position < self.x  # Face left if moving to a lower x
+
         self.tweening = tween.to(
-            self, "x", target_x, 1, "linear")  # Tween x position
+            self, "x", self.target_position, 1, "linear")  # Tween x position
 
         # Update fieldTile and position references
         if self.fieldTile_index is not None:
             # Remove from current fieldTile
             field[self.fieldTile_index].remove_entity()
 
-        fieldTile.place_entity(self)  # Place the entity in the new fieldTile
+        fieldTile.place_entity(self, self.target_position)  # Place the entity in the new fieldTile
         self.fieldTile_index = fieldTile.index  # Update the fieldTile index
 
     def add_buff(self, buff):
@@ -116,10 +119,8 @@ class Entity:
         if self.tweening:
             self.tweening._update(dt)  # Tween progress
 
-            # Stop walking animation and switch to idle when done
-            if not self.tweening:
-                self.ChangeAnimation("idle")
-                self.tweening = None
+        if self.target_position == self.x:
+            self.facing_left = False if self.name == "player" else True
 
         # Check if an animation is set and update it
         if self.curr_animation in self.animation_list:
@@ -129,7 +130,6 @@ class Entity:
             # If the animation has finished, switch to the idle animation
             if animation.is_finished() and self.curr_animation != "idle":
                 self.ChangeAnimation("idle")
-                print(f'{self.name} animation changed to idle')
 
     def render(self, screen, x, y, color=(255, 0, 0)):
         # Use tweened x, y position if tween is in progress
@@ -167,12 +167,16 @@ class Entity:
                 self.frame_timer += 0.01  # Increase by seconds elapsed
                 if self.frame_timer >= self.frame_duration:
                     self.frame_timer = 0
-                    self.frame_index = (self.frame_index + 1) % len(animation_frames)
+                    self.frame_index = (
+                        self.frame_index + 1) % len(animation_frames)
 
                 # Render current animation frame with offsets applied
                 current_frame = animation_frames[self.frame_index]
-                screen.blit(pygame.transform.flip(current_frame, True if self.name != 'player' else False, False),
-                            (entity_x + offset_x, entity_y + offset_y))
+                screen.blit(
+                    pygame.transform.flip(
+                        current_frame, self.facing_left, False),
+                    (entity_x + offset_x, entity_y + offset_y)
+                )
 
         else:
             # Placeholder red rectangle if no animation is provided
