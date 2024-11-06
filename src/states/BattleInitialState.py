@@ -137,8 +137,8 @@ class BattleInitialState(BaseState):
         if diceNumber < 4:                      # 1, 2, 3
             buff = Buff(DICE_ROLL_BUFF[diceNumber - 1])   # Get the buff based on the dice number
             if self.currentTurnOwner == PlayerType.PLAYER:   
-                self.player.add_buff(buff)
+                self.player.add_buffs([buff])
             elif self.currentTurnOwner == PlayerType.ENEMY:
-                self.enemy.add_buff(buff)
+                self.enemy.add_buffs([buff])
         else:
             print('no buff')

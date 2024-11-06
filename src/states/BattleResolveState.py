@@ -123,12 +123,12 @@ class BattleResolveState(BaseState):
                     'effectOwner': effectOwner
                 })
             case EffectType.SELF_BUFF:
-                buff = self.getBuffFromEffect(effect)
-                print(f'{effectOwner.name} self buff: {buff.name}')
+                buffList = self.getBuffListFromEffect(effect)
+                print(f'{effectOwner.name} self buff: {buffList}')
                 if effectOwner == PlayerType.PLAYER:
-                    self.player.add_buff(buff)
+                    self.player.add_buffs(buffList)
                 elif effectOwner == PlayerType.ENEMY:
-                    self.enemy.add_buff(buff)
+                    self.enemy.add_buffs(buffList)
             case EffectType.PUSH:
                 pass
             case EffectType.PULL:
@@ -166,11 +166,14 @@ class BattleResolveState(BaseState):
             case _:
                 print(f'Unknown effect type: {effect.type}')
 
-    def getBuffFromEffect(self, effect):
-        if effect.buffName:
-            return Buff(CARD_BUFF[effect.buffName])
+    def getBuffListFromEffect(self, effect):
+        buffList = []
+        if effect.buffNameList:
+            for buffName in effect.buffNameList:
+                buffList.append(Buff(CARD_BUFF[buffName])) 
+            return buffList
         else:
-            print(f'Buff not found: {effect.buffName}')
+            print(f'Buff not found: {effect.buffNameList}')
             return False
 
     def render(self, screen):

@@ -105,9 +105,9 @@ class SelectBuffState(BaseState):
                     if self.effectOwner == PlayerType.PLAYER:
                         if self.selectBuffTile>=0 and self.effect.maxRange>0:
                             if self.field[self.avilableBuffTile[self.selectBuffTile]].is_occupied():
-                                buff = self.getBuffFromEffect(self.effect)
-                                self.enemy.add_buff(buff)
-                                print(f"apply buff {buff.name} to enemy")
+                                buffList = self.getBuffFromEffect(self.effect)
+                                self.enemy.add_buffs(buffList)
+                                print(f"apply buff {buffList} to enemy")
                             else:
                                 print("no entity on the targeted tile")
                         else:
@@ -143,11 +143,14 @@ class SelectBuffState(BaseState):
 
         self.player.update(dt)
     
-    def getBuffFromEffect(self, effect):
-        if effect.buffName:
-            return Buff(CARD_BUFF[effect.buffName])
+    def getBuffListFromEffect(self, effect):
+        buffList = []
+        if effect.buffNameList:
+            for buffName in effect.buffNameList:
+                buffList.append(Buff(CARD_BUFF[buffName])) 
+            return buffList
         else:
-            print(f'Buff not found: {effect.buffName}')
+            print(f'Buff not found: {effect.buffNameList}')
             return False
 
     def render(self, screen):
