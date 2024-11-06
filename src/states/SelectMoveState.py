@@ -51,7 +51,7 @@ class SelectMoveState(BaseState):
         
         self.selectMoveTile = 0
         if self.rightSkip and self.leftSkip:
-                self.selectMoveTile = -1
+            self.selectMoveTile = -1
 
         for i in range(self.leftMaxTileIndex, self.leftMinTileIndex+1):
             if not self.leftSkip:
@@ -66,6 +66,7 @@ class SelectMoveState(BaseState):
         print('\n!!!! SelectMoveState !!!!')
         print(f'Owner: {self.effectOwner}')
         print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
+        print(f'SelectMoveTile: {self.selectMoveTile}')
         
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
@@ -101,6 +102,7 @@ class SelectMoveState(BaseState):
                             self.selectMoveTile = 0
                 if event.key == pygame.K_RETURN:
                     if self.effectOwner == PlayerType.PLAYER:
+                        print('player movement')
                         if self.selectMoveTile>=0 and self.effect.maxRange>0:
                             if not self.field[self.avilableMoveTile[self.selectMoveTile]].is_occupied():
                                 self.player.move_to(self.field[self.avilableMoveTile[self.selectMoveTile]], self.field)
@@ -109,6 +111,8 @@ class SelectMoveState(BaseState):
                                 print("can not move, there is an entity of that tile")
                         else:
                             print("there is no movement happen")
+                    else:
+                        print("enemy movement")
 
                     if self.player.health > 0 and self.enemy.health > 0:
                         g_state_manager.Change(BattleState.RESOLVE_PHASE, {
