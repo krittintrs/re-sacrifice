@@ -18,6 +18,7 @@ class SelectMoveState(BaseState):
         self.effectOrder = params['effectOrder']
         self.effect = params['effect']
         self.effectOwner = params['effectOwner']
+        self.land_hit = params['land_hit']
         
         self.leftSkip = False
         self.rightSkip = False
@@ -117,7 +118,8 @@ class SelectMoveState(BaseState):
                             'field': self.field,
                             'turn': self.turn,
                             'currentTurnOwner': self.currentTurnOwner,
-                            'effectOrder': self.effectOrder
+                            'effectOrder': self.effectOrder,
+                            'land_hit':self.land_hit
                         })
                     else:
                         if self.player.health <= 0:

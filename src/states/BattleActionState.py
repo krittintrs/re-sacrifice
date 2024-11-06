@@ -31,8 +31,7 @@ class BattleActionState(BaseState):
         # player
         player_selected_card = self.player.selectedCard
         player_selected_card.print_effects()
-        self.player.applyClassPassive()
-        
+
         # enemy
         enemy_selected_card = self.enemy.cardsOnHand[0]
         self.enemy.select_card(enemy_selected_card)
@@ -69,7 +68,8 @@ class BattleActionState(BaseState):
                         'field': self.field,
                         'turn': self.turn,
                         'currentTurnOwner': self.currentTurnOwner,
-                        'effectOrder': self.effectOrder
+                        'effectOrder': self.effectOrder,
+                        'land_hit':{PlayerType.PLAYER.value:False, PlayerType.ENEMY.value:False} # player = True mean player land a hit on enemy
                     })
 
         # Update buff

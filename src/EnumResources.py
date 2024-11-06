@@ -50,7 +50,8 @@ class EffectType(Enum):
     KAMIKAZE = "kamikaze"
     SPAWN = "spawn"
     HEAL = "heal"
-    COPY = "copy"    
+    COPY = "copy"
+    ATTACK_BUFF = "attack_buff"
 
 class CardType(Enum):
     MOVE = "Move"

@@ -18,6 +18,7 @@ class SelectAttackState(BaseState):
         self.effectOrder = params['effectOrder']
         self.effect = params['effect']
         self.effectOwner = params['effectOwner']
+        self.land_hit = params['land_hit']
         self.choosing = False
 
         self.leftSkip = False
@@ -105,6 +106,7 @@ class SelectAttackState(BaseState):
                     if self.effectOwner == PlayerType.PLAYER:
                         if self.selectAttackTile>=0 and self.effect.maxRange>0:
                             if self.field[self.avilableAttackTile[self.selectAttackTile]].is_occupied():
+                                self.land_hit[self.effectOwner.value] = True
                                 self.player.ChangeAnimation("multi_attack")
                                 damage = self.player.attack - self.field[self.avilableAttackTile[self.selectAttackTile]].entity.defense
                                 if damage > 0:
@@ -128,7 +130,8 @@ class SelectAttackState(BaseState):
                             'field': self.field,
                             'turn': self.turn,
                             'currentTurnOwner': self.currentTurnOwner,
-                            'effectOrder': self.effectOrder
+                            'effectOrder': self.effectOrder,
+                            'land_hit':self.land_hit
                         })
                     else:
                         if self.player.health <= 0:

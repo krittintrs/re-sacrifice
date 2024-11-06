@@ -1310,7 +1310,7 @@
                     {
                         "type": "warrior",
                         "minRange": 0,
-                        "maxRange": 0
+                        "maxRange": 1
                     }
                 ],
                 "mainEffect": [
@@ -1320,19 +1320,10 @@
                         "maxRange": 1
                     },
                     {
-                        "type": "self_buff",
+                        "type": "attack_buff",
                         "minRange": 1,
                         "maxRange": 1,
-                        "buff": {
-                            "name": "empower",
-                            "duration": 2,
-                            "value": [
-                                1,
-                                1,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": "empower"
                     }
                 ],
                 "afterEffect": [
@@ -1362,7 +1353,7 @@
                     {
                         "type": "warrior",
                         "minRange": 0,
-                        "maxRange": 0
+                        "maxRange": 1
                     }
                 ],
                 "mainEffect": [
@@ -1403,12 +1394,13 @@
                     {
                         "type": "blood_sacrifice",
                         "minRange": 0,
-                        "maxRange": 0
+                        "maxRange": 0,
+                        "buff":"blood_buff"
                     },
                     {
                         "type": "warrior",
                         "minRange": 0,
-                        "maxRange": 0
+                        "maxRange": 1
                     }
                 ],
                 "mainEffect": [
@@ -1445,7 +1437,7 @@
                     {
                         "type": "warrior",
                         "minRange": 0,
-                        "maxRange": 0
+                        "maxRange": 1
                     }
                 ],
                 "mainEffect": [
@@ -1482,7 +1474,7 @@
                     {
                         "type": "warrior",
                         "minRange": 0,
-                        "maxRange": 0
+                        "maxRange": 1
                     }
                 ],
                 "mainEffect": [
@@ -1490,16 +1482,7 @@
                         "type": "self_buff",
                         "minRange": 1,
                         "maxRange": 1,
-                        "buff": {
-                            "name": "empower",
-                            "duration": 2,
-                            "value": [
-                                1,
-                                1,
-                                0,
-                                0
-                            ]
-                        }
+                        "buff": "empower"
                     }
                 ],
                 "afterEffect": [

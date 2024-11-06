@@ -25,4 +25,6 @@ CARD_BUFF = {
     'defense_debuff': BuffConf('defense_debuff', 2, [0, -2, 0, 0], gBuffIcon_image_list['defense']),
     'speed_debuff': BuffConf('speed_debuff', 2, [0, 0, -2, 0], gBuffIcon_image_list['speed']),
     'range_debuff': BuffConf('range_debuff', 2, [0, 0, 0, -2], gBuffIcon_image_list['range']),
+    'empower':BuffConf('empower', 2,[1, 1, 0, 0], None),
+    'blood_buff':BuffConf('blood_buff', 1,[1, 0, 0, 0], gBuffIcon_image_list['attack']),
 }
