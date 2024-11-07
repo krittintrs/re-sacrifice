@@ -90,7 +90,7 @@ class BattleResolveState(BaseState):
 
     def resolveCardEffect(self, effect, effectOwner):
         match effect.type:
-            case EffectType.ATTACK | EffectType.ATTACK_BUFF:
+            case EffectType.ATTACK | EffectType.ATTACK_SELF_BUFF | EffectType.ATTACK_OPPO_BUFF:
                 g_state_manager.Change(SelectionState.ATTACK, {
                     'player': self.player,
                     'enemy': self.enemy,
@@ -112,7 +112,7 @@ class BattleResolveState(BaseState):
                     'effect': effect,
                     'effectOwner': effectOwner
                 })
-            case EffectType.RANGE_BUFF:
+            case EffectType.OPPO_BUFF:
                 g_state_manager.Change(SelectionState.BUFF, {
                     'player': self.player,
                     'enemy': self.enemy,

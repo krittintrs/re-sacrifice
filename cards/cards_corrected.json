@@ -555,7 +555,7 @@
             "effect": {
                 "beforeEffect": [
                     {
-                        "type": "range_buff",
+                        "type": "oppo_buff",
                         "minRange": 0,
                         "maxRange": 4,
                         "buff": ["stop_movement"]
@@ -867,7 +867,7 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "range_buff",
+                        "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 3,
                         "buff": ["attack_debuff"]
@@ -901,7 +901,7 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "range_buff",
+                        "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 3,
                         "buff": ["defense_debuff"]
@@ -935,7 +935,7 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "range_buff",
+                        "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 3,
                         "buff": ["speed_debuff"]
@@ -969,7 +969,7 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "range_buff",
+                        "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 3,
                         "buff": ["range_debuff"]
@@ -1003,7 +1003,7 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "range_buff",
+                        "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 3,
                         "buff": ["move_debuff"]
@@ -1104,7 +1104,7 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "range_buff",
+                        "type": "oppo_buff",
                         "minRange": 0,
                         "maxRange": 0,
                         "buff": ["sleep"]
@@ -1279,7 +1279,7 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "attack_buff",
+                        "type": "attack_self_buff",
                         "minRange": 1,
                         "maxRange": 1,
                         "buff": ["empower_1", "empower_2"]
@@ -1636,7 +1636,7 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "range_buff",
+                        "type": "oppo_buff",
                         "minRange": 0,
                         "maxRange": 0,
                         "buff": ["sabotage"]
@@ -1770,7 +1770,7 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "range_buff",
+                        "type": "oppo_buff",
                         "minRange": 0,
                         "maxRange": 4,
                         "buff": "stop_movement"
@@ -1804,7 +1804,7 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "range_buff",
+                        "type": "oppo_buff",
                         "minRange": 0,
                         "maxRange": 0,
                         "buff": ["sleep"]
@@ -1961,7 +1961,7 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "range_buff",
+                        "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 4,
                         "buff": ["blindness"]
@@ -2003,7 +2003,7 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "range_buff",
+                        "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 4,
                         "buff": ["muddy"]
@@ -2252,7 +2252,7 @@
                         "maxRange": 4
                     },
                     {
-                        "type": "range_buff",
+                        "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 4,
                         "buff": ["fire"]

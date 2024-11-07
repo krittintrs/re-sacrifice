@@ -115,9 +115,12 @@ class SelectAttackState(BaseState):
                                     self.field[self.avilableAttackTile[self.selectAttackTile]].entity.health -= damage
                                     self.field[self.avilableAttackTile[self.selectAttackTile]].entity.stunt = True
                                     print(f'{self.field[self.avilableAttackTile[self.selectAttackTile]].entity} takes {damage} damage')
-                                    if self.effect.type == EffectType.ATTACK_BUFF:
+                                    if self.effect.type == EffectType.ATTACK_SELF_BUFF:
                                         buffList = self.getBuffListFromEffect(self.effect)
                                         self.player.add_buffs(buffList)
+                                    if self.effect.type == EffectType.ATTACK_OPPO_BUFF:
+                                        buffList = self.getBuffListFromEffect(self.effect)
+                                        self.enemy.add_buffs(buffList)
                                 else:
                                     # ATTACK BLOCK
                                     gSounds['block'].play()

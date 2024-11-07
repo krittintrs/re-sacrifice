@@ -33,7 +33,9 @@ class EffectType(Enum):
     ATTACK = "attack"
     MOVE = "move"
     SELF_BUFF = "self_buff"
-    RANGE_BUFF = "range_buff"
+    OPPO_BUFF = "oppo_buff"
+    ATTACK_SELF_BUFF = "attack_self_buff"
+    ATTACK_OPPO_BUFF = "attack_oppo_buff"
     PUSH = "push"
     PULL = "pull"
     CLEANSE = "cleanse"
@@ -51,7 +53,6 @@ class EffectType(Enum):
     SPAWN = "spawn"
     HEAL = "heal"
     COPY = "copy"
-    ATTACK_BUFF = "attack_buff"
 
 class CardType(Enum):
     MOVE = "Move"
