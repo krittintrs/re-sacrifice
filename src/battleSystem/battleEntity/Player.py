@@ -1,5 +1,6 @@
 from src.battleSystem.battleEntity.Entity import Entity
 from src.dependency import *
+from src.battleSystem.Effect import Effect
 
 
 class Player(Entity):
@@ -7,6 +8,7 @@ class Player(Entity):
         super().__init__(name, animationList, image=image)
         self.health = 30
         self.job = job
+
 
     def update(self, dt):
         # Implement player-specific update logic here
