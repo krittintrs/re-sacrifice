@@ -33,8 +33,8 @@ class BattleInitialState(BaseState):
             print("Player's Hand Card: ", card.name)
 
         # Mock buff
-        mock_buff = Buff(BuffConf('bonus_attack', 1, [1, 0, 0, 0], gBuffIcon_image_list['attack']))
-        self.player.add_buff(mock_buff)
+        # mock_buff = Buff(BuffConf('bonus_attack', 1, [1, 0, 0, 0], gBuffIcon_image_list['attack']))
+        # self.player.add_buffs(mock_buff)
         print(f'Player Buffs: {self.player.buffs}')
         print(f'Enemy Buffs: {self.enemy.buffs}')
 
