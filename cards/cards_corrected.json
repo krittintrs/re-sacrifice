@@ -1279,15 +1279,10 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "attack",
-                        "minRange": 1,
-                        "maxRange": 1
-                    },
-                    {
                         "type": "attack_buff",
                         "minRange": 1,
                         "maxRange": 1,
-                        "buff": ["empower"]
+                        "buff": ["empower_1", "empower_2"]
                     }
                 ],
                 "afterEffect": [
@@ -1359,7 +1354,7 @@
                         "type": "blood_sacrifice",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff":"blood_buff"
+                        "buff": ["blood_buff"]
                     },
                     {
                         "type": "warrior",
@@ -1446,7 +1441,7 @@
                         "type": "self_buff",
                         "minRange": 1,
                         "maxRange": 1,
-                        "buff": ["empower"]
+                        "buff": ["empower_1", "empower_2"]
                     }
                 ],
                 "afterEffect": [
