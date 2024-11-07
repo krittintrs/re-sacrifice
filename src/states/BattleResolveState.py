@@ -2,8 +2,10 @@ from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
 from src.Render import *
+from src.battleSystem.Buff import Buff
 import pygame
 import sys
+import math
 
 class BattleResolveState(BaseState):
     def __init__(self):
@@ -15,7 +17,7 @@ class BattleResolveState(BaseState):
         self.enemy = params['enemy']
         self.field = params['field']
         self.turn = params['turn']
-        self.currentTurnOwner = params['currentTurnOwner']  
+        self.currentTurnOwner = params['currentTurnOwner']
         self.effectOrder = params['effectOrder']
 
         # apply buff to all cards on hand
@@ -89,7 +91,7 @@ class BattleResolveState(BaseState):
         
     def resolveCardEffect(self, effect, effectOwner):
         match effect.type:
-            case EffectType.ATTACK:
+            case EffectType.ATTACK | EffectType.ATTACK_SELF_BUFF | EffectType.ATTACK_OPPO_BUFF:
                 g_state_manager.Change(SelectionState.ATTACK, {
                     'player': self.player,
                     'enemy': self.enemy,
@@ -111,7 +113,7 @@ class BattleResolveState(BaseState):
                     'effect': effect,
                     'effectOwner': effectOwner
                 })
-            case EffectType.RANGE_BUFF:
+            case EffectType.OPPO_BUFF:
                 g_state_manager.Change(SelectionState.BUFF, {
                     'player': self.player,
                     'enemy': self.enemy,
@@ -123,7 +125,12 @@ class BattleResolveState(BaseState):
                     'effectOwner': effectOwner
                 })
             case EffectType.SELF_BUFF:
-                print(f'{effectOwner.name} self buff')
+                buffList = self.getBuffListFromEffect(effect)
+                print(f'{effectOwner.name} self buff: {buffList}')
+                if effectOwner == PlayerType.PLAYER:
+                    self.player.add_buffs(buffList)
+                elif effectOwner == PlayerType.ENEMY:
+                    self.enemy.add_buffs(buffList)
             case EffectType.PUSH:
                 pass
             case EffectType.PULL:
@@ -140,16 +147,34 @@ class BattleResolveState(BaseState):
                 pass
             case EffectType.RESET_HAND:
                 pass
+            # WARRIOR CLASS
             case EffectType.WARRIOR:
-                pass
+                if len(self.player.buffs) >= 1 and self.player.job == PlayerClass.WARRIOR:
+                    g_state_manager.Change(SelectionState.MOVE, {
+                    'player': self.player,
+                    'enemy': self.enemy,
+                    'field': self.field,
+                    'turn': self.turn,
+                    'currentTurnOwner': self.currentTurnOwner,
+                    'effectOrder': self.effectOrder,
+                    'effect': effect,
+                    'effectOwner': effectOwner
+                })
             case EffectType.BLOOD_SACRIFICE:
-                pass
+                hp_paid = math.floor(self.player.health * 0.3)
+                self.player.health -= hp_paid
+                buffList = self.getBuffListFromEffect(effect)
+                buffList[0].value[0] = hp_paid
+                self.player.add_buffs(buffList)
+            # RANGER CLASS
             case EffectType.CRITICAL:
                 pass
+            # MAGE CLASS
             case EffectType.TRUE_DAMAGE:
                 pass
             case EffectType.NEXT_MULTI:
                 pass
+            # BOSSES
             case EffectType.KAMIKAZE:
                 pass
             case EffectType.SPAWN:
@@ -160,6 +185,16 @@ class BattleResolveState(BaseState):
                 pass
             case _:
                 print(f'Unknown effect type: {effect.type}')
+
+    def getBuffListFromEffect(self, effect):
+        buffList = []
+        if effect.buffNameList:
+            for buffName in effect.buffNameList:
+                buffList.append(Buff(CARD_BUFF[buffName])) 
+            return buffList
+        else:
+            print(f'Buff not found: {effect.buffNameList}')
+            return False
 
     def render(self, screen):
         RenderTurn(screen, 'Resolve State', self.turn, self.currentTurnOwner)

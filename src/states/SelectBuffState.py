@@ -2,6 +2,7 @@ from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
 from src.Render import *
+from src.battleSystem.Buff import Buff
 import pygame
 import sys
 
@@ -90,21 +91,23 @@ class SelectBuffState(BaseState):
                     sys.exit()
                 if event.key == pygame.K_SPACE:
                     pass
-                    if event.key == pygame.K_LEFT and self.selectBuffTile>=0:
-                        if self.effectOwner == PlayerType.PLAYER:
-                            self.selectBuffTile = self.selectBuffTile - 1
-                            if self.selectBuffTile < 0:
-                                self.selectBuffTile = len(self.avilableBuffTile) - 1
-                    if event.key == pygame.K_RIGHT and self.selectBuffTile>=0:
-                        if self.effectOwner == PlayerType.PLAYER:
-                            self.selectBuffTile = self.selectBuffTile + 1
-                            if self.selectBuffTile > len(self.avilableBuffTile) - 1:
-                                self.selectBuffTile = 0
+                if event.key == pygame.K_LEFT and self.selectBuffTile>=0:
+                    if self.effectOwner == PlayerType.PLAYER:
+                        self.selectBuffTile = self.selectBuffTile - 1
+                        if self.selectBuffTile < 0:
+                            self.selectBuffTile = len(self.avilableBuffTile) - 1
+                if event.key == pygame.K_RIGHT and self.selectBuffTile>=0:
+                    if self.effectOwner == PlayerType.PLAYER:
+                        self.selectBuffTile = self.selectBuffTile + 1
+                        if self.selectBuffTile > len(self.avilableBuffTile) - 1:
+                            self.selectBuffTile = 0
                 if event.key == pygame.K_RETURN:
                     if self.effectOwner == PlayerType.PLAYER:
-                        if self.selectffTile>=0 and self.effect.maxRange>0:
-                            if self.field[self.avilableAttackTile[self.selectAttackTile]].is_occupied():
-                                print("apply buff")
+                        if self.selectBuffTile>=0 and self.effect.maxRange>0:
+                            if self.field[self.avilableBuffTile[self.selectBuffTile]].is_occupied():
+                                buffList = self.getBuffListFromEffect(self.effect)
+                                self.enemy.add_buffs(buffList)
+                                print(f"apply buff {buffList} to enemy")
                             else:
                                 print("no entity on the targeted tile")
                         else:
@@ -140,7 +143,17 @@ class SelectBuffState(BaseState):
 
         self.player.update(dt)
         self.enemy.update(dt)
-        
+
+    def getBuffListFromEffect(self, effect):
+        buffList = []
+        if effect.buffNameList:
+            for buffName in effect.buffNameList:
+                buffList.append(Buff(CARD_BUFF[buffName])) 
+            return buffList
+        else:
+            print(f'Buff not found: {effect.buffNameList}')
+            return False
+          
     def render(self, screen):
         RenderTurn(screen, 'SelectBuffState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
