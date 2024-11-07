@@ -87,7 +87,8 @@ class BattleResolveState(BaseState):
             buff.update(dt, events)
 
         self.player.update(dt)
-
+        self.enemy.update(dt)
+        
     def resolveCardEffect(self, effect, effectOwner):
         match effect.type:
             case EffectType.ATTACK | EffectType.ATTACK_SELF_BUFF | EffectType.ATTACK_OPPO_BUFF:
@@ -202,4 +203,4 @@ class BattleResolveState(BaseState):
 
         # Render field
         for fieldTile in self.field:
-            fieldTile.render(screen, len(self.field))
+            fieldTile.render(screen)

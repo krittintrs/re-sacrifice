@@ -142,7 +142,8 @@ class SelectBuffState(BaseState):
             buff.update(dt, events)
 
         self.player.update(dt)
-    
+        self.enemy.update(dt)
+
     def getBuffListFromEffect(self, effect):
         buffList = []
         if effect.buffNameList:
@@ -152,7 +153,7 @@ class SelectBuffState(BaseState):
         else:
             print(f'Buff not found: {effect.buffNameList}')
             return False
-
+          
     def render(self, screen):
         RenderTurn(screen, 'SelectBuffState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
@@ -172,7 +173,7 @@ class SelectBuffState(BaseState):
                     fieldTile.color = (255,0,255)
                     fieldTile.solid = 0
                 
-            fieldTile.render(screen, len(self.field))
+            fieldTile.render(screen)
             fieldTile.color = (0,0,0)
             fieldTile.solid = 1
 

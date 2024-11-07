@@ -77,7 +77,8 @@ class BattleInitialState(BaseState):
             buff.update(dt, events)
 
         self.player.update(dt)
-
+        self.enemy.update(dt)
+        
     def render(self, screen):
         RenderTurn(screen, 'Initial State', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
@@ -109,7 +110,7 @@ class BattleInitialState(BaseState):
 
         # Render field
         for fieldTile in self.field:
-            fieldTile.render(screen, len(self.field))
+            fieldTile.render(screen)
     
         # Clear only the dice result area (fill the area with the background color)
         pygame.draw.rect(screen, (255, 255, 255), (10, SCREEN_HEIGHT - HUD_HEIGHT - 40, 150, 40))  # Adjust size and position based on your layout

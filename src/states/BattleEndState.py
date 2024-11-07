@@ -65,6 +65,7 @@ class BattleEndState(BaseState):
             buff.update(dt, events)
 
         self.player.update(dt)
+        self.enemy.update(dt)
 
     def render(self, screen):
         RenderTurn(screen, 'End State', self.turn, self.currentTurnOwner)
@@ -78,7 +79,7 @@ class BattleEndState(BaseState):
 
         # Render field
         for fieldTile in self.field:
-            fieldTile.render(screen, len(self.field))
+            fieldTile.render(screen)
 
 
         

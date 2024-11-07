@@ -78,6 +78,7 @@ class BattleActionState(BaseState):
             buff.update(dt, events)
 
         self.player.update(dt)
+        self.enemy.update(dt)
     
     def sortEffects(self):
         playerSpeed = self.player.selectedCard.buffed_speed
@@ -108,4 +109,4 @@ class BattleActionState(BaseState):
 
         # Render field
         for fieldTile in self.field:
-            fieldTile.render(screen, len(self.field))
+            fieldTile.render(screen)

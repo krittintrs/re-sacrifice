@@ -1,175 +1,72 @@
 {
-  "frames": {
-    "normalGob_Walk5-0": {
-      "frame": {
-        "x": 600,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 600,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
-    },
-    "normalGob_Walk6-0": {
-      "frame": {
-        "x": 750,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 750,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
-    },
-    "normalGob_Walk7-0": {
-      "frame": {
-        "x": 900,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 900,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
-    },
-    "normalGob_Walk8-0": {
-      "frame": {
-        "x": 1050,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 1050,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
-    },
-    "normalGob_Walk4-0": {
-      "frame": {
-        "x": 450,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 450,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
-    },
-    "normalGob_Walk3-0": {
-      "frame": {
-        "x": 300,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 300,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
-    },
-    "normalGob_Walk2-0": {
-      "frame": {
-        "x": 150,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 150,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
-    },
-    "normalGob_Walk1-0": {
-      "frame": {
-        "x": 0,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/Goblin/NormalGoblin/normalGob_Walk.png",
+  "animations": {
+    "normalGoblinWalk": {
+      "loop": "False",
+      "sprites": [
+        {
+          "fileName": "normalGob_Walk1-0",
+          "width": 150,
+          "height": 150,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "fileName": "normalGob_Walk2-0",
+          "width": 150,
+          "height": 150,
+          "x": 150,
+          "y": 0
+        },
+        {
+          "fileName": "normalGob_Walk3-0",
+          "width": 150,
+          "height": 150,
+          "x": 300,
+          "y": 0
+        },
+        {
+          "fileName": "normalGob_Walk4-0",
+          "width": 150,
+          "height": 150,
+          "x": 450,
+          "y": 0
+        },
+        {
+          "fileName": "normalGob_Walk5-0",
+          "width": 150,
+          "height": 150,
+          "x": 600,
+          "y": 0
+        },
+        {
+          "fileName": "normalGob_Walk6-0",
+          "width": 150,
+          "height": 150,
+          "x": 750,
+          "y": 0
+        },
+        {
+          "fileName": "normalGob_Walk7-0",
+          "width": 150,
+          "height": 150,
+          "x": 900,
+          "y": 0
+        },
+        {
+          "fileName": "normalGob_Walk8-0",
+          "width": 150,
+          "height": 150,
+          "x": 1050,
+          "y": 0
+        }
+      ]
     }
   },
-  "meta": {
-    "app": "sprite-sheet-to-json",
-    "version": "1.0.0",
-    "image": "normalGob_Walk.png",
-    "format": "RGBA8888",
-    "size": {
-      "w": 1200,
-      "h": 150
-    },
-    "scale": "1"
-  }
+  "packMode": "grid",
+  "padding": 0,
+  "backgroundColor": "rgba(0, 0, 0, 0)",
+  "spriteSheetWidth": 1200,
+  "spriteSheetHeight": 150
 }
