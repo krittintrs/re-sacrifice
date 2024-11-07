@@ -105,7 +105,7 @@ class SelectBuffState(BaseState):
                     if self.effectOwner == PlayerType.PLAYER:
                         if self.selectBuffTile>=0 and self.effect.maxRange>0:
                             if self.field[self.avilableBuffTile[self.selectBuffTile]].is_occupied():
-                                buffList = self.getBuffFromEffect(self.effect)
+                                buffList = self.getBuffListFromEffect(self.effect)
                                 self.enemy.add_buffs(buffList)
                                 print(f"apply buff {buffList} to enemy")
                             else:
