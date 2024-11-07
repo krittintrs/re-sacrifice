@@ -63,7 +63,7 @@ class Entity:
         self.ChangeAnimation("walk")
 
         # Determine if the target is left or right of the current position
-        self.target_position, _ = fieldTile.position
+        self.target_position, _ = fieldTile.x, fieldTile.y
         self.facing_left = self.target_position < self.x  # Face left if moving to a lower x
 
         self.tweening = tween.to(
