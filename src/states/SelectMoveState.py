@@ -28,12 +28,12 @@ class SelectMoveState(BaseState):
             self.leftMinTileIndex = self.player.fieldTile_index - self.effect.minRange
             self.leftMaxTileIndex = self.player.fieldTile_index - self.effect.maxRange
             self.rightMinTileIndex = self.player.fieldTile_index + self.effect.minRange
-            self.rightMaxTileIndex = self.player.fieldTile_index + self.effect.maxRange 
+            self.rightMaxTileIndex = self.player.fieldTile_index + self.effect.maxRange
         elif self.effectOwner == PlayerType.ENEMY: 
             self.leftMinTileIndex = self.enemy.fieldTile_index - self.effect.minRange
             self.leftMaxTileIndex = self.enemy.fieldTile_index - self.effect.maxRange
             self.rightMinTileIndex = self.enemy.fieldTile_index + self.effect.minRange
-            self.rightMaxTileIndex = self.enemy.fieldTile_index + self.effect.maxRange        
+            self.rightMaxTileIndex = self.enemy.fieldTile_index + self.effect.maxRange
 
         if self.leftMinTileIndex < 0:
             self.leftMinTileIndex = 0

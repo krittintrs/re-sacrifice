@@ -37,6 +37,16 @@ class BattleEndState(BaseState):
     def Exit(self):
         pass
 
+    def resolve_dot_damage(self, entity):
+        for buff in entity.buffs:
+            entity.health += buff.dot_damage
+            if buff.dot_damage > 0:
+                print(f"{entity.name} receive {buff.dot_damage} health from {buff.name}")
+            elif buff.dot_damage < 0:
+                self.enemy.ChangeAnimation("death")
+                print(f"{entity.name} receive {buff.dot_damage} damage from {buff.name}")
+
+
     def update(self, dt, events):
         for event in events:
             if event.type == pygame.QUIT:
@@ -49,14 +59,31 @@ class BattleEndState(BaseState):
                 if event.key == pygame.K_SPACE:
                     pass
                 if event.key == pygame.K_RETURN:
-                    self.next_turn()
-                    g_state_manager.Change(BattleState.INITIAL_PHASE, {
-                        'player': self.player,
-                        'enemy': self.enemy,
-                        'field': self.field,
-                        'turn': self.turn,
-                        'currentTurnOwner': self.currentTurnOwner
-                    })
+                    self.resolve_dot_damage(self.player)
+                    self.resolve_dot_damage(self.enemy)
+                    if self.player.health > 0 and self.enemy.health > 0:
+                        self.next_turn()
+                        g_state_manager.Change(BattleState.INITIAL_PHASE, {
+                            'player': self.player,
+                            'enemy': self.enemy,
+                            'field': self.field,
+                            'turn': self.turn,
+                            'currentTurnOwner': self.currentTurnOwner
+                        })
+                    else:
+                        if self.player.health <= 0:
+                            self.winner = PlayerType.ENEMY
+                        elif self.enemy.health <= 0:
+                            self.winner = PlayerType.PLAYER
+                        g_state_manager.Change(BattleState.FINISH_PHASE, {
+                            'player': self.player,
+                            'enemy': self.enemy,
+                            'field': self.field,
+                            'turn': self.turn,
+                            'currentTurnOwner': self.currentTurnOwner,
+                            'winner': self.winner
+                        })
+                    
 
         # Update buff
         for buff in self.player.buffs:

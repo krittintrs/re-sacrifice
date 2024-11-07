@@ -5,7 +5,8 @@ class Buff():
     def __init__(self, conf):
         self.name = conf.name
         self.duration = conf.duration
-        self.value = conf.value  # [1,0,0,0] == [atk,def,spd,range]
+        self.value = conf.value  # [1,0,0,0], 0 == [atk,def,spd,range]
+        self.dot_damage = conf.dot_damage
         self.imageName = conf.imageName
 
         self.x = 0
@@ -80,6 +81,8 @@ class Buff():
                         tooltip_text = f"Lose {self.name} for {self.duration} turns"
                     else:
                         tooltip_text = f"Lose {self.name} for {self.duration} turn"
+                else:
+                    tooltip_text = f"Got {self.name} for {self.duration} turn"
             
             # Use a lighter gray color to make the font look less strong
             text_surface = font.render(tooltip_text, True, (0, 0, 0)) 
