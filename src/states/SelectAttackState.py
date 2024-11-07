@@ -106,6 +106,7 @@ class SelectAttackState(BaseState):
                         if self.selectAttackTile>=0 and self.effect.maxRange>0:
                             if self.field[self.avilableAttackTile[self.selectAttackTile]].is_occupied():
                                 self.player.ChangeAnimation("multi_attack")
+                                self.enemy.ChangeAnimation("death")
                                 damage = self.player.attack - self.field[self.avilableAttackTile[self.selectAttackTile]].entity.defense
                                 if damage > 0:
                                     gSounds['attack'].play()
@@ -150,6 +151,7 @@ class SelectAttackState(BaseState):
             buff.update(dt, events)
 
         self.player.update(dt)
+        self.enemy.update(dt)
 
     def render(self, screen):
         RenderTurn(screen, 'SelectAttackState', self.turn, self.currentTurnOwner)
@@ -170,6 +172,6 @@ class SelectAttackState(BaseState):
                     fieldTile.color = (255,0,255)
                     fieldTile.solid = 0
                 
-            fieldTile.render(screen, len(self.field))
+            fieldTile.render(screen)
             fieldTile.color = (0,0,0)
             fieldTile.solid = 1

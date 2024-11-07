@@ -70,7 +70,8 @@ class BattleSelectState(BaseState):
             buff.update(dt, events)
             
         self.player.update(dt)
-
+        self.enemy.update(dt)
+        
     def change_selection(self, newIndex):
         self.player.cardsOnHand[self.selected_index].isSelected = False
         self.player.cardsOnHand[newIndex].isSelected = True
@@ -89,5 +90,5 @@ class BattleSelectState(BaseState):
 
         # Render field
         for fieldTile in self.field:
-            fieldTile.render(screen, len(self.field))
+            fieldTile.render(screen)
 

@@ -1,175 +1,65 @@
 {
-  "frames": {
-    "normalGob_Attack1-0": {
-      "frame": {
-        "x": 150,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 150,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
-    },
-    "normalGob_Attack3-0": {
-      "frame": {
-        "x": 300,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 300,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
-    },
-    "normalGob_Attack4-0": {
-      "frame": {
-        "x": 450,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 450,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
-    },
-    "normalGob_Attack5-0": {
-      "frame": {
-        "x": 600,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 600,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
-    },
-    "normalGob_Attack6-0": {
-      "frame": {
-        "x": 750,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 750,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
-    },
-    "normalGob_Attack7-0": {
-      "frame": {
-        "x": 900,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 900,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
-    },
-    "normalGob_Attack8-0": {
-      "frame": {
-        "x": 1050,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 1050,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
-    },
-    "normalGob_Attack2-0": {
-      "frame": {
-        "x": 150,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 150,
-        "y": 0,
-        "w": 150,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 1200,
-        "h": 150
-      }
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/Goblin/NormalGoblin/normalGob_Attack.png",
+  "animations": {
+    "normalGoblinAttack": {
+      "loop": "False",
+      "sprites": [
+        {
+          "fileName": "normalGob_Attack1",
+          "width": 150,
+          "height": 150,
+          "x": 150,
+          "y": 0
+        },
+        {
+          "fileName": "normalGob_Attack2",
+          "width": 150,
+          "height": 150,
+          "x": 300,
+          "y": 0
+        },
+        {
+          "fileName": "normalGob_Attack3",
+          "width": 150,
+          "height": 150,
+          "x": 450,
+          "y": 0
+        },
+        {
+          "fileName": "normalGob_Attack4",
+          "width": 150,
+          "height": 150,
+          "x": 600,
+          "y": 0
+        },
+        {
+          "fileName": "normalGob_Attack5",
+          "width": 150,
+          "height": 150,
+          "x": 750,
+          "y": 0
+        },
+        {
+          "fileName": "normalGob_Attack6",
+          "width": 150,
+          "height": 150,
+          "x": 900,
+          "y": 0
+        },
+        {
+          "fileName": "normalGob_Attack7",
+          "width": 150,
+          "height": 150,
+          "x": 1050,
+          "y": 0
+        }
+      ]
     }
   },
-  "meta": {
-    "app": "sprite-sheet-to-json",
-    "version": "1.0.0",
-    "image": "normalGob_Attack.png",
-    "format": "RGBA8888",
-    "size": {
-      "w": 1200,
-      "h": 150
-    },
-    "scale": "1"
-  }
+  "packMode": "grid",
+  "padding": 0,
+  "backgroundColor": "rgba(0, 0, 0, 0)",
+  "spriteSheetWidth": 1200,
+  "spriteSheetHeight": 150
 }

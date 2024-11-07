@@ -7,6 +7,7 @@ from src.battleSystem.Deck import Deck
 from src.battleSystem.FieldTile import FieldTile
 import pygame
 import sys
+import math
 
 class BattlePreparationState(BaseState):
     def __init__(self):
@@ -44,7 +45,7 @@ class BattlePreparationState(BaseState):
 
         if self.enemy is None:
             # mock enemy
-            self.enemy = Enemy("enemy")  
+            self.enemy = Enemy("enemy", gNormalGoblin_animation_list)
             self.enemy.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)
 
         #Set up the initial default position of player and enemy
@@ -102,7 +103,7 @@ class BattlePreparationState(BaseState):
             buff.update(dt, events)
     
         self.player.update(dt)
-
+        self.enemy.update(dt)
 
     def render(self, screen):
         # Title
@@ -119,8 +120,10 @@ class BattlePreparationState(BaseState):
     
     def create_field(self, num_fieldTile):
         field = []
-        for i in range(num_fieldTile):
-            x = i * 100  # Adjust the x position based on index
-            y = 200  # Since you have only one row, y is constant
+        start_x = (SCREEN_WIDTH - (num_fieldTile * FIELD_WIDTH + (num_fieldTile-1) * FIELD_GAP)) // 2
+        for i in range(num_fieldTile + 1):
+            x = start_x + (i * (FIELD_WIDTH + FIELD_GAP))
+            y = SCREEN_HEIGHT // 3 - FIELD_HEIGHT // 2
+            print(f'x: {x}, y: {y}')
             field.append(FieldTile(i, (x, y)))  # Create and append each fieldTile
         return field
