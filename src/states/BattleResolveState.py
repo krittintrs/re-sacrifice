@@ -19,7 +19,6 @@ class BattleResolveState(BaseState):
         self.turn = params['turn']
         self.currentTurnOwner = params['currentTurnOwner']
         self.effectOrder = params['effectOrder']
-        self.land_hit = params['land_hit'] # keep track whether enemy of player land a hit ["player":False,"enemy":False]
 
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
@@ -66,8 +65,7 @@ class BattleResolveState(BaseState):
                     'enemy': self.enemy,
                     'field': self.field,
                     'turn': self.turn,
-                    'currentTurnOwner': self.currentTurnOwner,
-                    'land_hit':self.land_hit
+                    'currentTurnOwner': self.currentTurnOwner
                 })
             else:
                 if self.player.health <= 0:
@@ -92,7 +90,7 @@ class BattleResolveState(BaseState):
 
     def resolveCardEffect(self, effect, effectOwner):
         match effect.type:
-            case EffectType.ATTACK:
+            case EffectType.ATTACK | EffectType.ATTACK_BUFF:
                 g_state_manager.Change(SelectionState.ATTACK, {
                     'player': self.player,
                     'enemy': self.enemy,
@@ -101,8 +99,7 @@ class BattleResolveState(BaseState):
                     'currentTurnOwner': self.currentTurnOwner,
                     'effectOrder': self.effectOrder,
                     'effect': effect,
-                    'effectOwner': effectOwner,
-                    'land_hit':self.land_hit
+                    'effectOwner': effectOwner
                 })
             case EffectType.MOVE:
                 g_state_manager.Change(SelectionState.MOVE, {
@@ -113,8 +110,7 @@ class BattleResolveState(BaseState):
                     'currentTurnOwner': self.currentTurnOwner,
                     'effectOrder': self.effectOrder,
                     'effect': effect,
-                    'effectOwner': effectOwner,
-                    'land_hit':self.land_hit
+                    'effectOwner': effectOwner
                 })
             case EffectType.RANGE_BUFF:
                 g_state_manager.Change(SelectionState.BUFF, {
@@ -125,8 +121,7 @@ class BattleResolveState(BaseState):
                     'currentTurnOwner': self.currentTurnOwner,
                     'effectOrder': self.effectOrder,
                     'effect': effect,
-                    'effectOwner': effectOwner,
-                    'land_hit':self.land_hit
+                    'effectOwner': effectOwner
                 })
             case EffectType.SELF_BUFF:
                 buffList = self.getBuffListFromEffect(effect)
@@ -151,6 +146,7 @@ class BattleResolveState(BaseState):
                 pass
             case EffectType.RESET_HAND:
                 pass
+            # WARRIOR CLASS
             case EffectType.WARRIOR:
                 if len(self.player.buffs) >= 1 and self.player.job == PlayerClass.WARRIOR:
                     g_state_manager.Change(SelectionState.MOVE, {
@@ -161,30 +157,23 @@ class BattleResolveState(BaseState):
                     'currentTurnOwner': self.currentTurnOwner,
                     'effectOrder': self.effectOrder,
                     'effect': effect,
-                    'effectOwner': effectOwner,
-                    'land_hit':self.land_hit
+                    'effectOwner': effectOwner
                 })
             case EffectType.BLOOD_SACRIFICE:
                 hp_paid = math.floor(self.player.health * 0.3)
                 self.player.health -= hp_paid
-                buff = self.getBuffFromEffect(effect)
-                buff.value[0] = hp_paid
-                self.player.add_buff(buff)
-            case EffectType.ATTACK_BUFF: # if attack land then buff
-                if self.currentTurnOwner == PlayerType.PLAYER and self.land_hit[PlayerType.PLAYER.value]:
-                    buff = self.getBuffFromEffect(effect)
-                    print(f'{effectOwner.name} self buff: {buff.name}')
-                    self.player.add_buff(buff)
-                elif self.currentTurnOwner == PlayerType.ENEMY and self.land_hit[PlayerType.ENEMY.value]:
-                    buff = self.getBuffFromEffect(effect)
-                    print(f'{effectOwner.name} self buff: {buff.name}')
-                    self.enemy.add_buff(buff)
+                buffList = self.getBuffListFromEffect(effect)
+                buffList[0].value[0] = hp_paid
+                self.player.add_buffs(buffList)
+            # RANGER CLASS
             case EffectType.CRITICAL:
                 pass
+            # MAGE CLASS
             case EffectType.TRUE_DAMAGE:
                 pass
             case EffectType.NEXT_MULTI:
                 pass
+            # BOSSES
             case EffectType.KAMIKAZE:
                 pass
             case EffectType.SPAWN:

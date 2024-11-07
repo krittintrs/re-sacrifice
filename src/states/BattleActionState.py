@@ -69,7 +69,6 @@ class BattleActionState(BaseState):
                         'turn': self.turn,
                         'currentTurnOwner': self.currentTurnOwner,
                         'effectOrder': self.effectOrder,
-                        'land_hit':{PlayerType.PLAYER.value:False, PlayerType.ENEMY.value:False} # player = True mean player land a hit on enemy
                     })
 
         # Update buff

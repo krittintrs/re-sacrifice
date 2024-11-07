@@ -18,7 +18,6 @@ class SelectMoveState(BaseState):
         self.effectOrder = params['effectOrder']
         self.effect = params['effect']
         self.effectOwner = params['effectOwner']
-        self.land_hit = params['land_hit']
         
         self.leftSkip = False
         self.rightSkip = False
@@ -92,16 +91,21 @@ class SelectMoveState(BaseState):
                 if event.key == pygame.K_SPACE:
                     pass
                 if event.key == pygame.K_LEFT and self.selectMoveTile>=0:
+                    print('key left')
                     if self.effectOwner == PlayerType.PLAYER:
+                        print('moving left')
                         self.selectMoveTile = self.selectMoveTile - 1
                         if self.selectMoveTile < 0:
                             self.selectMoveTile = len(self.avilableMoveTile) - 1
                 if event.key == pygame.K_RIGHT and self.selectMoveTile>=0:
+                    print('key right')
                     if self.effectOwner == PlayerType.PLAYER:
+                        print('moving right')
                         self.selectMoveTile = self.selectMoveTile + 1
                         if self.selectMoveTile > len(self.avilableMoveTile) - 1:
                             self.selectMoveTile = 0
                 if event.key == pygame.K_RETURN:
+                    print('move state: before check effect owner')
                     if self.effectOwner == PlayerType.PLAYER:
                         print('player movement')
                         if self.selectMoveTile>=0 and self.effect.maxRange>0:
@@ -114,7 +118,7 @@ class SelectMoveState(BaseState):
                             print("there is no movement happen")
                     else:
                         print("enemy movement")
-
+                    print('move state: after check effect owner')
                     if self.player.health > 0 and self.enemy.health > 0:
                         g_state_manager.Change(BattleState.RESOLVE_PHASE, {
                             'player': self.player,
@@ -122,8 +126,7 @@ class SelectMoveState(BaseState):
                             'field': self.field,
                             'turn': self.turn,
                             'currentTurnOwner': self.currentTurnOwner,
-                            'effectOrder': self.effectOrder,
-                            'land_hit':self.land_hit
+                            'effectOrder': self.effectOrder
                         })
                     else:
                         if self.player.health <= 0:
