@@ -4,6 +4,7 @@ from src.dependency import *
 class Buff():
     def __init__(self, conf):
         self.name = conf.name
+        self.description = conf.description
         self.duration = conf.duration
         self.value = conf.value  # [1,0,0,0] == [atk,def,spd,range]
         self.imageName = conf.imageName
@@ -68,26 +69,21 @@ class Buff():
         if self.tooltipFlag:
             font = pygame.font.SysFont("Arial", 20)  # Smaller size for slimmer appearance
             if self.duration == -1:
-                tooltip_text = f"Gain {self.name} permanently"
+                tooltip_text = f"Gain {self.description} permanently"
             else:
-                if is_positive:
-                    if self.duration > 1:
-                        tooltip_text = f"Gain {self.name} for {self.duration} turns"
-                    else:
-                        tooltip_text = f"Gain {self.name} for {self.duration} turn"
-                elif is_negative:
-                    if self.duration > 1:
-                        tooltip_text = f"Lose {self.name} for {self.duration} turns"
-                    else:
-                        tooltip_text = f"Lose {self.name} for {self.duration} turn"
+                if self.duration > 1:
+                    tooltip_text = f"{self.description} for {self.duration} turns"
                 else:
-                    if self.duration > 1:
-                        tooltip_text = f"{self.name} for {self.duration} turns"
-                    else:
-                        tooltip_text = f"{self.name} for {self.duration} turn"
+                    tooltip_text = f"{self.description} for {self.duration} turn"
                         
+            # Render buff name
+            buff_name_surface = font.render(self.name, True, (0, 0, 0))
+            buff_name_rect = buff_name_surface.get_rect()
+            buff_name_rect.topleft = (self.rect.x + 25, self.rect.y - 40)
+            screen.blit(buff_name_surface, buff_name_rect)
+            
             # Use a lighter gray color to make the font look less strong
-            text_surface = font.render(tooltip_text, True, (0, 0, 0)) 
+            text_surface = font.render(tooltip_text, True, (140, 140, 140)) 
             text_rect = text_surface.get_rect()
             text_rect.topleft = (self.rect.x + 25, self.rect.y - 20)
             screen.blit(text_surface, text_rect)
