@@ -1670,7 +1670,7 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "attack",
+                        "type": "attack_oppo_buff",
                         "minRange": 1,
                         "maxRange": 3,
                         "buff": ["fire"]
@@ -1716,15 +1716,15 @@
         },
         {
             "id": "C050",
-            "name": "Shadow Clone Jutsu",
+            "name": "Trap",
             "class": "Mage",
-            "type": "Buff",
+            "type": "Special",
             "description": "",
             "speed": 5,
             "attack": 0,
             "defense": 1,
-            "range_start": 0,
-            "range_end": 0,
+            "range_start": 1,
+            "range_end": 2,
             "sprite": {
                 "x": 1800,
                 "y": 1000,
@@ -1737,9 +1737,10 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "next_multi",
-                        "minRange": 0,
-                        "maxRange": 0
+                        "type": "trap",
+                        "minRange": 1,
+                        "maxRange": 2,
+                        "buff":["fire"]
                     }
                 ],
                 "afterEffect": [

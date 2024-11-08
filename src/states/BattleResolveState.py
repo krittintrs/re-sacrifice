@@ -91,7 +91,7 @@ class BattleResolveState(BaseState):
         
     def resolveCardEffect(self, effect, effectOwner):
         match effect.type:
-            case EffectType.ATTACK | EffectType.ATTACK_SELF_BUFF | EffectType.ATTACK_OPPO_BUFF:
+            case EffectType.ATTACK | EffectType.ATTACK_SELF_BUFF | EffectType.ATTACK_OPPO_BUFF | EffectType.TRUE_DAMAGE:
                 g_state_manager.Change(SelectionState.ATTACK, {
                     'player': self.player,
                     'enemy': self.enemy,
@@ -170,8 +170,6 @@ class BattleResolveState(BaseState):
             case EffectType.CRITICAL:
                 pass
             # MAGE CLASS
-            case EffectType.TRUE_DAMAGE:
-                pass
             case EffectType.NEXT_MULTI:
                 pass
             # BOSSES

@@ -109,6 +109,8 @@ class SelectAttackState(BaseState):
                             if self.field[self.avilableAttackTile[self.selectAttackTile]].is_occupied():
                                 self.player.ChangeAnimation("multi_attack")
                                 self.enemy.ChangeAnimation("death")
+                                if self.effect.type == EffectType.TRUE_DAMAGE:
+                                    self.enemy.defense = 0
                                 damage = self.player.attack - self.field[self.avilableAttackTile[self.selectAttackTile]].entity.defense
                                 if damage > 0:
                                     # ATTACK HIT
