@@ -5,7 +5,7 @@ class Buff():
     def __init__(self, conf):
         self.name = conf.name
         self.duration = conf.duration
-        self.value = conf.value  # [1,0,0,0] == [atk,def,spd,range]
+        self.value = conf.value  # [1,0,0,0,0] == [atk,def,spd,range_start,range_end]
         self.imageName = conf.imageName
 
         self.x = 0
@@ -21,7 +21,8 @@ class Buff():
         card.buffed_attack += self.value[0]
         card.buffed_defense += self.value[1]
         card.buffed_speed += self.value[2]
-        card.buffed_range_end += self.value[3]
+        card.buffed_range_start += self.value[3]
+        card.buffed_range_end += self.value[4]
 
     def is_active(self):
         if self.duration == -1:  # -1 means infinite duration
