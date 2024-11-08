@@ -483,8 +483,8 @@
                 "mainEffect": [
                     {
                         "type": "push",
-                        "minRange": 1,
-                        "maxRange": 9
+                        "minRange": 0,
+                        "maxRange": 2
                     },
                     {
                         "type": "attack",
@@ -521,8 +521,8 @@
                 "mainEffect": [
                     {
                         "type": "pull",
-                        "minRange": 1,
-                        "maxRange": 9
+                        "minRange": 0,
+                        "maxRange": 2
                     },
                     {
                         "type": "attack",

@@ -45,20 +45,19 @@ class BattleResolveState(BaseState):
                     pass
                 if event.key == pygame.K_RETURN:
                     pass
-        
+            
         if self.effectOrder["before"]:
-            for effectDetail in self.effectOrder["before"]:
-                print(effectDetail[0].type)
-                self.resolveCardEffect(effectDetail[0], effectDetail[1])
-                self.effectOrder["before"].remove(effectDetail)
+            print(self.effectOrder["before"][0][0].type)
+            effect = self.effectOrder["before"].pop(0)
+            self.resolveCardEffect(effect[0], effect[1])
         elif self.effectOrder["main"]:
-            for effectDetail in self.effectOrder["main"]:
-                self.resolveCardEffect(effectDetail[0], effectDetail[1])
-                self.effectOrder["main"].remove(effectDetail)
+            print(self.effectOrder["main"][0][0].type)
+            effect = self.effectOrder["main"].pop(0)
+            self.resolveCardEffect(effect[0], effect[1])
         elif self.effectOrder["after"]:
-            for effectDetail in self.effectOrder["after"]:
-                self.resolveCardEffect(effectDetail[0], effectDetail[1])
-                self.effectOrder["after"].remove(effectDetail)
+            print(self.effectOrder["after"][0][0].type)
+            effect = self.effectOrder["after"].pop(0)
+            self.resolveCardEffect(effect[0], effect[1])
         else:
             if self.player.health > 0 and self.enemy.health > 0:
                 g_state_manager.Change(BattleState.END_PHASE, {
@@ -133,9 +132,27 @@ class BattleResolveState(BaseState):
                 elif effectOwner == PlayerType.ENEMY:
                     self.enemy.add_buffs(buffList)
             case EffectType.PUSH:
-                pass
+                g_state_manager.Change(SelectionState.PUSH, {
+                    'player': self.player,
+                    'enemy': self.enemy,
+                    'field': self.field,
+                    'turn': self.turn,
+                    'currentTurnOwner': self.currentTurnOwner,
+                    'effectOrder': self.effectOrder,
+                    'effect': effect,
+                    'effectOwner': effectOwner
+                })
             case EffectType.PULL:
-                pass
+                g_state_manager.Change(SelectionState.PULL, {
+                    'player': self.player,
+                    'enemy': self.enemy,
+                    'field': self.field,
+                    'turn': self.turn,
+                    'currentTurnOwner': self.currentTurnOwner,
+                    'effectOrder': self.effectOrder,
+                    'effect': effect,
+                    'effectOwner': effectOwner
+                })
             case EffectType.CLEANSE:
                 pass
             case EffectType.DISCARD:
