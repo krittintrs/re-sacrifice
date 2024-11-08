@@ -15,6 +15,8 @@ from src.states.BattleResolveState import BattleResolveState
 from src.states.SelectAttackState import SelectAttackState
 from src.states.SelectBuffState import SelectBuffState
 from src.states.SelectMoveState import SelectMoveState
+from src.states.SelectPushState import SelectPushState
+from src.states.SelectPullState import SelectPullState
 from src.states.BattleEndState import BattleEndState
 from src.states.BattleFinishState import BattleFinishState
 from src.rpg.states.RPGStartState import RPGStartState
