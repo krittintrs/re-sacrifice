@@ -27,6 +27,8 @@ class GameMain:
                 SelectionState.ATTACK: SelectAttackState(),
                 SelectionState.BUFF: SelectBuffState(),
                 SelectionState.MOVE: SelectMoveState(),
+                SelectionState.PUSH: SelectPushState(),
+                SelectionState.PULL: SelectPullState(),
                 BattleState.END_PHASE: BattleEndState(),
                 BattleState.FINISH_PHASE: BattleFinishState(),
             },

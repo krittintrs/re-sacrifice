@@ -62,6 +62,9 @@ class BattleActionState(BaseState):
                     sys.exit()
                 if event.key == pygame.K_RETURN:
                     print(self.effectOrder)
+                    if self.effectOrder["main"]:
+                        for effectDetail in self.effectOrder["main"]:
+                            print(effectDetail[0].type)
                     g_state_manager.Change(BattleState.RESOLVE_PHASE, {
                         'player': self.player,
                         'enemy': self.enemy,
