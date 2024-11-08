@@ -1637,8 +1637,8 @@
                 "mainEffect": [
                     {
                         "type": "oppo_buff",
-                        "minRange": 1,
-                        "maxRange": 1,
+                        "minRange": 0,
+                        "maxRange": 0,
                         "buff": ["sabotage"]
                     }
                 ],
