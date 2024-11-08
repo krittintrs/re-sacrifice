@@ -33,4 +33,5 @@ CARD_BUFF = {
     'blood_buff': BuffConf('Blood Buff', 1, [0, 0, 0, 0], gBuffIcon_image_list['attack']),
     'crit+': BuffConf('Critical+ (4/6 chance)', 2,[0, 0, 0, 0], gBuffIcon_image_list['critical']),
     'critical_buff': BuffConf('Critical (x1.5 ATK)', 1,[0, 0, 0, 0], gBuffIcon_image_list['critical']),
+    'confuse': BuffConf('Confuse', 1, [0, 0, 0, 0], gBuffIcon_image_list['confuse']),
 }
