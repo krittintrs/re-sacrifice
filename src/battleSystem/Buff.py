@@ -80,7 +80,12 @@ class Buff():
                         tooltip_text = f"Lose {self.name} for {self.duration} turns"
                     else:
                         tooltip_text = f"Lose {self.name} for {self.duration} turn"
-            
+                else:
+                    if self.duration > 1:
+                        tooltip_text = f"{self.name} for {self.duration} turns"
+                    else:
+                        tooltip_text = f"{self.name} for {self.duration} turn"
+                        
             # Use a lighter gray color to make the font look less strong
             text_surface = font.render(tooltip_text, True, (0, 0, 0)) 
             text_rect = text_surface.get_rect()
