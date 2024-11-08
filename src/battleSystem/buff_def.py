@@ -30,7 +30,7 @@ CARD_BUFF = {
     'range_debuff': BuffConf('-2 RANGE', 2, [0, 0, 0, -2], gBuffIcon_image_list['range']),
     'empower_1': BuffConf('Empower (+1 ATK)', 2, [1, 0, 0, 0], gBuffIcon_image_list['attack']),
     'empower_2': BuffConf('Empower (+1 DEF)', 2, [0, 1, 0, 0], gBuffIcon_image_list['defense']),
-    'blood_buff': BuffConf('Blood Buff', 1,[1, 0, 0, 0], gBuffIcon_image_list['attack']),
-    'critical_buff': BuffConf('Critical (x1.5 ATK)', 1,[1, 0, 0, 0], gBuffIcon_image_list['attack']),
-    'crit+': BuffConf('Critical+ (4/6 chance)', 2,[0, 0, 0, 0], gBuffIcon_image_list['attack']),
+    'blood_buff': BuffConf('Blood Buff', 1, [0, 0, 0, 0], gBuffIcon_image_list['attack']),
+    'crit+': BuffConf('Critical+ (4/6 chance)', 2,[0, 0, 0, 0], gBuffIcon_image_list['critical']),
+    'critical_buff': BuffConf('Critical (x1.5 ATK)', 1,[0, 0, 0, 0], gBuffIcon_image_list['critical']),
 }
