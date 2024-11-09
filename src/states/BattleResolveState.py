@@ -154,7 +154,13 @@ class BattleResolveState(BaseState):
                     'effectOwner': effectOwner
                 })
             case EffectType.CLEANSE:
-                pass
+                for buff in self.player.buffs:
+                    if buff.type == BuffType.DEBUFF:
+                        buff.duration = 0
+                self.player.remove_expired_buffs()
+
+                for buff in self.player.buffs:
+                    print(f'Buff: {buff.name} / {buff.duration} / {buff.is_active()}')
             case EffectType.DISCARD:
                 pass
             case EffectType.SAND_THROW:
