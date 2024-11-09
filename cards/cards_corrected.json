@@ -768,7 +768,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["perm_attack_boost_1", "perm_attack_boost_2"]
+                        "buff": ["perm_attack_boost"]
                     }
                 ],
                 "afterEffect": [
@@ -802,7 +802,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["perm_defense_boost_1", "perm_defense_boost_2"]
+                        "buff": ["perm_defense_boost"]
                     }
                 ],
                 "afterEffect": [
@@ -836,7 +836,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["perm_speed_boost_1", "perm_speed_boost_2"]
+                        "buff": ["perm_speed_boost"]
                     }
                 ],
                 "afterEffect": [
@@ -1282,7 +1282,7 @@
                         "type": "attack_self_buff",
                         "minRange": 1,
                         "maxRange": 1,
-                        "buff": ["empower_1", "empower_2"]
+                        "buff": ["empower"]
                     }
                 ],
                 "afterEffect": [
@@ -1441,7 +1441,7 @@
                         "type": "self_buff",
                         "minRange": 1,
                         "maxRange": 1,
-                        "buff": ["empower_1", "empower_2"]
+                        "buff": ["empower"]
                     }
                 ],
                 "afterEffect": [
