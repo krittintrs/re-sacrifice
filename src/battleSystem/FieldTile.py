@@ -32,4 +32,5 @@ class FieldTile:
         if self.entity:
             self.entity.render(screen, rect.x, rect.y)
             for buff in self.entity.buffs:
-                buff.render(screen)
+                if buff.is_active():
+                    buff.render(screen)
