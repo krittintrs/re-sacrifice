@@ -88,6 +88,9 @@ class Entity:
                 if buff.is_active():
                     buff.apply(card)
 
+    def remove_expired_buffs(self):
+        self.buffs = [buff for buff in self.buffs if buff.is_active()]
+
     def select_card(self, card):
         self.selectedCard = card
         self.selectedCard.isSelected = True
@@ -100,14 +103,10 @@ class Entity:
         # draw new card
         self.cardsOnHand.append(self.deck.draw(1)[0])
 
-        # count down buffs
+        # count down & remove expired buffs
         for buff in self.buffs:
             buff.next_turn()
-
-        # remove expired buffs
-        for buff in self.buffs:
-            if not buff.is_active():
-                self.buffs.remove(buff)
+        self.remove_expired_buffs()
 
         # reset entity stats
         self.reset_stats()
