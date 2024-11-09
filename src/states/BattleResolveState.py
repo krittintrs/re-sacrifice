@@ -191,7 +191,7 @@ class BattleResolveState(BaseState):
                 chance = random.randint(1, 6)
                 threshold = 2
                 for buff in self.player.buffs:
-                    if buff.name == 'Critical+ (4/6 chance)':
+                    if buff.type == BuffType.CRIT_RATE:
                         threshold = 4
                         break
                 print(f'{chance} <= {threshold}')
