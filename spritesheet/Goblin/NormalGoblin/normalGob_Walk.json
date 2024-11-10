@@ -4,6 +4,7 @@
   "animations": {
     "normalGoblinWalk": {
       "loop": "False",
+      "interval_time": 0.15,
       "sprites": [
         {
           "fileName": "normalGob_Walk1-0",

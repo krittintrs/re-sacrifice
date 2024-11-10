@@ -4,6 +4,7 @@
   "animations": {
     "cast_warrior": {
       "loop": "False",
+      "interval_time": 0.1,
       "sprites": [
         {
           "fileName": "cast_warrior1",
@@ -37,6 +38,7 @@
     },
     "castloop_warrior": {
       "loop": "False",
+      "interval_time": 0.1,
       "sprites": [
         {
           "fileName": "castloop_warrior1",
@@ -70,6 +72,7 @@
     },
     "multiAttack_warrior": {
       "loop": "False",
+      "interval_time": 0.1,
       "sprites": [
         {
           "fileName": "multi_warrior1",
@@ -117,6 +120,7 @@
     },
     "singleAttack_warrior": {
       "loop": "False",
+      "interval_time": 0.1,
       "sprites": [
         {
           "fileName": "single_warrior1",

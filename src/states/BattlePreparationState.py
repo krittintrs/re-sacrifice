@@ -24,11 +24,11 @@ class BattlePreparationState(BaseState):
     
     def initialDraw(self):
         self.player.deck.shuffle()
-        # for card in self.player.deck.card_deck:
-        #     if card.name in ["Blood Sacrifice", "Cleanse", "Empower", "Bull's Eye", "Kite Attack"]:
-        #         self.player.cardsOnHand.append(card)
+        for card in self.player.deck.card_deck:
+            if card.name in ["Long Range Attack", "Cleanse", "Empower", "Bull's Eye", "Kite Attack"]:
+                self.player.cardsOnHand.append(card)
 
-        self.player.cardsOnHand = self.player.deck.draw(5)
+        # self.player.cardsOnHand = self.player.deck.draw(5)
         self.enemy.deck.shuffle()
         self.enemy.cardsOnHand = self.enemy.deck.draw(5)
 
@@ -128,6 +128,5 @@ class BattlePreparationState(BaseState):
         for i in range(num_fieldTile + 1):
             x = start_x + (i * (FIELD_WIDTH + FIELD_GAP))
             y = SCREEN_HEIGHT // 3 - FIELD_HEIGHT // 2
-            print(f'x: {x}, y: {y}')
             field.append(FieldTile(i, (x, y)))  # Create and append each fieldTile
         return field

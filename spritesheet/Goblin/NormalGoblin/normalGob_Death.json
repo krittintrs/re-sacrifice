@@ -4,6 +4,7 @@
   "animations": {
     "normalGoblinDeath": {
       "loop": "False",
+      "interval_time": 0.15,
       "sprites": [
         {
           "fileName": "normalGob_Death1-0",
@@ -28,6 +29,13 @@
         },
         {
           "fileName": "normalGob_Death4-0",
+          "width": 150,
+          "height": 150,
+          "x": 450,
+          "y": 0
+        },
+        {
+          "fileName": "normalGob_Death5-0",
           "width": 150,
           "height": 150,
           "x": 450,

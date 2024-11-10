@@ -10,7 +10,7 @@ g_font = pygame.font.Font(None, 36)
 
 
 class Entity:
-    def __init__(self, name, animation_list, x, y, vfxAnimation_list = None, health=10):
+    def __init__(self, name, animation_list, x, y, vfxAnimation_list, health=10):
         self.name = name
         self.fieldTile_index = None  # Keep track of which field it is on
         self.animation_list = animation_list
@@ -138,7 +138,7 @@ class Entity:
                 self.ChangeAnimation("idle")
         
         # Update Vfx
-        self.vfx.update(dt)
+        self.vfx.update(dt, self.x, self.y)
 
     def render(self, screen, x, y, color=(255, 0, 0)):
         # Use tweened x, y position if tween is in progress
@@ -178,6 +178,9 @@ class Entity:
                         current_frame, self.facing_left, False),
                     (entity_x + offset_x, entity_y + offset_y)
                 )
+
+        # Render Vfx
+        self.vfx.render(screen)
 
         # Render Buff Icons
         for index, buff in enumerate(self.buffs):

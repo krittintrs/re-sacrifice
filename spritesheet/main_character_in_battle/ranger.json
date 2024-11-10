@@ -4,6 +4,7 @@
   "animations": {
     "cast_ranger": {
       "loop": "False",
+      "interval_time": 0.1,
       "sprites": [
         {
           "fileName": "cast_ranger1.png",
@@ -37,6 +38,7 @@
     },
     "castloop_ranger": {
       "loop": "False",
+      "interval_time": 0.1,
       "sprites": [
         {
           "fileName": "castloop_ranger1.png",
@@ -96,6 +98,7 @@
     },
     "multiAttack_ranger": {
       "loop": "False",
+      "interval_time": 0.1,
       "sprites": [
         {
           "fileName": "multi_ranger1.png",
@@ -143,6 +146,7 @@
     },
     "singleAttack_ranger": {
       "loop": "False",
+      "interval_time": 0.1,
       "sprites": [
         {
           "fileName": "single_ranger1.png",

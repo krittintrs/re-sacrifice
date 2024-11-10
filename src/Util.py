@@ -77,10 +77,11 @@ class SpriteManager:
                                 yTileSize=ySize
                             )
                         # Handle loop setting
-                        loop = animation_data.get('loop', 'true').lower() == 'true'  # Convert string to boolean, default to True if not specified
+                        loop = animation_data.get('loop', 'true').lower() == 'true'
+                        interval_time = animation_data.get('interval_time', 0.5)
                         dic[animation_name] = Sprite(
                             None,
-                            animation=Animation(name, images, loop, interval_time, idleSprite=idle_img),
+                            animation=Animation(animation_name, images, loop, interval_time, idleSprite=idle_img),
                         )
 
                     resDict.update(dic)
@@ -231,8 +232,11 @@ class Animation:
 
     def update(self, dt):
         self.timer += dt
+        if self.name == "walk_mage":
+            print(f"Animation: {self.name}, index {self.index} interval_time: {self.interval_time}, timer: {self.timer}")
         if self.timer >= self.interval_time:
             self.index += 1
+            self.timer = 0
             if self.index >= len(self.images):
                 self.times_played += 1
                 if self.looping:
@@ -241,6 +245,9 @@ class Animation:
                     self.index = len(self.images) - 1
                     self.finished = True
             self.image = self.images[self.index]
+    
+    def render(self, screen, x, y):
+        screen.blit(self.image, (x, y))
 
     def is_finished(self):
         return self.finished

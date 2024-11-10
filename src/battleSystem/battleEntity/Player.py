@@ -5,7 +5,7 @@ from src.battleSystem.Effect import Effect
 
 class Player(Entity):
     def __init__(self, name, job, animationList):
-        super().__init__(name, animationList, 0, ENTITY_Y)
+        super().__init__(name, animationList, 0, ENTITY_Y, gVfx_animation_list)
         self.health = 30
         self.job = job
 

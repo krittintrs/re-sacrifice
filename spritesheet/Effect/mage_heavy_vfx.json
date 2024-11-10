@@ -4,69 +4,58 @@
   "animations": {
     "mage_heavy_vfx": {
       "loop": "False",
+      "interval_time": 0.1,
       "sprites": [
         {
           "fileName": "heavy_vfx1",
           "width": 48,
           "height": 48,
           "x": 0,
-          "y": 0,
-          "interval_time": 0.5
+          "y": 0
         },
         {
           "fileName": "heavy_vfx2",
           "width": 48,
           "height": 48,
           "x": 48,
-          "y": 0,
-          "interval_time": 0.5
+          "y": 0
         },
         {
           "fileName": "heavy_vfx3",
           "width": 48,
           "height": 48,
           "x": 96,
-          "y": 0,
-          "interval_time": 0.5
+          "y": 0
         },
         {
           "fileName": "heavy_vfx4",
           "width": 48,
           "height": 48,
           "x": 144,
-          "y": 0,
-          "interval_time": 0.5
+          "y": 0
         },
         {
           "fileName": "heavy_vfx5",
           "width": 48,
           "height": 48,
           "x": 192,
-          "y": 0,
-          "interval_time": 0.5
+          "y": 0
         },
         {
           "fileName": "heavy_vfx6",
           "width": 48,
           "height": 48,
           "x": 240,
-          "y": 0,
-          "interval_time": 0.5
+          "y": 0
         },
         {
           "fileName": "heavy_vfx7",
           "width": 48,
           "height": 48,
           "x": 288,
-          "y": 0,
-          "interval_time": 0.5
+          "y": 0
         }
       ]
     }
-  },
-  "packMode": "grid",
-  "padding": 0,
-  "backgroundColor": "rgba(0, 0, 0, 0)",
-  "spriteSheetWidth": 336,
-  "spriteSheetHeight": 48
+  }
 }

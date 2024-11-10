@@ -4,6 +4,7 @@
   "animations": {
     "knockDown_warrior": {
       "loop": "False",
+      "interval_time": 0.1,
       "sprites": [
         {
           "fileName": "warrior-knock-dwn-00.png",
@@ -57,6 +58,8 @@
       ]
     },
     "walk_warrior": {
+      "loop": "False",
+      "interval_time": 0.2,
       "sprites": [
         {
           "fileName": "warrior-walk-00.png",

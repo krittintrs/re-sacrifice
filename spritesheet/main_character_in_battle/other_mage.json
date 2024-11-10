@@ -4,6 +4,7 @@
   "animations": {
     "knockDown_mage": {
       "loop": "False",
+      "interval_time": 0.1,
       "sprites": [
         {
           "fileName": "other-mage-knock-dwn-00.png",
@@ -58,6 +59,7 @@
     },
     "walk_mage": {
       "loop": "False",
+      "interval_time": 0.2,
       "sprites": [
         {
           "fileName": "other-mage-walk-00.png",

@@ -137,6 +137,7 @@ class SelectAttackState(BaseState):
                                 # RENDER ANIMATION
                                 if self.effectOwner == PlayerType.PLAYER:
                                     self.enemy.ChangeAnimation("death")
+                                    self.enemy.vfx.play("mage_heavy_vfx")
                                 elif self.effectOwner == PlayerType.ENEMY:
                                     self.player.ChangeAnimation("knockdown")
                                 # APPLY BUFF

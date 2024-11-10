@@ -17,7 +17,6 @@ class FieldTile:
             self.entity = entity
             entity.field_index = self.index 
             if target_x == entity.x:
-                print(f'{entity.name} is idle')
                 entity.facing_left = False if entity.name == "player" else True
 
     def remove_entity(self):

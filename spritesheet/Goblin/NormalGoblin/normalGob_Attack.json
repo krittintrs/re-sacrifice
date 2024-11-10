@@ -4,6 +4,7 @@
   "animations": {
     "normalGoblinAttack": {
       "loop": "False",
+      "interval_time": 0.1,
       "sprites": [
         {
           "fileName": "normalGob_Attack1",
