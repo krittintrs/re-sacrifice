@@ -69,6 +69,12 @@ class SelectBuffState(BaseState):
         print(f'Owner: {self.effectOwner}')
         print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
 
+        if self.effectOwner == PlayerType.ENEMY:
+            for index in range(len(self.avilableBuffTile)):
+                if self.field[self.avilableBuffTile[index]].is_occupied():
+                    if self.field[self.avilableBuffTile[index]].entity == self.player:
+                        self.selectBuffTile = index
+
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
         self.enemy.apply_buffs_to_cardsOnHand()
@@ -108,6 +114,16 @@ class SelectBuffState(BaseState):
                                 buffList = self.getBuffListFromEffect(self.effect)
                                 self.enemy.add_buffs(buffList)
                                 print(f"apply buff {buffList} to enemy")
+                            else:
+                                print("no entity on the targeted tile")
+                        else:
+                            print("there is no buff happen")
+                    if self.effectOwner == PlayerType.ENEMY:
+                        if self.selectBuffTile>=0 and self.effect.maxRange>0:
+                            if self.field[self.avilableBuffTile[self.selectBuffTile]].is_occupied():
+                                buffList = self.getBuffListFromEffect(self.effect)
+                                self.player.add_buffs(buffList)
+                                print(f"apply buff {buffList} to player")
                             else:
                                 print("no entity on the targeted tile")
                         else:
