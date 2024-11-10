@@ -114,23 +114,33 @@ class SelectAttackState(BaseState):
                         if self.field[self.avilableAttackTile[self.selectAttackTile]].is_occupied():
                             if self.effectOwner == PlayerType.PLAYER:
                                 self.player.ChangeAnimation("multi_attack")
-                                self.enemy.ChangeAnimation("death")
-                            else:
+                                damage = self.player.attack - self.field[self.avilableAttackTile[self.selectAttackTile]].entity.defense
+                            elif self.effectOwner == PlayerType.ENEMY:
                                 self.enemy.ChangeAnimation("attack")
-                                self.player.ChangeAnimation("knockdown")
-                            damage = self.player.attack - self.field[self.avilableAttackTile[self.selectAttackTile]].entity.defense
+                                damage = self.enemy.attack - self.field[self.avilableAttackTile[self.selectAttackTile]].entity.defense
+                               
                             if damage > 0:
                                 # ATTACK HIT
                                 gSounds['attack'].play()
                                 self.field[self.avilableAttackTile[self.selectAttackTile]].entity.health -= damage
                                 self.field[self.avilableAttackTile[self.selectAttackTile]].entity.stunt = True
                                 print(f'{self.field[self.avilableAttackTile[self.selectAttackTile]].entity} takes {damage} damage')
-                                if self.effect.type == EffectType.ATTACK_SELF_BUFF:
-                                    buffList = self.getBuffListFromEffect(self.effect)
-                                    self.player.add_buffs(buffList)
-                                if self.effect.type == EffectType.ATTACK_OPPO_BUFF:
-                                    buffList = self.getBuffListFromEffect(self.effect)
-                                    self.enemy.add_buffs(buffList)
+                                if self.effectOwner == PlayerType.PLAYER:
+                                    self.enemy.ChangeAnimation("death")
+                                    if self.effect.type == EffectType.ATTACK_SELF_BUFF:
+                                        buffList = self.getBuffListFromEffect(self.effect)
+                                        self.player.add_buffs(buffList)
+                                    if self.effect.type == EffectType.ATTACK_OPPO_BUFF:
+                                        buffList = self.getBuffListFromEffect(self.effect)
+                                        self.enemy.add_buffs(buffList)
+                                elif self.effectOwner == PlayerType.ENEMY:
+                                    self.player.ChangeAnimation("knockdown")
+                                    if self.effect.type == EffectType.ATTACK_SELF_BUFF:
+                                        buffList = self.getBuffListFromEffect(self.effect)
+                                        self.enemy.add_buffs(buffList)
+                                    if self.effect.type == EffectType.ATTACK_OPPO_BUFF:
+                                        buffList = self.getBuffListFromEffect(self.effect)
+                                        self.player.add_buffs(buffList)
                             else:
                                 # ATTACK BLOCK
                                 gSounds['block'].play()
