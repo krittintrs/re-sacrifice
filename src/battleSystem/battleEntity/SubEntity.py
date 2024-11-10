@@ -17,7 +17,7 @@ class SubEntity(Entity): # these sub entity will attack every round if attack !=
         self.duration = conf.duration # remove if duration reach 0
         self.range = conf.range # range for attacking
         self.side = side # player or enemy side (base on who summon)
-        self.is_timeout = False # is_timeout is for removing itself after finishing animation
+        self.remove_flag = False # remove flag is for removing itself after finishing animation
 
     def next_turn(self):
         self.duration -= 1
@@ -28,6 +28,13 @@ class SubEntity(Entity): # these sub entity will attack every round if attack !=
 
     def select_position(self, index):
         self.index = index
+    
+    def take_damage(self, damage):
+        self.health -= damage
+        if self.health > 0:
+            self.ChangeAnimation("death")
+        else:
+            self.ChangeAnimation("death", True)
 
     def remove_self(self):
         self.duration = 0
@@ -78,7 +85,7 @@ class SubEntity(Entity): # these sub entity will attack every round if attack !=
 
             # If the animation has finished, switch to the idle animation
             if animation.is_finished() and self.curr_animation != "idle":
-                if self.is_timeout:
+                if self.remove_flag:
                     self.remove_self()
                 self.ChangeAnimation("idle")
 
@@ -86,12 +93,12 @@ class SubEntity(Entity): # these sub entity will attack every round if attack !=
         super().render(screen, x, y, color)
 
 
-    def ChangeAnimation(self, name, is_timout = False):
+    def ChangeAnimation(self, name, remove_flag = False):
         if name in self.animation_list:
             self.curr_animation = name
             self.frame_index = 0
             self.frame_timer = 0
-            self.is_timeout = is_timout
+            self.remove_flag = remove_flag
             # Start from the beginning of the new animation
             self.animation_list[name].Refresh()
             print(f'{self.name} animation changed to {name}')

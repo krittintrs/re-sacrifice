@@ -160,6 +160,9 @@ class SelectAttackState(BaseState):
                                 gSounds['block'].play()
                                 print(f'{defender} takes no damage')
                             defender.print_stats()
+                        elif attacking_field.second_entity:
+                            if attacking_field.second_entity.side != self.effectOwner:
+                                attacking_field.second_entity.take_damage(attacker.attack)
                         else:
                             print("no entity on the targeted tile")
                     else:
