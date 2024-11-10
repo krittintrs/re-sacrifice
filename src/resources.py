@@ -61,3 +61,7 @@ gNormalGoblin_animation_list = {
     "death": sprite_collection["normalGoblinDeath"].animation,
     "walk": sprite_collection["normalGoblinWalk"].animation
 }
+
+gVfx_animation_list = {
+    "mage_heavy_vfx": sprite_collection["mage_heavy_vfx"].animation
+}

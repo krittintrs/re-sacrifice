@@ -27,6 +27,7 @@ class SpriteManager:
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Death.json",
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Idle.json",
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Walk.json",
+                "./spritesheet/Effect/mage_heavy_vfx.json",
             ]
         )
         self.spriteCollection["card_conf"] = self.loadCardConf("./cards/cards_corrected.json")
@@ -49,6 +50,8 @@ class SpriteManager:
                                 scale = sprite.get("scale", 3) 
                             else:
                                 scale = sprite.get("scale", 4) 
+                            name = sprite.get("fileName", None)
+                            interval_time = sprite.get("interval_time", 1)
                             xSize = sprite.get('width', None)  # Use the new width
                             ySize = sprite.get('height', None)  # Use the new height
                             images.append(
@@ -77,7 +80,7 @@ class SpriteManager:
                         loop = animation_data.get('loop', 'true').lower() == 'true'  # Convert string to boolean, default to True if not specified
                         dic[animation_name] = Sprite(
                             None,
-                            animation=Animation(images, looping=loop, idleSprite=idle_img, interval_time=sprite.get("interval_time", 1)),
+                            animation=Animation(name, images, loop, interval_time, idleSprite=idle_img),
                         )
 
                     resDict.update(dic)
@@ -205,7 +208,7 @@ class DeckLoader():
         return deck_conf
     
 class Animation:
-    def __init__(self, images, looping, idleSprite=None, interval_time=0.15, name="Animation"):
+    def __init__(self, name, images, looping, interval_time , idleSprite=None):
         self.images = images
         self.timer = 0
         self.index = 0
@@ -228,7 +231,6 @@ class Animation:
 
     def update(self, dt):
         self.timer += dt
-        
         if self.timer >= self.interval_time:
             self.index += 1
             if self.index >= len(self.images):
