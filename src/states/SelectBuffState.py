@@ -111,9 +111,9 @@ class SelectBuffState(BaseState):
                     if self.effectOwner == PlayerType.PLAYER:
                         if self.selectBuffTile>=0 and self.effect.maxRange>0:
                             if self.field[self.avilableBuffTile[self.selectBuffTile]].is_occupied():
-                                buffList = self.getBuffListFromEffect(self.effect)
-                                self.enemy.add_buffs(buffList)
-                                print(f"apply buff {buffList} to enemy")
+                                buff = self.getBuffFromEffect(self.effect)
+                                self.enemy.add_buff(buff)
+                                print(f"apply buff {buff} to enemy")
                             else:
                                 print("no entity on the targeted tile")
                         else:
@@ -121,9 +121,9 @@ class SelectBuffState(BaseState):
                     if self.effectOwner == PlayerType.ENEMY:
                         if self.selectBuffTile>=0 and self.effect.maxRange>0:
                             if self.field[self.avilableBuffTile[self.selectBuffTile]].is_occupied():
-                                buffList = self.getBuffListFromEffect(self.effect)
-                                self.player.add_buffs(buffList)
-                                print(f"apply buff {buffList} to player")
+                                buff = self.getBuffFromEffect(self.effect)
+                                self.player.add_buff(buff)
+                                print(f"apply buff {buff} to player")
                             else:
                                 print("no entity on the targeted tile")
                         else:
@@ -160,14 +160,12 @@ class SelectBuffState(BaseState):
         self.player.update(dt)
         self.enemy.update(dt)
 
-    def getBuffListFromEffect(self, effect):
-        buffList = []
-        if effect.buffNameList:
-            for buffName in effect.buffNameList:
-                buffList.append(Buff(CARD_BUFF[buffName])) 
-            return buffList
+    def getBuffFromEffect(self, effect):
+        if effect.buffName:
+            buff = Buff(CARD_BUFF[effect.buffName])
+            return buff
         else:
-            print(f'Buff not found: {effect.buffNameList}')
+            print(f'Buff not found: {effect.buffName}')
             return False
           
     def render(self, screen):

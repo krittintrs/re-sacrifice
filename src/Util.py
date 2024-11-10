@@ -132,11 +132,11 @@ class SpriteManager:
                                 print(f"Unknown effect type: {effect['type']}")
                                 continue
                             try:
-                                effect_buffs = effect["buff"]
+                                effect_buff = effect["buff"]
                             except KeyError:
-                                effect_buffs = None
-                            temp_effect_dict[effectPeriod].append(Effect(effect_type, effect["minRange"], effect["maxRange"], effect_buffs))
-                            print(f"{effect_type}\t{effect_buffs}")
+                                effect_buff = None
+                            temp_effect_dict[effectPeriod].append(Effect(effect_type, effect["minRange"], effect["maxRange"], effect_buff))
+                            print(f"{effect_type}\t{effect_buff}")
 
                 # Create the Card object for each card entry
                 card_conf[card["name"]] = CardConf(
