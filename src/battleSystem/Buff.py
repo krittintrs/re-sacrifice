@@ -6,6 +6,7 @@ class Buff():
         self.name = conf.name
         self.description = conf.description
         self.duration = conf.duration
+        self.type = conf.type
         self.value = conf.value  # [1,0,0,0] == [atk,def,spd,range]
         self.imageName = conf.imageName
 
@@ -52,16 +53,32 @@ class Buff():
             self.y = 100
             screen.blit(self.imageName, (self.x, 100))
 
-            # Determine if the buff is positive or negative
-            is_positive = any(v > 0 for v in self.value)
-            is_negative = any(v < 0 for v in self.value)
-
             # Render buff or debuff icon border
-            if is_positive:
+            if self.type == BuffType.BUFF:
                 screen.blit(gBuffIcon_image_list["buff"], (self.x + 10, 110))
-            elif is_negative:
-                # Red border for negative buff
+            elif self.type == BuffType.DEBUFF:
                 screen.blit(gBuffIcon_image_list["debuff"], (self.x + 10, 110))
+            elif self.type == BuffType.DICE_ROLL:
+                dice_roll_icon = pygame.font.SysFont("Sans Serif", 20).render("B", True, (0, 0, 0))
+                screen.blit(dice_roll_icon, (self.x + 10, 110))
+            elif self.type == BuffType.PERM_BUFF:
+                perm_buff_icon = pygame.font.SysFont("Sans Serif", 20).render("P", True, (0, 0, 0))
+                screen.blit(perm_buff_icon, (self.x + 10, 110))
+            elif self.type == BuffType.EMPOWER:
+                screen.blit(gBuffIcon_image_list["attack"], (self.x, 100))
+                screen.blit(gBuffIcon_image_list["buff"], (self.x + 10, 110))
+            elif self.type == BuffType.BLOOD:
+                flipped_attack_icon = pygame.transform.flip(gBuffIcon_image_list["attack"], True, False)
+                screen.blit(flipped_attack_icon, (self.x, 100))
+                blood_icon = pygame.font.SysFont("Sans Serif", 20).render("B", True, (255, 0, 0))
+                screen.blit(blood_icon, (self.x + 10, 110))
+            elif self.type == BuffType.CRIT_RATE:
+                crit_rate_icon = pygame.font.SysFont("Sans Serif", 20).render("R", True, (0, 0, 0))
+                screen.blit(crit_rate_icon, (self.x + 10, 110))
+            elif self.type == BuffType.CRIT_DMG:
+                crit_dmg_icon = pygame.font.SysFont("Sans Serif", 20).render("D", True, (0, 0, 0))
+                screen.blit(crit_dmg_icon, (self.x + 10, 110))
+
 
             # try to render buff icon border
             # pygame.draw.rect(screen, (0, 0, 0), (buff_x_position, buff.y, buff.rect.width, buff.rect.height), 1)

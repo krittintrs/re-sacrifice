@@ -110,42 +110,47 @@ class SelectAttackState(BaseState):
                             self.selectAttackTile = 0
                 if event.key == pygame.K_RETURN:
                     if self.selectAttackTile>=0 and self.effect.maxRange>0:
+                        attacking_field = self.field[self.avilableAttackTile[self.selectAttackTile]]
+                        defender = attacking_field.entity
                         # ATTACK
-                        if self.field[self.avilableAttackTile[self.selectAttackTile]].is_occupied():
+                        if attacking_field.is_occupied():
                             if self.effectOwner == PlayerType.PLAYER:
                                 self.player.ChangeAnimation("multi_attack")
-                                damage = self.player.attack - self.field[self.avilableAttackTile[self.selectAttackTile]].entity.defense
+                                attacker = self.player
                             elif self.effectOwner == PlayerType.ENEMY:
                                 self.enemy.ChangeAnimation("attack")
-                                damage = self.enemy.attack - self.field[self.avilableAttackTile[self.selectAttackTile]].entity.defense
+                                attacker = self.enemy
+                            
+                            damage = attacker.attack - defender.defense
+                            is_evade = False
+                            for buff in defender.buffs:
+                                if buff.type == BuffType.EVADE:
+                                    is_evade = True
+                                    break
                                
-                            if damage > 0:
+                            if damage > 0 and not is_evade:
                                 # ATTACK HIT
                                 gSounds['attack'].play()
-                                self.field[self.avilableAttackTile[self.selectAttackTile]].entity.health -= damage
-                                self.field[self.avilableAttackTile[self.selectAttackTile]].entity.stunt = True
-                                print(f'{self.field[self.avilableAttackTile[self.selectAttackTile]].entity} takes {damage} damage')
+                                defender.health -= damage
+                                defender.stunt = True
+                                print(f'{defender} takes {damage} damage')
+                                # RENDER ANIMATION
                                 if self.effectOwner == PlayerType.PLAYER:
                                     self.enemy.ChangeAnimation("death")
-                                    if self.effect.type == EffectType.ATTACK_SELF_BUFF:
-                                        buffList = self.getBuffListFromEffect(self.effect)
-                                        self.player.add_buffs(buffList)
-                                    if self.effect.type == EffectType.ATTACK_OPPO_BUFF:
-                                        buffList = self.getBuffListFromEffect(self.effect)
-                                        self.enemy.add_buffs(buffList)
                                 elif self.effectOwner == PlayerType.ENEMY:
                                     self.player.ChangeAnimation("knockdown")
-                                    if self.effect.type == EffectType.ATTACK_SELF_BUFF:
-                                        buffList = self.getBuffListFromEffect(self.effect)
-                                        self.enemy.add_buffs(buffList)
-                                    if self.effect.type == EffectType.ATTACK_OPPO_BUFF:
-                                        buffList = self.getBuffListFromEffect(self.effect)
-                                        self.player.add_buffs(buffList)
+                                # APPLY BUFF
+                                if self.effect.type == EffectType.ATTACK_SELF_BUFF:
+                                    buff = self.getBuffFromEffect(self.effect)
+                                    attacker.add_buff(buff)
+                                elif self.effect.type == EffectType.ATTACK_OPPO_BUFF:
+                                    buff = self.getBuffFromEffect(self.effect)
+                                    defender.add_buff(buff)
                             else:
                                 # ATTACK BLOCK
                                 gSounds['block'].play()
-                                print(f'{self.field[self.avilableAttackTile[self.selectAttackTile]].entity} takes no damage')
-                            self.field[self.avilableAttackTile[self.selectAttackTile]].entity.print_stats()
+                                print(f'{defender} takes no damage')
+                            defender.print_stats()
                         else:
                             print("no entity on the targeted tile")
                     else:
@@ -182,14 +187,12 @@ class SelectAttackState(BaseState):
         self.player.update(dt)
         self.enemy.update(dt)
 
-    def getBuffListFromEffect(self, effect):
-        buffList = []
-        if effect.buffNameList:
-            for buffName in effect.buffNameList:
-                buffList.append(Buff(CARD_BUFF[buffName])) 
-            return buffList
+    def getBuffFromEffect(self, effect):
+        if effect.buffName:
+            buff = Buff(CARD_BUFF[effect.buffName])
+            return buff
         else:
-            print(f'Buff not found: {effect.buffNameList}')
+            print(f'Buff not found: {effect.buffName}')
             return False
         
     def render(self, screen):

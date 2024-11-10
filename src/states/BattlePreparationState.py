@@ -3,7 +3,7 @@ from src.dependency import *
 from src.constants import *
 from src.battleSystem.battleEntity.Player import Player
 from src.battleSystem.battleEntity.Enemy import Enemy
-from src.battleSystem.Deck import Deck
+from src.battleSystem.Buff import Buff
 from src.battleSystem.FieldTile import FieldTile
 import pygame
 import sys
@@ -25,12 +25,15 @@ class BattlePreparationState(BaseState):
     def initialDraw(self):
         self.player.deck.shuffle()
         # for card in self.player.deck.card_deck:
-        #     if card.name in ["Kite Attack", "Bash Strike", "Blood Sacrifice", "Bull's Eye", "Sabotage"]:
+        #     if card.name in ["Blood Sacrifice", "Cleanse", "Empower", "Bull's Eye", "Kite Attack"]:
         #         self.player.cardsOnHand.append(card)
 
         self.player.cardsOnHand = self.player.deck.draw(5)
         self.enemy.deck.shuffle()
         self.enemy.cardsOnHand = self.enemy.deck.draw(5)
+
+        # self.player.add_buff(Buff(CARD_BUFF["attack_debuff"]))
+        # self.player.add_buff(Buff(CARD_BUFF["defense_debuff"]))
 
     def Enter(self, params):
         self.player = params['player']
