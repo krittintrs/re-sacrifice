@@ -2,7 +2,7 @@ import pygame
 from src.constants import *
 from src.resources import *
 from src.battleSystem.buff_def import *
-from src.battleSystem.battleEntity.entity_defs import SUB_ENTITY
+from src.battleSystem.battleEntity.sub_entity_defs import SUB_ENTITY
 from src.EnumResources import *
 
 from src.StateMachine import StateMachine

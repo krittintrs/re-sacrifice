@@ -56,8 +56,11 @@ class Entity:
     def print_buffs(self):
         for buff in self.buffs:
             buff.print()
+    
+    def null_function():
+        pass
 
-    def move_to(self, fieldTile, field):
+    def move_to(self, fieldTile, field, action = null_function):
         if fieldTile.is_occupied():  # Check if the fieldTile is occupied
             print("fieldTile is already occupied!")
             return
@@ -70,7 +73,8 @@ class Entity:
         self.facing_left = self.target_position < self.x  # Face left if moving to a lower x
 
         self.tweening = tween.to(
-            self, "x", self.target_position, 1, "linear")  # Tween x position
+            self, "x", self.target_position, 1, "linear")# Tween x position
+        self.tweening.on_complete(action)  
 
         # Update fieldTile and position references
         if self.fieldTile_index is not None:
@@ -158,6 +162,7 @@ class Entity:
 
             # Check if the animation has finished and switch to idle if necessary
             if animation.is_finished() and self.curr_animation != "idle":
+                
                 # Automatically switch to idle animation
                 self.ChangeAnimation("idle")
                 # Update to idle animation
@@ -195,9 +200,11 @@ class Entity:
             self.curr_animation = name
             self.frame_index = 0
             self.frame_timer = 0
+            # self.on_complete = on_complete
             # Start from the beginning of the new animation
             self.animation_list[name].Refresh()
             print(f'{self.name} animation changed to {name}')
         else:
             print(
                 f'Animation {name} not found in animation list for {self.name}')
+

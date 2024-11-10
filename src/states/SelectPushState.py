@@ -68,6 +68,13 @@ class SelectPushState(BaseState):
     def Exit(self):
         pass
 
+    def remove_timeout_entity(self):
+        for tile in self.field:
+            if tile.is_second_entity():
+                if tile.second_entity.duration == 0:
+                    print("remove second entity for timeout ", tile.index)
+                    tile.remove_second_entity()
+
     def update(self, dt, events):
         for event in events:
             if event.type == pygame.QUIT:
@@ -138,6 +145,14 @@ class SelectPushState(BaseState):
 
         self.player.update(dt)
         self.enemy.update(dt)
+
+        for tile in self.field:
+            if tile.second_entity:
+                tile.second_entity.update(dt)
+            elif tile.is_occupied() and tile.entity.type == None:
+                tile.entity.update(dt)
+
+        self.remove_timeout_entity()
         
     def render(self, screen):
         RenderTurn(screen, 'SelectPushState', self.turn, self.currentTurnOwner)

@@ -17,46 +17,64 @@ class SubEntity(Entity):
         self.duration = conf.duration
         self.range = conf.range
         self.side = side
+        self.is_timeout = False
 
-    def print_stats(self):
-        print(f'{self.name} stats - HP: {self.health}, ATK: {self.attack}')
+    # def print_stats(self):
+    #     print(f'{self.name} stats - HP: {self.health}, ATK: {self.attack}')
 
-    def display_stats(self):
-        pass
+    # def display_stats(self):
+    #     pass
 
-    def reset_stats(self):
-        pass
+    # def reset_stats(self):
+    #     pass
 
-    def print_buffs(self):
-        pass
+    # def print_buffs(self):
+    #     pass
 
-    def move_to(self, fieldTile, field):
-        pass
+    # def move_to(self, fieldTile, field):
+    #     pass
 
-    def add_buff(self, buffList):
-        pass
+    # def add_buff(self, buffList):
+    #     pass
        
-    def apply_buffs_to_cardsOnHand(self):
-        pass
+    # def apply_buffs_to_cardsOnHand(self):
+    #     pass
 
-    def select_card(self, card):
-        pass
+    # def select_card(self, card):
+    #     pass
 
-    def remove_selected_card(self):
-        pass
+    # def remove_selected_card(self):
+    #     pass
 
     def next_turn(self):
-        pass # should implement something ?
+        self.duration -= 1
+        if self.duration == 0:
+            return True
+        else:
+            return False
 
     def select_position(self, index):
         self.index = index
 
-    def collide(self, target, field):
+    def remove_self(self):
+        print("set duration to 0")
+        self.duration = 0
+
+    def collide(self, target):
         if self.name == "trap":
-            if target.type != self.side:
+            # if target.type != self.side:
+                # mock animation
                 buff = Buff(CARD_BUFF["fire"])
                 target.add_buff(buff)
-                field.remove_second_entity()
+                self.ChangeAnimation('attack', True)
+                target.ChangeAnimation('knock_down')
+        if self.name == "pheonix":
+            if target.type != self.side:
+                target.health -= 1
+                if target.type == PlayerType.ENEMY:
+                    target.ChangeAnimation('death')
+                    gSounds['attack'].play()
+                self.ChangeAnimation('attack', True)
 
     def bot_action(self, field):
         if self.attack != 0:
@@ -74,22 +92,24 @@ class SubEntity(Entity):
 
 
     def update(self, dt):
-        super().update(dt)
-        # # Update the tween if it exists
-        # if self.tweening:
-        #     self.tweening._update(dt)  # Tween progress
+        # super().update(dt)
+        # Update the tween if it exists
+        if self.tweening:
+            self.tweening._update(dt)  # Tween progress
 
-        # if self.target_position == self.x:
-        #     self.facing_left = False if self.name == "player" else True
+        if self.target_position == self.x:
+            self.facing_left = False if self.name == "player" else True
 
-        # # Check if an animation is set and update it
-        # if self.curr_animation in self.animation_list:
-        #     animation = self.animation_list[self.curr_animation]
-        #     animation.update(dt)  # Progress the animation with delta time
+        # Check if an animation is set and update it
+        if self.curr_animation in self.animation_list:
+            animation = self.animation_list[self.curr_animation]
+            animation.update(dt)  # Progress the animation with delta time
 
-        #     # If the animation has finished, switch to the idle animation
-        #     if animation.is_finished() and self.curr_animation != "idle":
-        #         self.ChangeAnimation("idle")
+            # If the animation has finished, switch to the idle animation
+            if animation.is_finished() and self.curr_animation != "idle":
+                if self.is_timeout:
+                    self.remove_self()
+                self.ChangeAnimation("idle")
 
     def render(self, screen, x, y, color=(255, 0, 0)):
         super().render(screen, x, y, color)
@@ -117,6 +137,10 @@ class SubEntity(Entity):
 
         #     # Check if the animation has finished and switch to idle if necessary
         #     if animation.is_finished() and self.curr_animation != "idle":
+        #         print(self.on_complete, "------------------ this is on complete")
+        #         # if self.on_complete:
+        #         #     self.on_complete()
+        #         #     self.on_complete = None
         #         # Automatically switch to idle animation
         #         self.ChangeAnimation("idle")
         #         # Update to idle animation
@@ -149,15 +173,15 @@ class SubEntity(Entity):
         #     buff.x = entity_x + index * 20
         #     buff.render(screen)
 
-    def ChangeAnimation(self, name):
-        super().ChangeAnimation(name)
-    #     if name in self.animation_list:
-    #         self.curr_animation = name
-    #         self.frame_index = 0
-    #         self.frame_timer = 0
-    #         # Start from the beginning of the new animation
-    #         self.animation_list[name].Refresh()
-    #         print(f'{self.name} animation changed to {name}')
-    #     else:
-    #         print(
-    #             f'Animation {name} not found in animation list for {self.name}')
+    def ChangeAnimation(self, name, is_timout = False):
+        if name in self.animation_list:
+            self.curr_animation = name
+            self.frame_index = 0
+            self.frame_timer = 0
+            self.is_timeout = is_timout
+            # Start from the beginning of the new animation
+            self.animation_list[name].Refresh()
+            print(f'{self.name} animation changed to {name}')
+        else:
+            print(
+                f'Animation {name} not found in animation list for {self.name}')

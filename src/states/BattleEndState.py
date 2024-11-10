@@ -4,6 +4,7 @@ from src.constants import *
 from src.Render import *
 import pygame
 import sys
+import time
 
 class BattleEndState(BaseState):
     def __init__(self):
@@ -33,6 +34,13 @@ class BattleEndState(BaseState):
         # Turn Pass Entity
         self.player.next_turn()
         self.enemy.next_turn()
+        for tile in self.field:
+            if tile.is_second_entity():
+                if tile.second_entity.next_turn():
+                    tile.second_entity.ChangeAnimation('death')
+                    tile.remove_second_entity()
+
+
 
     def Exit(self):
         pass
@@ -94,6 +102,21 @@ class BattleEndState(BaseState):
 
         self.player.update(dt)
         self.enemy.update(dt)
+
+        for tile in self.field:
+            if tile.second_entity:
+                tile.second_entity.update(dt)
+            elif tile.is_occupied() and tile.entity.type == None:
+                tile.entity.update(dt)
+
+        self.remove_timeout_entity()
+
+    def remove_timeout_entity(self):
+        for tile in self.field:
+            if tile.is_second_entity():
+                if tile.second_entity.duration == 0:
+                    print("remove second entity for timeout ", tile.index)
+                    tile.remove_second_entity()
 
     def render(self, screen):
         RenderTurn(screen, 'End State', self.turn, self.currentTurnOwner)

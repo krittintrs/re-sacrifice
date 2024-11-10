@@ -16,6 +16,7 @@ class SubEntityConf:
 
 
 SUB_ENTITY = {
-    "trap" : SubEntityConf("trap", gEntity_animation_dict["goblin"], 1, False, 0, 3, 0), # please find some animation for the trap replace goblin for me please.
+    "trap" : SubEntityConf("trap", gEntity_animation_dict["goblin"], 1, False, 0, 2, 0), # please find some animation for the trap replace goblin for me please.
+    "pheonix": SubEntityConf("pheonix", gEntity_animation_dict["goblin"], 4, False, 1, 5, 2)
 }
 

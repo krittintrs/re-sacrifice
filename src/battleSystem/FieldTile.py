@@ -12,7 +12,7 @@ class FieldTile:
 
     def is_occupied(self):
         if self.entity:
-            return self.entity.is_occupied_field
+            return True
         else:
             return False
 
