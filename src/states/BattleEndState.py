@@ -20,6 +20,11 @@ class BattleEndState(BaseState):
 
         self.player.remove_selected_card()
         self.enemy.remove_selected_card()
+
+        # summon attack
+        for tile in self.field:
+            if tile.second_entity:
+                tile.second_entity.bot_action(self.field)
         
     def next_turn(self):
         # Change turn owner

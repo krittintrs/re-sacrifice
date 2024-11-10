@@ -224,8 +224,6 @@ class BattleResolveState(BaseState):
                         critical_buff.value[0] = self.player.selectedCard.attack // 2
                         self.player.add_buff(critical_buff)
                 # MAGE CLASS
-                case EffectType.TRUE_DAMAGE:
-                    pass
                 case EffectType.NEXT_MULTI:
                     pass
                 # BOSSES

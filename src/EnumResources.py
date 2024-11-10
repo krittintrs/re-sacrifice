@@ -84,3 +84,4 @@ class BuffType(Enum):
     CRIT_RATE = "CritRate"
     CRIT_DMG = "CritDmg"
     EVADE = "Evade"
+    STOP_MOVEMENT = "Stop Movement"

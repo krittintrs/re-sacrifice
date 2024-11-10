@@ -116,6 +116,7 @@ class SelectSpawnState(BaseState):
                         if self.selectSpawnTile>=0 and self.effect.maxRange>0:
                             if not self.field[self.availableSpawnTile[self.selectSpawnTile]].is_occupied():
                                 spawn = SubEntity(SUB_ENTITY[self.effect.spawn], PlayerType.PLAYER)
+                                spawn.fieldTile_index = self.availableSpawnTile[self.selectSpawnTile]
                                 spawn_x = self.field[self.availableSpawnTile[self.selectSpawnTile]].x
                                 self.field[self.availableSpawnTile[self.selectSpawnTile]].place_entity(spawn, spawn_x)
                                 print(f"{self.effectOwner} summon {spawn.name}")

@@ -71,6 +71,9 @@ CARD_BUFF = {
         'Fire', "Deal 1 damage per turn", 3, BuffType.DEBUFF, [0, 0, 0, 0], -1, gBuffIcon_image_list['debuff']
     ),
     'stop_movement': BuffConf(
-        'Stop Movement', "Can not use move effect", 2, BuffType.DEBUFF, [0, 0, 0, 0], 0, gBuffIcon_image_list['debuff']
+        'Stop Movement', "Can not use move effect", 2, BuffType.STOP_MOVEMENT, [0, 0, 0, 0], 0, gBuffIcon_image_list['debuff']
+    ),
+    'stop_movement_2': BuffConf(
+        'Stop Movement 2', "Can not use move effect", 10, BuffType.STOP_MOVEMENT, [0, 0, 0, 0], 0, gBuffIcon_image_list['debuff']
     ),
 }

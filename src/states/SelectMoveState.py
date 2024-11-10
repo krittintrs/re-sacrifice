@@ -5,6 +5,7 @@ from src.constants import *
 from src.Render import *
 import pygame
 import sys
+import time
 
 class SelectMoveState(BaseState):
     def __init__(self):
@@ -27,11 +28,20 @@ class SelectMoveState(BaseState):
 
         if self.effectOwner == PlayerType.PLAYER:
             for buff in self.player.buffs:
-                if buff.name == "Stop Movement":
+                if buff.type == BuffType.STOP_MOVEMENT:
                     print("can not move due to debuff")
-                    self.leftSkip = True
-                    self.rightSkip = True
-                    break
+                    self.player.ChangeAnimation('knock_down')
+                    time.sleep(1)
+                    # self.leftSkip = True
+                    # self.rightSkip = True
+                    g_state_manager.Change(BattleState.RESOLVE_PHASE, {
+                            'player': self.player,
+                            'enemy': self.enemy,
+                            'field': self.field,
+                            'turn': self.turn,
+                            'currentTurnOwner': self.currentTurnOwner,
+                            'effectOrder': self.effectOrder
+                        })
             startIndex = self.player.fieldTile_index
             self.leftMinTileIndex = self.player.fieldTile_index - self.effect.minRange
             self.leftMaxTileIndex = self.player.fieldTile_index - self.effect.maxRange
@@ -40,11 +50,20 @@ class SelectMoveState(BaseState):
             print("should still run this code though")
         elif self.effectOwner == PlayerType.ENEMY:
             for buff in self.enemy.buffs:
-                if buff.name == "Stop Movement":
+                if buff.type == BuffType.STOP_MOVEMENT:
                     print("can not move due to debuff")
-                    self.leftSkip = True
-                    self.rightSkip = True
-                    break
+                    self.enemy.ChangeAnimation('death')
+                    time.sleep(1)
+                    # self.leftSkip = True
+                    # self.rightSkip = True
+                    g_state_manager.Change(BattleState.RESOLVE_PHASE, {
+                            'player': self.player,
+                            'enemy': self.enemy,
+                            'field': self.field,
+                            'turn': self.turn,
+                            'currentTurnOwner': self.currentTurnOwner,
+                            'effectOrder': self.effectOrder
+                        })
             startIndex = self.enemy.fieldTile_index
             self.leftMinTileIndex = self.enemy.fieldTile_index - self.effect.minRange
             self.leftMaxTileIndex = self.enemy.fieldTile_index - self.effect.maxRange
