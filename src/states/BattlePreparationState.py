@@ -32,8 +32,8 @@ class BattlePreparationState(BaseState):
         self.enemy.deck.shuffle()
         self.enemy.cardsOnHand = self.enemy.deck.draw(5)
 
-        mock_buff = [Buff(CARD_BUFF["attack_debuff"]), Buff(CARD_BUFF["defense_debuff"])]
-        self.player.add_buffs(mock_buff)
+        self.player.add_buff(Buff(CARD_BUFF["attack_debuff"]))
+        self.player.add_buff(Buff(CARD_BUFF["defense_debuff"]))
 
     def Enter(self, params):
         self.player = params['player']

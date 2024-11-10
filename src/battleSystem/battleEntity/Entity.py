@@ -78,9 +78,8 @@ class Entity:
         fieldTile.place_entity(self, self.target_position)  # Place the entity in the new fieldTile
         self.fieldTile_index = fieldTile.index  # Update the fieldTile index
 
-    def add_buffs(self, buffList):
-        for buff in buffList:
-            self.buffs.append(buff)
+    def add_buff(self, buff):
+        self.buffs.append(buff)
        
     def apply_buffs_to_cardsOnHand(self):
         for card in self.cardsOnHand:

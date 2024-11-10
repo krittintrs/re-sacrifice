@@ -126,12 +126,12 @@ class BattleResolveState(BaseState):
                         'effectOwner': effectOwner
                     })
                 case EffectType.SELF_BUFF:
-                    buffList = self.getBuffListFromEffect(effect)
-                    print(f'{effectOwner.name} self buff: {buffList}')
+                    buff = self.getBuffFromEffect(effect)
+                    print(f'{effectOwner.name} self buff: {buff}')
                     if effectOwner == PlayerType.PLAYER:
-                        self.player.add_buffs(buffList)
+                        self.player.add_buff(buff)
                     elif effectOwner == PlayerType.ENEMY:
-                        self.enemy.add_buffs(buffList)
+                        self.enemy.add_buff(buff)
                 case EffectType.PUSH:
                     g_state_manager.Change(SelectionState.PUSH, {
                         'player': self.player,
@@ -191,9 +191,9 @@ class BattleResolveState(BaseState):
                 case EffectType.BLOOD_SACRIFICE:
                     hp_paid = math.floor(self.player.health * 0.3)
                     self.player.health -= hp_paid
-                    buffList = self.getBuffListFromEffect(effect)
-                    buffList[0].value[0] = hp_paid
-                    self.player.add_buffs(buffList)
+                    buff = self.getBuffFromEffect(effect)
+                    buff.value[0] = hp_paid
+                    self.player.add_buff(buff)
                 # RANGER CLASS
                 case EffectType.CRITICAL:
                     chance = random.randint(1, 6)
@@ -207,7 +207,7 @@ class BattleResolveState(BaseState):
                         print('Critical hit!')
                         critical_buff = Buff(CARD_BUFF['critical_buff'])
                         critical_buff.value[0] = self.player.selectedCard.attack // 2
-                        self.player.add_buffs([critical_buff])
+                        self.player.add_buff(critical_buff)
                 # MAGE CLASS
                 case EffectType.TRUE_DAMAGE:
                     pass
@@ -235,14 +235,12 @@ class BattleResolveState(BaseState):
                             'effectOrder': self.effectOrder
                         })
 
-    def getBuffListFromEffect(self, effect):
-        buffList = []
-        if effect.buffNameList:
-            for buffName in effect.buffNameList:
-                buffList.append(Buff(CARD_BUFF[buffName])) 
-            return buffList
+    def getBuffFromEffect(self, effect):
+        if effect.buffName:
+            buff = Buff(CARD_BUFF[effect.buffName])
+            return buff
         else:
-            print(f'Buff not found: {effect.buffNameList}')
+            print(f'Buff not found: {effect.buffName}')
             return False
 
     def render(self, screen):

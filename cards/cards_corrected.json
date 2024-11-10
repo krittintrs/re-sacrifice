@@ -558,7 +558,7 @@
                         "type": "oppo_buff",
                         "minRange": 0,
                         "maxRange": 4,
-                        "buff": ["stop_movement"]
+                        "buff": "stop_movement"
                     }
                 ],
                 "mainEffect": [
@@ -599,7 +599,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["attack_boost"]
+                        "buff": "attack_boost"
                     }
                 ],
                 "afterEffect": [
@@ -633,7 +633,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["defense_boost"]
+                        "buff": "defense_boost"
                     }
                 ],
                 "afterEffect": [
@@ -667,7 +667,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["speed_boost"]
+                        "buff": "speed_boost"
                     }
                 ],
                 "afterEffect": [
@@ -701,7 +701,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["range_boost"]
+                        "buff": "range_boost"
                     }
                 ],
                 "afterEffect": [
@@ -768,7 +768,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["perm_attack_boost"]
+                        "buff": "perm_attack_boost"
                     }
                 ],
                 "afterEffect": [
@@ -802,7 +802,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["perm_defense_boost"]
+                        "buff": "perm_defense_boost"
                     }
                 ],
                 "afterEffect": [
@@ -836,7 +836,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["perm_speed_boost"]
+                        "buff": "perm_speed_boost"
                     }
                 ],
                 "afterEffect": [
@@ -870,7 +870,7 @@
                         "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 3,
-                        "buff": ["attack_debuff"]
+                        "buff": "attack_debuff"
                     }
                 ],
                 "afterEffect": [
@@ -904,7 +904,7 @@
                         "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 3,
-                        "buff": ["defense_debuff"]
+                        "buff": "defense_debuff"
                     }
                 ],
                 "afterEffect": [
@@ -938,7 +938,7 @@
                         "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 3,
-                        "buff": ["speed_debuff"]
+                        "buff": "speed_debuff"
                     }
                 ],
                 "afterEffect": [
@@ -972,7 +972,7 @@
                         "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 3,
-                        "buff": ["range_debuff"]
+                        "buff": "range_debuff"
                     }
                 ],
                 "afterEffect": [
@@ -1006,7 +1006,7 @@
                         "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 3,
-                        "buff": ["move_debuff"]
+                        "buff": "move_debuff"
                     }
                 ],
                 "afterEffect": [
@@ -1037,7 +1037,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["evade"]
+                        "buff": "evade"
                     }
                 ],
                 "mainEffect": [
@@ -1107,7 +1107,7 @@
                         "type": "oppo_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["sleep"]
+                        "buff": "sleep"
                     }
                 ],
                 "afterEffect": [
@@ -1138,7 +1138,7 @@
                         "type": "sand_throw",
                         "minRange": 1,
                         "maxRange": 2,
-                        "buff": ["sleep"]
+                        "buff": "sleep"
                     }
                 ],
                 "mainEffect": [
@@ -1282,7 +1282,7 @@
                         "type": "attack_self_buff",
                         "minRange": 1,
                         "maxRange": 1,
-                        "buff": ["empower"]
+                        "buff": "empower"
                     }
                 ],
                 "afterEffect": [
@@ -1354,7 +1354,7 @@
                         "type": "blood_sacrifice",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["blood_buff"]
+                        "buff": "blood_buff"
                     },
                     {
                         "type": "warrior",
@@ -1441,7 +1441,7 @@
                         "type": "self_buff",
                         "minRange": 1,
                         "maxRange": 1,
-                        "buff": ["empower"]
+                        "buff": "empower"
                     }
                 ],
                 "afterEffect": [
@@ -1567,7 +1567,7 @@
                         "type": "attack_oppo_buff",
                         "minRange": 4,
                         "maxRange": 9,
-                        "buff": ["range_debuff"]
+                        "buff": "range_debuff"
                     }
                 ],
                 "afterEffect": [
@@ -1601,7 +1601,7 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["crit+"]
+                        "buff": "crit+"
                     }
                 ],
                 "afterEffect": [
@@ -1639,7 +1639,7 @@
                         "type": "attack_oppo_buff",
                         "minRange": 1,
                         "maxRange": 1,
-                        "buff": ["confuse"]
+                        "buff": "confuse"
                     }
                 ],
                 "afterEffect": [
@@ -1673,7 +1673,7 @@
                         "type": "attack",
                         "minRange": 1,
                         "maxRange": 3,
-                        "buff": ["fire"]
+                        "buff": "fire"
                     }
                 ],
                 "afterEffect": [
@@ -1807,7 +1807,7 @@
                         "type": "oppo_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["sleep"]
+                        "buff": "sleep"
                     }
                 ],
                 "afterEffect": [
@@ -1964,7 +1964,7 @@
                         "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 4,
-                        "buff": ["blindness"]
+                        "buff": "blindness"
                     }
                 ],
                 "afterEffect": [
@@ -2006,7 +2006,7 @@
                         "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 4,
-                        "buff": ["muddy"]
+                        "buff": "muddy"
                     }
                 ],
                 "afterEffect": [
@@ -2144,13 +2144,13 @@
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["sleep"]
+                        "buff": "sleep"
                     },
                     {
                         "type": "self_buff",
                         "minRange": 0,
                         "maxRange": 0,
-                        "buff": ["meditation"]
+                        "buff": "meditation"
                     }
                 ],
                 "afterEffect": [
@@ -2255,7 +2255,7 @@
                         "type": "oppo_buff",
                         "minRange": 1,
                         "maxRange": 4,
-                        "buff": ["fire"]
+                        "buff": "fire"
                     }
                 ],
                 "afterEffect": [

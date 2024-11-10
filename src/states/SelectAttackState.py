@@ -128,19 +128,19 @@ class SelectAttackState(BaseState):
                                 if self.effectOwner == PlayerType.PLAYER:
                                     self.enemy.ChangeAnimation("death")
                                     if self.effect.type == EffectType.ATTACK_SELF_BUFF:
-                                        buffList = self.getBuffListFromEffect(self.effect)
-                                        self.player.add_buffs(buffList)
+                                        buff = self.getBuffFromEffect(self.effect)
+                                        self.player.add_buff(buff)
                                     if self.effect.type == EffectType.ATTACK_OPPO_BUFF:
-                                        buffList = self.getBuffListFromEffect(self.effect)
-                                        self.enemy.add_buffs(buffList)
+                                        buff = self.getBuffFromEffect(self.effect)
+                                        self.enemy.add_buff(buff)
                                 elif self.effectOwner == PlayerType.ENEMY:
                                     self.player.ChangeAnimation("knockdown")
                                     if self.effect.type == EffectType.ATTACK_SELF_BUFF:
-                                        buffList = self.getBuffListFromEffect(self.effect)
-                                        self.enemy.add_buffs(buffList)
+                                        buff = self.getBuffFromEffect(self.effect)
+                                        self.enemy.add_buff(buff)
                                     if self.effect.type == EffectType.ATTACK_OPPO_BUFF:
-                                        buffList = self.getBuffListFromEffect(self.effect)
-                                        self.player.add_buffs(buffList)
+                                        buff = self.getBuffFromEffect(self.effect)
+                                        self.player.add_buff(buff)
                             else:
                                 # ATTACK BLOCK
                                 gSounds['block'].play()
@@ -182,14 +182,12 @@ class SelectAttackState(BaseState):
         self.player.update(dt)
         self.enemy.update(dt)
 
-    def getBuffListFromEffect(self, effect):
-        buffList = []
-        if effect.buffNameList:
-            for buffName in effect.buffNameList:
-                buffList.append(Buff(CARD_BUFF[buffName])) 
-            return buffList
+    def getBuffFromEffect(self, effect):
+        if effect.buffName:
+            buff = Buff(CARD_BUFF[effect.buffName])
+            return buff
         else:
-            print(f'Buff not found: {effect.buffNameList}')
+            print(f'Buff not found: {effect.buffName}')
             return False
         
     def render(self, screen):
