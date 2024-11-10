@@ -5,10 +5,9 @@ from src.battleSystem.Effect import Effect
 
 class Player(Entity):
     def __init__(self, name, job, animationList):
-        super().__init__(name, animationList)
+        super().__init__(name, animationList, 0, ENTITY_Y)
         self.health = 30
         self.job = job
-        self.x, self.y = 0, ENTITY_Y
 
     def update(self, dt):
         # Implement player-specific update logic here

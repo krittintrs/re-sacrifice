@@ -1,6 +1,7 @@
 import pygame
 from src.dependency import *
 from src.battleSystem.Deck import Deck
+from src.battleSystem.Vfx import Vfx
 import tween
 
 # Define the global font variable
@@ -9,7 +10,7 @@ g_font = pygame.font.Font(None, 36)
 
 
 class Entity:
-    def __init__(self, name, animation_list=None, health=10):
+    def __init__(self, name, animation_list, x, y, vfxAnimation_list = None, health=10):
         self.name = name
         self.fieldTile_index = None  # Keep track of which field it is on
         self.animation_list = animation_list
@@ -17,6 +18,11 @@ class Entity:
         self.frame_index = 0  # Frame index for animations
         self.frame_timer = 0  # Timer to manage frame rate
         self.frame_duration = 0.1  # Duration for each frame (adjust as needed)
+        self.x = x  
+        self.y = y  
+
+        # Vfx
+        self.vfx = Vfx(vfxAnimation_list, self.x, self.y)
 
         # Deck & Card
         self.deck = Deck()
@@ -132,6 +138,9 @@ class Entity:
             # If the animation has finished, switch to the idle animation
             if animation.is_finished() and self.curr_animation != "idle":
                 self.ChangeAnimation("idle")
+        
+        # Update Vfx
+        self.vfx.update(dt)
 
     def render(self, screen, x, y, color=(255, 0, 0)):
         # Use tweened x, y position if tween is in progress
@@ -156,14 +165,6 @@ class Entity:
             animation = self.animation_list[self.curr_animation]
             animation_frames = animation.get_frames()
 
-            # Check if the animation has finished and switch to idle if necessary
-            if animation.is_finished() and self.curr_animation != "idle":
-                # Automatically switch to idle animation
-                self.ChangeAnimation("idle")
-                # Update to idle animation
-                animation = self.animation_list[self.curr_animation]
-                animation_frames = animation.get_frames()  # Update frames
-
             if animation_frames:
                 # Update frame index based on the timer
                 self.frame_timer += 0.01  # Increase by seconds elapsed
@@ -179,11 +180,6 @@ class Entity:
                         current_frame, self.facing_left, False),
                     (entity_x + offset_x, entity_y + offset_y)
                 )
-
-        else:
-            # Placeholder red rectangle if no animation is provided
-            pygame.draw.rect(
-                screen, color, (entity_x, entity_y, entity_width, entity_height))
 
         # Render Buff Icons
         for index, buff in enumerate(self.buffs):
