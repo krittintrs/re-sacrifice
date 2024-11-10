@@ -9,7 +9,7 @@ g_font = pygame.font.Font(None, 36)
 
 
 class Entity:
-    def __init__(self, name, animation_list=None, health=10):
+    def __init__(self, name, animation_list=None, health=10, is_occupied_field = True, type = None):
         self.name = name
         self.fieldTile_index = None  # Keep track of which field it is on
         self.animation_list = animation_list
@@ -17,6 +17,8 @@ class Entity:
         self.frame_index = 0  # Frame index for animations
         self.frame_timer = 0  # Timer to manage frame rate
         self.frame_duration = 0.1  # Duration for each frame (adjust as needed)
+        self.is_occupied_field = is_occupied_field
+        self.type = type
 
         # Deck & Card
         self.deck = Deck()

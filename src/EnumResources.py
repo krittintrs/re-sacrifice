@@ -16,6 +16,7 @@ class SelectionState(Enum):
     BUFF = "buff"
     PUSH = "push"
     PULL = "pull"
+    SPAWN = "spawn"
 
 class RPGState(Enum):
     START = "start"

@@ -4,10 +4,11 @@ from src.constants import *
 from src.Render import *
 import pygame
 import sys
+from src.battleSystem.battleEntity.SubEntity import SubEntity
 
-class SelectMoveState(BaseState):
+class SelectSpawnState(BaseState):
     def __init__(self):
-        super(SelectMoveState, self).__init__()
+        super(SelectSpawnState, self).__init__()
 
     def Enter(self, params):
         self.player = params['player']
@@ -18,39 +19,22 @@ class SelectMoveState(BaseState):
         self.effectOrder = params['effectOrder']
         self.effect = params['effect']
         self.effectOwner = params['effectOwner']
-        
+
         self.leftSkip = False
         self.rightSkip = False
 
-        self.availableMoveTile = []
+        self.availableSpawnTile = []
 
         if self.effectOwner == PlayerType.PLAYER:
-            for buff in self.player.buffs:
-                if buff.name == "Stop Movement":
-                    print("can not move due to debuff")
-                    self.leftSkip = True
-                    self.rightSkip = True
-                    break
-            startIndex = self.player.fieldTile_index
             self.leftMinTileIndex = self.player.fieldTile_index - self.effect.minRange
             self.leftMaxTileIndex = self.player.fieldTile_index - self.effect.maxRange
             self.rightMinTileIndex = self.player.fieldTile_index + self.effect.minRange
-            self.rightMaxTileIndex = self.player.fieldTile_index + self.effect.maxRange
-            print("should still run this code though")
-        elif self.effectOwner == PlayerType.ENEMY:
-            for buff in self.enemy.buffs:
-                if buff.name == "Stop Movement":
-                    print("can not move due to debuff")
-                    self.leftSkip = True
-                    self.rightSkip = True
-                    break
-            startIndex = self.enemy.fieldTile_index
+            self.rightMaxTileIndex = self.player.fieldTile_index + self.effect.maxRange 
+        elif self.effectOwner == PlayerType.ENEMY: 
             self.leftMinTileIndex = self.enemy.fieldTile_index - self.effect.minRange
             self.leftMaxTileIndex = self.enemy.fieldTile_index - self.effect.maxRange
             self.rightMinTileIndex = self.enemy.fieldTile_index + self.effect.minRange
-            self.rightMaxTileIndex = self.enemy.fieldTile_index + self.effect.maxRange
-
-        
+            self.rightMaxTileIndex = self.enemy.fieldTile_index + self.effect.maxRange        
 
         if self.leftMinTileIndex < 0:
             self.leftMinTileIndex = 0
@@ -66,37 +50,25 @@ class SelectMoveState(BaseState):
         elif self.rightMaxTileIndex > 8:
             self.rightMaxTileIndex = 8
         
-        self.selectMoveTile = 0
+        self.selectSpawnTile = 0
+
         if self.rightSkip and self.leftSkip:
-            self.selectMoveTile = -1
+                self.selectSpawnTile = -1
 
         for i in range(self.leftMaxTileIndex, self.leftMinTileIndex+1):
             if not self.leftSkip:
-                self.availableMoveTile.append(i)
+                self.availableSpawnTile.append(i)
         
         for j in range(self.rightMinTileIndex, self.rightMaxTileIndex+1):
             if not self.rightSkip:
-                self.availableMoveTile.append(j)
-
-        # restrict available move space due to trap
-        for idx,index in enumerate(self.availableMoveTile):
-            tile = self.field[index]
-            print(tile.entity, "-------------------")
-            print(tile.second_entity, "===========================")
-            if tile.is_second_entity() and tile.second_entity.side != self.effectOwner:
-                if index < startIndex: # trap is on the left of entity
-                    self.availableMoveTile = self.availableMoveTile[idx:]
-                if index > startIndex:
-                    self.availableMoveTile = self.availableMoveTile[:idx]
-
+                self.availableSpawnTile.append(j)
         
-        self.availableMoveTile = list( dict.fromkeys(self.availableMoveTile) )
-        
-        print('\n!!!! SelectMoveState !!!!')
+        self.availableSpawnTile = list( dict.fromkeys(self.availableSpawnTile) )
+
+        print('\n!!!! SelectSpawnState !!!!')
         print(f'Owner: {self.effectOwner}')
         print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
-        print(f'SelectMoveTile: {self.selectMoveTile}')
-        
+
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
         self.enemy.apply_buffs_to_cardsOnHand()
@@ -119,38 +91,32 @@ class SelectMoveState(BaseState):
                     sys.exit()
                 if event.key == pygame.K_SPACE:
                     pass
-                if event.key == pygame.K_LEFT and self.selectMoveTile>=0:
-                    print('key left')
+                if event.key == pygame.K_LEFT and self.selectSpawnTile>=0:
                     if self.effectOwner == PlayerType.PLAYER:
-                        print('moving left')
-                        self.selectMoveTile = self.selectMoveTile - 1
-                        if self.selectMoveTile < 0:
-                            self.selectMoveTile = len(self.availableMoveTile) - 1
-                if event.key == pygame.K_RIGHT and self.selectMoveTile>=0:
-                    print('key right')
+                        self.selectSpawnTile = self.selectSpawnTile - 1
+                        if self.selectSpawnTile < 0:
+                            self.selectSpawnTile = len(self.availableSpawnTile) - 1
+                if event.key == pygame.K_RIGHT and self.selectSpawnTile>=0:
                     if self.effectOwner == PlayerType.PLAYER:
-                        print('moving right')
-                        self.selectMoveTile = self.selectMoveTile + 1
-                        if self.selectMoveTile > len(self.availableMoveTile) - 1:
-                            self.selectMoveTile = 0
+                        self.selectSpawnTile = self.selectSpawnTile + 1
+                        if self.selectSpawnTile > len(self.availableSpawnTile) - 1:
+                            self.selectSpawnTile = 0
                 if event.key == pygame.K_RETURN:
-                    print('move state: before check effect owner')
+                    print('spawn state: before check effect owner')
                     if self.effectOwner == PlayerType.PLAYER:
-                        print('player movement')
-                        if self.selectMoveTile>=0 and self.effect.maxRange>0:
-                            selected_field = self.field[self.availableMoveTile[self.selectMoveTile]]
-                            if not selected_field.is_occupied():
-                                if selected_field.is_second_entity():
-                                    selected_field.second_entity.collide(self.player, selected_field) 
-                                self.player.move_to(self.field[self.availableMoveTile[self.selectMoveTile]], self.field)
-                                print(f"{self.effectOwner} move to {self.availableMoveTile[self.selectMoveTile]}")
+                        if self.selectSpawnTile>=0 and self.effect.maxRange>0:
+                            if not self.field[self.availableSpawnTile[self.selectSpawnTile]].is_occupied():
+                                spawn = SubEntity(SUB_ENTITY[self.effect.spawn], PlayerType.PLAYER)
+                                spawn_x = self.field[self.availableSpawnTile[self.selectSpawnTile]].x
+                                self.field[self.availableSpawnTile[self.selectSpawnTile]].place_entity(spawn, spawn_x)
+                                print(f"{self.effectOwner} summon {spawn.name}")
                             else:
-                                print("can not move, there is an entity of that tile")
+                                print("can not spawn, there is an entity of that tile")
                         else:
-                            print("there is no movement happen")
+                            print("there is no spawn happen")
                     else:
-                        print("enemy movement")
-                    print('move state: after check effect owner')
+                        print("enemy spawn")
+                    print('spawn state: after check effect owner')
                     if self.player.health > 0 and self.enemy.health > 0:
                         g_state_manager.Change(BattleState.RESOLVE_PHASE, {
                             'player': self.player,
@@ -181,23 +147,33 @@ class SelectMoveState(BaseState):
 
         self.player.update(dt)
         self.enemy.update(dt)
-        
+
+    # def getBuffListFromEffect(self, effect):
+    #     buffList = []
+    #     if effect.buffNameList:
+    #         for buffName in effect.buffNameList:
+    #             buffList.append(Buff(CARD_BUFF[buffName])) 
+    #         return buffList
+    #     else:
+    #         print(f'Buff not found: {effect.buffNameList}')
+    #         return False
+          
     def render(self, screen):
-        RenderTurn(screen, 'SelectMoveState', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, 'SelectSpawnState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
         RenderCurrentAction(screen, self.effect, self.effectOwner)
 
         # Render field
         for fieldTile in self.field:               
-            # Render the range of the attack
+            # Render the range of the buff
 
-            if fieldTile.index in set(self.availableMoveTile):
+            if fieldTile.index in set(self.availableSpawnTile):
                 fieldTile.color = (255,0,0)
             else:
                 fieldTile.color = (0,0,0)
-            if self.selectMoveTile>=0:
-                if fieldTile.index == self.availableMoveTile[self.selectMoveTile]:
+            if self.selectSpawnTile>=0:
+                if fieldTile.index == self.availableSpawnTile[self.selectSpawnTile]:
                     fieldTile.color = (255,0,255)
                     fieldTile.solid = 0
                 

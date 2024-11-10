@@ -209,6 +209,16 @@ class BattleResolveState(BaseState):
             case EffectType.KAMIKAZE:
                 pass
             case EffectType.SPAWN:
+                g_state_manager.Change(SelectionState.SPAWN, {
+                    'player': self.player,
+                    'enemy': self.enemy,
+                    'field': self.field,
+                    'turn': self.turn,
+                    'currentTurnOwner': self.currentTurnOwner,
+                    'effectOrder': self.effectOrder,
+                    'effect': effect,
+                    'effectOwner': effectOwner
+                })
                 pass
             case EffectType.HEAL:
                 pass

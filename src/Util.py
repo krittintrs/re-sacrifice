@@ -135,7 +135,11 @@ class SpriteManager:
                                 effect_buffs = effect["buff"]
                             except KeyError:
                                 effect_buffs = None
-                            temp_effect_dict[effectPeriod].append(Effect(effect_type, effect["minRange"], effect["maxRange"], effect_buffs))
+                            try:
+                                effect_spawn = effect["spawn"]
+                            except KeyError:
+                                effect_spawn = None
+                            temp_effect_dict[effectPeriod].append(Effect(effect_type, effect["minRange"], effect["maxRange"], effect_buffs, effect_spawn))
                             print(f"{effect_type}\t{effect_buffs}")
 
                 # Create the Card object for each card entry
