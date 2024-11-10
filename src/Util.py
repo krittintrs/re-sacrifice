@@ -232,8 +232,6 @@ class Animation:
 
     def update(self, dt):
         self.timer += dt
-        if self.name == "walk_mage":
-            print(f"Animation: {self.name}, index {self.index} interval_time: {self.interval_time}, timer: {self.timer}")
         if self.timer >= self.interval_time:
             self.index += 1
             self.timer = 0

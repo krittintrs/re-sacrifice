@@ -23,7 +23,7 @@ class Vfx:
         if self.curr_animation is not None:
             if self.animation_list and self.curr_animation in self.animation_list:
                 vfxAnimation = self.animation_list[self.curr_animation]
-                vfxAnimation.render(screen, self.x, self.y)
+                vfxAnimation.render(screen, self.x - 20, self.y)
 
     def play(self, name):
         self.curr_animation = name
