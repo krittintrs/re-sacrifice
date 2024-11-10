@@ -187,7 +187,18 @@ class BattleResolveState(BaseState):
                     self.player.add_buffs(buffList)
                 # RANGER CLASS
                 case EffectType.CRITICAL:
-                    pass
+                    chance = random.randint(1, 6)
+                    threshold = 2
+                    for buff in self.player.buffs:
+                        if buff.name == 'Critical+ (4/6 chance)':
+                            threshold = 4
+                            break
+                    print(f'{chance} <= {threshold}')
+                    if chance <= threshold:
+                        print('Critical hit!')
+                        critical_buff = Buff(CARD_BUFF['critical_buff'])
+                        critical_buff.value[0] = self.player.selectedCard.attack // 2
+                        self.player.add_buffs([critical_buff])
                 # MAGE CLASS
                 case EffectType.TRUE_DAMAGE:
                     pass
