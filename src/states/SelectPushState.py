@@ -19,7 +19,7 @@ class SelectPushState(BaseState):
         self.effect = params['effect']
         self.effectOwner = params['effectOwner']
 
-        self.avilablePushTile = []
+        self.availablePushTile = []
 
         if self.effectOwner == PlayerType.PLAYER:
             if self.player.fieldTile_index > self.enemy.fieldTile_index:
@@ -45,12 +45,12 @@ class SelectPushState(BaseState):
         self.selectPushTile = 0
         if self.MaxTileIndex <= self.MinTileIndex:
             for i in range(self.MaxTileIndex, self.MinTileIndex+1):
-                self.avilablePushTile.append(i)
+                self.availablePushTile.append(i)
         else:       
             for j in range(self.MinTileIndex, self.MaxTileIndex+1):
-                self.avilablePushTile.append(j)
+                self.availablePushTile.append(j)
         
-        self.avilablePushTile = list( dict.fromkeys(self.avilablePushTile) )
+        self.availablePushTile = list( dict.fromkeys(self.availablePushTile) )
         
         print('\n!!!! SelectPushState !!!!')
         print(f'Owner: {self.effectOwner}')
@@ -85,22 +85,22 @@ class SelectPushState(BaseState):
                         print('moving left')
                         self.selectPushTile = self.selectPushTile - 1
                         if self.selectPushTile < 0:
-                            self.selectPushTile = len(self.avilablePushTile) - 1
+                            self.selectPushTile = len(self.availablePushTile) - 1
                 if event.key == pygame.K_RIGHT:
                     print('key right')
                     if self.effectOwner == PlayerType.PLAYER:
                         print('moving right')
                         self.selectPushTile = self.selectPushTile + 1
-                        if self.selectPushTile > len(self.avilablePushTile) - 1:
+                        if self.selectPushTile > len(self.availablePushTile) - 1:
                             self.selectPushTile = 0
                 if event.key == pygame.K_RETURN:
                     print('push state: before check effect owner')
                     if self.effectOwner == PlayerType.PLAYER:
                         print('enemy push')
                         if self.selectPushTile>=0 and self.effect.maxRange>0:
-                            if not self.field[self.avilablePushTile[self.selectPushTile]].is_occupied():
-                                self.enemy.move_to(self.field[self.avilablePushTile[self.selectPushTile]], self.field)
-                                print(f"push target to {self.avilablePushTile[self.selectPushTile]}")
+                            if not self.field[self.availablePushTile[self.selectPushTile]].is_occupied():
+                                self.enemy.move_to(self.field[self.availablePushTile[self.selectPushTile]], self.field)
+                                print(f"push target to {self.availablePushTile[self.selectPushTile]}")
                             else:
                                 print("can not push, there is an entity of that tile")
                         else:
@@ -149,12 +149,12 @@ class SelectPushState(BaseState):
         for fieldTile in self.field:               
             # Render the range of the attack
 
-            if fieldTile.index in set(self.avilablePushTile):
+            if fieldTile.index in set(self.availablePushTile):
                 fieldTile.color = (255,0,0)
             else:
                 fieldTile.color = (0,0,0)
             if self.selectPushTile>=0:
-                if fieldTile.index == self.avilablePushTile[self.selectPushTile]:
+                if fieldTile.index == self.availablePushTile[self.selectPushTile]:
                     fieldTile.color = (255,0,255)
                     fieldTile.solid = 0
                 

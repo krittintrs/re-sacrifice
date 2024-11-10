@@ -51,6 +51,7 @@ class Entity:
         self.defense = 0
         self.speed = 0
         self.range = 0
+        self.stunt = False
 
     def print_buffs(self):
         for buff in self.buffs:
@@ -79,9 +80,8 @@ class Entity:
         fieldTile.place_entity(self, self.target_position)  # Place the entity in the new fieldTile
         self.fieldTile_index = fieldTile.index  # Update the fieldTile index
 
-    def add_buffs(self, buffList):
-        for buff in buffList:
-            self.buffs.append(buff)
+    def add_buff(self, buff):
+        self.buffs.append(buff)
        
     def apply_buffs_to_cardsOnHand(self):
         for card in self.cardsOnHand:
@@ -89,6 +89,9 @@ class Entity:
             for buff in self.buffs:
                 if buff.is_active():
                     buff.apply(card)
+
+    def remove_expired_buffs(self):
+        self.buffs = [buff for buff in self.buffs if buff.is_active()]
 
     def select_card(self, card):
         self.selectedCard = card
@@ -102,14 +105,10 @@ class Entity:
         # draw new card
         self.cardsOnHand.append(self.deck.draw(1)[0])
 
-        # count down buffs
+        # count down & remove expired buffs
         for buff in self.buffs:
             buff.next_turn()
-
-        # remove expired buffs
-        for buff in self.buffs:
-            if not buff.is_active():
-                self.buffs.remove(buff)
+        self.remove_expired_buffs()
 
         # reset entity stats
         self.reset_stats()

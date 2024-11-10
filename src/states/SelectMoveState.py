@@ -1,3 +1,4 @@
+import random
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
@@ -81,8 +82,6 @@ class SelectMoveState(BaseState):
         # restrict available move space due to trap
         for idx,index in enumerate(self.availableMoveTile):
             tile = self.field[index]
-            print(tile.entity, "-------------------")
-            print(tile.second_entity, "===========================")
             if tile.is_second_entity() and tile.second_entity.side != self.effectOwner:
                 if index < startIndex: # trap is on the left of entity
                     self.availableMoveTile = self.availableMoveTile[idx:]
@@ -96,6 +95,20 @@ class SelectMoveState(BaseState):
         print(f'Owner: {self.effectOwner}')
         print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
         print(f'SelectMoveTile: {self.selectMoveTile}')
+
+        if self.effectOwner == PlayerType.ENEMY:
+            randomLeft = []
+            randomRight = []
+            for index in range(len(self.availableMoveTile)):
+                if not self.field[self.availableMoveTile[index]].is_occupied():
+                    if self.availableMoveTile[index] <= self.enemy.fieldTile_index:
+                        randomLeft.append(index)
+                    if self.availableMoveTile[index] >= self.enemy.fieldTile_index:
+                        randomRight.append(index)
+            if self.enemy.fieldTile_index > self.player.fieldTile_index:
+                self.selectMoveTile = random.choice(randomLeft)
+            else:
+                self.selectMoveTile = random.choice(randomRight)
         
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
@@ -135,10 +148,10 @@ class SelectMoveState(BaseState):
                             self.selectMoveTile = 0
                 if event.key == pygame.K_RETURN:
                     print('move state: before check effect owner')
+                    selected_field = self.field[self.availableMoveTile[self.selectMoveTile]]
                     if self.effectOwner == PlayerType.PLAYER:
                         print('player movement')
                         if self.selectMoveTile>=0 and self.effect.maxRange>0:
-                            selected_field = self.field[self.availableMoveTile[self.selectMoveTile]]
                             if not selected_field.is_occupied():
                                 if selected_field.is_second_entity():
                                     selected_field.second_entity.collide(self.player, selected_field) 
@@ -150,6 +163,16 @@ class SelectMoveState(BaseState):
                             print("there is no movement happen")
                     else:
                         print("enemy movement")
+                        if self.selectMoveTile>=0 and self.effect.maxRange>0:
+                            if not selected_field.is_occupied():
+                                if selected_field.is_second_entity():
+                                    selected_field.second_entity.collide(self.enemy, selected_field)
+                                self.enemy.move_to(self.field[self.availableMoveTile[self.selectMoveTile]], self.field)
+                                print(f"{self.effectOwner} move to {self.availableMoveTile[self.selectMoveTile]}")
+                            else:
+                                print("can not move, there is an entity of that tile")
+                        else:
+                            print("there is no movement happen")
                     print('move state: after check effect owner')
                     if self.player.health > 0 and self.enemy.health > 0:
                         g_state_manager.Change(BattleState.RESOLVE_PHASE, {

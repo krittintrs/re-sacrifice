@@ -44,6 +44,7 @@ class BattleEndState(BaseState):
                 print(f"{entity.name} receive {buff.dot_damage} health from {buff.name}")
             elif buff.dot_damage < 0:
                 self.enemy.ChangeAnimation("death")
+                gSounds['attack'].play()
                 print(f"{entity.name} receive {buff.dot_damage} damage from {buff.name}")
 
 

@@ -34,7 +34,7 @@ class BattleInitialState(BaseState):
 
         # Mock buff
         # mock_buff = Buff(BuffConf('bonus_attack', 1, [1, 0, 0, 0], 0, gBuffIcon_image_list['attack']))
-        # self.player.add_buffs(mock_buff)
+        # self.player.add_buff(mock_buff)
         print(f'Player Buffs: {self.player.buffs}')
         print(f'Enemy Buffs: {self.enemy.buffs}')
 
@@ -138,8 +138,8 @@ class BattleInitialState(BaseState):
         if diceNumber < 4:                      # 1, 2, 3
             buff = Buff(DICE_ROLL_BUFF[diceNumber - 1])   # Get the buff based on the dice number
             if self.currentTurnOwner == PlayerType.PLAYER:   
-                self.player.add_buffs([buff])
+                self.player.add_buff(buff)
             elif self.currentTurnOwner == PlayerType.ENEMY:
-                self.enemy.add_buffs([buff])
+                self.enemy.add_buff(buff)
         else:
             print('no buff')

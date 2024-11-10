@@ -33,7 +33,7 @@ class SubEntity(Entity):
     def move_to(self, fieldTile, field):
         pass
 
-    def add_buffs(self, buffList):
+    def add_buff(self, buffList):
         pass
        
     def apply_buffs_to_cardsOnHand(self):
@@ -53,10 +53,10 @@ class SubEntity(Entity):
 
     def collide(self, target, field):
         if self.name == "trap":
-            buffList = [Buff(CARD_BUFF["fire"])]
-            target.add_buffs(buffList)
-            print(f"apply buff {buffList} to enemy")
-            field.remove_second_entity()
+            if target.type != self.side:
+                buff = Buff(CARD_BUFF["fire"])
+                target.add_buff(buff)
+                field.remove_second_entity()
 
     def bot_action(self, field):
         if self.attack != 0:

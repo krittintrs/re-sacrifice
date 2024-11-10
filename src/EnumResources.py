@@ -65,7 +65,6 @@ class CardType(Enum):
     DEBUFF = "Debuff"
     SPECIAL = "Special"
 
-
 class CardClass(Enum):
     COMMON = "Common"
     GK_NOW = "GK Now"
@@ -74,3 +73,14 @@ class CardClass(Enum):
     WARRIOR = "Warrior"
     RANGER = "Ranger"
     MAGE = "Mage"
+
+class BuffType(Enum):
+    DICE_ROLL = "DiceRoll"
+    BUFF = "Buff"
+    DEBUFF = "Debuff"
+    PERM_BUFF = "PermBuff"
+    EMPOWER = "Empower"
+    BLOOD = "Blood"
+    CRIT_RATE = "CritRate"
+    CRIT_DMG = "CritDmg"
+    EVADE = "Evade"
