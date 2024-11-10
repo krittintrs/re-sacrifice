@@ -24,16 +24,16 @@ class BattlePreparationState(BaseState):
     
     def initialDraw(self):
         self.player.deck.shuffle()
-        for card in self.player.deck.card_deck:
-            if card.name in ["Blood Sacrifice", "Cleanse", "Empower", "Bull's Eye", "Kite Attack"]:
-                self.player.cardsOnHand.append(card)
+        # for card in self.player.deck.card_deck:
+        #     if card.name in ["Blood Sacrifice", "Cleanse", "Empower", "Bull's Eye", "Kite Attack"]:
+        #         self.player.cardsOnHand.append(card)
 
-        # self.player.cardsOnHand = self.player.deck.draw(5)
+        self.player.cardsOnHand = self.player.deck.draw(5)
         self.enemy.deck.shuffle()
         self.enemy.cardsOnHand = self.enemy.deck.draw(5)
 
-        self.player.add_buff(Buff(CARD_BUFF["attack_debuff"]))
-        self.player.add_buff(Buff(CARD_BUFF["defense_debuff"]))
+        # self.player.add_buff(Buff(CARD_BUFF["attack_debuff"]))
+        # self.player.add_buff(Buff(CARD_BUFF["defense_debuff"]))
 
     def Enter(self, params):
         self.player = params['player']
