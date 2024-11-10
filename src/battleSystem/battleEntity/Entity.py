@@ -49,6 +49,7 @@ class Entity:
         self.defense = 0
         self.speed = 0
         self.range = 0
+        self.stunt = False
 
     def print_buffs(self):
         for buff in self.buffs:

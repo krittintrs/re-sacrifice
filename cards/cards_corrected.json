@@ -29,7 +29,7 @@
                 "mainEffect": [
                     {
                         "type": "move",
-                        "minRange": 1,
+                        "minRange": 0,
                         "maxRange": 3
                     }
                 ],
@@ -62,7 +62,7 @@
                 "mainEffect": [
                     {
                         "type": "move",
-                        "minRange": 1,
+                        "minRange": 0,
                         "maxRange": 2
                     }
                 ],
@@ -95,7 +95,7 @@
                 "mainEffect": [
                     {
                         "type": "move",
-                        "minRange": 1,
+                        "minRange": 0,
                         "maxRange": 1
                     }
                 ],
@@ -290,7 +290,7 @@
                 "beforeEffect": [
                     {
                         "type": "move",
-                        "minRange": 1,
+                        "minRange": 0,
                         "maxRange": 1
                     }
                 ],
@@ -1529,8 +1529,7 @@
                     {
                         "type": "attack",
                         "minRange": 2,
-                        "maxRange": 5,
-                        "buff": ["fire"]
+                        "maxRange": 5
                     }
                 ],
                 "afterEffect": [
@@ -1565,9 +1564,10 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "attack",
+                        "type": "attack_oppo_buff",
                         "minRange": 4,
-                        "maxRange": 9
+                        "maxRange": 9,
+                        "buff": ["range_debuff"]
                     }
                 ],
                 "afterEffect": [
@@ -1636,10 +1636,10 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "oppo_buff",
-                        "minRange": 0,
-                        "maxRange": 0,
-                        "buff": ["sabotage"]
+                        "type": "attack_oppo_buff",
+                        "minRange": 1,
+                        "maxRange": 1,
+                        "buff": ["confuse"]
                     }
                 ],
                 "afterEffect": [
