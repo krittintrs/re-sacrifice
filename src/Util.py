@@ -27,7 +27,14 @@ class SpriteManager:
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Death.json",
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Idle.json",
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Walk.json",
-                "./spritesheet/Effect/mage_heavy_vfx.json",
+                "./spritesheet/VFX/mage_vfx/mage_heavy_vfx.json",
+                "./spritesheet/VFX/mage_vfx/mage_light_vfx.json",
+                "./spritesheet/VFX/ranger_vfx/ranger_heavy_vfx.json",
+                "./spritesheet/VFX/ranger_vfx/ranger_light_vfx.json",
+                "./spritesheet/VFX/warrior_vfx/warrior_heavy_vfx.json",
+                "./spritesheet/VFX/warrior_vfx/warrior_light_vfx.json",
+                "./spritesheet/VFX/general_vfx/buff.json",
+                "./spritesheet/VFX/general_vfx/debuff.json",
             ]
         )
         self.spriteCollection["card_conf"] = self.loadCardConf("./cards/cards_corrected.json")

@@ -1,8 +1,8 @@
 {
   "type": "animation",
-  "spriteSheetURL": "spritesheet/Effect/mage_heavy_vfx.png",
+  "spriteSheetURL": "spritesheet/VFX/warrior_vfx/warrior_heavy_vfx.png",
   "animations": {
-    "mage_heavy_vfx": {
+    "warrior_heavy_vfx": {
       "loop": "False",
       "interval_time": 0.1,
       "sprites": [

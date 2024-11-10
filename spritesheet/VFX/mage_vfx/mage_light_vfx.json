@@ -1,0 +1,54 @@
+{
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/VFX/mage_vfx/mage_light_vfx.png",
+  "animations": {
+    "mage_light_vfx": {
+      "loop": "False",
+      "interval_time": 0.1,
+      "sprites": [
+        {
+          "fileName": "light_vfx1",
+          "width": 48,
+          "height": 48,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "fileName": "light_vfx2",
+          "width": 48,
+          "height": 48,
+          "x": 48,
+          "y": 0
+        },
+        {
+          "fileName": "light_vfx3",
+          "width": 48,
+          "height": 48,
+          "x": 96,
+          "y": 0
+        },
+        {
+          "fileName": "light_vfx4",
+          "width": 48,
+          "height": 48,
+          "x": 144,
+          "y": 0
+        },
+        {
+          "fileName": "light_vfx5",
+          "width": 48,
+          "height": 48,
+          "x": 192,
+          "y": 0
+        },
+        {
+          "fileName": "light_vfx6",
+          "width": 48,
+          "height": 48,
+          "x": 240,
+          "y": 0
+        }
+      ]
+    }
+  }
+}

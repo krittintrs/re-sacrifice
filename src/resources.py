@@ -63,5 +63,12 @@ gNormalGoblin_animation_list = {
 }
 
 gVfx_animation_list = {
-    "mage_heavy_vfx": sprite_collection["mage_heavy_vfx"].animation
+    "mage_heavy_vfx": sprite_collection["mage_heavy_vfx"].animation,
+    "mage_light_vfx": sprite_collection["mage_light_vfx"].animation,
+    "ranger_heavy_vfx": sprite_collection["ranger_heavy_vfx"].animation,
+    "ranger_light_vfx": sprite_collection["ranger_light_vfx"].animation,
+    "warrior_heavy_vfx": sprite_collection["warrior_heavy_vfx"].animation,
+    "warrior_light_vfx": sprite_collection["warrior_light_vfx"].animation,
+    "buff_vfx": sprite_collection["buff_vfx"].animation,
+    "debuff_vfx": sprite_collection["debuff_vfx"].animation,
 }
