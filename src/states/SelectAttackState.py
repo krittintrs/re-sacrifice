@@ -122,8 +122,13 @@ class SelectAttackState(BaseState):
                                 attacker = self.enemy
                             
                             damage = attacker.attack - defender.defense
+                            is_evade = False
+                            for buff in defender.buffs:
+                                if buff.type == BuffType.EVADE:
+                                    is_evade = True
+                                    break
                                
-                            if damage > 0:
+                            if damage > 0 and not is_evade:
                                 # ATTACK HIT
                                 gSounds['attack'].play()
                                 defender.health -= damage

@@ -82,3 +82,4 @@ class BuffType(Enum):
     BLOOD = "Blood"
     CRIT_RATE = "CritRate"
     CRIT_DMG = "CritDmg"
+    EVADE = "Evade"
