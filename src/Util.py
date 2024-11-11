@@ -81,7 +81,7 @@ class SpriteManager:
                         offset_y = animation_data.get('offset_y', 0)
                         dic[animation_name] = Sprite(
                             None,
-                            animation=Animation(images, looping=loop, idleSprite=idle_img, offset_x=offset_x, offset_y=offset_y, interval_time=sprite.get("interval_time", 1)),
+                            animation=Animation(images, looping=loop, idleSprite=idle_img, offset_x=offset_x, offset_y=offset_y, interval_time=data.get("interval_time", 0.15)),
                         )
 
                     resDict.update(dic)
@@ -241,6 +241,7 @@ class Animation:
         
         if self.timer >= self.interval_time:
             self.index += 1
+            self.timer = 0
             if self.index >= len(self.images):
                 self.times_played += 1
                 if self.looping:

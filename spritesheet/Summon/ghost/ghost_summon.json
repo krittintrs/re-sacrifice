@@ -77,6 +77,5 @@
   "padding": 0,
   "backgroundColor": "rgba(0, 0, 0, 0)",
   "spriteSheetWidth": 770,
-  "spriteSheetHeight": 70,
-  "interval_time":2
+  "spriteSheetHeight": 70
 }
