@@ -555,10 +555,10 @@
             "effect": {
                 "beforeEffect": [
                     {
-                        "type": "oppo_buff",
+                        "type": "attack_oppo_buff",
                         "minRange": 0,
                         "maxRange": 3,
-                        "buff": "stop_movement"
+                        "buff": "block_movement"
                     }
                 ],
                 "mainEffect": [
@@ -1774,7 +1774,7 @@
                         "type": "oppo_buff",
                         "minRange": 0,
                         "maxRange": 3,
-                        "buff": "stop_movement_2"
+                        "buff": "stop_movement"
                     }
                 ],
                 "afterEffect": [
