@@ -27,6 +27,8 @@ class SpriteManager:
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Death.json",
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Idle.json",
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Walk.json",
+                "./spritesheet/Summon/ghost/ghost.json",
+                "./spritesheet/Summon/ghost/ghost_summon.json",
             ]
         )
         self.spriteCollection["card_conf"] = self.loadCardConf("./cards/cards_corrected.json")
@@ -75,9 +77,11 @@ class SpriteManager:
                             )
                         # Handle loop setting
                         loop = animation_data.get('loop', 'true').lower() == 'true'  # Convert string to boolean, default to True if not specified
+                        offset_x = animation_data.get('offset_x', 0)
+                        offset_y = animation_data.get('offset_y', 0)
                         dic[animation_name] = Sprite(
                             None,
-                            animation=Animation(images, looping=loop, idleSprite=idle_img, interval_time=sprite.get("interval_time", 1)),
+                            animation=Animation(images, looping=loop, idleSprite=idle_img, offset_x=offset_x, offset_y=offset_y, interval_time=sprite.get("interval_time", 1)),
                         )
 
                     resDict.update(dic)
@@ -209,12 +213,14 @@ class DeckLoader():
         return deck_conf
     
 class Animation:
-    def __init__(self, images, looping, idleSprite=None, interval_time=0.15, name="Animation"):
+    def __init__(self, images, looping, idleSprite=None, offset_x=0, offset_y=0, interval_time=0.15, name="Animation"):
         self.images = images
         self.timer = 0
         self.index = 0
         self.image = idleSprite if idleSprite else self.images[self.index]
         self.idleSprite = idleSprite
+        self.offset_x = offset_x
+        self.offset_y = offset_y
         self.interval_time = interval_time
         self.looping = looping
         self.times_played = 0

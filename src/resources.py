@@ -64,9 +64,17 @@ gNormalGoblin_animation_list = {
     "walk": sprite_collection["normalGoblinWalk"].animation,
 }
 
+gGhost_animation_list = {
+    "idle": sprite_collection["ghostIdle"].animation,
+    "attack": sprite_collection["ghostAttack"].animation,
+    "death": sprite_collection["ghostDeath"].animation,
+    "summon": sprite_collection["ghostSummon"].animation,
+}
+
 gEntity_animation_dict = {
     "warrior": gWarrior_animation_list,
     "ranger": gRanger_animation_list,
     "mage": gMage_animation_list,
     "goblin": gNormalGoblin_animation_list,
+    "ghost":gGhost_animation_list,
 }

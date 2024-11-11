@@ -19,6 +19,8 @@ class SubEntity(Entity): # these sub entity will attack every round if attack !=
         self.side = side # player or enemy side (base on who summon)
         self.remove_flag = False # remove flag is for removing itself after finishing animation
 
+        self.ChangeAnimation("summon")
+
     def next_turn(self):
         self.duration -= 1
         if self.duration == 0:

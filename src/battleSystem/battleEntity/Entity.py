@@ -74,7 +74,7 @@ class Entity:
 
         self.tweening = tween.to(
             self, "x", self.target_position, 1, "linear")# Tween x position
-        self.tweening.on_complete(action)  
+        self.tweening.on_complete(action)
 
         # Update fieldTile and position references
         if self.fieldTile_index is not None:
@@ -154,11 +154,15 @@ class Entity:
         offset_x = -55 if self.name == 'player' else -185
         offset_y = -20 if self.name == 'player' else -185
 
+        
+
         # Update animation frame
         if self.animation_list and self.curr_animation in self.animation_list:
             # Retrieve frames from the animation object
             animation = self.animation_list[self.curr_animation]
             animation_frames = animation.get_frames()
+            offset_x = animation.offset_x
+            offset_y = animation.offset_y
 
             # Check if the animation has finished and switch to idle if necessary
             if animation.is_finished() and self.curr_animation != "idle":

@@ -1,0 +1,82 @@
+{
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/Summon/summoning.png",
+  "animations": {
+    "ghostSummon": {
+      "loop": "False",
+      "offset_x":-100,
+      "offset_y":-95,
+      "sprites": [
+        {
+          "fileName": "ghost_Summon1",
+          "width": 70,
+          "height": 70,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "fileName": "ghost_Summon2",
+          "width": 70,
+          "height": 70,
+          "x": 70,
+          "y": 0
+        },
+        {
+          "fileName": "ghost_Summon3",
+          "width": 70,
+          "height": 70,
+          "x": 140,
+          "y": 0
+        },
+        {
+          "fileName": "ghost_Summon4",
+          "width": 70,
+          "height": 70,
+          "x": 210,
+          "y": 0
+        },
+        {
+          "fileName": "ghost_Summon5",
+          "width": 70,
+          "height": 70,
+          "x": 280,
+          "y": 0
+        },
+        {
+          "fileName": "ghost_Summon6",
+          "width": 70,
+          "height": 70,
+          "x": 350,
+          "y": 0
+        },
+        {
+          "fileName": "ghost_Summon7",
+          "width": 70,
+          "height": 70,
+          "x": 420,
+          "y": 0
+        },
+        {
+          "fileName": "ghost_Summon8",
+          "width": 70,
+          "height": 70,
+          "x": 490,
+          "y": 0
+        },
+        {
+          "fileName": "ghost_Summon9",
+          "width": 70,
+          "height": 70,
+          "x": 560,
+          "y": 0
+        }
+      ]
+    }
+  },
+  "packMode": "grid",
+  "padding": 0,
+  "backgroundColor": "rgba(0, 0, 0, 0)",
+  "spriteSheetWidth": 770,
+  "spriteSheetHeight": 70,
+  "interval_time":2
+}
