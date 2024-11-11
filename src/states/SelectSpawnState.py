@@ -180,7 +180,7 @@ class SelectSpawnState(BaseState):
         RenderTurn(screen, 'SelectSpawnState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
-        RenderCurrentAction(screen, self.effect, self.effectOwner)
+        RenderDescription(screen, f"Current Action: {self.effect.type}", f"Owner: {self.effectOwner.value}")
 
         # Render field
         for fieldTile in self.field:               

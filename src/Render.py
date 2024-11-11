@@ -51,12 +51,9 @@ def RenderSelectedCard(screen, playerSelectedCard, enemySelectedCard):
     playerSelectedCard.render(screen, 0.5)
     enemySelectedCard.render(screen, 3.5)
 
-def RenderCurrentAction(screen, effect, effectOwner):
-    font = pygame.font.Font(None, 36)
-    text = font.render(f"Current Action: {effect.type} ({effectOwner.value})", True, (0, 0, 0))
+def RenderDescription(screen, line_1, line_2):
+    text_1 = gFont_list["title"].render(line_1, True, (0, 0, 0))
+    text_2 = gFont_list["title"].render(line_2, True, (0, 0, 0))
     
-    # Calculate the position to center the text horizontally
-    text_rect = text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - HUD_HEIGHT - 50))
-    
-    # Blit the text to the screen
-    screen.blit(text, text_rect)
+    screen.blit(text_1, (DESCRIPTION_OFFSET_X, DESCRIPTION_OFFSET_Y))
+    screen.blit(text_2, (DESCRIPTION_OFFSET_X, DESCRIPTION_OFFSET_Y + 30))
