@@ -3,6 +3,7 @@ from src.battleSystem.Deck import Deck
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
+from src.Render import *
 import pygame
 import sys
 
@@ -28,29 +29,57 @@ class DeckBuildingState(BaseState):
         self.topBorder = SCREEN_HEIGHT * 0.2
         self.rightBorder = SCREEN_WIDTH * 0.75
 
-        self.leftPanel = pygame.Rect((0,0, self.leftBorder, SCREEN_HEIGHT))
-        self.topPanel = pygame.Rect((self.leftBorder,0, self.rightBorder, self.topBorder))
-        self.middlePanel = pygame.Rect((self.leftBorder, self.topBorder, SCREEN_WIDTH*0.5, SCREEN_HEIGHT*0.8))
-        self.rightPanel = pygame.Rect((self.rightBorder, self.topBorder, self.leftBorder, SCREEN_HEIGHT*0.8))
+        self.leftPanelX = DECK_OFFSET
+        self.leftPanelY = DECK_OFFSET
+        self.leftPanelWidth = self.leftBorder - DECK_OFFSET*2
+        self.leftPanelHeight = SCREEN_HEIGHT - DECK_OFFSET*2
+
+        self.topPanelX = self.leftBorder + DECK_OFFSET
+        self.topPanelY = DECK_OFFSET
+        self.topPanelWidth = self.rightBorder - DECK_OFFSET*2
+        self.topPanelHeight = self.topBorder - DECK_OFFSET*2
+
+        self.middlePanelX = self.topPanelX
+        self.middlePanelY = self.topBorder + DECK_OFFSET
+        self.middlePanelWidth = SCREEN_WIDTH*0.5 - DECK_OFFSET*2
+        self.middlePanelHeight = SCREEN_HEIGHT*0.8 - DECK_OFFSET*2
+
+        self.rightPanelX = self.rightBorder + DECK_OFFSET
+        self.rightPanelY = self.middlePanelY
+        self.rightPanelWidth = self.leftBorder - DECK_OFFSET*2
+        self.rightPanelHeight = self.middlePanelHeight
+
+        self.leftPanel = pygame.Rect((
+            self.leftPanelX, self.leftPanelY, self.leftPanelWidth, self.leftPanelHeight
+        ))
+        self.topPanel = pygame.Rect((
+            self.topPanelX, self.topPanelY, self.topPanelWidth, self.topPanelHeight
+        ))
+        print(self.topPanelX, self.topPanelY, self.topPanelWidth, self.topPanelHeight)
+        self.middlePanel = pygame.Rect((
+            self.middlePanelX, self.middlePanelY, self.middlePanelWidth, self.middlePanelHeight
+        ))
+        self.rightPanel = pygame.Rect((
+            self.rightPanelX, self.rightPanelY, self.rightPanelWidth, self.rightPanelHeight
+        ))
 
         self.effectButton = []
         for idx, effect in enumerate(self.cardEffect):
-            button = Button(self.rightBorder  +73*(idx%4), self.topBorder - 105 + 28*(idx//4), 70, 25,(150,150,150), (100,200,100), (100,100,50), effect.value, 15)
+            button = Button(self.rightPanelX - 60 + (BUTTON_WIDTH+3)*(idx%4), self.topPanelY + BUTTON_UPPER_OFFSET + 28*(idx//4), BUTTON_WIDTH, BUTTON_HEIGHT, effect.value)
             self.effectButton.append(button)
 
         self.classButton = []
         for idx, class_ in enumerate(self.cardClass):
-            button = Button(self.leftBorder+10 +83*idx, self.topBorder - 115, 80, 25,(150,150,150), (100,200,100), (100,100,50), class_.value, 20)
+            button = Button(self.topPanelX+10 + (BUTTON_WIDTH+3)*idx, self.topPanelY + BUTTON_UPPER_OFFSET, BUTTON_WIDTH, BUTTON_HEIGHT, class_.value)
             self.classButton.append(button)
 
         self.typeButton = []
         for idx, type in enumerate(CardType):
-            button = Button(self.leftBorder+10 +83*idx, self.topBorder - 60, 80, 25,(150,150,150), (100,200,100), (100,100,50), type.value, 20)
+            button = Button(self.topPanelX+10 + (BUTTON_WIDTH+3)*idx, self.topPanelY + BUTTON_LOWER_OFFSET, BUTTON_WIDTH, BUTTON_HEIGHT, type.value)
             self.typeButton.append(button)
 
-        self.sortButton = Button(self.leftBorder + 100, self.topBorder - 30 , 80, 25,(150,150,150), (100,200,100), (100,100,50), "sort", 20)
+        self.sortButton = Button(self.topPanelX+10, self.topPanelY + BUTTON_LOWER_OFFSET + BUTTON_HEIGHT + 5, BUTTON_WIDTH, BUTTON_HEIGHT, "sort")
 
-        self.deckScale = (self.rightBorder - self.leftBorder)/((CARD_WIDTH + self.deckSpacing*3)*self.cardPerRow)
         self.availableCardScale = 0.5
 
         self.scroll_speed = 1
@@ -253,14 +282,12 @@ class DeckBuildingState(BaseState):
             
 
     def render(self, screen):
-        screen.fill((255,255,255))
-
-        # layout
+        RenderBackground(screen, BackgroundState.DECK_BUILDING)
         
-        pygame.draw.rect(screen, (255,255,0), self.leftPanel, 5)
-        pygame.draw.rect(screen, (255,0,0), self.topPanel, 5)
-        pygame.draw.rect(screen, (0,255,0), self.middlePanel , 5)
-        pygame.draw.rect(screen, (0,0,255), self.rightPanel, 5)
+        pygame.draw.rect(screen, (255,255,0), self.leftPanel, 1)
+        pygame.draw.rect(screen, (255,0,0), self.topPanel, 1)
+        pygame.draw.rect(screen, (0,255,0), self.middlePanel , 1)
+        pygame.draw.rect(screen, (0,0,255), self.rightPanel, 1)
 
         # render deck
         self.deckScale = (SCREEN_WIDTH*0.5)/((CARD_WIDTH + self.deckSpacing*3)*self.cardPerRow)
@@ -330,9 +357,9 @@ class DeckBuildingState(BaseState):
             button.draw(screen)
         
         # render filter description
-        screen.blit(pygame.font.Font(None, 30).render("Card Class", True, (0,0,0)),(self.leftBorder +15, 10))
-        screen.blit(pygame.font.Font(None, 30).render("Card Type", True, (0,0,0)),(self.leftBorder +15, self.topBorder -80))
-        screen.blit(pygame.font.Font(None, 30).render("Effect Type", True, (0,0,0)),(self.rightBorder +80, 10))
+        screen.blit(pygame.font.Font(None, 20).render("Card Class", True, (0,0,0)),(self.topPanelX + 10, self.topPanelY))
+        screen.blit(pygame.font.Font(None, 20).render("Card Type", True, (0,0,0)),(self.topPanelX + 10, self.topPanelY + BUTTON_LOWER_OFFSET - 15))
+        screen.blit(pygame.font.Font(None, 20).render("Effect Type", True, (0,0,0)),(self.rightPanelX - 60, self.topPanelY))
 
         # render sort button
         self.sortButton.draw(screen)
@@ -344,11 +371,11 @@ class DeckBuildingState(BaseState):
 
 
 class Button:
-    def __init__(self, x, y, width, height, color, clicked_color, hover_color, text='', font_size=30):
+    def __init__(self, x, y, width, height, text='', font_size=15):
         self.rect = pygame.Rect(x, y, width, height)
-        self.color = color
-        self.clicked_color = clicked_color
-        self.hover_color = hover_color
+        self.color = (150, 150, 150)
+        self.clicked_color = (100, 200, 100)
+        self.hover_color = (100, 100, 50)
         self.text = text
         self.isClick = False
         self.font = pygame.font.Font(None, font_size)
