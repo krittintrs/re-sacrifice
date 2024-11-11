@@ -24,11 +24,11 @@ class BattlePreparationState(BaseState):
     
     def initialDraw(self):
         self.player.deck.shuffle()
-        for card in self.player.deck.card_deck:
-            if card.name in ["Trap", "You shall not pass", "Attack Summon", "Move 2", "Move 1"]:
-                self.player.cardsOnHand.append(card)
+        # for card in self.enemy.deck.card_deck:
+        #     if card.name in ["Backup", "Move 2", "Move 3",  "Move 1"]:
+        #         self.enemy.cardsOnHand.append(card)
 
-        # self.player.cardsOnHand = self.player.deck.draw(5)
+        self.player.cardsOnHand = self.player.deck.draw(5)
         self.enemy.deck.shuffle()
         self.enemy.cardsOnHand = self.enemy.deck.draw(5)
 
