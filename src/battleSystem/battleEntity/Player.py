@@ -9,6 +9,7 @@ class Player(Entity):
         self.health = 30
         self.job = job
         self.x, self.y = 0, ENTITY_Y
+        self.type = PlayerType.PLAYER
 
     def update(self, dt):
         # Implement player-specific update logic here

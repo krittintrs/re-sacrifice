@@ -19,7 +19,7 @@ class SelectPullState(BaseState):
         self.effect = params['effect']
         self.effectOwner = params['effectOwner']
 
-        self.avilablePullTile = []
+        self.availablePullTile = []
 
         if self.effectOwner == PlayerType.PLAYER:
             if self.player.fieldTile_index > self.enemy.fieldTile_index:
@@ -45,12 +45,12 @@ class SelectPullState(BaseState):
         self.selectPullTile = 0
         if self.MaxTileIndex <= self.MinTileIndex:
             for i in range(self.MaxTileIndex, self.MinTileIndex+1):
-                self.avilablePullTile.append(i)
+                self.availablePullTile.append(i)
         else:       
             for j in range(self.MinTileIndex, self.MaxTileIndex+1):
-                self.avilablePullTile.append(j)
+                self.availablePullTile.append(j)
         
-        self.avilablePullTile = list( dict.fromkeys(self.avilablePullTile) )
+        self.availablePullTile = list( dict.fromkeys(self.availablePullTile) )
         
         print('\n!!!! SelectPullState !!!!')
         print(f'Owner: {self.effectOwner}')
@@ -65,8 +65,17 @@ class SelectPullState(BaseState):
         self.player.display_stats()
         self.enemy.display_stats()
 
+        
+
     def Exit(self):
         pass
+
+    def remove_timeout_entity(self):
+        for tile in self.field:
+            if tile.is_second_entity():
+                if tile.second_entity.duration == 0:
+                    print("remove second entity for timeout ", tile.index)
+                    tile.remove_second_entity()
 
     def update(self, dt, events):
         for event in events:
@@ -85,22 +94,22 @@ class SelectPullState(BaseState):
                         print('moving left')
                         self.selectPullTile = self.selectPullTile - 1
                         if self.selectPullTile < 0:
-                            self.selectPullTile = len(self.avilablePullTile) - 1
+                            self.selectPullTile = len(self.availablePullTile) - 1
                 if event.key == pygame.K_RIGHT:
                     print('key right')
                     if self.effectOwner == PlayerType.PLAYER:
                         print('moving right')
                         self.selectPullTile = self.selectPullTile + 1
-                        if self.selectPullTile > len(self.avilablePullTile) - 1:
+                        if self.selectPullTile > len(self.availablePullTile) - 1:
                             self.selectPullTile = 0
                 if event.key == pygame.K_RETURN:
                     print('Pull state: before check effect owner')
                     if self.effectOwner == PlayerType.PLAYER:
                         print('enemy Pull')
                         if self.selectPullTile>=0 and self.effect.maxRange>0:
-                            if not self.field[self.avilablePullTile[self.selectPullTile]].is_occupied():
-                                self.enemy.move_to(self.field[self.avilablePullTile[self.selectPullTile]], self.field)
-                                print(f"Pull target to {self.avilablePullTile[self.selectPullTile]}")
+                            if not self.field[self.availablePullTile[self.selectPullTile]].is_occupied():
+                                self.enemy.move_to(self.field[self.availablePullTile[self.selectPullTile]], self.field)
+                                print(f"Pull target to {self.availablePullTile[self.selectPullTile]}")
                             else:
                                 print("can not Pull, there is an entity of that tile")
                         else:
@@ -138,6 +147,14 @@ class SelectPullState(BaseState):
 
         self.player.update(dt)
         self.enemy.update(dt)
+
+        for tile in self.field:
+            if tile.second_entity:
+                tile.second_entity.update(dt)
+            elif tile.is_occupied() and tile.entity.type == None:
+                tile.entity.update(dt)
+
+        self.remove_timeout_entity()
         
     def render(self, screen):
         RenderTurn(screen, 'SelectPullState', self.turn, self.currentTurnOwner)
@@ -149,12 +166,12 @@ class SelectPullState(BaseState):
         for fieldTile in self.field:               
             # Render the range of the attack
 
-            if fieldTile.index in set(self.avilablePullTile):
+            if fieldTile.index in set(self.availablePullTile):
                 fieldTile.color = (255,0,0)
             else:
                 fieldTile.color = (0,0,0)
             if self.selectPullTile>=0:
-                if fieldTile.index == self.avilablePullTile[self.selectPullTile]:
+                if fieldTile.index == self.availablePullTile[self.selectPullTile]:
                     fieldTile.color = (255,0,255)
                     fieldTile.solid = 0
                 

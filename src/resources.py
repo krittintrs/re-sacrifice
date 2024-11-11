@@ -10,9 +10,9 @@ CARD_DEFS = sprite_collection["card_conf"]  # dict {"name": CardConf class}
 DECK_DEFS = DeckLoader().deck_conf          # dict {"name": DeckConf class}
 
 gSounds = {
-    'dice_roll': pygame.mixer.Sound("sounds/dice_roll.mp3"),
-    'attack': pygame.mixer.Sound("sounds/attack.wav"),
-    'block': pygame.mixer.Sound("sounds/block.wav"),
+    "dice_roll": pygame.mixer.Sound("sounds/dice_roll.mp3"),
+    "attack": pygame.mixer.Sound("sounds/attack.wav"),
+    "block": pygame.mixer.Sound("sounds/block.wav"),
 }
 
 gBuffIcon_image_list = {
@@ -22,7 +22,9 @@ gBuffIcon_image_list = {
     "defense": sprite_collection["defense_icon"].image,
     "speed": sprite_collection["speed_icon"].image,
     "range": sprite_collection["range_icon"].image,
-    "critical": sprite_collection["critical_icon"].image
+    "critical": sprite_collection["critical_icon"].image,
+    "cant_move": sprite_collection["cant_move_icon"].image,
+    "fire": sprite_collection["fire_icon"].image,
 }
 
 gWarrior_animation_list = {
@@ -32,7 +34,7 @@ gWarrior_animation_list = {
     "single_attack": sprite_collection["singleAttack_warrior"].animation,
     "idle": sprite_collection["idle_warrior"].animation,
     "knock_down": sprite_collection["knockDown_warrior"].animation,
-    "walk": sprite_collection["walk_warrior"].animation
+    "walk": sprite_collection["walk_warrior"].animation,
 }
 
 gRanger_animation_list = {
@@ -42,7 +44,7 @@ gRanger_animation_list = {
     "single_attack": sprite_collection["singleAttack_ranger"].animation,
     "idle": sprite_collection["idle_ranger"].animation,
     "knock_down": sprite_collection["knockDown_ranger"].animation,
-    "walk": sprite_collection["walk_ranger"].animation
+    "walk": sprite_collection["walk_ranger"].animation,
 }
 
 gMage_animation_list = {
@@ -52,12 +54,19 @@ gMage_animation_list = {
     "single_attack": sprite_collection["singleAttack_mage"].animation,
     "idle": sprite_collection["idle_mage"].animation,
     "knock_down": sprite_collection["knockDown_mage"].animation,
-    "walk": sprite_collection["walk_mage"].animation
+    "walk": sprite_collection["walk_mage"].animation,
 }
 
 gNormalGoblin_animation_list = {
     "idle": sprite_collection["normalGoblinIdle"].animation,
     "attack": sprite_collection["normalGoblinAttack"].animation,
     "death": sprite_collection["normalGoblinDeath"].animation,
-    "walk": sprite_collection["normalGoblinWalk"].animation
+    "walk": sprite_collection["normalGoblinWalk"].animation,
+}
+
+gEntity_animation_dict = {
+    "warrior": gWarrior_animation_list,
+    "ranger": gRanger_animation_list,
+    "mage": gMage_animation_list,
+    "goblin": gNormalGoblin_animation_list,
 }

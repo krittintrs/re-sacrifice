@@ -2,13 +2,14 @@ from src.resources import *
 from src.EnumResources import BuffType
 
 class BuffConf:
-    def __init__(self, name, description, duration, type, value, imageName=None):
+    def __init__(self, name, description, duration, type, value, imageName=None, dot_damage=0):
         self.name = name
         self.description = description
         self.duration = duration
         self.type = type
         self.value = value  # [1,0,0,0] == [atk,def,spd,range]
         self.imageName = imageName
+        self.dot_damage = dot_damage
 
 
 DICE_ROLL_BUFF = {
@@ -65,5 +66,14 @@ CARD_BUFF = {
     ),
     "confuse": BuffConf(
         "Confusion", "Randomly Choose Tile", 1, BuffType.DEBUFF, [0, 0, 0, 0], gBuffIcon_image_list["range"]
+    ),
+    'fire': BuffConf(
+        'Fire', "Deal 1 damage per turn", 3, BuffType.DEBUFF, [0, 0, 0, 0], gBuffIcon_image_list['fire'], -1
+    ),
+    'block_movement': BuffConf(
+        'Block Movement', "Can not use move effect", 2, BuffType.STOP_MOVEMENT, [0, 0, 0, 0], gBuffIcon_image_list['cant_move']
+    ),
+    'stop_movement': BuffConf(
+        'Stop Movement', "Can not use move effect", 10, BuffType.STOP_MOVEMENT, [0, 0, 0, 0], gBuffIcon_image_list['cant_move']
     ),
 }

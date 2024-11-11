@@ -16,6 +16,7 @@ class SelectionState(Enum):
     BUFF = "buff"
     PUSH = "push"
     PULL = "pull"
+    SPAWN = "spawn"
 
 class RPGState(Enum):
     START = "start"
@@ -83,3 +84,4 @@ class BuffType(Enum):
     CRIT_RATE = "CritRate"
     CRIT_DMG = "CritDmg"
     EVADE = "Evade"
+    STOP_MOVEMENT = "Stop Movement"

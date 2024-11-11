@@ -33,7 +33,7 @@ class BattleInitialState(BaseState):
             print("Player's Hand Card: ", card.name)
 
         # Mock buff
-        # mock_buff = Buff(BuffConf('bonus_attack', 1, [1, 0, 0, 0], gBuffIcon_image_list['attack']))
+        # mock_buff = Buff(BuffConf('bonus_attack', 1, [1, 0, 0, 0], 0, gBuffIcon_image_list['attack']))
         # self.player.add_buff(mock_buff)
         print(f'Player Buffs: {self.player.buffs}')
         print(f'Enemy Buffs: {self.enemy.buffs}')
@@ -78,6 +78,21 @@ class BattleInitialState(BaseState):
 
         self.player.update(dt)
         self.enemy.update(dt)
+
+        for tile in self.field:
+            if tile.second_entity:
+                tile.second_entity.update(dt)
+            elif tile.is_occupied() and tile.entity.type == None:
+                tile.entity.update(dt)
+
+        self.remove_timeout_entity()
+
+    def remove_timeout_entity(self):
+        for tile in self.field:
+            if tile.is_second_entity():
+                if tile.second_entity.duration == 0:
+                    print("remove second entity for timeout ", tile.index)
+                    tile.remove_second_entity()
         
     def render(self, screen):
         RenderTurn(screen, 'Initial State', self.turn, self.currentTurnOwner)

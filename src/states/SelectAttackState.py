@@ -24,7 +24,7 @@ class SelectAttackState(BaseState):
         self.leftSkip = False
         self.rightSkip = False
 
-        self.avilableAttackTile = []
+        self.availableAttackTile = []
 
         if self.effectOwner == PlayerType.PLAYER:
             self.leftMinTileIndex = self.player.fieldTile_index - self.effect.minRange
@@ -58,22 +58,22 @@ class SelectAttackState(BaseState):
 
         for i in range(self.leftMaxTileIndex, self.leftMinTileIndex+1):
             if not self.leftSkip:
-                self.avilableAttackTile.append(i)
+                self.availableAttackTile.append(i)
         
         for j in range(self.rightMinTileIndex, self.rightMaxTileIndex+1):
             if not self.rightSkip:
-                self.avilableAttackTile.append(j)
+                self.availableAttackTile.append(j)
         
-        self.avilableAttackTile = list( dict.fromkeys(self.avilableAttackTile) )
+        self.availableAttackTile = list( dict.fromkeys(self.availableAttackTile) )
 
         print('\n!!!! SelectAttackState !!!!')
         print(f'Owner: {self.effectOwner}')
         print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
 
         if self.effectOwner == PlayerType.ENEMY:
-            for index in range(len(self.avilableAttackTile)):
-                if self.field[self.avilableAttackTile[index]].is_occupied():
-                    if self.field[self.avilableAttackTile[index]].entity == self.player:
+            for index in range(len(self.availableAttackTile)):
+                if self.field[self.availableAttackTile[index]].is_occupied():
+                    if self.field[self.availableAttackTile[index]].entity == self.player:
                         self.selectAttackTile = index
 
         # apply buff to all cards on hand
@@ -86,6 +86,13 @@ class SelectAttackState(BaseState):
 
     def Exit(self):
         pass
+
+    def remove_timeout_entity(self):
+        for tile in self.field:
+            if tile.is_second_entity():
+                if tile.second_entity.duration == 0:
+                    print("remove second entity for timeout ", tile.index)
+                    tile.remove_second_entity()
 
     def update(self, dt, events):
         for event in events:
@@ -102,18 +109,19 @@ class SelectAttackState(BaseState):
                     if self.effectOwner == PlayerType.PLAYER:
                         self.selectAttackTile = self.selectAttackTile - 1
                         if self.selectAttackTile < 0:
-                            self.selectAttackTile = len(self.avilableAttackTile) - 1
+                            self.selectAttackTile = len(self.availableAttackTile) - 1
                 if event.key == pygame.K_RIGHT and self.selectAttackTile>=0:
                     if self.effectOwner == PlayerType.PLAYER:
                         self.selectAttackTile = self.selectAttackTile + 1
-                        if self.selectAttackTile > len(self.avilableAttackTile) - 1:
+                        if self.selectAttackTile > len(self.availableAttackTile) - 1:
                             self.selectAttackTile = 0
                 if event.key == pygame.K_RETURN:
                     if self.selectAttackTile>=0 and self.effect.maxRange>0:
-                        attacking_field = self.field[self.avilableAttackTile[self.selectAttackTile]]
+                        attacking_field = self.field[self.availableAttackTile[self.selectAttackTile]]
                         defender = attacking_field.entity
                         # ATTACK
                         if attacking_field.is_occupied():
+                            # RENDER ATTACKER ANIMATION
                             if self.effectOwner == PlayerType.PLAYER:
                                 self.player.ChangeAnimation("multi_attack")
                                 attacker = self.player
@@ -121,7 +129,13 @@ class SelectAttackState(BaseState):
                                 self.enemy.ChangeAnimation("attack")
                                 attacker = self.enemy
                             
-                            damage = attacker.attack - defender.defense
+                            # Damage Calculation
+                            if self.effect.type == EffectType.TRUE_DAMAGE:
+                                damage = attacker.attack
+                            else:
+                                damage = attacker.attack - defender.defense
+
+                            # Check For Evade Buff
                             is_evade = False
                             for buff in defender.buffs:
                                 if buff.type == BuffType.EVADE:
@@ -134,7 +148,7 @@ class SelectAttackState(BaseState):
                                 defender.health -= damage
                                 defender.stunt = True
                                 print(f'{defender} takes {damage} damage')
-                                # RENDER ANIMATION
+                                # RENDER DEFENDER ANIMATION
                                 if self.effectOwner == PlayerType.PLAYER:
                                     self.enemy.ChangeAnimation("death")
                                 elif self.effectOwner == PlayerType.ENEMY:
@@ -151,6 +165,9 @@ class SelectAttackState(BaseState):
                                 gSounds['block'].play()
                                 print(f'{defender} takes no damage')
                             defender.print_stats()
+                        elif attacking_field.second_entity:
+                            if attacking_field.second_entity.side != self.effectOwner:
+                                attacking_field.second_entity.take_damage(attacker.attack)
                         else:
                             print("no entity on the targeted tile")
                     else:
@@ -187,6 +204,14 @@ class SelectAttackState(BaseState):
         self.player.update(dt)
         self.enemy.update(dt)
 
+        for tile in self.field:
+            if tile.second_entity:
+                tile.second_entity.update(dt)
+            elif tile.is_occupied() and tile.entity.type == None:
+                tile.entity.update(dt)
+
+        self.remove_timeout_entity()
+
     def getBuffFromEffect(self, effect):
         if effect.buffName:
             buff = Buff(CARD_BUFF[effect.buffName])
@@ -205,12 +230,12 @@ class SelectAttackState(BaseState):
         for fieldTile in self.field:               
             # Render the range of the attack
 
-            if fieldTile.index in set(self.avilableAttackTile):
+            if fieldTile.index in set(self.availableAttackTile):
                 fieldTile.color = (255,0,0)
             else:
                 fieldTile.color = (0,0,0)
             if self.selectAttackTile>=0:
-                if fieldTile.index == self.avilableAttackTile[self.selectAttackTile]:
+                if fieldTile.index == self.availableAttackTile[self.selectAttackTile]:
                     fieldTile.color = (255,0,255)
                     fieldTile.solid = 0
                 

@@ -2,13 +2,13 @@ from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
 from src.Render import *
-from src.battleSystem.Buff import Buff
 import pygame
 import sys
+from src.battleSystem.battleEntity.SubEntity import SubEntity
 
-class SelectBuffState(BaseState):
+class SelectSpawnState(BaseState):
     def __init__(self):
-        super(SelectBuffState, self).__init__()
+        super(SelectSpawnState, self).__init__()
 
     def Enter(self, params):
         self.player = params['player']
@@ -23,7 +23,7 @@ class SelectBuffState(BaseState):
         self.leftSkip = False
         self.rightSkip = False
 
-        self.availableBuffTile = []
+        self.availableSpawnTile = []
 
         if self.effectOwner == PlayerType.PLAYER:
             self.leftMinTileIndex = self.player.fieldTile_index - self.effect.minRange
@@ -50,30 +50,24 @@ class SelectBuffState(BaseState):
         elif self.rightMaxTileIndex > 8:
             self.rightMaxTileIndex = 8
         
-        self.selectBuffTile = 0
+        self.selectSpawnTile = 0
 
         if self.rightSkip and self.leftSkip:
-                self.selectBuffTile = -1
+                self.selectSpawnTile = -1
 
         for i in range(self.leftMaxTileIndex, self.leftMinTileIndex+1):
             if not self.leftSkip:
-                self.availableBuffTile.append(i)
+                self.availableSpawnTile.append(i)
         
         for j in range(self.rightMinTileIndex, self.rightMaxTileIndex+1):
             if not self.rightSkip:
-                self.availableBuffTile.append(j)
+                self.availableSpawnTile.append(j)
         
-        self.availableBuffTile = list( dict.fromkeys(self.availableBuffTile) )
+        self.availableSpawnTile = list( dict.fromkeys(self.availableSpawnTile) )
 
-        print('\n!!!! SelectBuffState !!!!')
+        print('\n!!!! SelectSpawnState !!!!')
         print(f'Owner: {self.effectOwner}')
         print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
-
-        if self.effectOwner == PlayerType.ENEMY:
-            for index in range(len(self.availableBuffTile)):
-                if self.field[self.availableBuffTile[index]].is_occupied():
-                    if self.field[self.availableBuffTile[index]].entity == self.player:
-                        self.selectBuffTile = index
 
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
@@ -82,6 +76,8 @@ class SelectBuffState(BaseState):
         # display entity stats
         self.player.display_stats()
         self.enemy.display_stats()
+
+        
 
     def Exit(self):
         pass
@@ -104,38 +100,33 @@ class SelectBuffState(BaseState):
                     sys.exit()
                 if event.key == pygame.K_SPACE:
                     pass
-                if event.key == pygame.K_LEFT and self.selectBuffTile>=0:
+                if event.key == pygame.K_LEFT and self.selectSpawnTile>=0:
                     if self.effectOwner == PlayerType.PLAYER:
-                        self.selectBuffTile = self.selectBuffTile - 1
-                        if self.selectBuffTile < 0:
-                            self.selectBuffTile = len(self.availableBuffTile) - 1
-                if event.key == pygame.K_RIGHT and self.selectBuffTile>=0:
+                        self.selectSpawnTile = self.selectSpawnTile - 1
+                        if self.selectSpawnTile < 0:
+                            self.selectSpawnTile = len(self.availableSpawnTile) - 1
+                if event.key == pygame.K_RIGHT and self.selectSpawnTile>=0:
                     if self.effectOwner == PlayerType.PLAYER:
-                        self.selectBuffTile = self.selectBuffTile + 1
-                        if self.selectBuffTile > len(self.availableBuffTile) - 1:
-                            self.selectBuffTile = 0
+                        self.selectSpawnTile = self.selectSpawnTile + 1
+                        if self.selectSpawnTile > len(self.availableSpawnTile) - 1:
+                            self.selectSpawnTile = 0
                 if event.key == pygame.K_RETURN:
+                    print('spawn state: before check effect owner')
                     if self.effectOwner == PlayerType.PLAYER:
-                        if self.selectBuffTile>=0 and self.effect.maxRange>0:
-                            if self.field[self.availableBuffTile[self.selectBuffTile]].is_occupied():
-                                buff = self.getBuffFromEffect(self.effect)
-                                self.enemy.add_buff(buff)
-                                print(f"apply buff {buff} to enemy")
+                        if self.selectSpawnTile>=0 and self.effect.maxRange>0:
+                            if not self.field[self.availableSpawnTile[self.selectSpawnTile]].is_occupied():
+                                spawn = SubEntity(SUB_ENTITY[self.effect.spawn], PlayerType.PLAYER)
+                                spawn.fieldTile_index = self.availableSpawnTile[self.selectSpawnTile]
+                                spawn_x = self.field[self.availableSpawnTile[self.selectSpawnTile]].x
+                                self.field[self.availableSpawnTile[self.selectSpawnTile]].place_entity(spawn, spawn_x)
+                                print(f"{self.effectOwner} summon {spawn.name}")
                             else:
-                                print("no entity on the targeted tile")
+                                print("can not spawn, there is an entity of that tile")
                         else:
-                            print("there is no buff happen")
-                    if self.effectOwner == PlayerType.ENEMY:
-                        if self.selectBuffTile>=0 and self.effect.maxRange>0:
-                            if self.field[self.availableBuffTile[self.selectBuffTile]].is_occupied():
-                                buff = self.getBuffFromEffect(self.effect)
-                                self.player.add_buff(buff)
-                                print(f"apply buff {buff} to player")
-                            else:
-                                print("no entity on the targeted tile")
-                        else:
-                            print("there is no buff happen")
-
+                            print("there is no spawn happen")
+                    else:
+                        print("enemy spawn")
+                    print('spawn state: after check effect owner')
                     if self.player.health > 0 and self.enemy.health > 0:
                         g_state_manager.Change(BattleState.RESOLVE_PHASE, {
                             'player': self.player,
@@ -175,16 +166,18 @@ class SelectBuffState(BaseState):
 
         self.remove_timeout_entity()
 
-    def getBuffFromEffect(self, effect):
-        if effect.buffName:
-            buff = Buff(CARD_BUFF[effect.buffName])
-            return buff
-        else:
-            print(f'Buff not found: {effect.buffName}')
-            return False
+    # def getBuffListFromEffect(self, effect):
+    #     buffList = []
+    #     if effect.buffNameList:
+    #         for buffName in effect.buffNameList:
+    #             buffList.append(Buff(CARD_BUFF[buffName])) 
+    #         return buffList
+    #     else:
+    #         print(f'Buff not found: {effect.buffNameList}')
+    #         return False
           
     def render(self, screen):
-        RenderTurn(screen, 'SelectBuffState', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, 'SelectSpawnState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
         RenderCurrentAction(screen, self.effect, self.effectOwner)
@@ -193,12 +186,12 @@ class SelectBuffState(BaseState):
         for fieldTile in self.field:               
             # Render the range of the buff
 
-            if fieldTile.index in set(self.availableBuffTile):
+            if fieldTile.index in set(self.availableSpawnTile):
                 fieldTile.color = (255,0,0)
             else:
                 fieldTile.color = (0,0,0)
-            if self.selectBuffTile>=0:
-                if fieldTile.index == self.availableBuffTile[self.selectBuffTile]:
+            if self.selectSpawnTile>=0:
+                if fieldTile.index == self.availableSpawnTile[self.selectSpawnTile]:
                     fieldTile.color = (255,0,255)
                     fieldTile.solid = 0
                 

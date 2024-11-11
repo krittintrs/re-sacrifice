@@ -9,7 +9,7 @@ g_font = pygame.font.Font(None, 36)
 
 
 class Entity:
-    def __init__(self, name, animation_list=None, health=10):
+    def __init__(self, name, animation_list=None, health=10, is_occupied_field = True, type = None):
         self.name = name
         self.fieldTile_index = None  # Keep track of which field it is on
         self.animation_list = animation_list
@@ -17,6 +17,8 @@ class Entity:
         self.frame_index = 0  # Frame index for animations
         self.frame_timer = 0  # Timer to manage frame rate
         self.frame_duration = 0.1  # Duration for each frame (adjust as needed)
+        self.is_occupied_field = is_occupied_field
+        self.type = type
 
         # Deck & Card
         self.deck = Deck()
@@ -54,8 +56,11 @@ class Entity:
     def print_buffs(self):
         for buff in self.buffs:
             buff.print()
+    
+    def null_function():
+        pass
 
-    def move_to(self, fieldTile, field):
+    def move_to(self, fieldTile, field, action = null_function):
         if fieldTile.is_occupied():  # Check if the fieldTile is occupied
             print("fieldTile is already occupied!")
             return
@@ -68,7 +73,8 @@ class Entity:
         self.facing_left = self.target_position < self.x  # Face left if moving to a lower x
 
         self.tweening = tween.to(
-            self, "x", self.target_position, 1, "linear")  # Tween x position
+            self, "x", self.target_position, 1, "linear")# Tween x position
+        self.tweening.on_complete(action)  
 
         # Update fieldTile and position references
         if self.fieldTile_index is not None:
@@ -156,6 +162,7 @@ class Entity:
 
             # Check if the animation has finished and switch to idle if necessary
             if animation.is_finished() and self.curr_animation != "idle":
+                
                 # Automatically switch to idle animation
                 self.ChangeAnimation("idle")
                 # Update to idle animation
@@ -193,9 +200,11 @@ class Entity:
             self.curr_animation = name
             self.frame_index = 0
             self.frame_timer = 0
+            # self.on_complete = on_complete
             # Start from the beginning of the new animation
             self.animation_list[name].Refresh()
             print(f'{self.name} animation changed to {name}')
         else:
             print(
                 f'Animation {name} not found in animation list for {self.name}')
+
