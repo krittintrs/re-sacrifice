@@ -119,10 +119,9 @@ class SelectAttackState(BaseState):
                     if self.selectAttackTile>=0 and self.effect.maxRange>0:
                         attacking_field = self.field[self.availableAttackTile[self.selectAttackTile]]
                         defender = attacking_field.entity
-                        if self.effect.type == EffectType.TRUE_DAMAGE:
-                            defender.defense = 0
                         # ATTACK
                         if attacking_field.is_occupied():
+                            # RENDER ATTACKER ANIMATION
                             if self.effectOwner == PlayerType.PLAYER:
                                 self.player.ChangeAnimation("multi_attack")
                                 attacker = self.player
@@ -130,7 +129,13 @@ class SelectAttackState(BaseState):
                                 self.enemy.ChangeAnimation("attack")
                                 attacker = self.enemy
                             
-                            damage = attacker.attack - defender.defense
+                            # Damage Calculation
+                            if self.effect.type == EffectType.TRUE_DAMAGE:
+                                damage = attacker.attack
+                            else:
+                                damage = attacker.attack - defender.defense
+
+                            # Check For Evade Buff
                             is_evade = False
                             for buff in defender.buffs:
                                 if buff.type == BuffType.EVADE:
@@ -143,7 +148,7 @@ class SelectAttackState(BaseState):
                                 defender.health -= damage
                                 defender.stunt = True
                                 print(f'{defender} takes {damage} damage')
-                                # RENDER ANIMATION
+                                # RENDER DEFENDER ANIMATION
                                 if self.effectOwner == PlayerType.PLAYER:
                                     self.enemy.ChangeAnimation("death")
                                 elif self.effectOwner == PlayerType.ENEMY:
