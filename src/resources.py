@@ -1,5 +1,6 @@
 from src.Util import SpriteManager, DeckLoader
 from src.StateMachine import StateMachine
+from src.EnumResources import *
 import pygame
 
 g_state_manager = StateMachine()
@@ -69,4 +70,9 @@ gEntity_animation_dict = {
     "ranger": gRanger_animation_list,
     "mage": gMage_animation_list,
     "goblin": gNormalGoblin_animation_list,
+}
+
+gBackground_image_list = {
+    BackgroundState.BATTLE: pygame.image.load("./graphics/battle_background.png"), 
+    BackgroundState.DECK_BUILDING: pygame.image.load("./graphics/deckbuilding_background.png"),
 }

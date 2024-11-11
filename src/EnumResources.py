@@ -85,3 +85,7 @@ class BuffType(Enum):
     CRIT_DMG = "CritDmg"
     EVADE = "Evade"
     STOP_MOVEMENT = "Stop Movement"
+
+class BackgroundState(Enum):
+    DECK_BUILDING = "deckbuilding"
+    BATTLE = "battle"
