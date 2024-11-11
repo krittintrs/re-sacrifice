@@ -51,7 +51,7 @@ def RenderSelectedCard(screen, playerSelectedCard, enemySelectedCard):
     playerSelectedCard.render(screen, 0.5)
     enemySelectedCard.render(screen, 3.5)
 
-def RenderDescription(screen, line_1, line_2):
+def RenderDescription(screen, line_1, line_2=None):
     text_1 = gFont_list["title"].render(line_1, True, (0, 0, 0))
     text_2 = gFont_list["title"].render(line_2, True, (0, 0, 0))
     

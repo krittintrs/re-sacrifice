@@ -99,26 +99,16 @@ class BattleInitialState(BaseState):
         RenderEntityStats(screen, self.player, self.enemy)
             
         # Title
-        if self.roll:
-            screen.blit(pygame.font.Font(None, 36).render("Cards:    Press Enter start", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))
+        if self.roll:           
             if self.dice < 4:
-                text = f'{self.currentTurnOwner.value} got {DICE_ROLL_BUFF[self.dice - 1].name}'
+                desc_1 = f'{self.currentTurnOwner.value} Got {DICE_ROLL_BUFF[self.dice - 1].name}'
             else:
-                text = f'{self.currentTurnOwner.value} got No Buff'
-
-            text_surface = pygame.font.Font(None, 36).render(text, True, (255, 255, 255))
-            text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - HUD_HEIGHT))
-
-            # Draw the brown rectangle behind the text (with some padding)
-            padding = 10
-            pygame.draw.rect(screen, (139, 69, 19), (text_rect.x - padding, text_rect.y - padding,
-                                                    text_rect.width + 2 * padding, text_rect.height + 2 * padding))
-
-            # Blit the text surface on top of the rectangle
-            screen.blit(text_surface, text_rect)
+                desc_1 = f'{self.currentTurnOwner.value} Got No Buff'
+            desc_2 = "Press Enter to Start"
+            RenderDescription(screen, desc_1, desc_2)
         else:
-            screen.blit(pygame.font.Font(None, 36).render("Cards:    Press Spacebar to Roll the dice", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
-        
+            RenderDescription(screen, "Press Spacebar to Roll the Dice")
+             
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
             card.render(screen, order)
@@ -127,11 +117,9 @@ class BattleInitialState(BaseState):
         for fieldTile in self.field:
             fieldTile.render(screen)
     
-        # Clear only the dice result area (fill the area with the background color)
-        pygame.draw.rect(screen, (255, 255, 255), (10, SCREEN_HEIGHT - HUD_HEIGHT - 40, 150, 40))  # Adjust size and position based on your layout
-
-        # Render dice result
-        screen.blit(pygame.font.Font(None, 36).render("Dice: " + str(self.dice), True, (0, 0, 0)), (10, SCREEN_HEIGHT - HUD_HEIGHT - 30))
+        # TODO: Render dice image
+        pygame.draw.rect(screen, (255, 255, 255), (SCREEN_WIDTH//2 + 50, SCREEN_HEIGHT - HUD_HEIGHT - 40, 150, 40)) 
+        screen.blit(pygame.font.Font(None, 36).render("Dice: " + str(self.dice), True, (0, 0, 0)), (SCREEN_WIDTH//2 + 50, SCREEN_HEIGHT - HUD_HEIGHT - 30))
     
     def roll_dice(self):
         # Play dice sound
