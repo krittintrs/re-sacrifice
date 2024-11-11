@@ -102,6 +102,9 @@ class BattleActionState(BaseState):
         playerSpeed = self.player.selectedCard.buffed_speed
         enemySpeed = self.enemy.selectedCard.buffed_speed
 
+        if self.enemy.selectedCard.name == "Ditto":
+            enemySpeed = self.player.selectedCard.buffed_speed + 1
+
         if playerSpeed > enemySpeed or (playerSpeed == enemySpeed and self.currentTurnOwner == PlayerType.PLAYER):
             self.appendEffects(self.player, PlayerType.PLAYER)
             self.appendEffects(self.enemy, PlayerType.ENEMY)
