@@ -1,7 +1,13 @@
 import pygame
 from src.constants import *
+from src.resources import gBackground_image_list
+from src.EnumResources import *
+
+def RenderBackground(screen, bgstate):
+    screen.blit(gBackground_image_list[bgstate], (0, 0))
 
 def RenderTurn(screen, state, turn, currentTurnOwner):
+    RenderBackground(screen, BackgroundState.BATTLE)
     screen.blit(pygame.font.Font(None, 36).render(f"{state} - Turn {turn} ({currentTurnOwner.value}'s turn)", True, (0, 0, 0)), (10, 10))   
 
 def RenderEntityStats(screen, player, enemy):
