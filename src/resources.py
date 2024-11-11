@@ -24,6 +24,7 @@ gBuffIcon_image_list = {
     "range": sprite_collection["range_icon"].image,
     "critical": sprite_collection["critical_icon"].image,
     "cant_move": sprite_collection["cant_move_icon"].image,
+    "fire": sprite_collection["fire_icon"].image,
 }
 
 gWarrior_animation_list = {

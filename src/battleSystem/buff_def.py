@@ -68,7 +68,7 @@ CARD_BUFF = {
         "Confusion", "Randomly Choose Tile", 1, BuffType.DEBUFF, [0, 0, 0, 0], gBuffIcon_image_list["range"]
     ),
     'fire': BuffConf(
-        'Fire', "Deal 1 damage per turn", 3, BuffType.DEBUFF, [0, 0, 0, 0], -1, gBuffIcon_image_list['debuff']
+        'Fire', "Deal 1 damage per turn", 3, BuffType.DEBUFF, [0, 0, 0, 0], gBuffIcon_image_list['fire'], -1
     ),
     'block_movement': BuffConf(
         'Block Movement', "Can not use move effect", 2, BuffType.STOP_MOVEMENT, [0, 0, 0, 0], gBuffIcon_image_list['cant_move']
