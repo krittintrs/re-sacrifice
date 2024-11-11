@@ -76,3 +76,10 @@ gBackground_image_list = {
     BackgroundState.BATTLE: pygame.image.load("./graphics/battle_background.png"), 
     BackgroundState.DECK_BUILDING: pygame.image.load("./graphics/deckbuilding_background.png"),
 }
+
+gFont_list = {
+    "small": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 8),
+    "default": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 10),
+    "header": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 15),
+    "title": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 20),
+}
