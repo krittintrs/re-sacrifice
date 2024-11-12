@@ -29,6 +29,9 @@ class SpriteManager:
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Walk.json",
                 "./spritesheet/Summon/ghost/ghost.json",
                 "./spritesheet/Summon/ghost/ghost_summon.json",
+                "./spritesheet/Effect/trap_idle.json",
+                "./spritesheet/Effect/trap_attack.json",
+                "./spritesheet/Effect/trap_summon.json",
             ]
         )
         self.spriteCollection["card_conf"] = self.loadCardConf("./cards/cards_corrected.json")

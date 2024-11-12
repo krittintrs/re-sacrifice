@@ -167,6 +167,12 @@ class SelectAttackState(BaseState):
                             defender.print_stats()
                         elif attacking_field.second_entity:
                             if attacking_field.second_entity.side != self.effectOwner:
+                                if self.effectOwner == PlayerType.PLAYER:
+                                    self.player.ChangeAnimation("multi_attack")
+                                    attacker = self.player
+                                elif self.effectOwner == PlayerType.ENEMY:
+                                    self.enemy.ChangeAnimation("attack")
+                                    attacker = self.enemy
                                 attacking_field.second_entity.take_damage(attacker.attack)
                         else:
                             print("no entity on the targeted tile")

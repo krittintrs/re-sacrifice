@@ -1,0 +1,81 @@
+{
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/Effect/explosion.png",
+  "animations": {
+    "trapAttack": {
+      "loop": "False",
+      "offset_x":-70,
+      "offset_y":-155,
+      "sprites": [
+    {
+      "fileName": "trap_Attack1",
+      "width": 50,
+      "height": 60,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "fileName": "trap_Attack2",
+      "width": 50,
+      "height": 60,
+      "x": 50,
+      "y": 0
+    },
+    {
+      "fileName": "trap_Attack3",
+      "width": 50,
+      "height": 60,
+      "x": 100,
+      "y": 0
+    },
+    {
+      "fileName": "trap_Attack4",
+      "width": 50,
+      "height": 60,
+      "x": 150,
+      "y": 0
+    },
+    {
+      "fileName": "trap_Attack5",
+      "width": 50,
+      "height": 60,
+      "x": 200,
+      "y": 0
+    },
+    {
+      "fileName": "trap_Attack6",
+      "width": 50,
+      "height": 60,
+      "x": 250,
+      "y": 0
+    },
+    {
+      "fileName": "trap_Attack7",
+      "width": 50,
+      "height": 60,
+      "x": 300,
+      "y": 0
+    },
+    {
+      "fileName": "trap_Attack8",
+      "width": 50,
+      "height": 60,
+      "x": 350,
+      "y": 0
+    },
+    {
+      "fileName": "trap_Attack9",
+      "width": 50,
+      "height": 60,
+      "x": 400,
+      "y": 0
+    }
+  ]
+    }
+  },
+  "packMode": "grid",
+  "padding": 0,
+  "backgroundColor": "rgba(0, 0, 0, 0)",
+  "spriteSheetWidth": 400,
+  "spriteSheetHeight": 60
+}

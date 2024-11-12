@@ -1,0 +1,105 @@
+{
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/Effect/trap_summon.png",
+  "animations": {
+    "trapSummon": {
+      "loop": "False",
+      "offset_x":-43,
+      "offset_y":12,
+      "sprites": [
+    {
+      "fileName": "trap_Summon1",
+      "width": 88,
+      "height": 56,
+      "scale":2,
+      "x": 10,
+      "y": 10
+    },
+    {
+      "fileName": "trap_Summon2",
+      "width": 88,
+      "height": 56,
+      "scale":2,
+      "x": 110,
+      "y": 10
+    },
+    {
+      "fileName": "trap_Summon3",
+      "width": 88,
+      "height": 56,
+      "scale":2,
+      "x": 210,
+      "y": 10
+    },
+    {
+      "fileName": "trap_Summon4",
+      "width": 88,
+      "height": 56,
+      "scale":2,
+      "x": 310,
+      "y": 10
+    },
+    {
+      "fileName": "trap_Summon5",
+      "width": 88,
+      "height": 56,
+      "scale":2,
+      "x": 410,
+      "y": 10
+    }
+  ]
+    },
+    "trapDeath": {
+      "loop": "False",
+      "offset_x":-43,
+      "offset_y":12,
+      "sprites": [
+    {
+      "fileName": "trap_Death1",
+      "width": 88,
+      "height": 56,
+      "scale":2,
+      "x": 10,
+      "y": 10
+    },
+    {
+      "fileName": "trap_Death2",
+      "width": 88,
+      "height": 56,
+      "scale":2,
+      "x": 110,
+      "y": 10
+    },
+    {
+      "fileName": "trap_Death3",
+      "width": 88,
+      "height": 56,
+      "scale":2,
+      "x": 210,
+      "y": 10
+    },
+    {
+      "fileName": "trap_Death4",
+      "width": 88,
+      "height": 56,
+      "scale":2,
+      "x": 310,
+      "y": 10
+    },
+    {
+      "fileName": "trap_Death5",
+      "width": 88,
+      "height": 56,
+      "scale":2,
+      "x": 410,
+      "y": 10
+    }
+  ]
+    }
+  },
+  "packMode": "grid",
+  "padding": 0,
+  "backgroundColor": "rgba(0, 0, 0, 0)",
+  "spriteSheetWidth": 500,
+  "spriteSheetHeight": 75
+}
