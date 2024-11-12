@@ -14,6 +14,7 @@ gSounds = {
     "dice_roll": pygame.mixer.Sound("sounds/dice_roll.mp3"),
     "attack": pygame.mixer.Sound("sounds/attack.wav"),
     "block": pygame.mixer.Sound("sounds/block.wav"),
+    "draw_card": pygame.mixer.Sound("sounds/draw_card.mp3"),
 }
 
 gBGM = {

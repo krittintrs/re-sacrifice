@@ -27,6 +27,8 @@ class BattleEndState(BaseState):
         for tile in self.field:
             if tile.second_entity:
                 tile.second_entity.bot_action(self.field)
+
+        self.waiting_for_sound = False
         
     def next_turn(self):
         # Change turn owner
@@ -46,8 +48,6 @@ class BattleEndState(BaseState):
                 if tile.second_entity.next_turn():
                     tile.second_entity.ChangeAnimation('death')
                     tile.remove_second_entity()
-
-
 
     def Exit(self):
         pass
@@ -74,19 +74,12 @@ class BattleEndState(BaseState):
                     sys.exit()
                 if event.key == pygame.K_SPACE:
                     pass
-                if event.key == pygame.K_RETURN:
+                if event.key == pygame.K_RETURN and not self.waiting_for_sound:
                     self.resolve_dot_damage(self.player)
                     self.resolve_dot_damage(self.enemy)
                     if self.player.health > 0 and self.enemy.health > 0:
-                        self.next_turn()
-                        self.params['battleSystem'] = {
-                            'player': self.player,
-                            'enemy': self.enemy,
-                            'field': self.field,
-                            'turn': self.turn,
-                            'currentTurnOwner': self.currentTurnOwner
-                        }
-                        g_state_manager.Change(BattleState.INITIAL_PHASE, self.params)
+                        gSounds['draw_card'].play()
+                        self.waiting_for_sound = True
                     else:
                         if self.player.health <= 0:
                             self.winner = PlayerType.ENEMY
@@ -102,6 +95,16 @@ class BattleEndState(BaseState):
                         }
                         g_state_manager.Change(BattleState.FINISH_PHASE, self.params)
                     
+        if self.waiting_for_sound and not pygame.mixer.get_busy():
+            self.next_turn()
+            self.params['battleSystem'] = {
+                'player': self.player,
+                'enemy': self.enemy,
+                'field': self.field,
+                'turn': self.turn,
+                'currentTurnOwner': self.currentTurnOwner
+            }
+            g_state_manager.Change(BattleState.INITIAL_PHASE, self.params)
 
         # Update buff
         for buff in self.player.buffs:
