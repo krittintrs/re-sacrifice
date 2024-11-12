@@ -246,16 +246,16 @@ class DeckBuildingState(BaseState):
                     sys.exit()
                 elif event.key == pygame.K_d:
                     self.deckIndex = 0
-                    self.player.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)
+                    self.player.deck.read_conf(DECK_DEFS["default"])
                 elif event.key == pygame.K_w:
                     self.deckIndex = 0
-                    self.player.deck.read_conf(DECK_DEFS["warrior"], CARD_DEFS)
+                    self.player.deck.read_conf(DECK_DEFS["warrior"])
                 elif event.key == pygame.K_r:
                     self.deckIndex = 0
-                    self.player.deck.read_conf(DECK_DEFS["ranger"], CARD_DEFS)
+                    self.player.deck.read_conf(DECK_DEFS["ranger"])
                 elif event.key == pygame.K_m:
                     self.deckIndex = 0
-                    self.player.deck.read_conf(DECK_DEFS["mage"], CARD_DEFS)
+                    self.player.deck.read_conf(DECK_DEFS["mage"])
 
                 elif event.key == pygame.K_RETURN:
                     if self.player.deck.isCardMinimumReach():

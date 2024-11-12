@@ -2,18 +2,20 @@ import copy
 import random
 import pygame
 from src.battleSystem.Card import Card
+from src.dependency import *
 
 class Deck:
     def __init__(self):
         self.card_deck = []
         self.discard_pile = []
+        self.inventory = []
 
-    def read_conf(self,deck_conf, card_conf):
+    def read_conf(self, conf = DECK_DEFS["default"]):
         self.card_deck = []
-        for card_info in deck_conf.card_dict:
+        for card_info in conf.card_dict:
             for i in range(card_info["quantity"]):
                 card = Card()
-                card.read_conf(card_conf[card_info["name"]])
+                card.read_conf(CARD_DEFS[card_info["name"]])
                 self.card_deck.append(card)
 
     

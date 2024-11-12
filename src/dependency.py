@@ -2,6 +2,8 @@ import pygame
 from src.constants import *
 from src.resources import *
 from src.battleSystem.buff_def import *
+from src.battleSystem.card_defs import *
+from src.battleSystem.deck_defs import *
 from src.battleSystem.battleEntity.sub_entity_defs import SUB_ENTITY
 from src.EnumResources import *
 
