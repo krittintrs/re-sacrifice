@@ -29,6 +29,7 @@ class SpriteManager:
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Walk.json",
                 "./spritesheet/background/clock.json",
                 "./spritesheet/background/dice.json",
+                "./spritesheet/background/field.json",
             ]
         )
         self.spriteCollection["card_conf"] = self.loadCardConf("./cards/cards_corrected.json")

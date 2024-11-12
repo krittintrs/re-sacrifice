@@ -159,22 +159,7 @@ class SelectPushState(BaseState):
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
         RenderDescription(screen, f"Current Action: {self.effect.type}", f"Owner: {self.effectOwner.value}")
-
-        # Render field
-        for fieldTile in self.field:               
-            # Render the range of the attack
-
-            if fieldTile.index in set(self.availablePushTile):
-                fieldTile.color = (255,0,0)
-            else:
-                fieldTile.color = (0,0,0)
-            if self.selectPushTile>=0:
-                if fieldTile.index == self.availablePushTile[self.selectPushTile]:
-                    fieldTile.color = (255,0,255)
-                    fieldTile.solid = 0
-                
-            fieldTile.render(screen)
-            fieldTile.color = (0,0,0)
-            fieldTile.solid = 1
+        RenderFieldSelection(screen, self.field, self.availablePushTile, self.selectPushTile, self.effectOwner)
+        
 
         

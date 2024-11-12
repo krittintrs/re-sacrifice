@@ -99,6 +99,14 @@ gDice_image_list = {
     "dice_roll_6": sprite_collection["dice_roll_6"].image,
 }
 
+gField_image_list = {
+    "normal": sprite_collection["field_normal"].image,
+    "player_available": sprite_collection["field_player_available"].image,
+    "player_current": sprite_collection["field_player_current"].image,
+    "enemy_available": sprite_collection["field_enemy_available"].image,
+    "enemy_current": sprite_collection["field_enemy_current"].image,
+}
+
 gFont_list = {
     "small": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 8),
     "default": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 10),

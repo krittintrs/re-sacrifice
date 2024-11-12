@@ -24,8 +24,8 @@ class RPGState(Enum):
     TAVERN = "tavern"
 
 class PlayerType(Enum):
-    PLAYER = "Player"
-    ENEMY = "Enemy"
+    PLAYER = "player"
+    ENEMY = "enemy"
 
 class PlayerClass(Enum):
     WARRIOR = "Warrior"
