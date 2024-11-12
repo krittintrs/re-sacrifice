@@ -54,6 +54,31 @@ class Deck:
             return False
         else:
             return True
+    
+    
+    # Inventory methods
+    def addCardInventory(self, card: Card):
+        self.inventory.append(card)
+
+    def removeCardInventory(self, card: Card):
+        if card in self.inventory:
+            self.inventory.remove(card)
+        else:
+            print("Card is not in inventory")
+
+    def readInventoryConf(self, conf = DECK_DEFS["default_inventory"]):
+        """
+        Note that it read from the source as deck (DECK_DEFS)
+        """
+        self.inventory = []
+        for card_info in conf.card_dict:
+            for i in range(card_info["quantity"]):
+                card = Card()
+                card.read_conf(CARD_DEFS[card_info["name"]])
+                self.inventory.append(card)
+
+    
+
 
     def render(self, screen):
         # Draw the deck

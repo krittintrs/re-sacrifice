@@ -83,12 +83,6 @@ class DeckBuildingState(BaseState):
         self.availableCardScale = 0.5
 
         self.scroll_speed = 1
-
-        # TODO: mock inventory card
-        for card_def in CARD_DEFS.values():
-            card = Card()
-            card.read_conf(card_def)
-            self.inventory.append(card)
         
 
     def Enter(self, params):
@@ -101,8 +95,13 @@ class DeckBuildingState(BaseState):
         else:
             self.player = battle_param['enemy']
             self.enemy = battle_param['player']
-
+        # if the inventory is empty give the default inventory to player
+        if len(self.player.deck.inventory) == 0:
+            self.player.deck.readInventoryConf(DECK_DEFS["default_inventory"])
+            
+        self.inventory = self.player.deck.inventory
         self.availableCard = self.inventory
+
 
     def Exit(self):
         pass
