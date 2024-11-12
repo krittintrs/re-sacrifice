@@ -4,6 +4,8 @@
   "animations": {
     "normalGoblinAttack": {
       "loop": "False",
+      "offset_x":-185,
+      "offset_y":-185,
       "sprites": [
         {
           "fileName": "normalGob_Attack1",
