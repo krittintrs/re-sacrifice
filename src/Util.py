@@ -219,7 +219,7 @@ class SpriteSheet:
             print("Unable to load spritesheet image:", filename)
             raise SystemExit
         except Exception as error:
-            print("REMINDER: The sprite sheet url is not assigned to card yet", filename)
+            print("REMINDER: The sprite sheet url is not assigned to", filename, "yet")
 
     def image_at(self, x, y, scalingfactor, colorkey=None, xTileSize=16, yTileSize=16):
         rect = pygame.Rect((x, y, xTileSize, yTileSize))
