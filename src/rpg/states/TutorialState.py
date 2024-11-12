@@ -29,12 +29,20 @@ class TutorialState:
         })
         self.player.ChangeState('idle')  # Start in idle state
         
-        self.params = {'rpg' : {"rpg_player" : self.player,"class": None, "quests":{},"story_checkpoint" : {} ,'Money': None, 'Inventory': {'Health Potion':1,'Mana Potion':1}}, 
-                       'card' : {}}
-        # Todo: add stater deck params
-        
-        
-         # Load tutorial images or placeholders for instructions and cutscenes
+        self.params = {
+            "rpg": {
+                "rpg_player": self.player,
+                "class": None,
+                "quests": {},
+                "story_checkpoint": {},
+                "money": 0,
+                "inventory": {"Health Potion": 1, "Mana Potion": 1},
+            },
+            # Todo: add stater deck params
+            "battleSystem": {},
+        }
+
+        # Load tutorial images or placeholders for instructions and cutscenes
         self.movement_image = pygame.image.load("src/rpg/sprite/Tutorial/images.png")
         self.movement_image = pygame.transform.scale(self.movement_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.battle_image = pygame.image.load("src/rpg/sprite/Tutorial/images (1).png")

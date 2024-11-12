@@ -92,14 +92,15 @@ class DeckBuildingState(BaseState):
         
 
     def Enter(self, params):
-        self.edit_player_deck = params['edit_player_deck']
+        self.params = params
+        battle_param = self.params['battleSystem']
+        self.edit_player_deck = battle_param['edit_player_deck']
         if self.edit_player_deck:
-            self.player = params['player']
-            self.enemy = params['enemy']
+            self.player = battle_param['player']
+            self.enemy = battle_param['enemy']
         else:
-            self.player = params['enemy']
-            self.enemy = params['player']
-
+            self.player = battle_param['enemy']
+            self.enemy = battle_param['player']
 
         self.availableCard = self.inventory
 
@@ -259,19 +260,19 @@ class DeckBuildingState(BaseState):
                 elif event.key == pygame.K_RETURN:
                     if self.player.deck.isCardMinimumReach():
                         if self.edit_player_deck:
-                            g_state_manager.Change(BattleState.PREPARATION_PHASE, {
+                            self.params['battleSystem'] = {
                                 'player': self.player,
                                 'enemy': self.enemy
-                            })
+                            }
+                            g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
                         else:
-                            g_state_manager.Change(BattleState.PREPARATION_PHASE, {
+                            self.params['battleSystem'] = {
                                 'player': self.enemy,
                                 'enemy': self.player
-                            })
+                            }
+                            g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
                     else:
                         print("Player deck must have at least 20 cards")
-
-            
 
     def render(self, screen):
         RenderBackground(screen, BackgroundState.DECK_BUILDING)

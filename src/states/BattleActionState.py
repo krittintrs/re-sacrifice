@@ -12,21 +12,14 @@ class BattleActionState(BaseState):
         self.effectOrder = {"before": [], "main": [], "after":[]}
 
     def Enter(self, params):
-        """
-        params:
-            - player = Player() : player entity
-            - enemy = Enemy() : enemy entity
-            - field = list[fieldTile] : list of fieldTile objects (each fieldTile is one squre)
-            - turn = int : current turn
-            - currentTurnOwner = TurnOwner : current turn owner
-        """
-
         print("\n>>>>>> Enter BattleActionState <<<<<<")
-        self.player = params['player']
-        self.enemy = params['enemy']
-        self.field = params['field']
-        self.turn = params['turn']
-        self.currentTurnOwner = params['currentTurnOwner']  
+        self.params = params
+        battle_param = self.params['battleSystem']
+        self.player = battle_param['player']
+        self.enemy = battle_param['enemy']
+        self.field = battle_param['field']
+        self.turn = battle_param['turn']
+        self.currentTurnOwner = battle_param['currentTurnOwner']  
 
         # player
         player_selected_card = self.player.selectedCard
@@ -65,14 +58,15 @@ class BattleActionState(BaseState):
                     if self.effectOrder["main"]:
                         for effectDetail in self.effectOrder["main"]:
                             print(effectDetail[0].type)
-                    g_state_manager.Change(BattleState.RESOLVE_PHASE, {
+                    self.params['battleSystem'] = {
                         'player': self.player,
                         'enemy': self.enemy,
                         'field': self.field,
                         'turn': self.turn,
                         'currentTurnOwner': self.currentTurnOwner,
                         'effectOrder': self.effectOrder,
-                    })
+                    }
+                    g_state_manager.Change(BattleState.RESOLVE_PHASE, self.params)
 
         # Update buff
         for buff in self.player.buffs:

@@ -97,6 +97,10 @@ class TownState:
         }
         self.generate_buildings()  # Add buildings with invisible walls
         self.topics = {}
+
+        # TODO: flag for check if enter the battle
+        self.enter_battle = False
+
     def Enter(self, enter_params):
         self.params = enter_params
         self.player = enter_params['rpg']['rpg_player']
@@ -314,12 +318,15 @@ class TownState:
         
         if self.current_npc:
             if self.current_npc.name == "Jim":
-                if self.current_npc.choice == 1:
-                    # TODO: add parameters to the change function
-                    g_state_manager.Change(BattleState.PREPARATION_PHASE, {
+                # TODO: enter battle when chat with Jim
+                if self.current_npc.choice == 1 and not self.enter_battle:
+                    self.enter_battle = True
+                    self.params['battleSystem'] = {
                         'player': None,
                         'enemy': None
-                    })
+                    }
+                    g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
+
             #Mira Jarek quest
             if self.current_npc.name == "Mira":
                 if self.current_npc.choice == 0:

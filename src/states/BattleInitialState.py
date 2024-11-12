@@ -15,12 +15,13 @@ class BattleInitialState(BaseState):
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleInitialState <<<<<<")
-
-        self.player = params['player']
-        self.enemy = params['enemy']
-        self.field = params['field']
-        self.turn = params['turn']
-        self.currentTurnOwner = params['currentTurnOwner']  
+        self.params = params
+        battle_param = self.params['battleSystem']
+        self.player = battle_param['player']
+        self.enemy = battle_param['enemy']
+        self.field = battle_param['field']
+        self.turn = battle_param['turn']
+        self.currentTurnOwner = battle_param['currentTurnOwner']  
 
         # For setting up the initial position at the start of each battle
         self.player.move_to(self.field[self.player.fieldTile_index], self.field)
@@ -58,13 +59,14 @@ class BattleInitialState(BaseState):
                     self.roll_dice()
                     self.roll = True
                 elif event.key == pygame.K_RETURN and self.roll == True:
-                    g_state_manager.Change(BattleState.SELECTION_PHASE, {
+                    self.params['battleSystem'] = {
                         'player': self.player,
                         'enemy': self.enemy,
                         'field': self.field,
                         'turn': self.turn,
                         'currentTurnOwner': self.currentTurnOwner
-                    })
+                    }
+                    g_state_manager.Change(BattleState.SELECTION_PHASE, self.params)
         
         if self.currentTurnOwner == PlayerType.ENEMY and self.roll == False:
             self.roll_dice()

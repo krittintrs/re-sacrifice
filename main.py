@@ -86,10 +86,13 @@ class GameMain:
                         elif event.key == pygame.K_b:
                             # Change to Battle state and set initial battle phase in state manager
                             self.state = "battle"
-                            g_state_manager.Change(BattleState.PREPARATION_PHASE, {
-                                'player': None,
-                                'enemy': None
-                            })
+                            params = {
+                                'battleSystem': {
+                                    'player': None,
+                                    'enemy': None
+                                }
+                            }
+                            g_state_manager.Change(BattleState.PREPARATION_PHASE, params)
 
             # Battle state
             elif self.state == "battle":

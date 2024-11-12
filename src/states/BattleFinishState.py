@@ -12,12 +12,14 @@ class BattleFinishState(BaseState):
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleFinishState <<<<<<")
-        self.player = params['player']
-        self.enemy = params['enemy']
-        self.field = params['field']
-        self.turn = params['turn']
-        self.currentTurnOwner = params['currentTurnOwner']  
-        self.winner = params['winner']  
+        self.params = params
+        battle_param = self.params['battleSystem']
+        self.player = battle_param['player']
+        self.enemy = battle_param['enemy']
+        self.field = battle_param['field']
+        self.turn = battle_param['turn']
+        self.currentTurnOwner = battle_param['currentTurnOwner']  
+        self.winner = battle_param['winner']  
 
     def Exit(self):
         pass
@@ -32,8 +34,10 @@ class BattleFinishState(BaseState):
                     pygame.quit()
                     sys.exit()
                 if event.key == pygame.K_RETURN:
-                    # TODO: Change to RPG 
-                    pass
+                    # TODO: entering RPG
+                    if self.winner == PlayerType.PLAYER:
+                        self.params['rpg']['money'] += 100
+                    g_state_manager.Change(RPGState.TOWN, self.params)
 
         # Update buff
         for buff in self.player.buffs:

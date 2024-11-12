@@ -12,11 +12,13 @@ class BattleEndState(BaseState):
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleEndState <<<<<<")
-        self.player = params['player']
-        self.enemy = params['enemy']
-        self.field = params['field']
-        self.turn = params['turn']
-        self.currentTurnOwner = params['currentTurnOwner']  
+        self.params = params
+        battle_param = self.params['battleSystem']
+        self.player = battle_param['player']
+        self.enemy = battle_param['enemy']
+        self.field = battle_param['field']
+        self.turn = battle_param['turn']
+        self.currentTurnOwner = battle_param['currentTurnOwner']  
 
         self.player.remove_selected_card()
         self.enemy.remove_selected_card()
@@ -77,26 +79,28 @@ class BattleEndState(BaseState):
                     self.resolve_dot_damage(self.enemy)
                     if self.player.health > 0 and self.enemy.health > 0:
                         self.next_turn()
-                        g_state_manager.Change(BattleState.INITIAL_PHASE, {
+                        self.params['battleSystem'] = {
                             'player': self.player,
                             'enemy': self.enemy,
                             'field': self.field,
                             'turn': self.turn,
                             'currentTurnOwner': self.currentTurnOwner
-                        })
+                        }
+                        g_state_manager.Change(BattleState.INITIAL_PHASE, self.params)
                     else:
                         if self.player.health <= 0:
                             self.winner = PlayerType.ENEMY
                         elif self.enemy.health <= 0:
                             self.winner = PlayerType.PLAYER
-                        g_state_manager.Change(BattleState.FINISH_PHASE, {
+                        self.params['battleSystem'] = {
                             'player': self.player,
                             'enemy': self.enemy,
                             'field': self.field,
                             'turn': self.turn,
                             'currentTurnOwner': self.currentTurnOwner,
                             'winner': self.winner
-                        })
+                        }
+                        g_state_manager.Change(BattleState.FINISH_PHASE, self.params)
                     
 
         # Update buff
