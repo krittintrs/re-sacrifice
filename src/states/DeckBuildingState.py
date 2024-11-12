@@ -1,7 +1,9 @@
+from src.battleSystem.Card import Card
 from src.battleSystem.Deck import Deck
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
+from src.Render import *
 import pygame
 import sys
 
@@ -17,44 +19,75 @@ class DeckBuildingState(BaseState):
         self.cardPerRow = 8
         self.availableCardSpacing = 10
         self.deckSpacing = 5
-        self.selectedCardSpacing = 20
+        self.selectedCardSpacing = 25
         self.availableCardWindow = 0
         self.isMouseOn = False
-        self.cardClass = CardClass #[CardClass.COMMON, CardClass.WARRIOR, CardClass.RANGER, CardClass.MAGE]
-        self.cardEffect = [EffectType.ATTACK, EffectType.MOVE, EffectType.SELF_BUFF, EffectType.RANGE_BUFF, EffectType.PULL, EffectType.PUSH, EffectType.DEBUFF, EffectType.BUFF, EffectType.CLEANSE, EffectType.HEAL, EffectType.DISCARD]
+        self.cardClass = list(CardClass)
+        self.cardEffect = [EffectType.ATTACK, EffectType.MOVE, EffectType.SELF_BUFF, EffectType.OPPO_BUFF, EffectType.PULL, EffectType.PUSH, EffectType.CLEANSE]
         
         self.leftBorder = SCREEN_WIDTH * 0.25
         self.topBorder = SCREEN_HEIGHT * 0.2
         self.rightBorder = SCREEN_WIDTH * 0.75
 
-        self.leftPanel = pygame.Rect((0,0, self.leftBorder, SCREEN_HEIGHT))
-        self.topPanel = pygame.Rect((self.leftBorder,0, self.rightBorder, self.topBorder))
-        self.middlePanel = pygame.Rect((self.leftBorder, self.topBorder, SCREEN_WIDTH*0.5, SCREEN_HEIGHT*0.8))
-        self.rightPanel = pygame.Rect((self.rightBorder, self.topBorder, self.leftBorder, SCREEN_HEIGHT*0.8))
+        self.leftPanelX = DECK_OFFSET
+        self.leftPanelY = DECK_OFFSET
+        self.leftPanelWidth = self.leftBorder - DECK_OFFSET*2
+        self.leftPanelHeight = SCREEN_HEIGHT - DECK_OFFSET*2
+
+        self.topPanelX = self.leftBorder + DECK_OFFSET
+        self.topPanelY = DECK_OFFSET
+        self.topPanelWidth = self.rightBorder - DECK_OFFSET*2
+        self.topPanelHeight = self.topBorder - DECK_OFFSET*2
+
+        self.middlePanelX = self.topPanelX
+        self.middlePanelY = self.topBorder + DECK_OFFSET
+        self.middlePanelWidth = SCREEN_WIDTH*0.5 - DECK_OFFSET*2
+        self.middlePanelHeight = SCREEN_HEIGHT*0.8 - DECK_OFFSET*2
+
+        self.rightPanelX = self.rightBorder + DECK_OFFSET
+        self.rightPanelY = self.middlePanelY
+        self.rightPanelWidth = self.leftBorder - DECK_OFFSET*2
+        self.rightPanelHeight = self.middlePanelHeight
+
+        self.leftPanel = pygame.Rect((
+            self.leftPanelX, self.leftPanelY, self.leftPanelWidth, self.leftPanelHeight
+        ))
+        self.topPanel = pygame.Rect((
+            self.topPanelX, self.topPanelY, self.topPanelWidth, self.topPanelHeight
+        ))
+        print(self.topPanelX, self.topPanelY, self.topPanelWidth, self.topPanelHeight)
+        self.middlePanel = pygame.Rect((
+            self.middlePanelX, self.middlePanelY, self.middlePanelWidth, self.middlePanelHeight
+        ))
+        self.rightPanel = pygame.Rect((
+            self.rightPanelX, self.rightPanelY, self.rightPanelWidth, self.rightPanelHeight
+        ))
 
         self.effectButton = []
         for idx, effect in enumerate(self.cardEffect):
-            button = Button(self.rightBorder  +73*(idx%4), self.topBorder - 105 + 28*(idx//4), 70, 25,(150,150,150), (100,200,100), (100,100,50), effect.value, 15)
+            button = Button(self.rightPanelX - 60 + (BUTTON_WIDTH+3)*(idx%4), self.topPanelY + BUTTON_UPPER_OFFSET + 28*(idx//4), BUTTON_WIDTH, BUTTON_HEIGHT, effect.value)
             self.effectButton.append(button)
 
         self.classButton = []
         for idx, class_ in enumerate(self.cardClass):
-            button = Button(self.leftBorder+10 +83*idx, self.topBorder - 115, 80, 25,(150,150,150), (100,200,100), (100,100,50), class_.value, 20)
+            button = Button(self.topPanelX+10 + (BUTTON_WIDTH+3)*idx, self.topPanelY + BUTTON_UPPER_OFFSET, BUTTON_WIDTH, BUTTON_HEIGHT, class_.value)
             self.classButton.append(button)
 
         self.typeButton = []
         for idx, type in enumerate(CardType):
-            button = Button(self.leftBorder+10 +83*idx, self.topBorder - 60, 80, 25,(150,150,150), (100,200,100), (100,100,50), type.value, 20)
+            button = Button(self.topPanelX+10 + (BUTTON_WIDTH+3)*idx, self.topPanelY + BUTTON_LOWER_OFFSET, BUTTON_WIDTH, BUTTON_HEIGHT, type.value)
             self.typeButton.append(button)
 
-        self.sortButton = Button(self.leftBorder + 100, self.topBorder - 30 , 80, 25,(150,150,150), (100,200,100), (100,100,50), "sort", 20)
+        self.sortButton = Button(self.topPanelX+10, self.topPanelY + BUTTON_LOWER_OFFSET + BUTTON_HEIGHT + 5, BUTTON_WIDTH, BUTTON_HEIGHT, "sort")
 
-        self.deckScale = (self.rightBorder - self.leftBorder)/((CARD_WIDTH + self.deckSpacing*3)*self.cardPerRow)
         self.availableCardScale = 0.5
 
         self.scroll_speed = 1
-        # mock inventory card
-        for card in card_dict.values():
+
+        # TODO: mock inventory card
+        for card_def in CARD_DEFS.values():
+            card = Card()
+            card.read_conf(card_def)
             self.inventory.append(card)
         
 
@@ -84,7 +117,7 @@ class DeckBuildingState(BaseState):
             # get a set of card effect type
             card_effect = set()
             for effect in (card.beforeEffect + card.mainEffect + card.afterEffect):
-                card_effect.add(effect.type)
+                card_effect.add(effect.type.value)
 
             # check condition
             effect_flag = effects.issubset(card_effect)
@@ -111,7 +144,7 @@ class DeckBuildingState(BaseState):
             # deck
             if self.middlePanel.collidepoint(mouse_pos):
                 for idx in range(0,len(self.player.deck.card_deck)):
-                    rect = pygame.Rect((self.leftBorder + self.deckSpacing + (CARD_WIDTH*self.deckScale + self.deckSpacing)*(idx%self.cardPerRow), self.topBorder + self.deckSpacing + (CARD_HEIGHT*self.deckScale + self.deckSpacing)*(idx//self.cardPerRow),int(CARD_WIDTH * self.deckScale), int(CARD_HEIGHT * self.deckScale)))
+                    rect = pygame.Rect((self.middlePanelX + self.deckSpacing + (CARD_WIDTH*self.deckScale + self.deckSpacing)*(idx%self.cardPerRow), self.topBorder + self.deckSpacing + (CARD_HEIGHT*self.deckScale + self.deckSpacing)*(idx//self.cardPerRow),int(CARD_WIDTH * self.deckScale), int(CARD_HEIGHT * self.deckScale)))
                     if rect.collidepoint(mouse_pos):
                         self.isMouseOn = True
                         self.selectDeck = True
@@ -170,9 +203,6 @@ class DeckBuildingState(BaseState):
                     # filter available card
                     self.availableCard = self.filter(types,classes,effects).copy()
 
-                    
-
-
                     #click card on deck
                     if self.isMouseOn and self.selectDeck:
                         if len(self.player.deck.card_deck)!=0:
@@ -201,11 +231,6 @@ class DeckBuildingState(BaseState):
                         self.sort_card(self.player.deck.card_deck)
                         self.sort_card(self.inventory)
                         self.availableCardWindow = 0
-
-
-                    
-
-
 
             if event.type == pygame.MOUSEWHEEL and self.rightPanel.collidepoint(mouse_pos):
                 self.availableCardWindow -= event.y * self.scroll_speed
@@ -249,70 +274,63 @@ class DeckBuildingState(BaseState):
             
 
     def render(self, screen):
-        screen.fill((255,255,255))
-
-        # layout
+        RenderBackground(screen, BackgroundState.DECK_BUILDING)
         
-        pygame.draw.rect(screen, (255,255,0), self.leftPanel, 5)
-        pygame.draw.rect(screen, (255,0,0), self.topPanel, 5)
-        pygame.draw.rect(screen, (0,255,0), self.middlePanel , 5)
-        pygame.draw.rect(screen, (0,0,255), self.rightPanel, 5)
+        # pygame.draw.rect(screen, (255,255,0), self.leftPanel, 1)
+        # pygame.draw.rect(screen, (255,0,0), self.topPanel, 1)
+        # pygame.draw.rect(screen, (0,255,0), self.middlePanel , 1)
+        # pygame.draw.rect(screen, (0,0,255), self.rightPanel, 1)
 
         # render deck
-        self.deckScale = (SCREEN_WIDTH*0.5)/((CARD_WIDTH + self.deckSpacing*3)*self.cardPerRow)
+        self.deckScale = self.middlePanelWidth/((CARD_WIDTH + self.deckSpacing*3)*self.cardPerRow)
         for idx, card in enumerate(self.player.deck.card_deck):
             scaled_image = pygame.transform.scale(card.image, (int(CARD_WIDTH * self.deckScale), int(CARD_HEIGHT * self.deckScale)))
-            screen.blit(scaled_image, (self.leftBorder + self.deckSpacing + (CARD_WIDTH*self.deckScale + self.deckSpacing)*(idx%self.cardPerRow), self.topBorder + self.deckSpacing + (CARD_HEIGHT*self.deckScale + self.deckSpacing)*(idx//self.cardPerRow)))
+            screen.blit(scaled_image, (self.middlePanelX + self.deckSpacing + (CARD_WIDTH*self.deckScale + self.deckSpacing)*(idx%self.cardPerRow), self.middlePanelY + self.deckSpacing + (CARD_HEIGHT*self.deckScale + self.deckSpacing)*(idx//self.cardPerRow)))
         
         # render available cards
         self.availableCardScale = 0.5
         for idx, card in enumerate(self.availableCard):
             if idx in range(self.availableCardWindow, self.availableCardWindow + 4):
                 scaled_image = pygame.transform.scale(card.image, (int(CARD_WIDTH * self.availableCardScale), int(CARD_HEIGHT * self.availableCardScale)))
-                screen.blit(scaled_image, (self.rightBorder + self.availableCardSpacing, self.topBorder + self.availableCardSpacing + self.topBorder*(idx-self.availableCardWindow)))
-                screen.blit(pygame.font.Font(None, 20).render( card.name, True, (0,0,0)),(self.rightBorder + self.availableCardSpacing + 120, self.topBorder +10+ self.availableCardSpacing + self.topBorder*(idx-self.availableCardWindow)))
-                screen.blit(pygame.font.Font(None, 17).render( card.type, True, (0,0,0)),(self.rightBorder + self.availableCardSpacing + 120, self.topBorder +40+ self.availableCardSpacing + self.topBorder*(idx-self.availableCardWindow)))
-                screen.blit(pygame.font.Font(None, 15).render( "ATK: "+str(card.attack)+" DEF: "+str(card.defense)+" Range: "+str(card.range_start)+"-"+str(card.range_end)+" SPD: "+str(card.speed), True, (0,0,0)),(self.rightBorder + self.availableCardSpacing + 120, self.topBorder +70+ self.availableCardSpacing + self.topBorder*(idx-self.availableCardWindow)))
+                screen.blit(scaled_image, (self.rightPanelX + self.availableCardSpacing, self.rightPanelY + self.availableCardSpacing + self.rightPanelY*(idx-self.availableCardWindow)))
+                screen.blit(gFont_list["default"].render( card.name, True, (0,0,0)),(self.rightPanelX + self.availableCardSpacing + 110, self.rightPanelY +10+ self.availableCardSpacing + self.rightPanelY*(idx-self.availableCardWindow)))
+                screen.blit(gFont_list["small"].render( card.type, True, (0,0,0)),(self.rightPanelX + self.availableCardSpacing + 110, self.rightPanelY +40+ self.availableCardSpacing + self.rightPanelY*(idx-self.availableCardWindow)))
+                screen.blit(gFont_list["small"].render( "ATK: "+str(card.attack)+" DEF: "+str(card.defense)+" Range: "+str(card.range_start)+"-"+str(card.range_end)+" SPD: "+str(card.speed), True, (0,0,0)),(self.rightPanelX + self.availableCardSpacing + 110, self.rightPanelY +70+ self.availableCardSpacing + self.rightPanelY*(idx-self.availableCardWindow)))
+        
         # render selected card detail
         if self.selectDeck and len(self.player.deck.card_deck) !=0 and self.deckIndex < len(self.player.deck.card_deck):
             card = self.player.deck.card_deck[self.deckIndex]
             screen.blit(card.image, (self.selectedCardSpacing, self.selectedCardSpacing))
-            screen.blit(pygame.font.Font(None, 36).render(card.name, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 10))
-            screen.blit(pygame.font.Font(None, 24).render("damage : " + str(card.attack), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 50))
-            screen.blit(pygame.font.Font(None, 24).render("range : " + str(card.range_end), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 80))
-            screen.blit(pygame.font.Font(None, 24).render("defend : " + str(card.defense), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 110))
-            screen.blit(pygame.font.Font(None, 24).render("speed : " + str(card.speed), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 140))
-            screen.blit(pygame.font.Font(None, 24).render("description : " + card.description, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 170))
+            screen.blit(gFont_list["title"].render(card.name, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 10))
+            screen.blit(gFont_list["header"].render("damage : " + str(card.attack), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 50))
+            screen.blit(gFont_list["header"].render("range : " + str(card.range_end), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 80))
+            screen.blit(gFont_list["header"].render("defend : " + str(card.defense), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 110))
+            screen.blit(gFont_list["header"].render("speed : " + str(card.speed), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 140))
+            screen.blit(gFont_list["header"].render("description : " + card.description, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 170))
     
         elif not self.selectDeck and len(self.availableCard)!=0 and self.availableCardIndex < len(self.availableCard):
             card = self.availableCard[self.availableCardIndex]
             screen.blit(card.image, (self.selectedCardSpacing, self.selectedCardSpacing))
-            screen.blit(pygame.font.Font(None, 36).render(card.name, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 10))
-            screen.blit(pygame.font.Font(None, 24).render("damage : " + str(card.attack), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 50))
-            screen.blit(pygame.font.Font(None, 24).render("range : " + str(card.range_end), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 80))
-            screen.blit(pygame.font.Font(None, 24).render("defend : " + str(card.defense), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 110))
-            screen.blit(pygame.font.Font(None, 24).render("speed : " + str(card.speed), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 140))
-            screen.blit(pygame.font.Font(None, 24).render("description : " + card.description, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 170))
-    
+            screen.blit(gFont_list["title"].render(card.name, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 10))
+            screen.blit(gFont_list["header"].render("damage : " + str(card.attack), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 50))
+            screen.blit(gFont_list["header"].render("range : " + str(card.range_end), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 80))
+            screen.blit(gFont_list["header"].render("defend : " + str(card.defense), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 110))
+            screen.blit(gFont_list["header"].render("speed : " + str(card.speed), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 140))
+            screen.blit(gFont_list["header"].render("description : " + card.description, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 170))
 
-       
-        
-        
         # render highlight for selection        
         if self.selectDeck:
-            pygame.draw.rect(screen, (255,255,0), (self.leftBorder + self.deckSpacing + (CARD_WIDTH*self.deckScale + self.deckSpacing)*(self.deckIndex%self.cardPerRow) ,self.topBorder + self.deckSpacing+ (CARD_HEIGHT*self.deckScale + self.deckSpacing)*(self.deckIndex//self.cardPerRow), CARD_WIDTH*self.deckScale, CARD_HEIGHT*self.deckScale), 3)
+            pygame.draw.rect(screen, (255,255,0), (self.middlePanelX + self.deckSpacing + (CARD_WIDTH*self.deckScale + self.deckSpacing)*(self.deckIndex%self.cardPerRow) , self.middlePanelY + self.deckSpacing+ (CARD_HEIGHT*self.deckScale + self.deckSpacing)*(self.deckIndex//self.cardPerRow), CARD_WIDTH*self.deckScale, CARD_HEIGHT*self.deckScale), 3)
         else:
-            pygame.draw.rect(screen, (255,255,0), (self.rightBorder + self.availableCardSpacing, self.topBorder + self.availableCardSpacing + self.topBorder*((self.availableCardIndex- self.availableCardWindow%4)%4) , CARD_WIDTH* self.availableCardScale, CARD_HEIGHT* self.availableCardScale),3)
-
+            pygame.draw.rect(screen, (255,255,0), (self.rightPanelX + self.availableCardSpacing, self.rightPanelY + self.availableCardSpacing + self.rightPanelY*((self.availableCardIndex- self.availableCardWindow%4)%4) , CARD_WIDTH* self.availableCardScale, CARD_HEIGHT* self.availableCardScale),3)
 
         # render deck and available card information
-        screen.blit(pygame.font.Font(None, 24).render(f"Deck {len(self.player.deck.card_deck)}/30", True, (0,0,0)),(self.rightBorder - 100 , self.topBorder -20))
-        screen.blit(pygame.font.Font(None, 24).render(f"Available Cards {len(self.availableCard)}", True, (0,0,0)),(SCREEN_WIDTH - 160 , self.topBorder -20))
-
+        screen.blit(gFont_list["header"].render(f"Deck {len(self.player.deck.card_deck)}/30", True, (0,0,0)),(self.rightPanelX - 100 , self.middlePanelY -20))
+        screen.blit(gFont_list["header"].render(f"Available Cards {len(self.availableCard)}", True, (0,0,0)),(SCREEN_WIDTH - 160 , self.middlePanelY -20))
 
         # render scroll wheel
         if len(self.availableCard) != 0:
-            scroll_wheel_y = self.topBorder + ((SCREEN_HEIGHT*0.8-60)/len(self.availableCard) * self.availableCardWindow)
+            scroll_wheel_y = self.rightPanelY + ((SCREEN_HEIGHT*0.8-60)/len(self.availableCard) * self.availableCardWindow)
             pygame.draw.rect(screen, (100,100,100), (SCREEN_WIDTH * 0.98, scroll_wheel_y, SCREEN_WIDTH * 0.02, 60))
 
         # render filter button
@@ -326,9 +344,9 @@ class DeckBuildingState(BaseState):
             button.draw(screen)
         
         # render filter description
-        screen.blit(pygame.font.Font(None, 30).render("Card Class", True, (0,0,0)),(self.leftBorder +15, 10))
-        screen.blit(pygame.font.Font(None, 30).render("Card Type", True, (0,0,0)),(self.leftBorder +15, self.topBorder -80))
-        screen.blit(pygame.font.Font(None, 30).render("Effect Type", True, (0,0,0)),(self.rightBorder +80, 10))
+        screen.blit(gFont_list["default"].render("Card Class", True, (0,0,0)),(self.topPanelX + 10, self.topPanelY))
+        screen.blit(gFont_list["default"].render("Card Type", True, (0,0,0)),(self.topPanelX + 10, self.topPanelY + BUTTON_LOWER_OFFSET - 15))
+        screen.blit(gFont_list["default"].render("Effect Type", True, (0,0,0)),(self.rightPanelX - 60, self.topPanelY))
 
         # render sort button
         self.sortButton.draw(screen)
@@ -340,14 +358,14 @@ class DeckBuildingState(BaseState):
 
 
 class Button:
-    def __init__(self, x, y, width, height, color, clicked_color, hover_color, text='', font_size=30):
+    def __init__(self, x, y, width, height, text=''):
         self.rect = pygame.Rect(x, y, width, height)
-        self.color = color
-        self.clicked_color = clicked_color
-        self.hover_color = hover_color
+        self.color = (150, 150, 150)
+        self.clicked_color = (100, 200, 100)
+        self.hover_color = (100, 100, 50)
         self.text = text
         self.isClick = False
-        self.font = pygame.font.Font(None, font_size)
+        self.font = gFont_list["small"]
         self.text_surface = self.font.render(self.text, True, (0,0,0))
         self.text_rect = self.text_surface.get_rect(center=self.rect.center)
         

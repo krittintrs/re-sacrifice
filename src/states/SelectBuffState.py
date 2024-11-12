@@ -2,6 +2,7 @@ from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
 from src.Render import *
+from src.battleSystem.Buff import Buff
 import pygame
 import sys
 
@@ -22,7 +23,7 @@ class SelectBuffState(BaseState):
         self.leftSkip = False
         self.rightSkip = False
 
-        self.avilableBuffTile = []
+        self.availableBuffTile = []
 
         if self.effectOwner == PlayerType.PLAYER:
             self.leftMinTileIndex = self.player.fieldTile_index - self.effect.minRange
@@ -56,17 +57,23 @@ class SelectBuffState(BaseState):
 
         for i in range(self.leftMaxTileIndex, self.leftMinTileIndex+1):
             if not self.leftSkip:
-                self.avilableBuffTile.append(i)
+                self.availableBuffTile.append(i)
         
         for j in range(self.rightMinTileIndex, self.rightMaxTileIndex+1):
             if not self.rightSkip:
-                self.avilableBuffTile.append(j)
+                self.availableBuffTile.append(j)
         
-        self.avilableBuffTile = list( dict.fromkeys(self.avilableBuffTile) )
+        self.availableBuffTile = list( dict.fromkeys(self.availableBuffTile) )
 
         print('\n!!!! SelectBuffState !!!!')
         print(f'Owner: {self.effectOwner}')
         print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
+
+        if self.effectOwner == PlayerType.ENEMY:
+            for index in range(len(self.availableBuffTile)):
+                if self.field[self.availableBuffTile[index]].is_occupied():
+                    if self.field[self.availableBuffTile[index]].entity == self.player:
+                        self.selectBuffTile = index
 
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
@@ -79,6 +86,13 @@ class SelectBuffState(BaseState):
     def Exit(self):
         pass
 
+    def remove_timeout_entity(self):
+        for tile in self.field:
+            if tile.is_second_entity():
+                if tile.second_entity.duration == 0:
+                    print("remove second entity for timeout ", tile.index)
+                    tile.remove_second_entity()
+
     def update(self, dt, events):
         for event in events:
             if event.type == pygame.QUIT:
@@ -90,21 +104,33 @@ class SelectBuffState(BaseState):
                     sys.exit()
                 if event.key == pygame.K_SPACE:
                     pass
-                    if event.key == pygame.K_LEFT and self.selectBuffTile>=0:
-                        if self.effectOwner == PlayerType.PLAYER:
-                            self.selectBuffTile = self.selectBuffTile - 1
-                            if self.selectBuffTile < 0:
-                                self.selectBuffTile = len(self.avilableBuffTile) - 1
-                    if event.key == pygame.K_RIGHT and self.selectBuffTile>=0:
-                        if self.effectOwner == PlayerType.PLAYER:
-                            self.selectBuffTile = self.selectBuffTile + 1
-                            if self.selectBuffTile > len(self.avilableBuffTile) - 1:
-                                self.selectBuffTile = 0
+                if event.key == pygame.K_LEFT and self.selectBuffTile>=0:
+                    if self.effectOwner == PlayerType.PLAYER:
+                        self.selectBuffTile = self.selectBuffTile - 1
+                        if self.selectBuffTile < 0:
+                            self.selectBuffTile = len(self.availableBuffTile) - 1
+                if event.key == pygame.K_RIGHT and self.selectBuffTile>=0:
+                    if self.effectOwner == PlayerType.PLAYER:
+                        self.selectBuffTile = self.selectBuffTile + 1
+                        if self.selectBuffTile > len(self.availableBuffTile) - 1:
+                            self.selectBuffTile = 0
                 if event.key == pygame.K_RETURN:
                     if self.effectOwner == PlayerType.PLAYER:
-                        if self.selectffTile>=0 and self.effect.maxRange>0:
-                            if self.field[self.avilableAttackTile[self.selectAttackTile]].is_occupied():
-                                print("apply buff")
+                        if self.selectBuffTile>=0 and self.effect.maxRange>0:
+                            if self.field[self.availableBuffTile[self.selectBuffTile]].is_occupied():
+                                buff = self.getBuffFromEffect(self.effect)
+                                self.enemy.add_buff(buff)
+                                print(f"apply buff {buff} to enemy")
+                            else:
+                                print("no entity on the targeted tile")
+                        else:
+                            print("there is no buff happen")
+                    if self.effectOwner == PlayerType.ENEMY:
+                        if self.selectBuffTile>=0 and self.effect.maxRange>0:
+                            if self.field[self.availableBuffTile[self.selectBuffTile]].is_occupied():
+                                buff = self.getBuffFromEffect(self.effect)
+                                self.player.add_buff(buff)
+                                print(f"apply buff {buff} to player")
                             else:
                                 print("no entity on the targeted tile")
                         else:
@@ -139,31 +165,30 @@ class SelectBuffState(BaseState):
             buff.update(dt, events)
 
         self.player.update(dt)
+        self.enemy.update(dt)
 
+        for tile in self.field:
+            if tile.second_entity:
+                tile.second_entity.update(dt)
+            elif tile.is_occupied() and tile.entity.type == None:
+                tile.entity.update(dt)
+
+        self.remove_timeout_entity()
+
+    def getBuffFromEffect(self, effect):
+        if effect.buffName:
+            buff = Buff(CARD_BUFF[effect.buffName])
+            return buff
+        else:
+            print(f'Buff not found: {effect.buffName}')
+            return False
+          
     def render(self, screen):
         RenderTurn(screen, 'SelectBuffState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
-        RenderEntitySelection(screen, self.player, self.enemy)
-
-        # Render cards on player's hand
-        for order, card in enumerate(self.player.cardsOnHand):
-            card.render(screen, order)
-
-        # Render field
-        for fieldTile in self.field:               
-            # Render the range of the buff
-
-            if fieldTile.index in set(self.avilableBuffTile):
-                fieldTile.color = (255,0,0)
-            else:
-                fieldTile.color = (0,0,0)
-            if self.selectBuffTile>=0:
-                if fieldTile.index == self.avilableBuffTile[self.selectBuffTile]:
-                    fieldTile.color = (255,0,255)
-                    fieldTile.solid = 0
-                
-            fieldTile.render(screen, len(self.field))
-            fieldTile.color = (0,0,0)
-            fieldTile.solid = 1
+        RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
+        RenderDescription(screen, f"Current Action: {self.effect.type}", f"Owner: {self.effectOwner.value}")
+        RenderFieldSelection(screen, self.field, self.availableBuffTile, self.selectBuffTile, self.effectOwner)
+        
 
         

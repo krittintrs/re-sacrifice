@@ -26,6 +26,9 @@ class GameMain:
                 SelectionState.ATTACK: SelectAttackState(),
                 SelectionState.BUFF: SelectBuffState(),
                 SelectionState.MOVE: SelectMoveState(),
+                SelectionState.PUSH: SelectPushState(),
+                SelectionState.PULL: SelectPullState(),
+                SelectionState.SPAWN: SelectSpawnState(),
                 BattleState.END_PHASE: BattleEndState(),
                 BattleState.FINISH_PHASE: BattleFinishState(),
                 RPGState.START: TutorialState(),# Add RPG start state here

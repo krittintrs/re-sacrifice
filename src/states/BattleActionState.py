@@ -1,8 +1,6 @@
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
-from src.battleSystem.Buff import Buff
-from src.battleSystem.Effect import Effect
 from src.battleSystem.battleEntity.Entity import * 
 from src.Render import *
 import pygame
@@ -30,31 +28,14 @@ class BattleActionState(BaseState):
         self.turn = params['turn']
         self.currentTurnOwner = params['currentTurnOwner']  
 
-        # mock card
-        #################################
-        card = self.player.selectedCard
-        card.mainEffect.append(Effect(EffectType.ATTACK, card.range_start, card.range_end))
-        card.print_effects()
-        # print(card.mainEffect[0].type)
-        # print(len(card.beforeEffect))
-        # print(len(card.mainEffect))
-        # print(len(card.afterEffect))
-        # card.beforeEffect = [Effect(EffectType.MOVE, card.range_start, card.range_end)]
-        # card.mainEffect = [Effect(EffectType.ATTACK, card.range_start, card.range_end)]
-        # card.afterEffect = [Effect(EffectType.SELF_BUFF, card.range_start, card.range_end)]
+        # player
+        player_selected_card = self.player.selectedCard
+        player_selected_card.print_effects()
 
-        # mock player
-        # self.player.move_to(self.field[2], self.field)
-        
-        # mock enemy
-        #################################
-        new_card = self.enemy.cardsOnHand[0]
-        # new_card.mainEffect.append(Effect(EffectType.ATTACK, new_card.range_start, new_card.range_end))
-        # new_card.beforeEffect = [Effect(EffectType.MOVE, new_card.range_start, new_card.range_end)]
-        # new_card.mainEffect = [Effect(EffectType.ATTACK, new_card.range_start, new_card.range_end)]
-        # new_card.afterEffect = [Effect(EffectType.RANGE_BUFF, new_card.range_start, new_card.range_end)]
-        self.enemy.select_card(new_card)
-        # self.enemy.move_to(self.field[7],self.field)
+        # enemy
+        enemy_selected_card = self.enemy.cardsOnHand[0]
+        self.enemy.select_card(enemy_selected_card)
+        enemy_selected_card.print_effects()
         
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
@@ -81,13 +62,16 @@ class BattleActionState(BaseState):
                     sys.exit()
                 if event.key == pygame.K_RETURN:
                     print(self.effectOrder)
+                    if self.effectOrder["main"]:
+                        for effectDetail in self.effectOrder["main"]:
+                            print(effectDetail[0].type)
                     g_state_manager.Change(BattleState.RESOLVE_PHASE, {
                         'player': self.player,
                         'enemy': self.enemy,
                         'field': self.field,
                         'turn': self.turn,
                         'currentTurnOwner': self.currentTurnOwner,
-                        'effectOrder': self.effectOrder
+                        'effectOrder': self.effectOrder,
                     })
 
         # Update buff
@@ -97,6 +81,22 @@ class BattleActionState(BaseState):
             buff.update(dt, events)
 
         self.player.update(dt)
+        self.enemy.update(dt)
+
+        for tile in self.field:
+            if tile.second_entity:
+                tile.second_entity.update(dt)
+            elif tile.is_occupied() and tile.entity.type == None:
+                tile.entity.update(dt)
+
+        self.remove_timeout_entity()
+
+    def remove_timeout_entity(self):
+        for tile in self.field:
+            if tile.is_second_entity():
+                if tile.second_entity.duration == 0:
+                    print("remove second entity for timeout ", tile.index)
+                    tile.remove_second_entity()
     
     def sortEffects(self):
         playerSpeed = self.player.selectedCard.buffed_speed
@@ -119,16 +119,11 @@ class BattleActionState(BaseState):
             self.effectOrder["after"].append([afterEffect, entityType])
 
     def render(self, screen):  
-        RenderTurn(screen, 'Action State', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, 'battleAction', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
-        RenderEntitySelection(screen, self.player, self.enemy)
-
-        screen.blit(pygame.font.Font(None, 36).render("Resolve Action: Press Enter to Confirm", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
-
-        # Render cards on player's hand
-        for order, card in enumerate(self.player.cardsOnHand):
-            card.render(screen, order)
-
+        RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
+        RenderDescription(screen, "Resolve Action: Press Enter to Confirm")
+        
         # Render field
         for fieldTile in self.field:
-            fieldTile.render(screen, len(self.field))
+            fieldTile.render(screen)

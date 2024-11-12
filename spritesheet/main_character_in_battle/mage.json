@@ -4,6 +4,8 @@
     "animations": {
       "cast_mage": {
         "loop": "False",
+        "offset_x":-55,
+        "offset_y":-20,
         "sprites": [
           {
             "fileName": "cast_mage1",
@@ -37,6 +39,8 @@
       },
       "castloop_mage": {
         "loop": "False",
+        "offset_x":-55,
+        "offset_y":-20,
         "sprites": [
           {
             "fileName": "castloop_mage1",
@@ -70,6 +74,8 @@
       },
       "multiAttack_mage": {
         "loop": "False",
+        "offset_x":-55,
+        "offset_y":-20,
         "sprites": [
           {
             "fileName": "multi_mage1",
@@ -117,6 +123,8 @@
       },
       "singleAttack_mage": {
         "loop": "False",
+        "offset_x":-55,
+        "offset_y":-20,
         "sprites": [
           {
             "fileName": "single_mage1",
@@ -157,6 +165,8 @@
       },
       "idle_mage": {
         "loop": "True",
+        "offset_x":-55,
+        "offset_y":-20,
         "sprites": [
           {
             "fileName": "idle_mage1",

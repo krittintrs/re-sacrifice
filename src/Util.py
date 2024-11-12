@@ -1,11 +1,9 @@
 import pygame
 import json
 from src.EnumResources import EffectType
-from src.battleSystem.Card import Card
 from src.battleSystem.card_defs import CardConf
 from src.battleSystem.Effect import Effect
 from src.battleSystem.deck_defs import DeckConf
-import copy
 
 class Sprite:
     def __init__(self, image, animation=None):
@@ -24,12 +22,27 @@ class SpriteManager:
                 "./spritesheet/main_character_in_battle/mage.json",
                 "./spritesheet/main_character_in_battle/other_warrior.json",
                 "./spritesheet/main_character_in_battle/other_ranger.json",
-                "./spritesheet/main_character_in_battle/other_mage.json"
+                "./spritesheet/main_character_in_battle/other_mage.json",
+                "./spritesheet/Goblin/NormalGoblin/normalGob_Attack.json",
+                "./spritesheet/Goblin/NormalGoblin/normalGob_Death.json",
+                "./spritesheet/Goblin/NormalGoblin/normalGob_Idle.json",
+                "./spritesheet/Goblin/NormalGoblin/normalGob_Walk.json",
+                "./spritesheet/Summon/ghost/ghost.json",
+                "./spritesheet/Summon/ghost/ghost_summon.json",
+                "./spritesheet/Effect/trap_idle.json",
+                "./spritesheet/Effect/trap_attack.json",
+                "./spritesheet/Effect/trap_summon.json",
+                "./spritesheet/background/clock.json",
+                "./spritesheet/background/dice.json",
+                "./spritesheet/background/field.json",
+                "./spritesheet/Summon/ghost/ghost.json",
+                "./spritesheet/Summon/ghost/ghost_summon.json",
+                "./spritesheet/Effect/trap_idle.json",
+                "./spritesheet/Effect/trap_attack.json",
+                "./spritesheet/Effect/trap_summon.json",
             ]
         )
-        self.spriteCollection["card"] = self.loadCards("./cards/cards_corrected.json")
         self.spriteCollection["card_conf"] = self.loadCardConf("./cards/cards_corrected.json")
-
 
     def loadSprites(self, urlList, shrink_scale=1):
         resDict = {}  # result dictionary
@@ -45,14 +58,18 @@ class SpriteManager:
                     for animation_name, animation_data in data["animations"].items():
                         images = []
                         for sprite in animation_data["sprites"]:
+                            if "Goblin" in animation_name:
+                                scale = sprite.get("scale", 3) 
+                            else:
+                                scale = sprite.get("scale", 4) 
                             xSize = sprite.get('width', None)  # Use the new width
                             ySize = sprite.get('height', None)  # Use the new height
                             images.append(
                                 mySpritesheet.image_at(
                                     sprite["x"],
                                     sprite["y"],
-                                    sprite.get("scale", 4),  # Use the scale from the sprite or default to 1
-                                    colorkey=-1,  # Default color key if not provided
+                                    scale,  
+                                    colorkey=-1,  
                                     xTileSize=xSize,
                                     yTileSize=ySize,
                                 )
@@ -71,9 +88,11 @@ class SpriteManager:
                             )
                         # Handle loop setting
                         loop = animation_data.get('loop', 'true').lower() == 'true'  # Convert string to boolean, default to True if not specified
+                        offset_x = animation_data.get('offset_x', 0)
+                        offset_y = animation_data.get('offset_y', 0)
                         dic[animation_name] = Sprite(
                             None,
-                            animation=Animation(images, looping=loop, idleSprite=idle_img, interval_time=sprite.get("interval_time", 1)),
+                            animation=Animation(images, looping=loop, idleSprite=idle_img, offset_x=offset_x, offset_y=offset_y, interval_time=data.get("interval_time", 0.15)),
                         )
 
                     resDict.update(dic)
@@ -100,142 +119,6 @@ class SpriteManager:
 
         return resDict
 
-    def loadCards(self, url):
-        cardDict = {} 
-        with open(url) as jsonData:
-            data = json.load(jsonData)
-            mySpritesheet = SpriteSheet(data["spriteSheetURL"])
-            for card in data["cards"]:
-                try:
-                    colorkey = card["sprite"]["colorKey"]
-                except KeyError:
-                    colorkey = None
-                try:
-                    xSize = card.get('xsize', data['size'][0])  # If xsize is not present, use default size
-                    ySize = card.get('ysize', data['size'][1])  # If ysize is not present, use default size
-                except KeyError:
-                    xSize, ySize = data['size']
-
-                # extract and create effects list for creating card
-                temp_effect_dict = {}
-                for type in card["effect"]:
-                    temp_effect_dict[type] = []
-                    if type == "buff":
-                        for effect in card["effect"].get(type, []):
-                            if effect:
-                                match effect["type"]:
-                                    case "attack":
-                                        effect_type = EffectType.ATTACK
-                                    case "move":
-                                        effect_type = EffectType.MOVE
-                                    case "self_buff":
-                                        effect_type = EffectType.SELF_BUFF
-                                    case "range_buff":
-                                        effect_type = EffectType.RANGE_BUFF
-                                    case "push":
-                                        effect_type = EffectType.PUSH
-                                    case "pull":
-                                        effect_type = EffectType.PULL
-                                    case "debuff":
-                                        effect_type = EffectType.DEBUFF
-                                    case "buff":
-                                        effect_type = EffectType.BUFF
-                                    case "cleanse":
-                                        effect_type = EffectType.CLEANSE
-                                    case "SandThrow":
-                                        effect_type = EffectType.SAND_THROW
-                                    case "AngelBlessing":
-                                        effect_type = EffectType.ANGEL_BLESSING
-                                    case "DestinyDraw":
-                                        effect_type = EffectType.DESTINY_DRAW
-                                    case "Reset":
-                                        effect_type = EffectType.RESET
-                                    case "Kamikaze":
-                                        effect_type = EffectType.KAMIKAZE
-                                    case "spawn":
-                                        effect_type = EffectType.SPAWN
-                                    case "heal":
-                                        effect_type = EffectType.HEAL
-                                    case "ditto":
-                                        effect_type = EffectType.DITTO
-                                    case "bloodSacrifice":
-                                        effect_type = EffectType.BLOOD_SACRIFICE
-                                    case "discard":
-                                        effect_type = EffectType.DISCARD
-                                temp_effect_dict[type].append(Effect(effect_type, effect["minRange"], effect["maxRange"], effect["buff"]))
-                    else:
-                        for effect in card["effect"].get(type, []):
-                            if effect:
-                                match effect["type"]:
-                                    case "attack":
-                                        effect_type = EffectType.ATTACK
-                                    case "move":
-                                        effect_type = EffectType.MOVE
-                                    case "self_buff":
-                                        effect_type = EffectType.SELF_BUFF
-                                    case "range_buff":
-                                        effect_type = EffectType.RANGE_BUFF
-                                    case "push":
-                                        effect_type = EffectType.PUSH
-                                    case "pull":
-                                        effect_type = EffectType.PULL
-                                    case "debuff":
-                                        effect_type = EffectType.DEBUFF
-                                    case "buff":
-                                        effect_type = EffectType.BUFF
-                                    case "cleanse":
-                                        effect_type = EffectType.CLEANSE
-                                    case "SandThrow":
-                                        effect_type = EffectType.SAND_THROW
-                                    case "AngelBlessing":
-                                        effect_type = EffectType.ANGEL_BLESSING
-                                    case "DestinyDraw":
-                                        effect_type = EffectType.DESTINY_DRAW
-                                    case "Reset":
-                                        effect_type = EffectType.RESET
-                                    case "Kamikaze":
-                                        effect_type = EffectType.KAMIKAZE
-                                    case "spawn":
-                                        effect_type = EffectType.SPAWN
-                                    case "heal":
-                                        effect_type = EffectType.HEAL
-                                    case "ditto":
-                                        effect_type = EffectType.DITTO
-                                    case "bloodSacrifice":
-                                        effect_type = EffectType.BLOOD_SACRIFICE
-                                    case "discard":
-                                        effect_type = EffectType.DISCARD
-                                temp_effect_dict[type].append(Effect(effect_type, effect["minRange"], effect["maxRange"]))
-
-                # Create the Card object for each card entry
-                cardDict[card["name"]] = Card(
-                    name=card["name"],
-                    description=card.get("description", ""),  # Use empty string if description is missing
-                    image=Sprite(
-                        mySpritesheet.image_at(
-                            card["sprite"]["x"],
-                            card["sprite"]["y"],
-                            card["sprite"]["scalefactor"],
-                            (255,0,255),
-                            xTileSize=xSize,
-                            yTileSize=ySize,
-                        )
-                    ).image,
-                    id=card["id"],
-                    class_=card["class"],
-                    type=card["type"],
-                    speed=card["speed"],
-                    attack=card["attack"],  
-                    defense=card["defense"],
-                    range_start=card["range_start"],
-                    range_end=card["range_end"],
-                    beforeEffect=temp_effect_dict["beforeEffect"],
-                    mainEffect=temp_effect_dict["mainEffect"],
-                    afterEffect=temp_effect_dict["afterEffect"]
-                )
-        return cardDict
-    
-
     def loadCardConf(self, url):
         card_conf= {} 
         with open(url) as jsonData:
@@ -254,94 +137,25 @@ class SpriteManager:
 
                 # extract and create effects list for creating card
                 temp_effect_dict = {}
-                for type in card["effect"]:
-                    temp_effect_dict[type] = []
-                    if type == "buff":
-                        for effect in card["effect"].get(type, []):
-                            if effect:
-                                match effect["type"]:
-                                    case "attack":
-                                        effect_type = EffectType.ATTACK
-                                    case "move":
-                                        effect_type = EffectType.MOVE
-                                    case "self_buff":
-                                        effect_type = EffectType.SELF_BUFF
-                                    case "range_buff":
-                                        effect_type = EffectType.RANGE_BUFF
-                                    case "push":
-                                        effect_type = EffectType.PUSH
-                                    case "pull":
-                                        effect_type = EffectType.PULL
-                                    case "debuff":
-                                        effect_type = EffectType.DEBUFF
-                                    case "buff":
-                                        effect_type = EffectType.BUFF
-                                    case "cleanse":
-                                        effect_type = EffectType.CLEANSE
-                                    case "SandThrow":
-                                        effect_type = EffectType.SAND_THROW
-                                    case "AngelBlessing":
-                                        effect_type = EffectType.ANGEL_BLESSING
-                                    case "DestinyDraw":
-                                        effect_type = EffectType.DESTINY_DRAW
-                                    case "Reset":
-                                        effect_type = EffectType.RESET
-                                    case "Kamikaze":
-                                        effect_type = EffectType.KAMIKAZE
-                                    case "spawn":
-                                        effect_type = EffectType.SPAWN
-                                    case "heal":
-                                        effect_type = EffectType.HEAL
-                                    case "ditto":
-                                        effect_type = EffectType.DITTO
-                                    case "bloodSacrifice":
-                                        effect_type = EffectType.BLOOD_SACRIFICE
-                                    case "discard":
-                                        effect_type = EffectType.DISCARD
-                                temp_effect_dict[type].append(Effect(effect_type, effect["minRange"], effect["maxRange"], effect["buff"]))
-                    else:
-                        for effect in card["effect"].get(type, []):
-                            if effect:
-                                match effect["type"]:
-                                    case "attack":
-                                        effect_type = EffectType.ATTACK
-                                    case "move":
-                                        effect_type = EffectType.MOVE
-                                    case "self_buff":
-                                        effect_type = EffectType.SELF_BUFF
-                                    case "range_buff":
-                                        effect_type = EffectType.RANGE_BUFF
-                                    case "push":
-                                        effect_type = EffectType.PUSH
-                                    case "pull":
-                                        effect_type = EffectType.PULL
-                                    case "debuff":
-                                        effect_type = EffectType.DEBUFF
-                                    case "buff":
-                                        effect_type = EffectType.BUFF
-                                    case "cleanse":
-                                        effect_type = EffectType.CLEANSE
-                                    case "SandThrow":
-                                        effect_type = EffectType.SAND_THROW
-                                    case "AngelBlessing":
-                                        effect_type = EffectType.ANGEL_BLESSING
-                                    case "DestinyDraw":
-                                        effect_type = EffectType.DESTINY_DRAW
-                                    case "Reset":
-                                        effect_type = EffectType.RESET
-                                    case "Kamikaze":
-                                        effect_type = EffectType.KAMIKAZE
-                                    case "spawn":
-                                        effect_type = EffectType.SPAWN
-                                    case "heal":
-                                        effect_type = EffectType.HEAL
-                                    case "ditto":
-                                        effect_type = EffectType.DITTO
-                                    case "bloodSacrifice":
-                                        effect_type = EffectType.BLOOD_SACRIFICE
-                                    case "discard":
-                                        effect_type = EffectType.DISCARD
-                                temp_effect_dict[type].append(Effect(effect_type, effect["minRange"], effect["maxRange"]))
+                for effectPeriod in card["effect"]:
+                    temp_effect_dict[effectPeriod] = []
+                    for effect in card["effect"].get(effectPeriod, []):
+                        if effect:
+                            try:
+                                effect_type = EffectType(effect["type"])
+                            except ValueError:
+                                print(f"Unknown effect type: {effect['type']}")
+                                continue
+                            try:
+                                effect_buff = effect["buff"]
+                            except KeyError:
+                                effect_buff = None
+                            try:
+                                effect_spawn = effect["spawn"]
+                            except KeyError:
+                                effect_spawn = None
+                            temp_effect_dict[effectPeriod].append(Effect(effect_type, effect["minRange"], effect["maxRange"], effect_buff, effect_spawn))
+                            print(f"{effect_type}\t{effect_buff}")
 
                 # Create the Card object for each card entry
                 card_conf[card["name"]] = CardConf(
@@ -410,12 +224,14 @@ class DeckLoader():
         return deck_conf
     
 class Animation:
-    def __init__(self, images, looping, idleSprite=None, interval_time=0.15, name="Animation"):
+    def __init__(self, images, looping, idleSprite=None, offset_x=0, offset_y=0, interval_time=0.15, name="Animation"):
         self.images = images
         self.timer = 0
         self.index = 0
         self.image = idleSprite if idleSprite else self.images[self.index]
         self.idleSprite = idleSprite
+        self.offset_x = offset_x
+        self.offset_y = offset_y
         self.interval_time = interval_time
         self.looping = looping
         self.times_played = 0
@@ -436,6 +252,7 @@ class Animation:
         
         if self.timer >= self.interval_time:
             self.index += 1
+            self.timer = 0
             if self.index >= len(self.images):
                 self.times_played += 1
                 if self.looping:

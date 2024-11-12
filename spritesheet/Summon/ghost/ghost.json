@@ -1,0 +1,137 @@
+{
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/Summon/summon.png",
+  "animations": {
+    "ghostIdle": {
+      "loop": "True",
+      "offset_x":-100,
+      "offset_y":-275,
+      "sprites": [
+    {
+      "fileName": "ghost_Idle1",
+      "width": 80,
+      "height": 80,
+      "x": 140,
+      "y": 270
+    },
+    {
+      "fileName": "ghost_Idle2",
+      "width": 80,
+      "height": 80,
+      "x": 640,
+      "y": 270
+    },
+    {
+      "fileName": "ghost_Idle3",
+      "width": 80,
+      "height": 80,
+      "x": 1140,
+      "y": 270
+    },
+    {
+      "fileName": "ghost_Idle4",
+      "width": 80,
+      "height": 80,
+      "x": 1640,
+      "y": 270
+    },
+    {
+      "fileName": "ghost_Idle5",
+      "width": 80,
+      "height": 80,
+      "x": 2140,
+      "y": 270
+    }
+  ]
+    },
+    "ghostDeath": {
+      "loop": "False",
+      "offset_x":-100,
+      "offset_y":-275,
+      "sprites": [
+        {
+          "fileName": "ghost_Death1",
+          "width": 90,
+          "height": 90,
+          "x": 90,
+          "y": 270
+        },
+        {
+          "fileName": "ghost_Death2",
+          "width": 90,
+          "height": 90,
+          "x": 590,
+          "y": 270
+        },
+        {
+          "fileName": "ghost_Death3",
+          "width": 90,
+          "height": 90,
+          "x": 1090,
+          "y": 270
+        },
+        {
+          "fileName": "ghost_Death4",
+          "width": 90,
+          "height": 90,
+          "x": 1590,
+          "y": 270
+        },
+        {
+          "fileName": "ghost_Death5",
+          "width": 90,
+          "height": 90,
+          "x": 2090,
+          "y": 270
+        }
+      ]
+    },
+    "ghostAttack": {
+      "loop": "False",
+      "offset_x":-100,
+      "offset_y":-275,
+      "sprites": [
+        {
+          "fileName": "ghost_Attack1",
+          "width": 90,
+          "height": 90,
+          "x": 0,
+          "y": 270
+        },
+        {
+          "fileName": "ghost_Attack2",
+          "width": 90,
+          "height": 90,
+          "x": 500,
+          "y": 270
+        },
+        {
+          "fileName": "ghost_Attack3",
+          "width": 90,
+          "height": 90,
+          "x": 1000,
+          "y": 270
+        },
+        {
+          "fileName": "ghost_Attack4",
+          "width": 90,
+          "height": 90,
+          "x": 1500,
+          "y": 270
+        },
+        {
+          "fileName": "ghost_Attack5",
+          "width": 90,
+          "height": 90,
+          "x": 2000,
+          "y": 270
+        }
+      ]
+    }
+  },
+  "packMode": "grid",
+  "padding": 0,
+  "backgroundColor": "rgba(0, 0, 0, 0)",
+  "spriteSheetWidth": 4500,
+  "spriteSheetHeight": 362
+}

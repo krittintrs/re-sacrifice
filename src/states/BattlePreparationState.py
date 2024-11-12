@@ -3,10 +3,11 @@ from src.dependency import *
 from src.constants import *
 from src.battleSystem.battleEntity.Player import Player
 from src.battleSystem.battleEntity.Enemy import Enemy
-from src.battleSystem.Deck import Deck
+from src.battleSystem.Buff import Buff
 from src.battleSystem.FieldTile import FieldTile
 import pygame
 import sys
+import math
 
 class BattlePreparationState(BaseState):
     def __init__(self):
@@ -21,17 +22,18 @@ class BattlePreparationState(BaseState):
         # Create field
         self.field = self.create_field(9)  # Create 9 field in a single row
     
-    def mockDeck(self):
-        deck = Deck()
-        for i, card in enumerate(card_dict.values()):
-            deck.addCard(copy.copy(card))
-        return deck
-    
     def initialDraw(self):
         self.player.deck.shuffle()
-        self.player.cardsOnHand = self.player.deck.draw(5)
+        for card in self.player.deck.card_deck:
+            if card.name in ["Trap", "You shall not pass", "Attack Summon", "Move 2", "Move 1"]:
+                self.player.cardsOnHand.append(card)
+
+        # self.player.cardsOnHand = self.player.deck.draw(5)
         self.enemy.deck.shuffle()
         self.enemy.cardsOnHand = self.enemy.deck.draw(5)
+
+        # self.player.add_buff(Buff(CARD_BUFF["attack_debuff"]))
+        # self.player.add_buff(Buff(CARD_BUFF["defense_debuff"]))
 
     def Enter(self, params):
         self.player = params['player']
@@ -39,7 +41,8 @@ class BattlePreparationState(BaseState):
 
         if self.player is None:
             # mock player class
-            job = PlayerClass.WARRIOR
+            # job = PlayerClass.WARRIOR
+            job = PlayerClass.MAGE
             gPlayer_animation_list = gMage_animation_list
             # mock player
             self.player = Player("player", job, gPlayer_animation_list)
@@ -47,7 +50,7 @@ class BattlePreparationState(BaseState):
 
         if self.enemy is None:
             # mock enemy
-            self.enemy = Enemy("enemy")  
+            self.enemy = Enemy("enemy", gNormalGoblin_animation_list)
             self.enemy.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)
 
         #Set up the initial default position of player and enemy
@@ -105,7 +108,7 @@ class BattlePreparationState(BaseState):
             buff.update(dt, events)
     
         self.player.update(dt)
-
+        self.enemy.update(dt)
 
     def render(self, screen):
         # Title
@@ -122,8 +125,10 @@ class BattlePreparationState(BaseState):
     
     def create_field(self, num_fieldTile):
         field = []
-        for i in range(num_fieldTile):
-            x = i * 100  # Adjust the x position based on index
-            y = 200  # Since you have only one row, y is constant
+        start_x = (SCREEN_WIDTH - (num_fieldTile * FIELD_WIDTH + (num_fieldTile-1) * FIELD_GAP)) // 2
+        for i in range(num_fieldTile + 1):
+            x = start_x + (i * (FIELD_WIDTH + FIELD_GAP))
+            y = FIELD_OFFSET_Y
+            print(f'x: {x}, y: {y}')
             field.append(FieldTile(i, (x, y)))  # Create and append each fieldTile
         return field

@@ -11,9 +11,12 @@ class BattleState(Enum):
     FINISH_PHASE = "battleFinish"
 
 class SelectionState(Enum):
-    ATTACK = "attack"
-    MOVE = "move"
-    BUFF = "buff"
+    ATTACK = "SelectAttackState"
+    MOVE = "SelectMoveState"
+    BUFF = "SelectBuffState"
+    PUSH = "SelectPushState"
+    PULL = "SelectPullState"
+    SPAWN = "SelectSpawnState"
 
 class RPGState(Enum):
     START = "start"
@@ -22,8 +25,8 @@ class RPGState(Enum):
     TAVERN = "tavern"
 
 class PlayerType(Enum):
-    PLAYER = "Player"
-    ENEMY = "Enemy"
+    PLAYER = "player"
+    ENEMY = "enemy"
 
 class PlayerClass(Enum):
     WARRIOR = "Warrior"
@@ -34,22 +37,26 @@ class EffectType(Enum):
     ATTACK = "attack"
     MOVE = "move"
     SELF_BUFF = "self_buff"
-    RANGE_BUFF = "range_buff"
+    OPPO_BUFF = "oppo_buff"
+    ATTACK_SELF_BUFF = "attack_self_buff"
+    ATTACK_OPPO_BUFF = "attack_oppo_buff"
     PUSH = "push"
     PULL = "pull"
-    DEBUFF = "debuff"
-    BUFF = "buff"
     CLEANSE = "cleanse"
-    SAND_THROW = "SandThrow"
-    ANGEL_BLESSING = "AngelBlessing"
-    DESTINY_DRAW = "DestinyDraw"
-    RESET = "Reset"
-    KAMIKAZE = "Kamikaze"
+    DISCARD = "discard"
+    SAND_THROW = "sand_throw"
+    ANGEL_BLESSING = "angle_blessing"
+    DESTINY_DRAW = "destiny_draw"
+    RESET_HAND = "reset_hand"
+    WARRIOR = "warrior"
+    BLOOD_SACRIFICE = "blood_sacrifice"
+    CRITICAL = "critical"
+    TRUE_DAMAGE = "true_damage"
+    NEXT_MULTI = "next_multi"
+    KAMIKAZE = "kamikaze"
     SPAWN = "spawn"
     HEAL = "heal"
-    DITTO = "ditto"
-    BLOOD_SACRIFICE = "bloodSacrifice"
-    DISCARD = "discard"
+    COPY = "copy"
 
 class CardType(Enum):
     MOVE = "Move"
@@ -59,7 +66,6 @@ class CardType(Enum):
     DEBUFF = "Debuff"
     SPECIAL = "Special"
 
-
 class CardClass(Enum):
     COMMON = "Common"
     GK_NOW = "GK Now"
@@ -68,3 +74,19 @@ class CardClass(Enum):
     WARRIOR = "Warrior"
     RANGER = "Ranger"
     MAGE = "Mage"
+
+class BuffType(Enum):
+    DICE_ROLL = "DiceRoll"
+    BUFF = "Buff"
+    DEBUFF = "Debuff"
+    PERM_BUFF = "PermBuff"
+    EMPOWER = "Empower"
+    BLOOD = "Blood"
+    CRIT_RATE = "CritRate"
+    CRIT_DMG = "CritDmg"
+    EVADE = "Evade"
+    STOP_MOVEMENT = "Stop Movement"
+
+class BackgroundState(Enum):
+    DECK_BUILDING = "deckbuilding"
+    BATTLE = "battle"

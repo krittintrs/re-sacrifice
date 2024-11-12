@@ -10,7 +10,7 @@ import random
 class BattleInitialState(BaseState):
     def __init__(self):
         super(BattleInitialState, self).__init__()
-        self.dice = 0
+        self.dice = 1
         self.roll = False
 
     def Enter(self, params):
@@ -26,14 +26,14 @@ class BattleInitialState(BaseState):
         self.player.move_to(self.field[self.player.fieldTile_index], self.field)
         self.enemy.move_to(self.field[self.enemy.fieldTile_index], self.field)
 
-        self.dice = 0
+        self.dice = 1
         self.roll = False
 
         for card in self.player.cardsOnHand:
             print("Player's Hand Card: ", card.name)
 
         # Mock buff
-        mock_buff = Buff(BuffConf('bonus_attack', 1, [1, 0, 0, 0], gBuffIcon_image_list['attack']))
+        mock_buff = Buff(CARD_BUFF["attack_boost"])
         self.player.add_buff(mock_buff)
         print(f'Player Buffs: {self.player.buffs}')
         print(f'Enemy Buffs: {self.enemy.buffs}')
@@ -77,46 +77,52 @@ class BattleInitialState(BaseState):
             buff.update(dt, events)
 
         self.player.update(dt)
+        self.enemy.update(dt)
 
+        for tile in self.field:
+            if tile.second_entity:
+                tile.second_entity.update(dt)
+            elif tile.is_occupied() and tile.entity.type == None:
+                tile.entity.update(dt)
+
+        self.remove_timeout_entity()
+
+    def remove_timeout_entity(self):
+        for tile in self.field:
+            if tile.is_second_entity():
+                if tile.second_entity.duration == 0:
+                    print("remove second entity for timeout ", tile.index)
+                    tile.remove_second_entity()
+        
     def render(self, screen):
-        RenderTurn(screen, 'Initial State', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, "battleInitial", self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
             
         # Title
-        if self.roll:
-            screen.blit(pygame.font.Font(None, 36).render("Cards:    Press Enter start", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))
+        if self.roll:           
             if self.dice < 4:
-                text = f'{self.currentTurnOwner.value} got {DICE_ROLL_BUFF[self.dice - 1].name}'
+                desc_1 = f'{self.currentTurnOwner.value} Got {DICE_ROLL_BUFF[self.dice - 1].name}'
             else:
-                text = f'{self.currentTurnOwner.value} got No Buff'
-
-            text_surface = pygame.font.Font(None, 36).render(text, True, (255, 255, 255))
-            text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - HUD_HEIGHT))
-
-            # Draw the brown rectangle behind the text (with some padding)
-            padding = 10
-            pygame.draw.rect(screen, (139, 69, 19), (text_rect.x - padding, text_rect.y - padding,
-                                                    text_rect.width + 2 * padding, text_rect.height + 2 * padding))
-
-            # Blit the text surface on top of the rectangle
-            screen.blit(text_surface, text_rect)
+                desc_1 = f'{self.currentTurnOwner.value} Got No Buff'
+            desc_2 = "Press Enter to Start"
+            RenderDescription(screen, desc_1, desc_2)
         else:
-            screen.blit(pygame.font.Font(None, 36).render("Cards:    Press Spacebar to Roll the dice", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
-        
+            RenderDescription(screen, "Press Spacebar to Roll the Dice")
+             
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
             card.render(screen, order)
 
         # Render field
         for fieldTile in self.field:
-            fieldTile.render(screen, len(self.field))
+            fieldTile.render(screen)
     
-        # Clear only the dice result area (fill the area with the background color)
-        pygame.draw.rect(screen, (255, 255, 255), (10, SCREEN_HEIGHT - HUD_HEIGHT - 40, 150, 40))  # Adjust size and position based on your layout
-
-        # Render dice result
-        screen.blit(pygame.font.Font(None, 36).render("Dice: " + str(self.dice), True, (0, 0, 0)), (10, SCREEN_HEIGHT - HUD_HEIGHT - 30))
-    
+        # Render dice
+        if not self.roll:
+            screen.blit(gDice_image_list[f'dice_roll_{self.dice}'], (SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT - HUD_HEIGHT - 74))
+        else:
+            screen.blit(gDice_image_list[f'dice_{self.dice}'], (SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT - HUD_HEIGHT - 74))
+        
     def roll_dice(self):
         # Play dice sound
         gSounds['dice_roll'].play()
