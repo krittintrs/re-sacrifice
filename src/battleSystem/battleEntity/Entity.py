@@ -23,8 +23,6 @@ class Entity:
 
         # Vfx
         self.vfx = Vfx(vfxAnimation_list, self.x, self.y)
-        self.vfx2 = Vfx(vfxAnimation_list, self.x, self.y)
-        print("This is vfx2",self.vfx2)
 
         # Deck & Card
         self.deck = Deck()
@@ -141,7 +139,6 @@ class Entity:
         
         # Update Vfx
         self.vfx.update(dt, self.x, self.y)
-        self.vfx2.update(dt, self.x, self.y)
 
     def render(self, screen, x, y, color=(255, 0, 0)):
         # Use tweened x, y position if tween is in progress
@@ -184,7 +181,6 @@ class Entity:
 
         # Render Vfx
         self.vfx.render(screen)
-        self.vfx2.render(screen)
 
         # Render Buff Icons
         for index, buff in enumerate(self.buffs):
