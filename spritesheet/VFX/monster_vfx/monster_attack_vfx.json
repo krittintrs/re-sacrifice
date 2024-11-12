@@ -1,0 +1,47 @@
+{
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/VFX/warrior_vfx/monster_attack_vfx.png",
+  "animations": {
+    "monster_attack_vfx": {
+      "loop": "False",
+      "interval_time": 0.2,
+      "sprites": [
+        {
+          "fileName": "monster_attack_vfx1",
+          "width": 48,
+          "height": 48,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "fileName": "monster_attack_vfx2",
+          "width": 48,
+          "height": 48,
+          "x": 48,
+          "y": 0
+        },
+        {
+          "fileName": "monster_attack_vfx3",
+          "width": 48,
+          "height": 48,
+          "x": 96,
+          "y": 0
+        },
+        {
+          "fileName": "monster_attack_vfx4",
+          "width": 48,
+          "height": 48,
+          "x": 144,
+          "y": 0
+        },
+        {
+          "fileName": "monster_attack_vfx5",
+          "width": 48,
+          "height": 48,
+          "x": 192,
+          "y": 0
+        }
+      ]
+    }
+  }
+}

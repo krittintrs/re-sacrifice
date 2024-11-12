@@ -1,0 +1,68 @@
+{
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/VFX/mage_vfx/mage_explosion_vfx.png",
+  "animations": {
+    "mage_explosion_vfx": {
+      "loop": "False",
+      "interval_time": 0.15,
+      "sprites": [
+        {
+          "fileName": "mage_explosion1",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "fileName": "mage_explosion2",
+          "width": 96,
+          "height": 96,
+          "x": 96,
+          "y": 0
+        },
+        {
+          "fileName": "mage_explosion3",
+          "width": 96,
+          "height": 96,
+          "x": 192,
+          "y": 0
+        },
+        {
+          "fileName": "mage_explosion4",
+          "width": 96,
+          "height": 96,
+          "x": 288,
+          "y": 0
+        },
+        {
+          "fileName": "mage_explosion5",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 96
+        },
+        {
+          "fileName": "mage_explosion6",
+          "width": 96,
+          "height": 96,
+          "x": 96,
+          "y": 96
+        },
+        {
+          "fileName": "mage_explosion7",
+          "width": 96,
+          "height": 96,
+          "x": 192,
+          "y": 96
+        },
+        {
+          "fileName": "mage_explosion8",
+          "width": 96,
+          "height": 96,
+          "x": 288,
+          "y": 96
+        }
+      ]
+    }
+  }
+}

@@ -1,9 +1,9 @@
 {
   "type": "animation",
-  "spriteSheetURL": "spritesheet/VFX/general_vfx/dizzy2.png",
+  "spriteSheetURL": "spritesheet/VFX/general_vfx/dizzy.png",
   "animations": {
     "dizzy_vfx": {
-      "loop": "False",
+      "loop": "True",
       "interval_time": 0.2,
       "sprites": [
         {

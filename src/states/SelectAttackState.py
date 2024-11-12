@@ -138,7 +138,8 @@ class SelectAttackState(BaseState):
                                 # RENDER ANIMATION
                                 if self.effectOwner == PlayerType.PLAYER:
                                     self.enemy.ChangeAnimation("death")
-                                    defender.vfx.play("mage_heavy_vfx")
+                                    # defender.vfx.play("mage_heavy_vfx")
+                                    defender.vfx.play("warrior_blood_vfx")
                                     defender.vfx.play("dizzy_vfx", 20, 40)
                                 elif self.effectOwner == PlayerType.ENEMY:
                                     self.player.ChangeAnimation("knockdown")

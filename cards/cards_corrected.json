@@ -276,7 +276,7 @@
             "type": "Attack",
             "description": "",
             "speed": 10,
-            "attack": 3,
+            "attack": 4,
             "defense": 0,
             "range_start": 3,
             "range_end": 5,

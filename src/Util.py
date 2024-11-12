@@ -29,13 +29,25 @@ class SpriteManager:
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Walk.json",
                 "./spritesheet/VFX/mage_vfx/mage_heavy_vfx.json",
                 "./spritesheet/VFX/mage_vfx/mage_light_vfx.json",
+                "./spritesheet/VFX/mage_vfx/mage_debuff_vfx.json",
+                "./spritesheet/VFX/mage_vfx/mage_explosion_vfx.json",
+                "./spritesheet/VFX/mage_vfx/mage_true_vfx.json",
                 "./spritesheet/VFX/ranger_vfx/ranger_heavy_vfx.json",
                 "./spritesheet/VFX/ranger_vfx/ranger_light_vfx.json",
+                "./spritesheet/VFX/ranger_vfx/ranger_shot_vfx.json",
                 "./spritesheet/VFX/warrior_vfx/warrior_heavy_vfx.json",
                 "./spritesheet/VFX/warrior_vfx/warrior_light_vfx.json",
+                "./spritesheet/VFX/warrior_vfx/warrior_blood_vfx.json",
+                "./spritesheet/VFX/warrior_vfx/warrior_strike_vfx.json",
                 "./spritesheet/VFX/general_vfx/buff.json",
                 "./spritesheet/VFX/general_vfx/debuff.json",
-                "./spritesheet/VFX/general_vfx/dizzy.json"
+                "./spritesheet/VFX/general_vfx/dizzy.json",
+                "./spritesheet/VFX/general_vfx/firefly.json",
+                "./spritesheet/VFX/general_vfx/leavesFalling.json",
+                "./spritesheet/VFX/general_vfx/MagicHIt.json",
+                "./spritesheet/VFX/general_vfx/PhysicalHit.json",
+                "./spritesheet/VFX/general_vfx/shield.json",
+                "./spritesheet/VFX/monster_vfx/monster_attack_vfx.json",
             ]
         )
         self.spriteCollection["card_conf"] = self.loadCardConf("./cards/cards_corrected.json")
@@ -53,6 +65,8 @@ class SpriteManager:
                     # Loop through each animation in the animations section
                     for animation_name, animation_data in data["animations"].items():
                         images = []
+                        colorkey = animation_data.get("colorKey", -1)
+                        colorkey = (colorkey[0], colorkey[1], colorkey[2]) if colorkey != -1 else -1
                         for sprite in animation_data["sprites"]:
                             if "Goblin" in animation_name:
                                 scale = sprite.get("scale", 3) 
@@ -67,7 +81,7 @@ class SpriteManager:
                                     sprite["x"],
                                     sprite["y"],
                                     scale,  
-                                    colorkey=-1,  
+                                    colorkey=colorkey,  
                                     xTileSize=xSize,
                                     yTileSize=ySize,
                                 )
@@ -240,8 +254,6 @@ class Animation:
 
     def update(self, dt):
         self.timer += dt
-        # if self.name == "dizzy_vfx" or self.name == "mage_heavy_vfx":
-            # print(f"Animation: {self.name}, finished: {self.finished}")
         if self.timer >= self.interval_time:
             self.index += 1
             self.timer = 0

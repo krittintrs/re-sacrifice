@@ -1,0 +1,77 @@
+{
+    "type": "animation",
+    "spriteSheetURL": "spritesheet/VFX/general_vfx/shield.png",
+    "animations": {
+      "shield_vfx": {
+        "loop": "False",
+        "interval_time": 0.2,
+        "sprites": [
+          {
+            "fileName": "shield1",
+            "width": 96,
+            "height": 96,
+            "x": 0,
+            "y": 0,
+            "scale": 1.5
+          },
+          {
+            "fileName": "shield2",
+            "width": 96,
+            "height": 96,
+            "x": 96,
+            "y": 0,
+            "scale": 1.5
+          },
+          {
+            "fileName": "shield3",
+            "width": 96,
+            "height": 96,
+            "x": 192,
+            "y": 0,
+            "scale": 1.5
+          },
+          {
+            "fileName": "shield4",
+            "width": 96,
+            "height": 96,
+            "x": 288,
+            "y": 0,
+            "scale": 1.5
+          },
+          {
+            "fileName": "shield5",
+            "width": 96,
+            "height": 96,
+            "x": 0,
+            "y": 96,
+            "scale": 1.5
+          },
+          {
+            "fileName": "shield6",
+            "width": 96,
+            "height": 96,
+            "x": 96,
+            "y": 96,
+            "scale": 1.5
+          },
+          {
+            "fileName": "shield7",
+            "width": 96,
+            "height": 96,
+            "x": 192,
+            "y": 96,
+            "scale": 1.5
+          },
+          {
+            "fileName": "shield8",
+            "width": 96,
+            "height": 96,
+            "x": 288,
+            "y": 96,
+            "scale": 1.5
+            }
+        ]
+      }
+    }
+  }
+  
