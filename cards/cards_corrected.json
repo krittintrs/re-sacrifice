@@ -298,6 +298,7 @@
                     {
                         "type": "attack",
                         "minRange": 1,
+                        "minRange": 1,
                         "maxRange": 5
                     }
                 ],
