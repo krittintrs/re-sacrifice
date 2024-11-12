@@ -275,7 +275,7 @@
             "class": "Common",
             "type": "Attack",
             "description": "",
-            "speed": 1,
+            "speed": 10,
             "attack": 3,
             "defense": 0,
             "range_start": 3,
@@ -297,7 +297,7 @@
                 "mainEffect": [
                     {
                         "type": "attack",
-                        "minRange": 3,
+                        "minRange": 1,
                         "maxRange": 5
                     }
                 ],

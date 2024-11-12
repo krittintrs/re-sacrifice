@@ -19,7 +19,7 @@ class Entity:
         self.frame_timer = 0  # Timer to manage frame rate
         self.frame_duration = 0.1  # Duration for each frame (adjust as needed)
         self.x = x  
-        self.y = y  
+        self.y = y
 
         # Vfx
         self.vfx = Vfx(vfxAnimation_list, self.x, self.y)
