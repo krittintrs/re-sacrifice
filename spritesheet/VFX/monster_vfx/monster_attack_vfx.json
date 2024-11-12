@@ -1,6 +1,6 @@
 {
   "type": "animation",
-  "spriteSheetURL": "spritesheet/VFX/warrior_vfx/monster_attack_vfx.png",
+  "spriteSheetURL": "spritesheet/VFX/monster_vfx/monster_attack_vfx.png",
   "animations": {
     "monster_attack_vfx": {
       "loop": "False",

@@ -85,8 +85,6 @@ class SpriteManager:
                                 scale = sprite.get("scale", 3) 
                             else:
                                 scale = sprite.get("scale", 4) 
-                            name = sprite.get("fileName", None)
-                            interval_time = sprite.get("interval_time", 1)
                             xSize = sprite.get('width', None)  # Use the new width
                             ySize = sprite.get('height', None)  # Use the new height
                             images.append(
@@ -115,11 +113,10 @@ class SpriteManager:
                         loop = animation_data.get('loop', 'true').lower() == 'true'  # Convert string to boolean, default to True if not specified
                         offset_x = animation_data.get('offset_x', 0)
                         offset_y = animation_data.get('offset_y', 0)
-                        loop = animation_data.get('loop', 'true').lower() == 'true'
                         interval_time = animation_data.get('interval_time', 0.5)
                         dic[animation_name] = Sprite(
                             None,
-                            animation=Animation(animation_name, images, looping=loop, idleSprite=idle_img, offset_x=offset_x, offset_y=offset_y, interval_time=data.get("interval_time", 0.15))
+                            animation=Animation(animation_name, images, interval_time, looping=loop, idleSprite=idle_img, offset_x=offset_x, offset_y=offset_y)
                         )
 
                     resDict.update(dic)
@@ -222,7 +219,7 @@ class SpriteSheet:
             print("Unable to load spritesheet image:", filename)
             raise SystemExit
         except Exception as error:
-            print("REMINDER: The sprite sheet url is not assigned to card yet")
+            print("REMINDER: The sprite sheet url is not assigned to card yet", filename)
 
     def image_at(self, x, y, scalingfactor, colorkey=None, xTileSize=16, yTileSize=16):
         rect = pygame.Rect((x, y, xTileSize, yTileSize))
@@ -251,7 +248,7 @@ class DeckLoader():
         return deck_conf
     
 class Animation:
-    def __init__(self, name, images, looping, idleSprite=None, offset_x=0, offset_y=0, interval_time=0.15):
+    def __init__(self, name, images, interval_time, looping, idleSprite=None, offset_x=0, offset_y=0,):
         self.images = images
         self.timer = 0
         self.index = 0
