@@ -10,7 +10,7 @@ import random
 class BattleInitialState(BaseState):
     def __init__(self):
         super(BattleInitialState, self).__init__()
-        self.dice = 0
+        self.dice = 1
         self.roll = False
 
     def Enter(self, params):
@@ -26,7 +26,7 @@ class BattleInitialState(BaseState):
         self.player.move_to(self.field[self.player.fieldTile_index], self.field)
         self.enemy.move_to(self.field[self.enemy.fieldTile_index], self.field)
 
-        self.dice = 0
+        self.dice = 1
         self.roll = False
 
         for card in self.player.cardsOnHand:
@@ -117,10 +117,12 @@ class BattleInitialState(BaseState):
         for fieldTile in self.field:
             fieldTile.render(screen)
     
-        # TODO: Render dice image
-        pygame.draw.rect(screen, (255, 255, 255), (SCREEN_WIDTH//2 + 50, SCREEN_HEIGHT - HUD_HEIGHT - 40, 150, 40)) 
-        screen.blit(pygame.font.Font(None, 36).render("Dice: " + str(self.dice), True, (0, 0, 0)), (SCREEN_WIDTH//2 + 50, SCREEN_HEIGHT - HUD_HEIGHT - 30))
-    
+        # Render dice
+        if not self.roll:
+            screen.blit(gDice_image_list[f'dice_roll_{self.dice}'], (SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT - HUD_HEIGHT - 74))
+        else:
+            screen.blit(gDice_image_list[f'dice_{self.dice}'], (SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT - HUD_HEIGHT - 74))
+        
     def roll_dice(self):
         # Play dice sound
         gSounds['dice_roll'].play()

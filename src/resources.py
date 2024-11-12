@@ -84,6 +84,21 @@ gClock_image_list = {
     "clock_9": sprite_collection["clock_9"].image,
 }
 
+gDice_image_list = {
+    "dice_1": sprite_collection["dice_1"].image,
+    "dice_2": sprite_collection["dice_2"].image,
+    "dice_3": sprite_collection["dice_3"].image,
+    "dice_4": sprite_collection["dice_4"].image,
+    "dice_5": sprite_collection["dice_5"].image,
+    "dice_6": sprite_collection["dice_6"].image,
+    "dice_roll_1": sprite_collection["dice_roll_1"].image,
+    "dice_roll_2": sprite_collection["dice_roll_2"].image,
+    "dice_roll_3": sprite_collection["dice_roll_3"].image,
+    "dice_roll_4": sprite_collection["dice_roll_4"].image,
+    "dice_roll_5": sprite_collection["dice_roll_5"].image,
+    "dice_roll_6": sprite_collection["dice_roll_6"].image,
+}
+
 gFont_list = {
     "small": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 8),
     "default": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 10),
