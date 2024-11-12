@@ -135,7 +135,7 @@ class SelectAttackState(BaseState):
                             if self.effect.type == EffectType.TRUE_DAMAGE:
                                 damage = attacker.attack
                             else:
-                                damage = attacker.attack - defender.defense
+                                damage = attacker.attack #- defender.defense
 
                             # Check For Evade Buff
                             is_evade = False
@@ -146,7 +146,7 @@ class SelectAttackState(BaseState):
                                
                             if damage > 0 and not is_evade:
                                 # ATTACK HIT
-                                gSounds['attack'].play()
+                                gSounds[f'{self.player.job.value.lower()}_attack'].play()
                                 defender.health -= damage
                                 defender.stunt = True
                                 print(f'{defender} takes {damage} damage')
@@ -164,7 +164,7 @@ class SelectAttackState(BaseState):
                                     defender.add_buff(buff)
                             else:
                                 # ATTACK BLOCK
-                                gSounds['block'].play()
+                                gSounds['sword_block'].play()
                                 print(f'{defender} takes no damage')
                             defender.print_stats()
                         elif attacking_field.second_entity:

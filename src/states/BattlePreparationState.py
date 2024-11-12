@@ -26,7 +26,7 @@ class BattlePreparationState(BaseState):
     def initialDraw(self):
         self.player.deck.shuffle()
         for card in self.player.deck.card_deck:
-            if card.name in ["Trap", "You shall not pass", "Attack Summon", "Move 2", "Move 1"]:
+            if card.name in ["Trap", "You shall not pass", "Long Range Attack", "Move 2", "Move 1"]:
                 self.player.cardsOnHand.append(card)
 
         # self.player.cardsOnHand = self.player.deck.draw(5)
@@ -46,8 +46,11 @@ class BattlePreparationState(BaseState):
         if self.player is None:
             # mock player class
             # job = PlayerClass.WARRIOR
-            job = PlayerClass.MAGE
-            gPlayer_animation_list = gMage_animation_list
+            # gPlayer_animation_list = gWarrior_animation_list
+            # job = PlayerClass.RANGER
+            # gPlayer_animation_list = gRanger_animation_list
+            # job = PlayerClass.MAGE
+            # gPlayer_animation_list = gMage_animation_list
             # mock player
             self.player = Player("player", job, gPlayer_animation_list)
             self.player.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)

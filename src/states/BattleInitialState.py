@@ -34,8 +34,8 @@ class BattleInitialState(BaseState):
             print("Player's Hand Card: ", card.name)
 
         # Mock buff
-        mock_buff = Buff(CARD_BUFF["attack_boost"])
-        self.player.add_buff(mock_buff)
+        # mock_buff = Buff(CARD_BUFF["attack_boost"])
+        # self.player.add_buff(mock_buff)
         print(f'Player Buffs: {self.player.buffs}')
         print(f'Enemy Buffs: {self.enemy.buffs}')
 
@@ -133,6 +133,8 @@ class BattleInitialState(BaseState):
         for _ in range(30):  # Increase the number of iterations for a smoother effect
             self.dice = random.randint(1, 6)  # Randomly change the dice number
             self.render(pygame.display.get_surface())  # Render the current state of the screen
+            # screen = pygame.display.get_surface()
+            # screen.blit(gDice_image_list[f'dice_roll_{self.dice}'], (SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT - HUD_HEIGHT - 74))
             pygame.display.flip()  # Update the display to show changes
             pygame.time.delay(10)  # Delay to control the speed of dice rolling
 
