@@ -555,10 +555,10 @@
             "effect": {
                 "beforeEffect": [
                     {
-                        "type": "oppo_buff",
+                        "type": "attack_oppo_buff",
                         "minRange": 0,
-                        "maxRange": 4,
-                        "buff": "stop_movement"
+                        "maxRange": 3,
+                        "buff": "block_movement"
                     }
                 ],
                 "mainEffect": [
@@ -1670,7 +1670,7 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "attack",
+                        "type": "attack_oppo_buff",
                         "minRange": 1,
                         "maxRange": 3,
                         "buff": "fire"
@@ -1716,15 +1716,15 @@
         },
         {
             "id": "C050",
-            "name": "Shadow Clone Jutsu",
+            "name": "Trap",
             "class": "Mage",
-            "type": "Buff",
+            "type": "Special",
             "description": "",
             "speed": 5,
             "attack": 0,
             "defense": 1,
-            "range_start": 0,
-            "range_end": 0,
+            "range_start": 1,
+            "range_end": 2,
             "sprite": {
                 "x": 1800,
                 "y": 1000,
@@ -1737,9 +1737,10 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "next_multi",
-                        "minRange": 0,
-                        "maxRange": 0
+                        "type": "spawn",
+                        "minRange": 1,
+                        "maxRange": 2,
+                        "spawn":"trap"
                     }
                 ],
                 "afterEffect": [
@@ -1772,7 +1773,7 @@
                     {
                         "type": "oppo_buff",
                         "minRange": 0,
-                        "maxRange": 4,
+                        "maxRange": 3,
                         "buff": "stop_movement"
                     }
                 ],
@@ -1783,15 +1784,15 @@
         },
         {
             "id": "C052",
-            "name": "I cast Punch (Sweet Dream)",
+            "name": "Attack Summon",
             "class": "Mage",
-            "type": "Debuff",
+            "type": "Special",
             "description": "",
             "speed": 6,
-            "attack": 1,
-            "defense": 0,
-            "range_start": 1,
-            "range_end": 1,
+            "attack": 0,
+            "defense": 2,
+            "range_start": 0,
+            "range_end": 0,
             "sprite": {
                 "x": 200,
                 "y": 1250,
@@ -1804,10 +1805,10 @@
                 ],
                 "mainEffect": [
                     {
-                        "type": "oppo_buff",
+                        "type": "spawn",
                         "minRange": 0,
-                        "maxRange": 0,
-                        "buff": "sleep"
+                        "maxRange": 3,
+                        "spawn":"attack summon"
                     }
                 ],
                 "afterEffect": [

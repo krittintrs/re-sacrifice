@@ -32,6 +32,13 @@ class BattleResolveState(BaseState):
     def Exit(self):
         pass
 
+    def remove_timeout_entity(self):
+        for tile in self.field:
+            if tile.is_second_entity():
+                if tile.second_entity.duration == 0:
+                    print("remove second entity for timeout ", tile.index)
+                    tile.remove_second_entity()
+
     def update(self, dt, events):
         for event in events:
             if event.type == pygame.QUIT:
@@ -88,11 +95,19 @@ class BattleResolveState(BaseState):
 
         self.player.update(dt)
         self.enemy.update(dt)
+
+        for tile in self.field:
+            if tile.second_entity:
+                tile.second_entity.update(dt)
+            elif tile.is_occupied() and tile.entity.type == None:
+                tile.entity.update(dt)
+
+        self.remove_timeout_entity()
         
     def resolveCardEffect(self, effect, effectOwner):
         if not ((effectOwner == PlayerType.PLAYER and self.player.stunt == True) or (effectOwner == PlayerType.ENEMY and self.enemy.stunt == True)):
            match effect.type:
-                case EffectType.ATTACK | EffectType.ATTACK_SELF_BUFF | EffectType.ATTACK_OPPO_BUFF:
+                case EffectType.ATTACK | EffectType.ATTACK_SELF_BUFF | EffectType.ATTACK_OPPO_BUFF | EffectType.TRUE_DAMAGE:
                     g_state_manager.Change(SelectionState.ATTACK, {
                         'player': self.player,
                         'enemy': self.enemy,
@@ -209,15 +224,22 @@ class BattleResolveState(BaseState):
                         critical_buff.value[0] = self.player.selectedCard.attack // 2
                         self.player.add_buff(critical_buff)
                 # MAGE CLASS
-                case EffectType.TRUE_DAMAGE:
-                    pass
                 case EffectType.NEXT_MULTI:
                     pass
                 # BOSSES
                 case EffectType.KAMIKAZE:
                     pass
                 case EffectType.SPAWN:
-                    pass
+                    g_state_manager.Change(SelectionState.SPAWN, {
+                    'player': self.player,
+                    'enemy': self.enemy,
+                    'field': self.field,
+                    'turn': self.turn,
+                    'currentTurnOwner': self.currentTurnOwner,
+                    'effectOrder': self.effectOrder,
+                    'effect': effect,
+                    'effectOwner': effectOwner
+                })
                 case EffectType.HEAL:
                     pass
                 case EffectType.COPY:
@@ -244,7 +266,7 @@ class BattleResolveState(BaseState):
             return False
 
     def render(self, screen):
-        RenderTurn(screen, 'Resolve State', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, "battleResolve", self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
 

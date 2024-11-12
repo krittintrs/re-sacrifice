@@ -4,6 +4,8 @@
   "animations": {
     "normalGoblinDeath": {
       "loop": "False",
+      "offset_x":-185,
+      "offset_y":-185,
       "interval_time": 0.15,
       "sprites": [
         {

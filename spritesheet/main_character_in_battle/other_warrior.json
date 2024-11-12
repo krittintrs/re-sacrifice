@@ -5,6 +5,8 @@
     "knockDown_warrior": {
       "loop": "False",
       "interval_time": 0.1,
+      "offset_x":-55,
+      "offset_y":-20,
       "sprites": [
         {
           "fileName": "warrior-knock-dwn-00.png",
@@ -60,6 +62,8 @@
     "walk_warrior": {
       "loop": "False",
       "interval_time": 0.2,
+      "offset_x":-55,
+      "offset_y":-20,
       "sprites": [
         {
           "fileName": "warrior-walk-00.png",

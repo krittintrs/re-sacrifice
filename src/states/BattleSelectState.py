@@ -71,6 +71,21 @@ class BattleSelectState(BaseState):
             
         self.player.update(dt)
         self.enemy.update(dt)
+
+        for tile in self.field:
+            if tile.second_entity:
+                tile.second_entity.update(dt)
+            elif tile.is_occupied() and tile.entity.type == None:
+                tile.entity.update(dt)
+
+        self.remove_timeout_entity()
+
+    def remove_timeout_entity(self):
+        for tile in self.field:
+            if tile.is_second_entity():
+                if tile.second_entity.duration == 0:
+                    print("remove second entity for timeout ", tile.index)
+                    tile.remove_second_entity()
         
     def change_selection(self, newIndex):
         self.player.cardsOnHand[self.selected_index].isSelected = False
@@ -78,12 +93,10 @@ class BattleSelectState(BaseState):
         self.selected_index = newIndex
 
     def render(self, screen):
-        RenderTurn(screen, 'Selection State', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, "battleSelect", self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
-
-        # Title
-        screen.blit(pygame.font.Font(None, 36).render("Select Card: Press Enter to Confirm", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
-
+        RenderDescription(screen, "Select Card: Press Enter to Confirm")
+        
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
             card.render(screen, order)

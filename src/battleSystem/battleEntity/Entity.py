@@ -10,7 +10,7 @@ g_font = pygame.font.Font(None, 36)
 
 
 class Entity:
-    def __init__(self, name, animation_list, x, y, vfxAnimation_list, health=10):
+    def __init__(self, name, animation_list, x, y, vfxAnimation_list, health=10, is_occupied_field = True, type = None):
         self.name = name
         self.fieldTile_index = None  # Keep track of which field it is on
         self.animation_list = animation_list
@@ -23,6 +23,8 @@ class Entity:
 
         # Vfx
         self.vfx = Vfx(vfxAnimation_list, self.x, self.y)
+        self.is_occupied_field = is_occupied_field
+        self.type = type
 
         # Deck & Card
         self.deck = Deck()
@@ -60,8 +62,11 @@ class Entity:
     def print_buffs(self):
         for buff in self.buffs:
             buff.print()
+    
+    def null_function():
+        pass
 
-    def move_to(self, fieldTile, field):
+    def move_to(self, fieldTile, field, action = null_function):
         if fieldTile.is_occupied():  # Check if the fieldTile is occupied
             print("fieldTile is already occupied!")
             return
@@ -74,7 +79,8 @@ class Entity:
         self.facing_left = self.target_position < self.x  # Face left if moving to a lower x
 
         self.tweening = tween.to(
-            self, "x", self.target_position, 1, "linear")  # Tween x position
+            self, "x", self.target_position, 1, "linear")# Tween x position
+        self.tweening.on_complete(action)
 
         # Update fieldTile and position references
         if self.fieldTile_index is not None:
@@ -152,32 +158,24 @@ class Entity:
         entity_x = render_x + (FIELD_WIDTH - entity_width) // 2
         # Center vertically
         entity_y = render_y + (FIELD_HEIGHT - entity_height) // 2
-
-        # Define adjustable offsets for player and enemy
-        offset_x = -55 if self.name == 'player' else -185
-        offset_y = -20 if self.name == 'player' else -185
+        
 
         # Update animation frame
         if self.animation_list and self.curr_animation in self.animation_list:
             # Retrieve frames from the animation object
             animation = self.animation_list[self.curr_animation]
             animation_frames = animation.get_frames()
+            offset_x = animation.offset_x
+            offset_y = animation.offset_y
+            self.frame_index = animation.index
 
-            if animation_frames:
-                # Update frame index based on the timer
-                self.frame_timer += 0.01  # Increase by seconds elapsed
-                if self.frame_timer >= self.frame_duration:
-                    self.frame_timer = 0
-                    self.frame_index = (
-                        self.frame_index + 1) % len(animation_frames)
-
-                # Render current animation frame with offsets applied
-                current_frame = animation_frames[self.frame_index]
-                screen.blit(
-                    pygame.transform.flip(
-                        current_frame, self.facing_left, False),
-                    (entity_x + offset_x, entity_y + offset_y)
-                )
+            # Render current animation frame with offsets applied
+            current_frame = animation_frames[self.frame_index]
+            screen.blit(
+                pygame.transform.flip(
+                    current_frame, self.facing_left, False),
+                (entity_x + offset_x, entity_y + offset_y)
+            )
 
         # Render Vfx
         self.vfx.render(screen)
@@ -192,9 +190,11 @@ class Entity:
             self.curr_animation = name
             self.frame_index = 0
             self.frame_timer = 0
+            # self.on_complete = on_complete
             # Start from the beginning of the new animation
             self.animation_list[name].Refresh()
             print(f'{self.name} animation changed to {name}')
         else:
             print(
                 f'Animation {name} not found in animation list for {self.name}')
+

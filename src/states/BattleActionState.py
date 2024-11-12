@@ -82,6 +82,21 @@ class BattleActionState(BaseState):
 
         self.player.update(dt)
         self.enemy.update(dt)
+
+        for tile in self.field:
+            if tile.second_entity:
+                tile.second_entity.update(dt)
+            elif tile.is_occupied() and tile.entity.type == None:
+                tile.entity.update(dt)
+
+        self.remove_timeout_entity()
+
+    def remove_timeout_entity(self):
+        for tile in self.field:
+            if tile.is_second_entity():
+                if tile.second_entity.duration == 0:
+                    print("remove second entity for timeout ", tile.index)
+                    tile.remove_second_entity()
     
     def sortEffects(self):
         playerSpeed = self.player.selectedCard.buffed_speed
@@ -104,12 +119,11 @@ class BattleActionState(BaseState):
             self.effectOrder["after"].append([afterEffect, entityType])
 
     def render(self, screen):  
-        RenderTurn(screen, 'Action State', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, 'battleAction', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
-
-        screen.blit(pygame.font.Font(None, 36).render("Resolve Action: Press Enter to Confirm", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
-
+        RenderDescription(screen, "Resolve Action: Press Enter to Confirm")
+        
         # Render field
         for fieldTile in self.field:
             fieldTile.render(screen)

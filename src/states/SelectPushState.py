@@ -19,7 +19,7 @@ class SelectPushState(BaseState):
         self.effect = params['effect']
         self.effectOwner = params['effectOwner']
 
-        self.avilablePushTile = []
+        self.availablePushTile = []
 
         if self.effectOwner == PlayerType.PLAYER:
             if self.player.fieldTile_index > self.enemy.fieldTile_index:
@@ -45,12 +45,12 @@ class SelectPushState(BaseState):
         self.selectPushTile = 0
         if self.MaxTileIndex <= self.MinTileIndex:
             for i in range(self.MaxTileIndex, self.MinTileIndex+1):
-                self.avilablePushTile.append(i)
+                self.availablePushTile.append(i)
         else:       
             for j in range(self.MinTileIndex, self.MaxTileIndex+1):
-                self.avilablePushTile.append(j)
+                self.availablePushTile.append(j)
         
-        self.avilablePushTile = list( dict.fromkeys(self.avilablePushTile) )
+        self.availablePushTile = list( dict.fromkeys(self.availablePushTile) )
         
         print('\n!!!! SelectPushState !!!!')
         print(f'Owner: {self.effectOwner}')
@@ -67,6 +67,13 @@ class SelectPushState(BaseState):
 
     def Exit(self):
         pass
+
+    def remove_timeout_entity(self):
+        for tile in self.field:
+            if tile.is_second_entity():
+                if tile.second_entity.duration == 0:
+                    print("remove second entity for timeout ", tile.index)
+                    tile.remove_second_entity()
 
     def update(self, dt, events):
         for event in events:
@@ -85,22 +92,22 @@ class SelectPushState(BaseState):
                         print('moving left')
                         self.selectPushTile = self.selectPushTile - 1
                         if self.selectPushTile < 0:
-                            self.selectPushTile = len(self.avilablePushTile) - 1
+                            self.selectPushTile = len(self.availablePushTile) - 1
                 if event.key == pygame.K_RIGHT:
                     print('key right')
                     if self.effectOwner == PlayerType.PLAYER:
                         print('moving right')
                         self.selectPushTile = self.selectPushTile + 1
-                        if self.selectPushTile > len(self.avilablePushTile) - 1:
+                        if self.selectPushTile > len(self.availablePushTile) - 1:
                             self.selectPushTile = 0
                 if event.key == pygame.K_RETURN:
                     print('push state: before check effect owner')
                     if self.effectOwner == PlayerType.PLAYER:
                         print('enemy push')
                         if self.selectPushTile>=0 and self.effect.maxRange>0:
-                            if not self.field[self.avilablePushTile[self.selectPushTile]].is_occupied():
-                                self.enemy.move_to(self.field[self.avilablePushTile[self.selectPushTile]], self.field)
-                                print(f"push target to {self.avilablePushTile[self.selectPushTile]}")
+                            if not self.field[self.availablePushTile[self.selectPushTile]].is_occupied():
+                                self.enemy.move_to(self.field[self.availablePushTile[self.selectPushTile]], self.field)
+                                print(f"push target to {self.availablePushTile[self.selectPushTile]}")
                             else:
                                 print("can not push, there is an entity of that tile")
                         else:
@@ -138,28 +145,21 @@ class SelectPushState(BaseState):
 
         self.player.update(dt)
         self.enemy.update(dt)
+
+        for tile in self.field:
+            if tile.second_entity:
+                tile.second_entity.update(dt)
+            elif tile.is_occupied() and tile.entity.type == None:
+                tile.entity.update(dt)
+
+        self.remove_timeout_entity()
         
     def render(self, screen):
         RenderTurn(screen, 'SelectPushState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
-        RenderCurrentAction(screen, self.effect, self.effectOwner)
-
-        # Render field
-        for fieldTile in self.field:               
-            # Render the range of the attack
-
-            if fieldTile.index in set(self.avilablePushTile):
-                fieldTile.color = (255,0,0)
-            else:
-                fieldTile.color = (0,0,0)
-            if self.selectPushTile>=0:
-                if fieldTile.index == self.avilablePushTile[self.selectPushTile]:
-                    fieldTile.color = (255,0,255)
-                    fieldTile.solid = 0
-                
-            fieldTile.render(screen)
-            fieldTile.color = (0,0,0)
-            fieldTile.solid = 1
+        RenderDescription(screen, f"Current Action: {self.effect.type}", f"Owner: {self.effectOwner.value}")
+        RenderFieldSelection(screen, self.field, self.availablePushTile, self.selectPushTile, self.effectOwner)
+        
 
         

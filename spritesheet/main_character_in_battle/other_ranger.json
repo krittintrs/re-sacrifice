@@ -5,6 +5,8 @@
     "knockDown_ranger": {
       "loop": "False",
       "interval_time": 0.1,
+      "offset_x":-55,
+      "offset_y":-20,
       "sprites": [
         {
           "fileName": "ranger-knock-dwn-00.png",
@@ -59,6 +61,8 @@
     },
     "walk_ranger": {
       "interval_time": 0.2,
+      "offset_x":-55,
+      "offset_y":-20,
       "sprites": [
         {
           "fileName": "ranger-walk-00.png",

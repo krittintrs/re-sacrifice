@@ -48,6 +48,19 @@ class SpriteManager:
                 "./spritesheet/VFX/general_vfx/PhysicalHit.json",
                 "./spritesheet/VFX/general_vfx/shield.json",
                 "./spritesheet/VFX/monster_vfx/monster_attack_vfx.json",
+                "./spritesheet/Summon/ghost/ghost.json",
+                "./spritesheet/Summon/ghost/ghost_summon.json",
+                "./spritesheet/Effect/trap_idle.json",
+                "./spritesheet/Effect/trap_attack.json",
+                "./spritesheet/Effect/trap_summon.json",
+                "./spritesheet/background/clock.json",
+                "./spritesheet/background/dice.json",
+                "./spritesheet/background/field.json",
+                "./spritesheet/Summon/ghost/ghost.json",
+                "./spritesheet/Summon/ghost/ghost_summon.json",
+                "./spritesheet/Effect/trap_idle.json",
+                "./spritesheet/Effect/trap_attack.json",
+                "./spritesheet/Effect/trap_summon.json",
             ]
         )
         self.spriteCollection["card_conf"] = self.loadCardConf("./cards/cards_corrected.json")
@@ -99,11 +112,14 @@ class SpriteManager:
                                 yTileSize=ySize
                             )
                         # Handle loop setting
+                        loop = animation_data.get('loop', 'true').lower() == 'true'  # Convert string to boolean, default to True if not specified
+                        offset_x = animation_data.get('offset_x', 0)
+                        offset_y = animation_data.get('offset_y', 0)
                         loop = animation_data.get('loop', 'true').lower() == 'true'
                         interval_time = animation_data.get('interval_time', 0.5)
                         dic[animation_name] = Sprite(
                             None,
-                            animation=Animation(animation_name, images, loop, interval_time, idleSprite=idle_img),
+                            animation=Animation(animation_name, images, looping=loop, idleSprite=idle_img, offset_x=offset_x, offset_y=offset_y, interval_time=data.get("interval_time", 0.15))
                         )
 
                     resDict.update(dic)
@@ -161,7 +177,11 @@ class SpriteManager:
                                 effect_buff = effect["buff"]
                             except KeyError:
                                 effect_buff = None
-                            temp_effect_dict[effectPeriod].append(Effect(effect_type, effect["minRange"], effect["maxRange"], effect_buff))
+                            try:
+                                effect_spawn = effect["spawn"]
+                            except KeyError:
+                                effect_spawn = None
+                            temp_effect_dict[effectPeriod].append(Effect(effect_type, effect["minRange"], effect["maxRange"], effect_buff, effect_spawn))
                             print(f"{effect_type}\t{effect_buff}")
 
                 # Create the Card object for each card entry
@@ -231,12 +251,14 @@ class DeckLoader():
         return deck_conf
     
 class Animation:
-    def __init__(self, name, images, looping, interval_time , idleSprite=None):
+    def __init__(self, name, images, looping, idleSprite=None, offset_x=0, offset_y=0, interval_time=0.15):
         self.images = images
         self.timer = 0
         self.index = 0
         self.image = idleSprite if idleSprite else self.images[self.index]
         self.idleSprite = idleSprite
+        self.offset_x = offset_x
+        self.offset_y = offset_y
         self.interval_time = interval_time
         self.looping = looping
         self.times_played = 0
@@ -256,6 +278,7 @@ class Animation:
         self.timer += dt
         if self.timer >= self.interval_time:
             self.index += 1
+            self.timer = 0
             self.timer = 0
             if self.index >= len(self.images):
                 self.times_played += 1

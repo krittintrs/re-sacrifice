@@ -5,6 +5,8 @@
     "cast_ranger": {
       "loop": "False",
       "interval_time": 0.1,
+      "offset_x":-55,
+      "offset_y":-20,
       "sprites": [
         {
           "fileName": "cast_ranger1.png",
@@ -39,6 +41,8 @@
     "castloop_ranger": {
       "loop": "False",
       "interval_time": 0.1,
+      "offset_x":-55,
+      "offset_y":-20,
       "sprites": [
         {
           "fileName": "castloop_ranger1.png",
@@ -72,6 +76,8 @@
     },
     "idle_ranger": {
       "loop": "True",
+      "offset_x":-55,
+      "offset_y":-20,
       "sprites": [
         {
           "fileName": "idle_ranger1.png",
@@ -99,6 +105,8 @@
     "multiAttack_ranger": {
       "loop": "False",
       "interval_time": 0.1,
+      "offset_x":-55,
+      "offset_y":-20,
       "sprites": [
         {
           "fileName": "multi_ranger1.png",
@@ -147,6 +155,8 @@
     "singleAttack_ranger": {
       "loop": "False",
       "interval_time": 0.1,
+      "offset_x":-55,
+      "offset_y":-20,
       "sprites": [
         {
           "fileName": "single_ranger1.png",
