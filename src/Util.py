@@ -35,6 +35,7 @@ class SpriteManager:
                 "./spritesheet/VFX/warrior_vfx/warrior_light_vfx.json",
                 "./spritesheet/VFX/general_vfx/buff.json",
                 "./spritesheet/VFX/general_vfx/debuff.json",
+                "./spritesheet/VFX/general_vfx/dizzy.json"
             ]
         )
         self.spriteCollection["card_conf"] = self.loadCardConf("./cards/cards_corrected.json")
@@ -239,6 +240,8 @@ class Animation:
 
     def update(self, dt):
         self.timer += dt
+        # if self.name == "dizzy_vfx" or self.name == "mage_heavy_vfx":
+            # print(f"Animation: {self.name}, finished: {self.finished}")
         if self.timer >= self.interval_time:
             self.index += 1
             self.timer = 0
