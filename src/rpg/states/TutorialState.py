@@ -31,7 +31,7 @@ class TutorialState:
         
         self.params = {'rpg' : {"rpg_player" : self.player,"class": None, "quests":{},"story_checkpoint" : {} ,'Money': None, 'Inventory': {'Health Potion':1,'Mana Potion':1}}, 
                        'card' : {}}
-        #Todo add stater deck params
+        # Todo: add stater deck params
         
         
          # Load tutorial images or placeholders for instructions and cutscenes

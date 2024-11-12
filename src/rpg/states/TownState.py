@@ -313,7 +313,13 @@ class TownState:
             self.buildings = [b for b in self.buildings if b['id'] != "guard_door"]
         
         if self.current_npc:
-            
+            if self.current_npc.name == "Jim":
+                if self.current_npc.choice == 1:
+                    # TODO: add parameters to the change function
+                    g_state_manager.Change(BattleState.PREPARATION_PHASE, {
+                        'player': None,
+                        'enemy': None
+                    })
             #Mira Jarek quest
             if self.current_npc.name == "Mira":
                 if self.current_npc.choice == 0:
