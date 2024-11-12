@@ -107,6 +107,13 @@ class Buff():
             bg_rect_height = buff_name_rect.height + text_rect.height + padding
             bg_rect = pygame.Rect(buff_name_rect.left - padding, buff_name_rect.top - padding, bg_rect_width, bg_rect_height)
 
+            # Check if the tooltip exceeds the screen width
+            if bg_rect.right > SCREEN_WIDTH:
+                # If it does, render it on the left side of the buff
+                buff_name_rect.topleft = (self.rect.x + 25 - bg_rect_width - 20, self.rect.y - 40)
+                text_rect.topleft = (self.rect.x + 25 - bg_rect_width - 20, self.rect.y - 25)
+                bg_rect.topleft = (buff_name_rect.left - padding, buff_name_rect.top - padding)
+
             # Draw background rectangle (use a light color)
             pygame.draw.rect(screen, (211, 164, 117), bg_rect, border_radius=5)  # border_radius makes the corners rounded
 
