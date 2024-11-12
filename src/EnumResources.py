@@ -11,12 +11,12 @@ class BattleState(Enum):
     FINISH_PHASE = "battleFinish"
 
 class SelectionState(Enum):
-    ATTACK = "attack"
-    MOVE = "move"
-    BUFF = "buff"
-    PUSH = "push"
-    PULL = "pull"
-    SPAWN = "spawn"
+    ATTACK = "SelectAttackState"
+    MOVE = "SelectMoveState"
+    BUFF = "SelectBuffState"
+    PUSH = "SelectPushState"
+    PULL = "SelectPullState"
+    SPAWN = "SelectSpawnState"
 
 class RPGState(Enum):
     START = "start"
@@ -24,8 +24,8 @@ class RPGState(Enum):
     TAVERN = "tavern"
 
 class PlayerType(Enum):
-    PLAYER = "Player"
-    ENEMY = "Enemy"
+    PLAYER = "player"
+    ENEMY = "enemy"
 
 class PlayerClass(Enum):
     WARRIOR = "Warrior"
@@ -85,3 +85,7 @@ class BuffType(Enum):
     CRIT_DMG = "CritDmg"
     EVADE = "Evade"
     STOP_MOVEMENT = "Stop Movement"
+
+class BackgroundState(Enum):
+    DECK_BUILDING = "deckbuilding"
+    BATTLE = "battle"

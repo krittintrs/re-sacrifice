@@ -224,21 +224,6 @@ class SelectAttackState(BaseState):
         RenderTurn(screen, 'SelectAttackState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
-        RenderCurrentAction(screen, self.effect, self.effectOwner)
-
-        # Render field
-        for fieldTile in self.field:               
-            # Render the range of the attack
-
-            if fieldTile.index in set(self.availableAttackTile):
-                fieldTile.color = (255,0,0)
-            else:
-                fieldTile.color = (0,0,0)
-            if self.selectAttackTile>=0:
-                if fieldTile.index == self.availableAttackTile[self.selectAttackTile]:
-                    fieldTile.color = (255,0,255)
-                    fieldTile.solid = 0
-                
-            fieldTile.render(screen)
-            fieldTile.color = (0,0,0)
-            fieldTile.solid = 1
+        RenderDescription(screen, f"Current Action: {self.effect.type}", f"Owner: {self.effectOwner.value}")
+        RenderFieldSelection(screen, self.field, self.availableAttackTile, self.selectAttackTile, self.effectOwner)
+        

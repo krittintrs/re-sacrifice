@@ -1,5 +1,6 @@
 from src.Util import SpriteManager, DeckLoader
 from src.StateMachine import StateMachine
+from src.EnumResources import *
 import pygame
 
 g_state_manager = StateMachine()
@@ -69,4 +70,46 @@ gEntity_animation_dict = {
     "ranger": gRanger_animation_list,
     "mage": gMage_animation_list,
     "goblin": gNormalGoblin_animation_list,
+}
+
+gBackground_image_list = {
+    BackgroundState.BATTLE: pygame.image.load("./graphics/battle_background.png"), 
+    BackgroundState.DECK_BUILDING: pygame.image.load("./graphics/deckbuilding_background.png"),
+}
+
+gClock_image_list = {
+    "clock_0": sprite_collection["clock_0"].image,
+    "clock_3": sprite_collection["clock_3"].image,
+    "clock_6": sprite_collection["clock_6"].image,
+    "clock_9": sprite_collection["clock_9"].image,
+}
+
+gDice_image_list = {
+    "dice_1": sprite_collection["dice_1"].image,
+    "dice_2": sprite_collection["dice_2"].image,
+    "dice_3": sprite_collection["dice_3"].image,
+    "dice_4": sprite_collection["dice_4"].image,
+    "dice_5": sprite_collection["dice_5"].image,
+    "dice_6": sprite_collection["dice_6"].image,
+    "dice_roll_1": sprite_collection["dice_roll_1"].image,
+    "dice_roll_2": sprite_collection["dice_roll_2"].image,
+    "dice_roll_3": sprite_collection["dice_roll_3"].image,
+    "dice_roll_4": sprite_collection["dice_roll_4"].image,
+    "dice_roll_5": sprite_collection["dice_roll_5"].image,
+    "dice_roll_6": sprite_collection["dice_roll_6"].image,
+}
+
+gField_image_list = {
+    "normal": sprite_collection["field_normal"].image,
+    "player_available": sprite_collection["field_player_available"].image,
+    "player_current": sprite_collection["field_player_current"].image,
+    "enemy_available": sprite_collection["field_enemy_available"].image,
+    "enemy_current": sprite_collection["field_enemy_current"].image,
+}
+
+gFont_list = {
+    "small": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 8),
+    "default": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 10),
+    "header": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 15),
+    "title": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 20),
 }

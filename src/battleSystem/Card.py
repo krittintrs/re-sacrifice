@@ -95,7 +95,7 @@ class Card:
     def render(self, screen, order):
         # Transparent card rendering at the bottom
         start_x = 80 + order * (CARD_WIDTH + 30)  # Space cards with 30px gap
-        start_y = SCREEN_HEIGHT - CARD_HEIGHT - 10  # Place near the bottom
+        start_y = SCREEN_HEIGHT - HUD_HEIGHT//2 - CARD_HEIGHT//2  # Place near the bottom
 
         # Draw the card image
         screen.blit(self.image, (start_x, start_y))
@@ -112,7 +112,7 @@ class Card:
             color = debuff_color
         else:
             color = normal_color
-        font = pygame.font.Font(None, 24)
+        font = gFont_list["default"]
         text = font.render(f'{self.buffed_speed}', True, color)
         screen.blit(text, (start_x + 171, start_y + 15))
 
@@ -123,7 +123,7 @@ class Card:
             color = debuff_color
         else:
             color = normal_color
-        font = pygame.font.Font(None, 20)
+        font = gFont_list["default"]
         text = font.render(f'{self.buffed_attack}', True, color)
         screen.blit(text, (start_x + 45, start_y + 212))
 
@@ -135,11 +135,11 @@ class Card:
         else:
             color = normal_color
         if self.range_start == self.range_end:
-            font2 = pygame.font.Font(None, 20)
+            font2 = gFont_list["default"]
             text = font2.render(f'{self.buffed_range_end}', True, color)
             screen.blit(text, (start_x + 96, start_y + 212))
         else:
-            font2 = pygame.font.Font(None, 16)
+            font2 = gFont_list["small"]
             text = font2.render(f'{self.buffed_range_start}-{self.buffed_range_end}', True, color)
             screen.blit(text, (start_x + 91, start_y + 213))
 
