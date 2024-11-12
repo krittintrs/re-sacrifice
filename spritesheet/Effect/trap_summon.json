@@ -5,7 +5,7 @@
     "trapSummon": {
       "loop": "False",
       "offset_x":-43,
-      "offset_y":12,
+      "offset_y":-38,
       "sprites": [
     {
       "fileName": "trap_Summon1",

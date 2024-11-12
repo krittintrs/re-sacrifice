@@ -5,7 +5,7 @@
     "ghostIdle": {
       "loop": "True",
       "offset_x":-100,
-      "offset_y":-185,
+      "offset_y":-275,
       "sprites": [
     {
       "fileName": "ghost_Idle1",
@@ -47,7 +47,7 @@
     "ghostDeath": {
       "loop": "False",
       "offset_x":-100,
-      "offset_y":-185,
+      "offset_y":-275,
       "sprites": [
         {
           "fileName": "ghost_Death1",
@@ -89,7 +89,7 @@
     "ghostAttack": {
       "loop": "False",
       "offset_x":-100,
-      "offset_y":-185,
+      "offset_y":-275,
       "sprites": [
         {
           "fileName": "ghost_Attack1",

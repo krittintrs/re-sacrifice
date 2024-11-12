@@ -5,7 +5,7 @@
     "ghostSummon": {
       "loop": "False",
       "offset_x":-100,
-      "offset_y":-95,
+      "offset_y":-165,
       "sprites": [
         {
           "fileName": "ghost_Summon1",

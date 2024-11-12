@@ -128,7 +128,7 @@ class BattlePreparationState(BaseState):
         start_x = (SCREEN_WIDTH - (num_fieldTile * FIELD_WIDTH + (num_fieldTile-1) * FIELD_GAP)) // 2
         for i in range(num_fieldTile + 1):
             x = start_x + (i * (FIELD_WIDTH + FIELD_GAP))
-            y = SCREEN_HEIGHT // 3 - FIELD_HEIGHT // 2
+            y = FIELD_OFFSET_Y
             print(f'x: {x}, y: {y}')
             field.append(FieldTile(i, (x, y)))  # Create and append each fieldTile
         return field

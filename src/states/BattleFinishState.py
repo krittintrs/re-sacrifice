@@ -45,7 +45,7 @@ class BattleFinishState(BaseState):
         self.enemy.update(dt)
 
     def render(self, screen):
-        RenderTurn(screen, 'End State', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, "battleFinish", self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
 
         text = "Player wins!" if self.winner == PlayerType.PLAYER else "Enemy wins!"
