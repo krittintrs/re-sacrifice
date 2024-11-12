@@ -37,6 +37,7 @@ class BattlePreparationState(BaseState):
         # self.player.add_buff(Buff(CARD_BUFF["defense_debuff"]))
 
     def Enter(self, params):
+        play_music("battle_bgm")
         self.params = params
         battle_param = self.params['battleSystem']
         self.player = battle_param['player']

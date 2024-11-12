@@ -16,6 +16,20 @@ gSounds = {
     "block": pygame.mixer.Sound("sounds/block.wav"),
 }
 
+gBGM = {
+    "rpg_bgm": "sounds/rpg_bgm.mp3",
+    "battle_bgm": "sounds/battle_bgm.mp3",
+}
+
+def play_music(state):
+    # Stop any currently playing music
+    pygame.mixer.music.stop()
+
+    # Load and play the new music
+    pygame.mixer.music.load(gBGM[state])
+    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.play(loops=-1)  # Loop indefinitely
+
 gBuffIcon_image_list = {
     "buff": sprite_collection["buff_icon"].image,
     "debuff": sprite_collection["debuff_icon"].image,

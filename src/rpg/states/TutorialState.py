@@ -7,7 +7,7 @@ from src.rpg.StateMachine import StateMachine
 from src.rpg.Player import Player
 from src.rpg.entity.playerState.PlayerIdleState import PlayerIdleState
 from src.rpg.entity.playerState.PlayerWalkState import PlayerWalkState
-from src.resources import g_state_manager
+from src.resources import g_state_manager, play_music
 import cv2
 from src.EnumResources import RPGState
 
@@ -106,6 +106,7 @@ class TutorialState:
                     self.current_stage = "class_select"  # Go back to class selection
 
     def Enter(self, enter_params):
+        play_music("rpg_bgm")
         if enter_params:
             self.params = enter_params
         print(self.params," Tutorial")

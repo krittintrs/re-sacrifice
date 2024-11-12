@@ -14,6 +14,7 @@ class BattleResolveState(BaseState):
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleResolveState <<<<<<")
+        # print(params)
         self.params = params
         battle_param = self.params['battleSystem']
         self.player = battle_param['player']

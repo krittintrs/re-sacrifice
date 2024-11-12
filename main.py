@@ -40,21 +40,6 @@ class GameMain:
         # Set initial states for battle mode
         g_state_manager.SetStates(self.states)
 
-    def RenderBackground(self):
-        self.screen.fill((255, 255, 255))
-        if self.state == "battle":
-            self.CreateBattleField(self.screen)
-        elif self.state == "rpg":
-            self.RenderMap()
-
-    def CreateBattleField(self, screen):
-        # Draw the HUD background (full width, height 200 at the bottom)
-        pygame.draw.rect(screen, (50, 50, 50), (0, SCREEN_HEIGHT - HUD_HEIGHT, SCREEN_WIDTH, HUD_HEIGHT)) 
-
-    def RenderMap(self):
-        # Draw a simple grid-based map for RPG movement
-        self.screen.fill((0, 128, 0))  # Green background for RPG map
-
     def StartScreen(self):
         self.screen.fill((0, 0, 0))
         font = pygame.font.Font(None, 74)
@@ -94,18 +79,9 @@ class GameMain:
                             }
                             g_state_manager.Change(BattleState.PREPARATION_PHASE, params)
 
-            # Battle state
-            elif self.state == "battle":
+            else:
                 g_state_manager.update(dt, events)
-                self.RenderBackground()
                 g_state_manager.render()
-                pygame.display.update()
-
-            # RPG state
-            elif self.state == "rpg":
-                g_state_manager.update(dt, events)
-                self.RenderBackground()  # Display the map
-                g_state_manager.render()  # Render player and other RPG elements
                 pygame.display.update()
 
 if __name__ == '__main__':
