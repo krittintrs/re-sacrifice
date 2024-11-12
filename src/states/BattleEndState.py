@@ -124,11 +124,10 @@ class BattleEndState(BaseState):
                     tile.remove_second_entity()
 
     def render(self, screen):
-        RenderTurn(screen, 'End State', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, "battleEnd", self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
-
-        screen.blit(pygame.font.Font(None, 36).render("End Action: Press Enter to Draw New Card", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
-
+        RenderDescription(screen, "End Action: Press Enter to Draw New Card")
+        
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
             card.render(screen, order)

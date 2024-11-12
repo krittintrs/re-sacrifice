@@ -32,6 +32,9 @@ class SpriteManager:
                 "./spritesheet/Effect/trap_idle.json",
                 "./spritesheet/Effect/trap_attack.json",
                 "./spritesheet/Effect/trap_summon.json",
+                "./spritesheet/background/clock.json",
+                "./spritesheet/background/dice.json",
+                "./spritesheet/background/field.json",
             ]
         )
         self.spriteCollection["card_conf"] = self.loadCardConf("./cards/cards_corrected.json")
