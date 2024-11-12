@@ -5,7 +5,7 @@
     "trapAttack": {
       "loop": "False",
       "offset_x":-70,
-      "offset_y":-155,
+      "offset_y":-205,
       "sprites": [
     {
       "fileName": "trap_Attack1",

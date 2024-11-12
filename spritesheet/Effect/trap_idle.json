@@ -5,7 +5,7 @@
     "trapIdle": {
       "loop": "True",
       "offset_x":-50,
-      "offset_y":5,
+      "offset_y":-45,
       "sprites": [
     {
       "fileName": "trap_Idle1",
