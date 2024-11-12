@@ -4,6 +4,8 @@
   "animations": {
     "normalGoblinWalk": {
       "loop": "False",
+      "offset_x":-185,
+      "offset_y":-185,
       "sprites": [
         {
           "fileName": "normalGob_Walk1-0",

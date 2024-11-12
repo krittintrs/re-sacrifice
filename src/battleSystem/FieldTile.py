@@ -9,6 +9,7 @@ class FieldTile:
         self.second_entity = None
         self.color = (0,0,0)
         self.solid = 1
+        self.image = gField_image_list["normal"]
 
     def is_occupied(self):
         if self.entity:
@@ -48,7 +49,7 @@ class FieldTile:
     def render(self, screen):        
         # Draw the fieldTile
         rect = pygame.Rect(self.x, self.y, FIELD_WIDTH, FIELD_HEIGHT)
-        pygame.draw.rect(screen, self.color, rect, self.solid)  
+        screen.blit(self.image, (rect.x, rect.y))
 
         # Render the entity if present
         if self.entity:

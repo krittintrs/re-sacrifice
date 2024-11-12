@@ -1,0 +1,26 @@
+{
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/Effect/trap.png",
+  "animations": {
+    "trapIdle": {
+      "loop": "True",
+      "offset_x":-50,
+      "offset_y":-45,
+      "sprites": [
+    {
+      "fileName": "trap_Idle1",
+      "width": 84,
+      "height": 56,
+      "scale":2,
+      "x": 24,
+      "y": 8
+    }
+  ]
+    }
+  },
+  "packMode": "grid",
+  "padding": 0,
+  "backgroundColor": "rgba(0, 0, 0, 0)",
+  "spriteSheetWidth": 500,
+  "spriteSheetHeight": 75
+}

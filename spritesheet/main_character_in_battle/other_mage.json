@@ -4,6 +4,8 @@
   "animations": {
     "knockDown_mage": {
       "loop": "False",
+      "offset_x":-55,
+      "offset_y":-20,
       "sprites": [
         {
           "fileName": "other-mage-knock-dwn-00.png",
@@ -58,6 +60,8 @@
     },
     "walk_mage": {
       "loop": "False",
+      "offset_x":-55,
+      "offset_y":-20,
       "sprites": [
         {
           "fileName": "other-mage-walk-00.png",

@@ -160,23 +160,8 @@ class SelectPullState(BaseState):
         RenderTurn(screen, 'SelectPullState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
-        RenderCurrentAction(screen, self.effect, self.effectOwner)
-
-        # Render field
-        for fieldTile in self.field:               
-            # Render the range of the attack
-
-            if fieldTile.index in set(self.availablePullTile):
-                fieldTile.color = (255,0,0)
-            else:
-                fieldTile.color = (0,0,0)
-            if self.selectPullTile>=0:
-                if fieldTile.index == self.availablePullTile[self.selectPullTile]:
-                    fieldTile.color = (255,0,255)
-                    fieldTile.solid = 0
-                
-            fieldTile.render(screen)
-            fieldTile.color = (0,0,0)
-            fieldTile.solid = 1
+        RenderDescription(screen, f"Current Action: {self.effect.type}", f"Owner: {self.effectOwner.value}")
+        RenderFieldSelection(screen, self.field, self.availablePullTile, self.selectPullTile, self.effectOwner)
+        
 
         

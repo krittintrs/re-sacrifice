@@ -269,7 +269,7 @@ class BattleResolveState(BaseState):
             return False
 
     def render(self, screen):
-        RenderTurn(screen, 'Resolve State', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, "battleResolve", self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
 

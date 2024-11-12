@@ -93,12 +93,10 @@ class BattleSelectState(BaseState):
         self.selected_index = newIndex
 
     def render(self, screen):
-        RenderTurn(screen, 'Selection State', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, "battleSelect", self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
-
-        # Title
-        screen.blit(pygame.font.Font(None, 36).render("Select Card: Press Enter to Confirm", True, (255, 255, 255)), (10, SCREEN_HEIGHT - HUD_HEIGHT + 10))   
-
+        RenderDescription(screen, "Select Card: Press Enter to Confirm")
+        
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
             card.render(screen, order)

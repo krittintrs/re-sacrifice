@@ -1,0 +1,35 @@
+{
+    "type": "static",
+    "spriteSheetURL": "graphics/clock.png",
+    "sprites": [
+      {
+        "name": "clock_0",
+        "width": 122,
+        "height": 124,
+        "x": 0,
+        "y": 0
+      },
+      {
+        "name": "clock_3",
+        "width": 122,
+        "height": 124,
+        "x": 122,
+        "y": 0
+      },
+      {
+        "name": "clock_6",
+        "width": 122,
+        "height": 124,
+        "x": 244,
+        "y": 0
+      },
+      {
+        "name": "clock_9",
+        "width": 122,
+        "height": 124,
+        "x": 366,
+        "y": 0
+      }
+    ]
+  }
+  

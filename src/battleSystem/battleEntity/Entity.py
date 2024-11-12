@@ -74,7 +74,7 @@ class Entity:
 
         self.tweening = tween.to(
             self, "x", self.target_position, 1, "linear")# Tween x position
-        self.tweening.on_complete(action)  
+        self.tweening.on_complete(action)
 
         # Update fieldTile and position references
         if self.fieldTile_index is not None:
@@ -149,41 +149,24 @@ class Entity:
         entity_x = render_x + (FIELD_WIDTH - entity_width) // 2
         # Center vertically
         entity_y = render_y + (FIELD_HEIGHT - entity_height) // 2
-
-        # Define adjustable offsets for player and enemy
-        offset_x = -55 if self.name == 'player' else -185
-        offset_y = -20 if self.name == 'player' else -185
+        
 
         # Update animation frame
         if self.animation_list and self.curr_animation in self.animation_list:
             # Retrieve frames from the animation object
             animation = self.animation_list[self.curr_animation]
             animation_frames = animation.get_frames()
+            offset_x = animation.offset_x
+            offset_y = animation.offset_y
+            self.frame_index = animation.index
 
-            # Check if the animation has finished and switch to idle if necessary
-            if animation.is_finished() and self.curr_animation != "idle":
-                
-                # Automatically switch to idle animation
-                self.ChangeAnimation("idle")
-                # Update to idle animation
-                animation = self.animation_list[self.curr_animation]
-                animation_frames = animation.get_frames()  # Update frames
-
-            if animation_frames:
-                # Update frame index based on the timer
-                self.frame_timer += 0.01  # Increase by seconds elapsed
-                if self.frame_timer >= self.frame_duration:
-                    self.frame_timer = 0
-                    self.frame_index = (
-                        self.frame_index + 1) % len(animation_frames)
-
-                # Render current animation frame with offsets applied
-                current_frame = animation_frames[self.frame_index]
-                screen.blit(
-                    pygame.transform.flip(
-                        current_frame, self.facing_left, False),
-                    (entity_x + offset_x, entity_y + offset_y)
-                )
+            # Render current animation frame with offsets applied
+            current_frame = animation_frames[self.frame_index]
+            screen.blit(
+                pygame.transform.flip(
+                    current_frame, self.facing_left, False),
+                (entity_x + offset_x, entity_y + offset_y)
+            )
 
         else:
             # Placeholder red rectangle if no animation is provided
