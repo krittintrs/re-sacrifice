@@ -1,6 +1,6 @@
 import pygame
 from src.constants import *
-from src.resources import gBackground_image_list, gFont_list
+from src.resources import *
 from src.EnumResources import *
 
 def RenderBackground(screen, bgstate):
@@ -13,6 +13,26 @@ def RenderTurn(screen, state, turn, currentTurnOwner):
     _, title_text_height = title_text.get_size()
     title_text_rect = title_text.get_rect(center=(SCREEN_WIDTH // 2, title_text_height // 2))
     screen.blit(title_text, title_text_rect)
+    
+    try:
+        state_type = BattleState(state)
+    except ValueError:
+        try:
+            state_type = SelectionState(state)
+        except ValueError:
+            state_type = None
+            
+    if state_type == BattleState.INITIAL_PHASE:
+        clock = gClock_image_list["clock_0"]
+    elif state_type == BattleState.SELECTION_PHASE:
+        clock = gClock_image_list["clock_3"]
+    elif state_type in [BattleState.ACTION_PHASE, BattleState.RESOLVE_PHASE] or state_type in list(SelectionState):
+        clock = gClock_image_list["clock_6"]
+    elif state_type == BattleState.END_PHASE:
+        clock = gClock_image_list["clock_9"]
+    else:
+        clock = gClock_image_list["clock_0"]
+    screen.blit(clock, (SCREEN_WIDTH // 2 - 61, 0))
 
 def RenderEntityStats(screen, player, enemy):
     # Display player stats on the top left

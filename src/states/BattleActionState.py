@@ -119,7 +119,7 @@ class BattleActionState(BaseState):
             self.effectOrder["after"].append([afterEffect, entityType])
 
     def render(self, screen):  
-        RenderTurn(screen, 'Action State', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, 'battleAction', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
         RenderDescription(screen, "Resolve Action: Press Enter to Confirm")

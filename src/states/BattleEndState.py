@@ -124,7 +124,7 @@ class BattleEndState(BaseState):
                     tile.remove_second_entity()
 
     def render(self, screen):
-        RenderTurn(screen, 'End State', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, "battleEnd", self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderDescription(screen, "End Action: Press Enter to Draw New Card")
         

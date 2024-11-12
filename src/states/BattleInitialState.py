@@ -95,7 +95,7 @@ class BattleInitialState(BaseState):
                     tile.remove_second_entity()
         
     def render(self, screen):
-        RenderTurn(screen, 'Initial State', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, "battleInitial", self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
             
         # Title

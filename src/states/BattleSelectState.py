@@ -93,7 +93,7 @@ class BattleSelectState(BaseState):
         self.selected_index = newIndex
 
     def render(self, screen):
-        RenderTurn(screen, 'Selection State', self.turn, self.currentTurnOwner)
+        RenderTurn(screen, "battleSelect", self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderDescription(screen, "Select Card: Press Enter to Confirm")
         

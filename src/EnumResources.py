@@ -11,12 +11,12 @@ class BattleState(Enum):
     FINISH_PHASE = "battleFinish"
 
 class SelectionState(Enum):
-    ATTACK = "attack"
-    MOVE = "move"
-    BUFF = "buff"
-    PUSH = "push"
-    PULL = "pull"
-    SPAWN = "spawn"
+    ATTACK = "SelectAttackState"
+    MOVE = "SelectMoveState"
+    BUFF = "SelectBuffState"
+    PUSH = "SelectPushState"
+    PULL = "SelectPullState"
+    SPAWN = "SelectSpawnState"
 
 class RPGState(Enum):
     START = "start"

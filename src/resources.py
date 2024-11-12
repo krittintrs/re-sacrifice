@@ -77,6 +77,13 @@ gBackground_image_list = {
     BackgroundState.DECK_BUILDING: pygame.image.load("./graphics/deckbuilding_background.png"),
 }
 
+gClock_image_list = {
+    "clock_0": sprite_collection["clock_0"].image,
+    "clock_3": sprite_collection["clock_3"].image,
+    "clock_6": sprite_collection["clock_6"].image,
+    "clock_9": sprite_collection["clock_9"].image,
+}
+
 gFont_list = {
     "small": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 8),
     "default": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 10),
