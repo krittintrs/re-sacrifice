@@ -54,6 +54,18 @@ class Deck:
             return False
         else:
             return True
+        
+    def isCardDuplicateWithinLimit(self):
+        dup = {}
+        for card in self.card_deck:
+            if card.name in dup:
+                dup[card.name] += 1
+            else:
+                dup[card.name] = 1
+        for i in list(dup.values()):
+            if i > 3:
+                return False
+        return True
     
     
     # Inventory methods
