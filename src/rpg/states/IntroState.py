@@ -1,42 +1,35 @@
 import sys
 import time
 import pygame
-from src.rpg.states.TavernMapState import TavernMapState
 from src.rpg.entity.playerState.PlayerIdleState import PlayerIdleState
 from src.rpg.entity.playerState.PlayerWalkState import PlayerWalkState
 from src.rpg.EntityDefs import ENTITY_DEFS
 from src.rpg.Player import Player
 from src.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from src.rpg.StateMachine import StateMachine
-import os
 import google.generativeai as genai
-import json
-import re
 from src.rpg.NPC import NPC
 from src.rpg.Prompts import *
 from src.resources import g_state_manager
-from src.EnumResources import RPGState
+from src.EnumResources import RPGState,BattleState
 
 genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")
 # Create the model
 
 
-class RPGStartState:
+class IntroState:
     def __init__(self):
         pygame.init()
         
         self.scale_factor = 1.5
-        #  # Initialize the current state to this state
-        # self.current_state = self
-        # self.tavern_map_state = TavernMapState()
         
         # Initialize map
-        self.map_surface = pygame.image.load("src/rpg/sprite/map/TownMap.jpg")
+        self.map_surface = pygame.image.load("src/rpg/sprite/map/IntroMap.jpg")
         self.map_surface = pygame.transform.scale(self.map_surface, (SCREEN_WIDTH, SCREEN_HEIGHT))
         
         # Initialize NPCs with unique prompts
         self.npcs = [
-            NPC("Jim", 411, 453, "src/rpg/sprite/NPC/Jim_GoblinHunter", PROMPTS['Jim'],'right',self.scale_factor)
+            NPC("God", 631, 489, "src/rpg/sprite/NPC/God_Godoftime", PROMPTS['God'],'down',self.scale_factor,"Are you all right traveler?")
             # Add more NPCs here
         ]
 
@@ -67,13 +60,10 @@ class RPGStartState:
         })
         self.player.ChangeState('idle')  # Start in idle state
                 
-        self.params = None #{"player" : self.player, "story_checkpoint" : {"Gate_Open" : False} ,'Money': None, 'Inventory': None,'deck': None,'player': None,'enemy': None}
-        # Initialize buildings and interactions
+        self.params = None 
         self.buildings = []
         self.building_interactions = {
-            "blacksmith_building": self.interact_with_building_1,
-            "tavern_building": self.interact_with_tavern,
-            # "John_npc": lambda: self.interact_with_npc("John", "Hello, traveler! I am John, the town's guide.")
+            # "blacksmith_building": self.interact_with_building_1,
         }
         self.generate_buildings()  # Add buildings with invisible walls
         self.quests = {} 
@@ -94,20 +84,17 @@ class RPGStartState:
         self.buildings = [building for building in self.buildings if building['id'] != building_id]
     
     def generate_buildings(self):
-        #Buildings
-        self.add_invisible_wall("blacksmith_building", 177, 130, 437, 258)
-        self.add_invisible_wall("tavern_building", 510, 120, 760, 295)
-        self.add_invisible_wall("market1_building", 922, 90, 1106, 246)
-        self.add_invisible_wall("market2_building", 867, 262, 1047, 368)
-        self.add_invisible_wall("residence_building", 846, 442, 1115, 558)
-        self.add_invisible_wall("store_building", 509, 437, 766, 590)
         #Walls
-        self.add_invisible_wall("south_wall", 48, 640, 1227, 676)
-        self.add_invisible_wall("west_wall", 37, 51, 91, 629)
-        self.add_invisible_wall("north_wall1", 94, 34, 598, 72)
-        self.add_invisible_wall("north_wall2", 676, 34, 1239, 72)
-        self.add_invisible_wall("guard_door", 587, 47, 688, 67)
-        self.add_invisible_wall("east_wall", 1188, 56, 1240, 634)
+        self.add_invisible_wall("wall1", 556, 202, 583, 719)
+        self.add_invisible_wall("wall2", 698, 203, 714, 717)
+        self.add_invisible_wall("wall3", 502, 3, 533, 203)
+        self.add_invisible_wall("wall4", 748, 8, 772, 199)
+        self.add_invisible_wall("wall5", 502, 197, 580, 219)
+        self.add_invisible_wall("wall6", 699, 203, 771, 228)
+        self.add_invisible_wall("wall7", 578, 700, 706, 711)
+        #Door
+        self.add_invisible_wall("warp_door", 526, 9, 766, 34)
+        self.add_invisible_wall("door", 526, 39, 766, 64)
         
         # #NPC
         # self.add_invisible_wall("John_npc", 411, 453, 440, 480)
@@ -121,7 +108,7 @@ class RPGStartState:
         # self.player = self.params['player']
         self.params['rpg_player'].x  = 620
         self.params['rpg_player'].y  = 634
-        g_state_manager.Change(RPGState.TAVERN, self.params)
+        g_state_manager.Change(RPGState.TOWN, self.params)
         
     def interact_with_npc(self, npc):
         # Calculate direction to face player and update NPC sprite
@@ -129,7 +116,7 @@ class RPGStartState:
         
         self.current_npc = npc
         self.show_dialogue = True
-        self.dialogue_text = npc.dialogue_text or "Hello, traveler! How can I help you?"
+        self.dialogue_text = npc.dialogue_text or npc.default_text
 
     def wrap_text(self, text, font, max_width):
         # Split text into lines based on width constraints
@@ -153,21 +140,23 @@ class RPGStartState:
         return lines
 
     def update_story(self):
-        if self.params["story_checkpoint"].get("Gate_Open"):
-            self.buildings = [b for b in self.buildings if b['id'] != "guard_door"]
-        
+        for npc in self.npcs:
+            if npc.name == "God" and npc.choice == 1:
+                self.params["story_checkpoint"]["Fight_Intro"] = True
+                
+                
          # Quest tracking logic
         # Example quest: "Open the gate"
-        if not self.params["story_checkpoint"].get("Find_Barkeeper"):
-            self.quests["explore"] = "Explore around town for quests"  # Update or add quest
-            self.topics["explore"] = "Quests"
-        if self.params["story_checkpoint"].get("Gate_Open"):
-            self.quests.pop("quest_open_gate", None)  # Remove the quest if gate is open
-        elif self.params["story_checkpoint"].get("Find_Barkeeper"):
-            self.quests["quest_open_gate"] = "Find a way to open the gate."  # Update or add quest
-
-
-       
+        if not self.params["story_checkpoint"].get("Fight_Intro"):
+            self.quests["explore"] = "Speak with the mysterious lady"  # Update or add quest
+            self.topics["explore"] = "Game Controls"
+        else:
+            self.buildings = [b for b in self.buildings if b['id'] != "door"]
+            #g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
+            self.params["rpg_player"].x = 625
+            self.params["rpg_player"].y = 326
+            g_state_manager.Change(RPGState.TOWN, self.params)
+              
     def update(self, dt, events):
         # Handle events
         for event in events:

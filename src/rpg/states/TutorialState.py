@@ -1,6 +1,6 @@
 import pygame
 import sys
-from src.rpg.states.RPGStartState import RPGStartState  # Assuming RPGStartState is in src/rpg
+from src.rpg.states.TownState import TownState  # Assuming TownState is in src/rpg
 from src.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from src.rpg.EntityDefs import ENTITY_DEFS
 from src.rpg.StateMachine import StateMachine
@@ -29,7 +29,10 @@ class TutorialState:
         })
         self.player.ChangeState('idle')  # Start in idle state
         
-        self.params = {"rpg_player" : self.player,"class": None, "story_checkpoint" : {"Find_Barkeeper":False,"Gate_Open" : False} ,'Money': None, 'Inventory': None,'deck': None,'card_player': None,'enemy': None}
+        self.params = {'rpg' : {"rpg_player" : self.player,"class": None, "quests":{},"story_checkpoint" : {} ,'Money': None, 'Inventory': {'Health Potion':1,'Mana Potion':1}}, 
+                       'card' : {}}
+        #Todo add stater deck params
+        
         
          # Load tutorial images or placeholders for instructions and cutscenes
         self.movement_image = pygame.image.load("src/rpg/sprite/Tutorial/images.png")

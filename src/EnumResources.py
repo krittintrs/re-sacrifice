@@ -17,6 +17,7 @@ class SelectionState(Enum):
 
 class RPGState(Enum):
     START = "start"
+    INTRO = "intro"
     TOWN = "town"
     TAVERN = "tavern"
 

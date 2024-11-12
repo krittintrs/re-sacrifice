@@ -17,7 +17,6 @@ class GameMain:
 
         # Define battle and RPG states
         self.states = {
-            "battle": {
                 BattleState.DECK_BUILDING: DeckBuildingState(),
                 BattleState.PREPARATION_PHASE: BattlePreparationState(),
                 BattleState.INITIAL_PHASE: BattleInitialState(),
@@ -29,16 +28,14 @@ class GameMain:
                 SelectionState.MOVE: SelectMoveState(),
                 BattleState.END_PHASE: BattleEndState(),
                 BattleState.FINISH_PHASE: BattleFinishState(),
-            },
-            "rpg": {
                 RPGState.START: TutorialState(),# Add RPG start state here
-                RPGState.TOWN: RPGStartState(),
+                RPGState.INTRO: IntroState(),
+                RPGState.TOWN: TownState(),
                 RPGState.TAVERN: TavernMapState()
-            }
         }
 
         # Set initial states for battle mode
-        g_state_manager.SetStates(self.states["battle"])
+        g_state_manager.SetStates(self.states)
 
     def RenderBackground(self):
         self.screen.fill((255, 255, 255))
@@ -82,12 +79,10 @@ class GameMain:
                         if event.key == pygame.K_r:
                             # Change to RPG state and set RPG start state in state manager
                             self.state = "rpg"
-                            g_state_manager.SetStates(self.states["rpg"])
-                            g_state_manager.Change(RPGState.START,{})  # Initialize RPGStartState
+                            g_state_manager.Change(RPGState.START,{})  # Initialize TownState
                         elif event.key == pygame.K_b:
                             # Change to Battle state and set initial battle phase in state manager
                             self.state = "battle"
-                            g_state_manager.SetStates(self.states["battle"])
                             g_state_manager.Change(BattleState.PREPARATION_PHASE, {
                                 'player': None,
                                 'enemy': None

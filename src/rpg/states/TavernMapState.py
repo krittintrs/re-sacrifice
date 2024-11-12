@@ -7,17 +7,18 @@ from src.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from src.rpg.EntityDefs import ENTITY_DEFS
 from src.rpg.Player import Player
 from src.rpg.StateMachine import StateMachine
-from src.rpg.Prompts import PROMPTS
+from src.rpg.Prompts import DEFAULT_TEXT, PROMPTS
 from src.resources import g_state_manager
 from src.EnumResources import RPGState
+from src.rpg.Utils import render_dialogue, render_interaction_dialogue,render_quests,render_topics
 
 class TavernMapState:
     def __init__(self):
         scale_factor = 2
          # Initialize tavern NPCs
         self.npcs = [
-            NPC("John", 650, 375, "src/rpg/sprite/NPC/John_Tavernkeeper", PROMPTS['John'], 'left',scale_factor),
-            # Add more NPCs specific to the tavern here
+            NPC("John", 650, 375, "src/rpg/sprite/NPC/John_Tavernkeeper", PROMPTS['John'], 'left',scale_factor,"Hello, traveler! How can I help you?"),
+            NPC("Thaddeus", 994, 410, "src/rpg/sprite/NPC/Thaddeus_OldMan", PROMPTS['Thaddeus'],'down',scale_factor,DEFAULT_TEXT['Thaddeus'])
         ]
         self.params = None
         self.current_state = self
@@ -53,6 +54,7 @@ class TavernMapState:
         self.show_dialogue = False
         self.dialogue_text = ""
         self.current_npc = None
+        self.topics = {}
         
 
         
@@ -96,13 +98,13 @@ class TavernMapState:
     def interact_none(self):
         print("interacted")
     def interact_with_door(self):
-        # Transition back to the RPGStartState
-        self.params["rpg_player"].x = 625
-        self.params["rpg_player"].y = 326
+        # Transition back to the TownState
+        self.params['rpg']["rpg_player"].x = 625
+        self.params['rpg']["rpg_player"].y = 326
         g_state_manager.Change(RPGState.TOWN, self.params)
         
     def interact_with_bar(self):
-        # Transition back to the RPGStartState
+        # Transition back to the TownState
         self.interact_with_npc(self.npcs[0])
 
     def interact_with_npc(self, npc):
@@ -112,17 +114,17 @@ class TavernMapState:
         
         self.current_npc = npc
         self.show_dialogue = True
-        self.dialogue_text = npc.dialogue_text or "Hello, traveler! How can I help you?"
+        self.dialogue_text = npc.dialogue_text or npc.default_text
     
     def update_story(self):
         for npc in self.npcs:
             if npc.name == "John" and npc.choice == 1:
-                self.params["story_checkpoint"]["Gate_Open"] = True
+                self.params['rpg']["story_checkpoint"]["Gate_Open"] = True
     def Enter(self, params):
         self.params = params
         print(self.params," Tavern")
         # Transition player position if needed or carry over the current player instance
-        self.player = self.params['rpg_player']
+        self.player = self.params['rpg']['rpg_player']
         print(self.player.x, self.player.y)
         self.show_dialogue = False
         self.dialogue_text = ""
@@ -146,7 +148,7 @@ class TavernMapState:
                 elif event.key == pygame.K_RETURN and self.show_dialogue:
                     # Handle Enter key to send response
                     if not self.player_input:
-                        self.player_input = "continue"  # Default to "continue" if input is empty
+                        self.player_input = "ok"  # Default to "ok" if input is empty
                     self.dialogue_text = self.current_npc.get_dialogue(self.player_input)
                     self.player_input = ""  # Clear player input after sending
 
@@ -228,40 +230,12 @@ class TavernMapState:
     
         self.player.render(screen)
         
-        # Render any active dialogue
-        self.render_dialogue(screen)
-    
-    def render_dialogue(self, screen):
+        # Render the quest tracker on top-right
+        render_quests(screen,self.params['rpg']['quests'])
+        #render dialogue and topic
         if self.show_dialogue:
-            # Render dialogue box
-            pygame.draw.rect(screen, (200, 200, 200), (50, SCREEN_HEIGHT - 200, 700, 150))
-            font = pygame.font.Font(None, 24)
-            
-            # Display dialogue text
-            dialogue_surface = font.render(self.dialogue_text, True, (0, 0, 0))
-            screen.blit(dialogue_surface, (70, SCREEN_HEIGHT - 180))
-            
-            # Toggle blinking for cursor
-            current_time = time.time()
-            if current_time - self.last_blink_time > 0.5:  # Blink every 0.5 seconds
-                self.blink = not self.blink
-                self.last_blink_time = current_time
-            
-            # Display player input with blinking cursor
-            input_text = self.player_input
-            if self.blink:
-                input_text += "_"  # Add blinking cursor
-            player_input_surface = font.render(input_text, True, (0, 0, 255))
-            screen.blit(player_input_surface, (70, SCREEN_HEIGHT - 130))
-
-            # Draw "Respond" button
-            pygame.draw.rect(screen, (100, 200, 100), self.response_button_rect)
-            respond_text = font.render("Respond", True, (255, 255, 255))
-            screen.blit(respond_text, (self.response_button_rect.x + 10, self.response_button_rect.y + 10))
-
-            # Draw "Close" button
-            pygame.draw.rect(screen, (200, 100, 100), self.close_button_rect)
-            close_text = font.render("Close", True, (255, 255, 255))
-            screen.blit(close_text, (self.close_button_rect.x + 10, self.close_button_rect.y + 10))
+            render_topics(screen,self.topics)
+            render_dialogue(screen,self.current_npc,self.dialogue_text,self.blink,self.last_blink_time,self.player_input)
+    
     def Exit(self):
         pass
