@@ -71,4 +71,5 @@ gVfx_animation_list = {
     "warrior_light_vfx": sprite_collection["warrior_light_vfx"].animation,
     "buff_vfx": sprite_collection["buff_vfx"].animation,
     "debuff_vfx": sprite_collection["debuff_vfx"].animation,
+    "dizzy_vfx": sprite_collection["dizzy_vfx"].animation,
 }

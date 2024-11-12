@@ -5,6 +5,7 @@ from src.constants import *
 from src.Render import *
 import pygame
 import sys
+import time
 
 class SelectAttackState(BaseState):
     def __init__(self):
@@ -137,8 +138,8 @@ class SelectAttackState(BaseState):
                                 # RENDER ANIMATION
                                 if self.effectOwner == PlayerType.PLAYER:
                                     self.enemy.ChangeAnimation("death")
-                                    self.enemy.vfx.play("mage_heavy_vfx")
-                                    self.enemy.vfx.play("buff_vfx")
+                                    defender.vfx.play("mage_heavy_vfx")
+                                    defender.vfx2.play("dizzy_vfx", 20, 40)
                                 elif self.effectOwner == PlayerType.ENEMY:
                                     self.player.ChangeAnimation("knockdown")
                                 # APPLY BUFF
