@@ -193,7 +193,10 @@ class BattleResolveState(BaseState):
                 case EffectType.SPAWN:
                     g_state_manager.Change(SelectionState.SPAWN, self.params)
                 case EffectType.HEAL:
-                    pass
+                    if effectOwner == PlayerType.ENEMY:
+                        self.enemy.health += self.enemy.maxhealth // 2
+                        if self.enemy.health > self.enemy.maxhealth:
+                            self.enemy.health = self.enemy.maxhealth
                 case EffectType.COPY:
                     pass
                 case _:

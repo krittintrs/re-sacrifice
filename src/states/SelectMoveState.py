@@ -121,7 +121,7 @@ class SelectMoveState(BaseState):
             randomLeft = []
             randomRight = []
             for index in range(len(self.availableMoveTile)):
-                if not self.field[self.availableMoveTile[index]].is_occupied():
+                if (not self.field[self.availableMoveTile[index]].is_occupied()) or (self.availableMoveTile[index] == self.enemy.fieldTile_index):
                     if self.availableMoveTile[index] <= self.enemy.fieldTile_index:
                         randomLeft.append(index)
                     if self.availableMoveTile[index] >= self.enemy.fieldTile_index:
@@ -130,6 +130,11 @@ class SelectMoveState(BaseState):
                 self.selectMoveTile = random.choice(randomLeft)
             else:
                 self.selectMoveTile = random.choice(randomRight)
+            if len(self.availableMoveTile) == 9:
+                if self.player.fieldTile_index <= 4:
+                    self.selectMoveTile = 8
+                else:
+                    self.selectMoveTile = 0
         
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()

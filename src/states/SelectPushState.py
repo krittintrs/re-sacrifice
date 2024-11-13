@@ -1,3 +1,4 @@
+import random
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
@@ -58,6 +59,13 @@ class SelectPushState(BaseState):
         print(f'Owner: {self.effectOwner}')
         print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
         print(f'SelectPushTile: {self.selectPushTile}')
+
+        if self.effectOwner == PlayerType.ENEMY:
+            randomPush = []
+            for index in range(len(self.availablePushTile)):
+                if (not self.field[self.availablePushTile[index]].is_occupied()) or (self.availablePushTile[index] == self.player.fieldTile_index):
+                    randomPush.append(index)
+            self.selectPushTile = random.choice(self.availablePushTile)
         
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
@@ -105,7 +113,7 @@ class SelectPushState(BaseState):
                 if event.key == pygame.K_RETURN:
                     print('push state: before check effect owner')
                     if self.effectOwner == PlayerType.PLAYER:
-                        print('enemy push')
+                        print('enemy is pushed')
                         if self.selectPushTile>=0 and self.effect.maxRange>0:
                             if not self.field[self.availablePushTile[self.selectPushTile]].is_occupied():
                                 self.enemy.move_to(self.field[self.availablePushTile[self.selectPushTile]], self.field)
@@ -115,7 +123,15 @@ class SelectPushState(BaseState):
                         else:
                             print("there is no push happen")
                     else:
-                        print("enemy push")
+                        print("player is pushed")
+                        if self.selectPushTile>=0 and self.effect.maxRange>0:
+                            if not self.field[self.availablePushTile[self.selectPushTile]].is_occupied():
+                                self.player.move_to(self.field[self.availablePushTile[self.selectPushTile]], self.field)
+                                print(f"push target to {self.availablePushTile[self.selectPushTile]}")
+                            else:
+                                print("can not push, there is an entity of that tile")
+                        else:
+                            print("there is no push happen")
                     print('push state: after check effect owner')
                     if self.player.health > 0 and self.enemy.health > 0:
                         self.params['battleSystem'] = {

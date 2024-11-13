@@ -1,3 +1,4 @@
+import random
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
@@ -58,6 +59,13 @@ class SelectPullState(BaseState):
         print(f'Owner: {self.effectOwner}')
         print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
         print(f'SelectPullTile: {self.selectPullTile}')
+
+        if self.effectOwner == PlayerType.ENEMY:
+            randomPull = []
+            for index in range(len(self.availablePullTile)):
+                if (not self.field[self.availablePullTile[index]].is_occupied()) or (self.availablePullTile[index] == self.player.fieldTile_index):
+                    randomPull.append(index)
+            self.selectPullTile = random.choice(self.availablePullTile)
         
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
@@ -107,7 +115,7 @@ class SelectPullState(BaseState):
                 if event.key == pygame.K_RETURN:
                     print('Pull state: before check effect owner')
                     if self.effectOwner == PlayerType.PLAYER:
-                        print('enemy Pull')
+                        print('enemy is pulled')
                         if self.selectPullTile>=0 and self.effect.maxRange>0:
                             if not self.field[self.availablePullTile[self.selectPullTile]].is_occupied():
                                 self.enemy.move_to(self.field[self.availablePullTile[self.selectPullTile]], self.field)
@@ -117,7 +125,15 @@ class SelectPullState(BaseState):
                         else:
                             print("there is no Pull happen")
                     else:
-                        print("enemy Pull")
+                        print("player is pulled")
+                        if self.selectPullTile>=0 and self.effect.maxRange>0:
+                            if not self.field[self.availablePullTile[self.selectPullTile]].is_occupied():
+                                self.player.move_to(self.field[self.availablePullTile[self.selectPullTile]], self.field)
+                                print(f"Pull target to {self.availablePullTile[self.selectPullTile]}")
+                            else:
+                                print("can not Pull, there is an entity of that tile")
+                        else:
+                            print("there is no Pull happen")
                     print('Pull state: after check effect owner')
                     if self.player.health > 0 and self.enemy.health > 0:
                         self.params['battleSystem'] = {
