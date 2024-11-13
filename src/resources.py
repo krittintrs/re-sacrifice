@@ -1,4 +1,4 @@
-from src.Util import SpriteManager, DeckLoader
+from src.Util import SpriteManager
 from src.StateMachine import StateMachine
 from src.EnumResources import *
 import pygame
@@ -7,8 +7,8 @@ g_state_manager = StateMachine()
 
 sprite_collection = SpriteManager().spriteCollection
 
-CARD_DEFS = sprite_collection["card_conf"]  # dict {"name": CardConf class}
-DECK_DEFS = DeckLoader().deck_conf          # dict {"name": DeckConf class}
+# CARD_DEFS = sprite_collection["card_conf"]  # dict {"name": CardConf class}
+# DECK_DEFS = DeckLoader().deck_conf          # dict {"name": DeckConf class}
 
 gSounds = {
     "dice_roll": pygame.mixer.Sound("sounds/dice_roll.mp3"),

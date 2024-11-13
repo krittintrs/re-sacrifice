@@ -49,16 +49,16 @@ class BattlePreparationState(BaseState):
             # gPlayer_animation_list = gWarrior_animation_list
             # job = PlayerClass.RANGER
             # gPlayer_animation_list = gRanger_animation_list
-            # job = PlayerClass.MAGE
-            # gPlayer_animation_list = gMage_animation_list
+            job = PlayerClass.MAGE
+            gPlayer_animation_list = gMage_animation_list
             # mock player
             self.player = Player("player", job, gPlayer_animation_list)
-            self.player.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)
+            self.player.deck.read_conf(DECK_DEFS["default"])
 
         if self.enemy is None:
             # mock enemy
             self.enemy = Enemy("enemy", gNormalGoblin_animation_list)
-            self.enemy.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)
+            self.enemy.deck.read_conf(DECK_DEFS["default"])
 
         #Set up the initial default position of player and enemy
         self.player.fieldTile_index  = 2
