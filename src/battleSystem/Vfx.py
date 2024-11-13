@@ -35,10 +35,10 @@ class Vfx:
         if self.curr_animation is not None:
             if self.animation_list and self.curr_animation in self.animation_list:
                 vfxAnimation = self.animation_list[self.curr_animation]
-                vfxAnimation.render(screen, self.x - self.offset_x, self.y - self.offset_y)
+                vfxAnimation.render(screen, self.x + self.offset_x + vfxAnimation.offset_x, self.y + self.offset_y + vfxAnimation.offset_y)
 
 
-    def play(self, name, offset_x = 20, offset_y = 0):
+    def play(self, name, offset_x = -20, offset_y = 0):
         # self.curr_animation = name
         self.animation_order.append(name)
         self.frame_index = 0

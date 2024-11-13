@@ -59,6 +59,28 @@
         }
       ]
     },
+    "stunt_ranger": {
+      "loop": "True",
+      "interval_time": 0.3,
+      "offset_x":-55,
+      "offset_y":-20,
+      "sprites": [
+        {
+          "fileName": "ranger-stunt-00.png",
+          "width": 50,
+          "height": 37,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "fileName": "ranger-stunt-01.png",
+          "width": 50,
+          "height": 37,
+          "x": 50,
+          "y": 0
+        }
+      ]
+    },
     "walk_ranger": {
       "interval_time": 0.2,
       "offset_x":-55,

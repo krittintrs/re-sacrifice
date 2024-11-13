@@ -59,6 +59,28 @@
         }
       ]
     },
+    "warrior_stunt": {
+      "loop": "True",
+      "interval_time": 0.3,
+      "offset_x":-55,
+      "offset_y":-20,
+      "sprites": [
+        {
+          "fileName": "warrior-stunt-00.png",
+          "width": 50,
+          "height": 37,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "fileName": "warrior-stunt-01.png",
+          "width": 50,
+          "height": 37,
+          "x": 50,
+          "y": 0
+        }
+      ]
+    },
     "walk_warrior": {
       "loop": "False",
       "interval_time": 0.2,

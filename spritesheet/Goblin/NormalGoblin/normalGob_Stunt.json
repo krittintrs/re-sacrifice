@@ -1,0 +1,33 @@
+{
+    "type": "animation",
+    "spriteSheetURL": "spritesheet/Goblin/NormalGoblin/normalGob_Stunt.png",
+    "animations": {
+      "normalGoblinStunt": {
+        "loop": "True",
+        "offset_x":-140,
+        "offset_y":-250,
+        "sprites": [
+          {
+            "fileName": "normalGob_Stunt1-0",
+            "width": 150,
+            "height": 150,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "fileName": "normalGob_Stunt2-0",
+            "width": 150,
+            "height": 150,
+            "x": 150,
+            "y": 0
+          }
+        ]
+      }
+    },
+    "packMode": "grid",
+    "padding": 0,
+    "backgroundColor": "rgba(0, 0, 0, 0)",
+    "spriteSheetWidth": 600,
+    "spriteSheetHeight": 150
+  }
+  

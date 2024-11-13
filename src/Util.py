@@ -27,6 +27,7 @@ class SpriteManager:
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Death.json",
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Idle.json",
                 "./spritesheet/Goblin/NormalGoblin/normalGob_Walk.json",
+                "./spritesheet/Goblin/NormalGoblin/normalGob_Stunt.json",
                 "./spritesheet/VFX/mage_vfx/mage_heavy_vfx.json",
                 "./spritesheet/VFX/mage_vfx/mage_light_vfx.json",
                 "./spritesheet/VFX/mage_vfx/mage_debuff_vfx.json",
