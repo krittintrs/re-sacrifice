@@ -4,12 +4,21 @@ from src.battleSystem.Effect import Effect
 
 
 class Player(Entity):
-    def __init__(self, name, job, animationList):
-        super().__init__(name, animationList)
-        self.health = 30
+    def __init__(self, name, job):
         self.job = job
+        self.loadClassAnimation()
+        super().__init__(name, self.animationList)
+        self.health = 30
         self.x, self.y = 0, ENTITY_Y
         self.type = PlayerType.PLAYER
+
+    def loadClassAnimation(self):
+        if self.job == PlayerClass.WARRIOR:
+            self.animationList = gWarrior_animation_list
+        elif self.job == PlayerClass.RANGER:
+            self.animationList = gRanger_animation_list
+        elif self.job == PlayerClass.MAGE:
+            self.animationList = gMage_animation_list
 
     def update(self, dt):
         # Implement player-specific update logic here
