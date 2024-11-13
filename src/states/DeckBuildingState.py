@@ -97,6 +97,7 @@ class DeckBuildingState(BaseState):
             self.enemy = battle_param['player']
         # if the inventory is empty give the default inventory to player
         if len(self.player.deck.inventory) == 0:
+            print("Player inventory is empty")
             self.player.deck.readInventoryConf(DECK_DEFS["default_inventory"])
             
         self.inventory = self.player.deck.inventory
@@ -261,18 +262,19 @@ class DeckBuildingState(BaseState):
                 elif event.key == pygame.K_RETURN:
                     if self.player.deck.isCardMinimumReach():
                         if self.player.deck.isCardDuplicateWithinLimit():
+                            destination_state = self.params['battleSystem']['from_state']
                             if self.edit_player_deck:
                                 self.params['battleSystem'] = {
                                     'player': self.player,
                                     'enemy': self.enemy
                                 }
-                                g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
+                                g_state_manager.Change(destination_state, self.params)
                             else:
                                 self.params['battleSystem'] = {
                                     'player': self.enemy,
                                     'enemy': self.player
                                 }
-                                g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
+                                g_state_manager.Change(destination_state, self.params)
                         else:
                             print("Player deck must not have more than 3 duplicate of cards")
                     else:

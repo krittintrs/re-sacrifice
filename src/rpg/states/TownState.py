@@ -120,7 +120,14 @@ class TownState:
     def execute_menu_option(self):
         # Execute the selected menu option
         if self.menu_options[self.selected_option] == "Edit Deck":
+            # TODO: change to deckBuilding
             print("Editing deck...")  # Replace with actual function to edit deck
+            self.params['battleSystem'] = {
+                'player': self.player.battlePlayer,
+                'enemy': None,
+                'edit_player_deck': True,
+                'from_state': RPGState.TOWN
+            }
             g_state_manager.Change(BattleState.DECK_BUILDING, self.params)
         elif self.menu_options[self.selected_option] == "Inventory":
             print("Opening inventory...")  # Replace with actual function to open inventory

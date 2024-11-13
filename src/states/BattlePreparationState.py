@@ -89,15 +89,17 @@ class BattlePreparationState(BaseState):
                     elif self.selectIndex == 1:
                         self.params['battleSystem'] = {
                             'player': self.player,
-                            'enemy':self.enemy,
-                            'edit_player_deck':True
+                            'enemy': self.enemy,
+                            'edit_player_deck': True,
+                            'from_state': BattleState.PREPARATION_PHASE 
                         }
                         g_state_manager.Change(BattleState.DECK_BUILDING, self.params)
                     else:
                         self.params['battleSystem'] = {
                             'player': self.player,
-                            'enemy':self.enemy,
-                            'edit_player_deck':False
+                            'enemy': self.enemy,
+                            'edit_player_deck': False,
+                            'from_state': BattleState.PREPARATION_PHASE
                         }
                         g_state_manager.Change(BattleState.DECK_BUILDING, self.params)
 
