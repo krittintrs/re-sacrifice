@@ -5,6 +5,7 @@ class Enemy(Entity):
     def __init__(self, name, animationlist):
         super().__init__(name, animationlist, 1200, ENTITY_Y, gVfx_animation_list)
         self.health = 6  # Example additional attribute for Enemy
+        self.maxhealth = 6
         self.type = PlayerType.ENEMY
         self.x, self.y = 1200, ENTITY_Y  # Initial position for rendering
 
