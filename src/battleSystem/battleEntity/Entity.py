@@ -102,7 +102,13 @@ class Entity:
         self.selectedCard.isSelected = True
 
     def remove_selected_card(self):
-        self.cardsOnHand.remove(self.selectedCard)
+        try:
+            self.cardsOnHand.remove(self.selectedCard)
+        except:
+            for card in self.cardsOnHand:
+                if card.name == "Ditto":
+                    self.cardsOnHand.remove(card)
+                    print("remove ditto")
         self.selectedCard = None
 
     def next_turn(self):

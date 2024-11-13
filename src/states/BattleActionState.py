@@ -1,3 +1,4 @@
+import random
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
@@ -33,9 +34,16 @@ class BattleActionState(BaseState):
         player_selected_card.print_effects()
 
         # enemy
-        enemy_selected_card = self.enemy.cardsOnHand[0]
+        enemy_selected_Card_index = random.randint(0,4)
+        enemy_selected_card = self.enemy.cardsOnHand[enemy_selected_Card_index] #for normal goblin it's just random
         self.enemy.select_card(enemy_selected_card)
         enemy_selected_card.print_effects()
+        self.ditto = False
+
+        if self.enemy.selectedCard.name == "Ditto":
+            self.reserve_enemy_card = self.enemy.selectedCard
+            self.enemy.selectedCard = self.player.selectedCard
+            self.ditto = True
         
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
@@ -44,6 +52,9 @@ class BattleActionState(BaseState):
         # display entity stats
         self.player.display_stats()
         self.enemy.display_stats()
+
+        if self.ditto:
+            self.enemy.speed += 1
 
         # sort effects
         self.sortEffects()
@@ -61,10 +72,6 @@ class BattleActionState(BaseState):
                     pygame.quit()
                     sys.exit()
                 if event.key == pygame.K_RETURN:
-                    print(self.effectOrder)
-                    if self.effectOrder["main"]:
-                        for effectDetail in self.effectOrder["main"]:
-                            print(effectDetail[0].type)
                     g_state_manager.Change(BattleState.RESOLVE_PHASE, {
                         'player': self.player,
                         'enemy': self.enemy,
@@ -102,7 +109,7 @@ class BattleActionState(BaseState):
         playerSpeed = self.player.selectedCard.buffed_speed
         enemySpeed = self.enemy.selectedCard.buffed_speed
 
-        if self.enemy.selectedCard.name == "Ditto":
+        if self.ditto:
             enemySpeed = self.player.selectedCard.buffed_speed + 1
 
         if playerSpeed > enemySpeed or (playerSpeed == enemySpeed and self.currentTurnOwner == PlayerType.PLAYER):
