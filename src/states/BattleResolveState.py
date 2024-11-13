@@ -145,8 +145,10 @@ class BattleResolveState(BaseState):
                     print(f'{effectOwner.name} self buff: {buff}')
                     if effectOwner == PlayerType.PLAYER:
                         self.player.add_buff(buff)
+                        self.player.vfx.play("buff")
                     elif effectOwner == PlayerType.ENEMY:
                         self.enemy.add_buff(buff)
+                        self.enemy.vfx.play("buff")
                 case EffectType.PUSH:
                     g_state_manager.Change(SelectionState.PUSH, {
                         'player': self.player,
@@ -175,11 +177,13 @@ class BattleResolveState(BaseState):
                             if buff.type == BuffType.DEBUFF:
                                 buff.duration = 0
                         self.player.remove_expired_buffs()
+                        self.player.vfx.play("buff")
                     elif effectOwner == PlayerType.ENEMY:
                         for buff in self.enemy.buffs:
                             if buff.type == BuffType.DEBUFF:
                                 buff.duration = 0
                         self.enemy.remove_expired_buffs()
+                        self.enemy.vfx.play("buff")
                 case EffectType.DISCARD:
                     pass
                 case EffectType.SAND_THROW:
