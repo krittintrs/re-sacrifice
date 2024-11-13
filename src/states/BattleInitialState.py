@@ -55,18 +55,21 @@ class BattleInitialState(BaseState):
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-                elif event.key == pygame.K_SPACE and self.roll == False and self.currentTurnOwner == PlayerType.PLAYER:
-                    self.roll_dice()
-                    self.roll = True
-                elif event.key == pygame.K_RETURN and self.roll == True:
-                    self.params['battleSystem'] = {
-                        'player': self.player,
-                        'enemy': self.enemy,
-                        'field': self.field,
-                        'turn': self.turn,
-                        'currentTurnOwner': self.currentTurnOwner
-                    }
-                    g_state_manager.Change(BattleState.SELECTION_PHASE, self.params)
+                elif event.key == pygame.K_SPACE:
+                    pass
+                elif event.key == pygame.K_RETURN:
+                    if self.roll == False and self.currentTurnOwner == PlayerType.PLAYER:
+                        self.roll_dice()
+                        self.roll = True
+                    elif self.roll == True:
+                        self.params['battleSystem'] = {
+                            'player': self.player,
+                            'enemy': self.enemy,
+                            'field': self.field,
+                            'turn': self.turn,
+                            'currentTurnOwner': self.currentTurnOwner
+                        }
+                        g_state_manager.Change(BattleState.SELECTION_PHASE, self.params)
         
         if self.currentTurnOwner == PlayerType.ENEMY and self.roll == False:
             self.roll_dice()
@@ -109,7 +112,7 @@ class BattleInitialState(BaseState):
             desc_2 = "Press Enter to Start"
             RenderDescription(screen, desc_1, desc_2)
         else:
-            RenderDescription(screen, "Press Spacebar to Roll the Dice")
+            RenderDescription(screen, "Press Enter to Roll the Dice")
              
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):

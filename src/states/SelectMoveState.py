@@ -36,14 +36,15 @@ class SelectMoveState(BaseState):
                     time.sleep(1)
                     # self.leftSkip = True
                     # self.rightSkip = True
-                    g_state_manager.Change(BattleState.RESOLVE_PHASE, {
-                            'player': self.player,
-                            'enemy': self.enemy,
-                            'field': self.field,
-                            'turn': self.turn,
-                            'currentTurnOwner': self.currentTurnOwner,
-                            'effectOrder': self.effectOrder
-                        })
+                    self.params['battleSystem'] = {
+                        'player': self.player,
+                        'enemy': self.enemy,
+                        'field': self.field,
+                        'turn': self.turn,
+                        'currentTurnOwner': self.currentTurnOwner,
+                        'effectOrder': self.effectOrder
+                    }
+                    g_state_manager.Change(BattleState.RESOLVE_PHASE, self.params)
             startIndex = self.player.fieldTile_index
             self.leftMinTileIndex = self.player.fieldTile_index - self.effect.minRange
             self.leftMaxTileIndex = self.player.fieldTile_index - self.effect.maxRange
@@ -58,14 +59,15 @@ class SelectMoveState(BaseState):
                     time.sleep(1)
                     # self.leftSkip = True
                     # self.rightSkip = True
-                    g_state_manager.Change(BattleState.RESOLVE_PHASE, {
-                            'player': self.player,
-                            'enemy': self.enemy,
-                            'field': self.field,
-                            'turn': self.turn,
-                            'currentTurnOwner': self.currentTurnOwner,
-                            'effectOrder': self.effectOrder
-                        })
+                    self.params['battleSystem'] = {
+                        'player': self.player,
+                        'enemy': self.enemy,
+                        'field': self.field,
+                        'turn': self.turn,
+                        'currentTurnOwner': self.currentTurnOwner,
+                        'effectOrder': self.effectOrder
+                    }
+                    g_state_manager.Change(BattleState.RESOLVE_PHASE, self.params)
             startIndex = self.enemy.fieldTile_index
             self.leftMinTileIndex = self.enemy.fieldTile_index - self.effect.minRange
             self.leftMaxTileIndex = self.enemy.fieldTile_index - self.effect.maxRange
