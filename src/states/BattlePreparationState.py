@@ -25,7 +25,7 @@ class BattlePreparationState(BaseState):
     def initialDraw(self):
         self.player.deck.shuffle()
         for card in self.enemy.deck.card_deck:
-            if card.name in ["Ditto"]:
+            if card.name in ["Push Attack"]:
                 self.enemy.cardsOnHand.append(card)
 
         self.player.cardsOnHand = self.player.deck.draw(5)
