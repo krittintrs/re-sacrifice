@@ -5,8 +5,8 @@
     "dizzy_vfx": {
       "loop": "True",
       "interval_time": 0.2,
-      "offset_x": 0,
-      "offset_y": -100,
+      "offset_x": -20,
+      "offset_y": -140,
       "sprites": [
         {
           "fileName": "dizzy_vfx1",
