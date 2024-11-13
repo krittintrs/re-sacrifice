@@ -6,6 +6,7 @@ from src.battleSystem.battleEntity.Enemy import Enemy
 from src.battleSystem.Buff import Buff
 from src.battleSystem.FieldTile import FieldTile
 from src.Render import *
+from src.battleSystem.battleEntity.entity_defs import *
 import pygame
 import sys
 import math
@@ -43,15 +44,11 @@ class BattlePreparationState(BaseState):
         self.player = battle_param['player']
         self.enemy = battle_param['enemy']
 
-        if self.player is None:
+        if 'rpg' not in self.params.keys():
             # mock player
-            self.player = Player("player", PlayerClass.MAGE)
-            self.player.deck.read_conf(DECK_DEFS["default"])
-
-        if self.enemy is None:
+            self.player = Player(BATTLE_ENTITY["default_warrior"])
             # mock enemy
-            self.enemy = Enemy("enemy", gNormalGoblin_animation_list)
-            self.enemy.deck.read_conf(DECK_DEFS["default"])
+            self.enemy = Enemy(BATTLE_ENTITY["default_enemy"])
 
         #Set up the initial default position of player and enemy
         self.player.fieldTile_index  = 2

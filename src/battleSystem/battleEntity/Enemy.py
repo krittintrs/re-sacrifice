@@ -2,8 +2,8 @@ from src.battleSystem.battleEntity.Entity import Entity
 from src.dependency import *
 
 class Enemy(Entity):
-    def __init__(self, name, animationlist):
-        super().__init__(name, animationlist)
+    def __init__(self, conf):
+        super().__init__(conf.name, conf.deckInv, conf.animationList)
         self.health = 6  # Example additional attribute for Enemy
         self.type = PlayerType.ENEMY
         self.x, self.y = 1200, ENTITY_Y  # Initial position for rendering

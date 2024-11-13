@@ -4,10 +4,10 @@ from src.battleSystem.Effect import Effect
 
 
 class Player(Entity):
-    def __init__(self, name, job):
-        self.job = job
+    def __init__(self, conf):
+        self.job = conf.job
         self.loadClassAnimation()
-        super().__init__(name, self.animationList)
+        super().__init__(conf.name, conf.deckInv, self.animationList)
         self.health = 30
         self.x, self.y = 0, ENTITY_Y
         self.type = PlayerType.PLAYER
