@@ -10,6 +10,8 @@ from src.rpg.entity.playerState.PlayerWalkState import PlayerWalkState
 from src.resources import g_state_manager, play_music
 import cv2
 from src.EnumResources import RPGState
+from src.battleSystem.battleEntity.Player import Player as BattlePlayer
+from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
 
 class TutorialState:
     def __init__(self):
@@ -130,12 +132,19 @@ class TutorialState:
             else:
                 self.current_stage = "class_select"
         elif self.current_stage == "cutscene":
-            g_state_manager.Change(RPGState.TOWN, self.params)  # Transition to RPG start state
+            self.assign_class_and_start_rpg()
+
+    def assign_class_and_start_rpg(self):
+        # Assign the selected class to the RPGPlayer & BattlePlayer -> then start the RPG
+        self.params['class'] = self.selected_class
+        self.player.battlePlayer = BattlePlayer(BATTLE_ENTITY[f"default_{self.selected_class.lower()}"])
+        print(self.player.battlePlayer)
+        g_state_manager.Change(RPGState.TOWN, self.params)
 
     def skip_cutscene(self):
         self.playing_cutscene = False
         self.cutscene_video.release()  # Release video resource
-        g_state_manager.Change(RPGState.TOWN, self.params)
+        self.assign_class_and_start_rpg()
         
     def render_cutscene(self, screen):
         ret, frame = self.cutscene_video.read()

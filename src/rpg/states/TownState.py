@@ -13,7 +13,8 @@ from src.resources import g_state_manager
 from src.EnumResources import BattleState, RPGState
 from src.rpg.Utils import render_dialogue, render_interaction_dialogue,render_quests,render_topics
 from src.rpg.Resources import ITEM_DESCRIPTIONS
-
+from src.battleSystem.battleEntity.Enemy import Enemy as BattleEnemy
+from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
 # genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")
 # Create the model
 
@@ -67,21 +68,7 @@ class TownState:
             "Health Potion": lambda: print("You drink the Health Potion and restore HP!"),
             "Mana Potion": lambda: print("You drink the Mana Potion and restore MP!")
         }
-        # # Player and State Initialization
-        # # Initialize player configuration
-        player_conf = ENTITY_DEFS['player']
-        self.player = Player(player_conf)
-        self.player.x = SCREEN_WIDTH // 2 - self.player.width // 2
-        self.player.y = SCREEN_HEIGHT // 2 - self.player.height // 2
 
-        self.player.state_machine = StateMachine()
-        self.player.state_machine.SetScreen(pygame.display.get_surface())
-        self.player.state_machine.SetStates({
-            'walk': PlayerWalkState(self.player),
-            'idle': PlayerIdleState(self.player)
-        })
-        self.player.ChangeState('idle')  # Start in idle state
-                
         self.params = None 
         # Initialize this attribute in the __init__ method or class constructor
         self.gate_open = False
@@ -322,8 +309,8 @@ class TownState:
                 if self.current_npc.choice == 1 and not self.enter_battle:
                     self.enter_battle = True
                     self.params['battleSystem'] = {
-                        'player': None,
-                        'enemy': None
+                        'player': self.player.battlePlayer,
+                        'enemy': BattleEnemy(BATTLE_ENTITY["default_enemy"])
                     }
                     g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
 
