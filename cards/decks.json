@@ -1078,5 +1078,275 @@
             "name": "Ditto",
             "quantity": 0
         }
+    ],
+        "default_inventory": [
+        {
+            "name": "Move 3",
+            "quantity": 2
+        },
+        {
+            "name": "Move 2",
+            "quantity": 2
+        },
+        {
+            "name": "Move 1",
+            "quantity": 2
+        },
+        {
+            "name": "Quick Attack",
+            "quantity": 1
+        },
+        {
+            "name": "Normal Attack",
+            "quantity": 1
+        },
+        {
+            "name": "Heavy Attack",
+            "quantity": 1
+        },
+        {
+            "name": "Versatile Range Attack",
+            "quantity": 1
+        },
+        {
+            "name": "Mid Range Attack",
+            "quantity": 1
+        },
+        {
+            "name": "Long Range Attack",
+            "quantity": 1
+        },
+        {
+            "name": "Sweep Attack",
+            "quantity": 0
+        },
+        {
+            "name": "Mini Fireball",
+            "quantity": 0
+        },
+        {
+            "name": "Quick Defense",
+            "quantity": 1
+        },
+        {
+            "name": "Normal Defense",
+            "quantity": 1
+        },
+        {
+            "name": "Heavy Defense",
+            "quantity": 1
+        },
+        {
+            "name": "Push Attack",
+            "quantity": 1
+        },
+        {
+            "name": "Pull Attack",
+            "quantity": 1
+        },
+        {
+            "name": "Block Attack",
+            "quantity": 1
+        },
+        {
+            "name": "Attack Boost",
+            "quantity": 1
+        },
+        {
+            "name": "Defense Boost",
+            "quantity": 1
+        },
+        {
+            "name": "Speed Boost",
+            "quantity": 1
+        },
+        {
+            "name": "Range Boost",
+            "quantity": 1
+        },
+        {
+            "name": "Cleanse",
+            "quantity": 1
+        },
+        {
+            "name": "Permanent Attack Boost",
+            "quantity": 1
+        },
+        {
+            "name": "Permanent Defense Boost",
+            "quantity": 1
+        },
+        {
+            "name": "Permanent Speed Boost",
+            "quantity": 1
+        },
+        {
+            "name": "Attack Debuff",
+            "quantity": 1
+        },
+        {
+            "name": "Defense Debuff",
+            "quantity": 1
+        },
+        {
+            "name": "Speed Debuff",
+            "quantity": 1
+        },
+        {
+            "name": "Range Debuff",
+            "quantity": 1
+        },
+        {
+            "name": "Movement Debuff",
+            "quantity": 1
+        },
+        {
+            "name": "Evade",
+            "quantity": 1
+        },
+        {
+            "name": "Discard",
+            "quantity": 0
+        },
+        {
+            "name": "Deep Sleep",
+            "quantity": 0
+        },
+        {
+            "name": "Sand Throw",
+            "quantity": 0
+        },
+        {
+            "name": "Angel Blessing",
+            "quantity": 0
+        },
+        {
+            "name": "Destiny draw",
+            "quantity": 0
+        },
+        {
+            "name": "Reset Hand",
+            "quantity": 0
+        },
+        {
+            "name": "Sword Strike",
+            "quantity": 1
+        },
+        {
+            "name": "Bash Strike",
+            "quantity": 1
+        },
+        {
+            "name": "Blood Sacrifice",
+            "quantity": 1
+        },
+        {
+            "name": "Ground Defense",
+            "quantity": 1
+        },
+        {
+            "name": "Empower",
+            "quantity": 1
+        },
+        {
+            "name": "Kite Attack",
+            "quantity": 1
+        },
+        {
+            "name": "Sharp Shooter",
+            "quantity": 1
+        },
+        {
+            "name": "Arrow shower",
+            "quantity": 1
+        },
+        {
+            "name": "Bull's Eye",
+            "quantity": 1
+        },
+        {
+            "name": "Sabotage",
+            "quantity": 1
+        },
+        {
+            "name": "Meteor",
+            "quantity": 1
+        },
+        {
+            "name": "True Damage",
+            "quantity": 1
+        },
+        {
+            "name": "Trap",
+            "quantity": 1
+        },
+        {
+            "name": "You shall not pass",
+            "quantity": 1
+        },
+        {
+            "name": "Attack Summon",
+            "quantity": 1
+        },
+        {
+            "name": "Small Stab",
+            "quantity": 0
+        },
+        {
+            "name": "Big Stab",
+            "quantity": 0
+        },
+        {
+            "name": "Parry",
+            "quantity": 0
+        },
+        {
+            "name": "Blindness",
+            "quantity": 0
+        },
+        {
+            "name": "Muddy Field",
+            "quantity": 0
+        },
+        {
+            "name": "Kamikaze",
+            "quantity": 0
+        },
+        {
+            "name": "Goblin Dash",
+            "quantity": 0
+        },
+        {
+            "name": "Stone Shield",
+            "quantity": 0
+        },
+        {
+            "name": "Meditation",
+            "quantity": 0
+        },
+        {
+            "name": "Call backup",
+            "quantity": 0
+        },
+        {
+            "name": "Excalibur",
+            "quantity": 0
+        },
+        {
+            "name": "Goblin Bomb",
+            "quantity": 0
+        },
+        {
+            "name": "Backup",
+            "quantity": 0
+        },
+        {
+            "name": "Mega Heal",
+            "quantity": 0
+        },
+        {
+            "name": "Ditto",
+            "quantity": 0
+        }
     ]
 }

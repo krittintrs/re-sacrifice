@@ -14,6 +14,12 @@ gPlayer_animation_list = {"down": sprite_collection["character_walk_down"].anima
                          "left": sprite_collection["character_walk_left"].animation
 }
 
+ITEM_DESCRIPTIONS = {
+    "Health Potion": "A potion that restores 50 HP.",
+    "Mana Potion": "A potion that restores 30 MP.",
+    "Key": "A mysterious key that might unlock something important."
+}
+
 # gFonts = {
 #     'small': pygame.font.Font('fonts/font.ttf', 24),
 #     'medium': pygame.font.Font('fonts/font.ttf', 48),

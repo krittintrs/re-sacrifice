@@ -10,7 +10,7 @@ g_font = pygame.font.Font(None, 36)
 
 
 class Entity:
-    def __init__(self, name, animation_list, x, y, vfxAnimation_list, health=10, is_occupied_field = True, type = None):
+    def __init__(self, name, deckInv, animation_list, x, y, vfxAnimation_list, health=10, is_occupied_field = True, type = None):
         self.name = name
         self.fieldTile_index = None  # Keep track of which field it is on
         self.animation_list = animation_list
@@ -28,6 +28,7 @@ class Entity:
 
         # Deck & Card
         self.deck = Deck()
+        self.deck.read_conf(deckInv)
         self.cardsOnHand = []
         self.selectedCard = None
 

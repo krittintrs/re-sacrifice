@@ -12,14 +12,16 @@ class SelectAttackState(BaseState):
         super(SelectAttackState, self).__init__()
 
     def Enter(self, params):
-        self.player = params['player']
-        self.enemy = params['enemy']
-        self.field = params['field']
-        self.turn = params['turn']
-        self.currentTurnOwner = params['currentTurnOwner']  
-        self.effectOrder = params['effectOrder']
-        self.effect = params['effect']
-        self.effectOwner = params['effectOwner']
+        self.params = params
+        battle_param = self.params['battleSystem']
+        self.player = battle_param['player']
+        self.enemy = battle_param['enemy']
+        self.field = battle_param['field']
+        self.turn = battle_param['turn']
+        self.currentTurnOwner = battle_param['currentTurnOwner']  
+        self.effectOrder = battle_param['effectOrder']
+        self.effect = battle_param['effect']
+        self.effectOwner = battle_param['effectOwner']
         self.choosing = False
 
         self.leftSkip = False
@@ -140,7 +142,7 @@ class SelectAttackState(BaseState):
                             if self.effect.type == EffectType.TRUE_DAMAGE:
                                 damage = attacker.attack
                             else:
-                                damage = attacker.attack - defender.defense
+                                damage = attacker.attack #- defender.defense
 
                             # Check For Evade Buff
                             is_evade = False
@@ -151,7 +153,7 @@ class SelectAttackState(BaseState):
                                
                             if damage > 0 and not is_evade:
                                 # ATTACK HIT
-                                gSounds['attack'].play()
+                                gSounds[f'{self.player.job.value.lower()}_attack'].play()
                                 defender.health -= damage
                                 defender.stunt = True
                                 print(f'{defender} takes {damage} damage')
@@ -199,7 +201,7 @@ class SelectAttackState(BaseState):
                                     defender.add_buff(buff)
                             else:
                                 # ATTACK BLOCK
-                                gSounds['block'].play()
+                                gSounds['sword_block'].play()
                                 print(f'{defender} takes no damage')
                             defender.print_stats()
                         elif attacking_field.second_entity:
@@ -217,27 +219,29 @@ class SelectAttackState(BaseState):
                         print("there is no attack happen")
                     
                     if self.player.health > 0 and self.enemy.health > 0:
-                        g_state_manager.Change(BattleState.RESOLVE_PHASE, {
+                        self.params['battleSystem'] = {
                             'player': self.player,
                             'enemy': self.enemy,
                             'field': self.field,
                             'turn': self.turn,
                             'currentTurnOwner': self.currentTurnOwner,
                             'effectOrder': self.effectOrder
-                        })
+                        }
+                        g_state_manager.Change(BattleState.RESOLVE_PHASE, self.params)
                     else:
                         if self.player.health <= 0:
                             self.winner = PlayerType.ENEMY
                         elif self.enemy.health <= 0:
                             self.winner = PlayerType.PLAYER
-                        g_state_manager.Change(BattleState.FINISH_PHASE, {
+                        self.params['battleSystem'] = {
                             'player': self.player,
                             'enemy': self.enemy,
                             'field': self.field,
                             'turn': self.turn,
                             'currentTurnOwner': self.currentTurnOwner,
                             'winner': self.winner
-                        })
+                        }
+                        g_state_manager.Change(BattleState.FINISH_PHASE, self.params)
                     
         for buff in self.player.buffs:
             buff.update(dt, events)

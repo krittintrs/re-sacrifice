@@ -14,10 +14,11 @@ generation_config = {
   "response_mime_type": "text/plain",
 }
 class NPC:
-    def __init__(self, name, x, y, image_path, prompt, default_dir,scale_factor):
+    def __init__(self, name, x, y, image_path, prompt, default_dir,scale_factor,default_text):
         self.name = name
         self.x = x
         self.y = y
+        self.default_text = default_text
         # scale_factor = 1.5  # Scale factor for increasing size
         self.image_path = image_path
         # Load and scale directional sprites
@@ -47,7 +48,7 @@ class NPC:
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
         self.prompt = prompt
         self.chat_session = self.start_chat_session()
-        self.selected_choice = 0  # Unique choice for each NPC
+        self.selected_choice = None # Unique choice for each NPC
         self.dialogue_text = ""
         self.choice = None
 
@@ -58,6 +59,7 @@ class NPC:
             if current_time - self.last_direction_change > 3000:  # Every 2 seconds
                 self.randomize_direction()
                 self.last_direction_change = current_time
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
     
     def randomize_direction(self):
         # Choose a random direction
@@ -75,7 +77,7 @@ class NPC:
                 {
                     "role": "model",
                     "parts": [
-                        "Welcome to my tavern, traveler. Care for a drink?\n```json\n{\"choice\": 0}\n```"
+                        self.default_text + "\n```json\n{\"choice\": 0}\n```"
                     ],
                 },
             ]
