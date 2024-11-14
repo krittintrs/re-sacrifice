@@ -4,266 +4,305 @@
   "animations": {
     "buff_vfx": {
       "loop": "False",
-      "interval_time": 0.02,
+      "interval_time": 0.01,
+      "offset_x"  : -20,
+      "offset_y"  : -125,
       "sprites": [
         {
           "fileName": "buff_vfx1",
           "width": 96,
           "height": 96,
           "x": 0,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx2",
           "width": 96,
           "height": 96,
           "x": 96,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx3",
           "width": 96,
           "height": 96,
           "x": 192,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx4",
           "width": 96,
           "height": 96,
           "x": 288,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx5",
           "width": 96,
           "height": 96,
           "x": 384,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx6",
           "width": 96,
           "height": 96,
           "x": 480,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx7",
           "width": 96,
           "height": 96,
           "x": 576,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx8",
           "width": 96,
           "height": 96,
           "x": 672,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx9",
           "width": 96,
           "height": 96,
           "x": 768,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx10",
           "width": 96,
           "height": 96,
           "x": 864,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx11",
           "width": 96,
           "height": 96,
           "x": 960,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx12",
           "width": 96,
           "height": 96,
           "x": 1056,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx13",
           "width": 96,
           "height": 96,
           "x": 1152,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx14",
           "width": 96,
           "height": 96,
           "x": 1248,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx15",
           "width": 96,
           "height": 96,
           "x": 1344,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx16",
           "width": 96,
           "height": 96,
           "x": 1440,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx17",
           "width": 96,
           "height": 96,
           "x": 1536,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx18",
           "width": 96,
           "height": 96,
           "x": 1632,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx19",
           "width": 96,
           "height": 96,
           "x": 1728,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx20",
           "width": 96,
           "height": 96,
           "x": 1824,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx21",
           "width": 96,
           "height": 96,
           "x": 1920,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx22",
           "width": 96,
           "height": 96,
           "x": 2016,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx23",
           "width": 96,
           "height": 96,
           "x": 2112,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx24",
           "width": 96,
           "height": 96,
           "x": 2208,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx25",
           "width": 96,
           "height": 96,
           "x": 2304,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx26",
           "width": 96,
           "height": 96,
           "x": 2400,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx27",
           "width": 96,
           "height": 96,
           "x": 2496,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx28",
           "width": 96,
           "height": 96,
           "x": 2592,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx29",
           "width": 96,
           "height": 96,
           "x": 2688,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx30",
           "width": 96,
           "height": 96,
           "x": 2784,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx31",
           "width": 96,
           "height": 96,
           "x": 2880,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx32",
           "width": 96,
           "height": 96,
           "x": 2976,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx33",
           "width": 96,
           "height": 96,
           "x": 3072,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx34",
           "width": 96,
           "height": 96,
           "x": 3168,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx35",
           "width": 96,
           "height": 96,
           "x": 3264,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx36",
           "width": 96,
           "height": 96,
           "x": 3360,
-          "y": 0
+          "y": 0,
+          "scale": 2
         },
         {
           "fileName": "buff_vfx37",
           "width": 96,
           "height": 96,
           "x": 3456,
-          "y": 0
+          "y": 0,
+          "scale": 2
         }
       ]
     }

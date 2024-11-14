@@ -48,6 +48,7 @@ class SpriteManager:
                 "./spritesheet/VFX/general_vfx/MagicHIt.json",
                 "./spritesheet/VFX/general_vfx/PhysicalHit.json",
                 "./spritesheet/VFX/general_vfx/shield.json",
+                "./spritesheet/VFX/general_vfx/heal.json",
                 "./spritesheet/VFX/monster_vfx/monster_attack_vfx.json",
                 "./spritesheet/Summon/ghost/ghost.json",
                 "./spritesheet/Summon/ghost/ghost_summon.json",
@@ -274,21 +275,26 @@ class Animation:
 
     def update(self, dt):
         self.timer += dt
-        if self.timer >= self.interval_time:
+        if self.timer >= self.interval_time and not self.finished:
             self.index += 1
-            self.timer = 0
             self.timer = 0
             if self.index >= len(self.images):
                 self.times_played += 1
                 if self.looping:
                     self.index = 0
                 else:
-                    self.index = len(self.images) - 1
                     self.finished = True
+                    self.index = 0
             self.image = self.images[self.index]
+        elif self.finished:
+            self.index = 0
     
     def render(self, screen, x, y):
         screen.blit(self.image, (x, y))
 
     def is_finished(self):
         return self.finished
+    
+    def stop(self):
+        self.index = 0
+        self.finished = True

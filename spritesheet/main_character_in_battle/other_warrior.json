@@ -59,7 +59,7 @@
         }
       ]
     },
-    "warrior_stunt": {
+    "stunt_warrior": {
       "loop": "True",
       "interval_time": 0.3,
       "offset_x":-55,

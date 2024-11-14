@@ -4,7 +4,9 @@
     "animations": {
       "warrior_strike_vfx": {
         "loop": "False",
-        "interval_time": 0.3,
+        "interval_time": 0.1,
+        "offset_x": -40,
+        "offset_y": -140,
         "sprites": [
           {
             "fileName": "warrior_strike_vfx1",
@@ -67,13 +69,6 @@
             "width": 96,
             "height": 96,
             "x": 768,
-            "y": 0
-          },
-          {
-            "fileName": "warrior_strike_vfx10",
-            "width": 96,
-            "height": 96,
-            "x": 864,
             "y": 0
           }
         ]

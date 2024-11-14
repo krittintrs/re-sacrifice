@@ -5,6 +5,8 @@
       "leavesFalling_vfx": {
         "loop": "False",
         "interval_time": 0.2,
+        "offset_x"  : -20,
+        "offset_y"  : -125,
         "sprites": [
           {
             "fileName": "leavesFalling_vfx1",

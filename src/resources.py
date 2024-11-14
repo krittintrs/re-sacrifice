@@ -36,6 +36,7 @@ gWarrior_animation_list = {
     "idle": sprite_collection["idle_warrior"].animation,
     "knock_down": sprite_collection["knockDown_warrior"].animation,
     "walk": sprite_collection["walk_warrior"].animation,
+    "stunt": sprite_collection["stunt_warrior"].animation,
 }
 
 gRanger_animation_list = {
@@ -46,6 +47,7 @@ gRanger_animation_list = {
     "idle": sprite_collection["idle_ranger"].animation,
     "knock_down": sprite_collection["knockDown_ranger"].animation,
     "walk": sprite_collection["walk_ranger"].animation,
+    "stunt": sprite_collection["stunt_ranger"].animation,
 }
 
 gMage_animation_list = {
@@ -154,4 +156,5 @@ gVfx_animation_list = {
     "magicHit_vfx": sprite_collection["magicHit_vfx"].animation,
     "physicalHit_vfx": sprite_collection["physicalHit_vfx"].animation,
     "shield_vfx": sprite_collection["shield_vfx"].animation,
+    "heal_vfx": sprite_collection["heal_vfx"].animation,
 }

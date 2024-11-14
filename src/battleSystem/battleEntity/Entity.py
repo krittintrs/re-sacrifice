@@ -22,7 +22,7 @@ class Entity:
         self.y = y
 
         # Vfx
-        self.vfx = Vfx(vfxAnimation_list, self.x, self.y)
+        self.vfx = Vfx(vfxAnimation_list, self.x, self.y, self)
         self.is_occupied_field = is_occupied_field
         self.type = type
 
@@ -58,6 +58,8 @@ class Entity:
         self.speed = 0
         self.range = 0
         self.stunt = False
+        self.vfx.stop()
+        self.ChangeAnimation("idle")
 
     def print_buffs(self):
         for buff in self.buffs:

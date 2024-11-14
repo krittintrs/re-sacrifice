@@ -5,6 +5,8 @@
     "mage_explosion_vfx": {
       "loop": "False",
       "interval_time": 0.15,
+      "offset_x"  : -20,
+      "offset_y"  : -125,
       "sprites": [
         {
           "fileName": "mage_explosion1",

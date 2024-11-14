@@ -118,9 +118,10 @@ class SelectBuffState(BaseState):
                     if self.effectOwner == PlayerType.PLAYER:
                         if self.selectBuffTile>=0 and self.effect.maxRange>0:
                             if self.field[self.availableBuffTile[self.selectBuffTile]].is_occupied():
-                                buff = self.getBuffFromEffect(self.effect)
-                                self.enemy.add_buff(buff)
-                                print(f"apply buff {buff} to enemy")
+                                debuff = self.getBuffFromEffect(self.effect)
+                                self.enemy.add_buff(debuff)
+                                self.enemy.vfx.play('debuff_vfx')
+                                print(f"apply buff {debuff} to enemy")
                             else:
                                 print("no entity on the targeted tile")
                         else:
@@ -128,9 +129,10 @@ class SelectBuffState(BaseState):
                     if self.effectOwner == PlayerType.ENEMY:
                         if self.selectBuffTile>=0 and self.effect.maxRange>0:
                             if self.field[self.availableBuffTile[self.selectBuffTile]].is_occupied():
-                                buff = self.getBuffFromEffect(self.effect)
-                                self.player.add_buff(buff)
-                                print(f"apply buff {buff} to player")
+                                debuff = self.getBuffFromEffect(self.effect)
+                                self.player.add_buff(debuff)
+                                self.player.vfx.play('debuff_vfx')
+                                print(f"apply buff {debuff} to player")
                             else:
                                 print("no entity on the targeted tile")
                         else:
