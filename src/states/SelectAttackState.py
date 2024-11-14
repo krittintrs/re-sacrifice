@@ -124,7 +124,11 @@ class SelectAttackState(BaseState):
                         if attacking_field.is_occupied():
                             # RENDER ATTACKER ANIMATION
                             if self.effectOwner == PlayerType.PLAYER:
-                                self.player.ChangeAnimation("multi_attack")
+                                match self.player.selectedCard.name:
+                                    case "Sword Strike" | "Bash Strike" | "Blood Sacrifice" | "Kite Attack" | "Sharp Shooter" | "Arrow shower" | "Meteor" | "True Damage" :
+                                        self.player.ChangeAnimation("multi_attack")
+                                    case _:
+                                        self.player.ChangeAnimation("single_attack")
                                 attacker = self.player
                             elif self.effectOwner == PlayerType.ENEMY:
                                 self.enemy.ChangeAnimation("attack")

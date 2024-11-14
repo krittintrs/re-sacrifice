@@ -211,6 +211,7 @@ class BattleResolveState(BaseState):
                     self.player.health -= hp_paid
                     buff = self.getBuffFromEffect(effect)
                     buff.value[0] = hp_paid
+                    self.player.ChangeAnimation("cast")
                     self.player.add_buff(buff)
                 # RANGER CLASS
                 case EffectType.CRITICAL:
@@ -225,6 +226,7 @@ class BattleResolveState(BaseState):
                         print('Critical hit!')
                         critical_buff = Buff(CARD_BUFF['critical_buff'])
                         critical_buff.value[0] = self.player.selectedCard.attack // 2
+                        self.player.ChangeAnimation("cast")
                         self.player.add_buff(critical_buff)
                 # MAGE CLASS
                 case EffectType.NEXT_MULTI:
