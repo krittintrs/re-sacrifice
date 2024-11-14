@@ -94,6 +94,13 @@ class Entity:
 
     def add_buff(self, buff):
         self.buffs.append(buff)
+        if buff.vfx_type == VFXType.DEBUFF:
+            self.vfx.play("debuff_vfx")
+        elif buff.vfx_type == VFXType.BUFF:
+            self.vfx.play("buff_vfx")
+        elif buff.vfx.type == VFXType.PhysicalHit: 
+            self.vfx.play("physical_hit_vfx")
+                
        
     def apply_buffs_to_cardsOnHand(self):
         for card in self.cardsOnHand:

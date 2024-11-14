@@ -120,7 +120,6 @@ class SelectBuffState(BaseState):
                             if self.field[self.availableBuffTile[self.selectBuffTile]].is_occupied():
                                 debuff = self.getBuffFromEffect(self.effect)
                                 self.enemy.add_buff(debuff)
-                                self.enemy.vfx.play('debuff_vfx')
                                 print(f"apply buff {debuff} to enemy")
                             else:
                                 print("no entity on the targeted tile")
@@ -131,7 +130,6 @@ class SelectBuffState(BaseState):
                             if self.field[self.availableBuffTile[self.selectBuffTile]].is_occupied():
                                 debuff = self.getBuffFromEffect(self.effect)
                                 self.player.add_buff(debuff)
-                                self.player.vfx.play('debuff_vfx')
                                 print(f"apply buff {debuff} to player")
                             else:
                                 print("no entity on the targeted tile")

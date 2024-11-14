@@ -145,11 +145,9 @@ class BattleResolveState(BaseState):
                     print(f'{effectOwner.name} self buff: {buff}')
                     if effectOwner == PlayerType.PLAYER:
                         self.player.add_buff(buff)
-                        self.player.vfx.play("buff_vfx")
                         print(f'render vfx: {self.player.vfx}')
                     elif effectOwner == PlayerType.ENEMY:
                         self.enemy.add_buff(buff)
-                        self.enemy.vfx.play("buff_vfx")
                 case EffectType.PUSH:
                     g_state_manager.Change(SelectionState.PUSH, {
                         'player': self.player,
@@ -214,7 +212,6 @@ class BattleResolveState(BaseState):
                     buff = self.getBuffFromEffect(effect)
                     buff.value[0] = hp_paid
                     self.player.add_buff(buff)
-                    self.player.vfx.play("buff_vfx")
                 # RANGER CLASS
                 case EffectType.CRITICAL:
                     chance = random.randint(1, 6)
@@ -229,7 +226,6 @@ class BattleResolveState(BaseState):
                         critical_buff = Buff(CARD_BUFF['critical_buff'])
                         critical_buff.value[0] = self.player.selectedCard.attack // 2
                         self.player.add_buff(critical_buff)
-                        self.player.vfx.play("buff_vfx")
                 # MAGE CLASS
                 case EffectType.NEXT_MULTI:
                     pass
