@@ -127,6 +127,8 @@ class SelectAttackState(BaseState):
                                 match self.player.selectedCard.name:
                                     case "Sword Strike" | "Bash Strike" | "Blood Sacrifice" | "Kite Attack" | "Sharp Shooter" | "Arrow shower" | "Meteor" | "True Damage" :
                                         self.player.ChangeAnimation("multi_attack")
+                                    case "Quick Attack" | "Push Attack" | "Pull Attack":
+                                        self.player.ChangeAnimation("cast")
                                     case _:
                                         self.player.ChangeAnimation("single_attack")
                                 attacker = self.player
@@ -155,7 +157,35 @@ class SelectAttackState(BaseState):
                                 print(f'{defender} takes {damage} damage')
                                 # RENDER DEFENDER ANIMATION
                                 if self.effectOwner == PlayerType.PLAYER:
-                                    defender.vfx.play("warrior_strike_vfx")
+                                    match self.player.selectedCard.name:
+                                        case "Quick Attack" | "Normal Attack" | "Versatile Range Attack" | "Mid Range Attack":
+                                            if self.player.job == PlayerClass.WARRIOR:
+                                                defender.vfx.play("warrior_light_vfx")
+                                            elif self.player.job == PlayerClass.MAGE:
+                                                defender.vfx.play("mage_light_vfx")
+                                            elif self.player.job == PlayerClass.RANGER:
+                                                defender.vfx.play("ranger_light_vfx")
+                                        case "Heavy Attack" | "Long Range Attack":
+                                            if self.player.job == PlayerClass.WARRIOR:
+                                                defender.vfx.play("warrior_heavy_vfx")
+                                            elif self.player.job == PlayerClass.MAGE:
+                                                defender.vfx.play("mage_heavy_vfx")
+                                            elif self.player.job == PlayerClass.RANGER:
+                                                defender.vfx.play("ranger_heavy_vfx")
+                                        case "Sweep Attack" | "Push Attack" | "Pull Attack" | "Block Attack":
+                                            defender.vfx.play("physicalHit_vfx")
+                                        case "Mini Fireball":
+                                            defender.vfx.play("magicHit_vfx")
+                                        case "Sword Strike" | "Bash Strike":
+                                            defender.vfx.play("warrior_strike_vfx")
+                                        case "Blood Sacrifice":
+                                            defender.vfx.play("warrior_blood_vfx")
+                                        case "Kite Attack" | "Sharp Shooter" | "Arrow shower":
+                                            defender.vfx.play("ranger_shot_vfx")
+                                        case "Meteor":
+                                            defender.vfx.play("mage_explosion_vfx")
+                                        case "True Damage" :
+                                            defender.vfx.play("mage_true_vfx")
                                     defender.ChangeAnimation("death")
                                     defender.vfx.play("dizzy_vfx")
                                 elif self.effectOwner == PlayerType.ENEMY:

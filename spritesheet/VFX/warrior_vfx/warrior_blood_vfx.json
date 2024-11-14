@@ -4,7 +4,7 @@
   "animations": {
     "warrior_blood_vfx": {
       "loop": "False",
-      "interval_time": 0.2,
+      "interval_time": 0.1,
       "offset_x": -100,
       "offset_y": -140,
       "sprites": [

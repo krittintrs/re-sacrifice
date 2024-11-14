@@ -294,7 +294,7 @@ class DeckBuildingState(BaseState):
                 scaled_image = pygame.transform.scale(card.image, (int(CARD_WIDTH * self.availableCardScale), int(CARD_HEIGHT * self.availableCardScale)))
                 screen.blit(scaled_image, (self.rightPanelX + self.availableCardSpacing, self.rightPanelY + self.availableCardSpacing + self.rightPanelY*(idx-self.availableCardWindow)))
                 screen.blit(gFont_list["default"].render( card.name, True, (0,0,0)),(self.rightPanelX + self.availableCardSpacing + 110, self.rightPanelY +10+ self.availableCardSpacing + self.rightPanelY*(idx-self.availableCardWindow)))
-                screen.blit(gFont_list["small"].render( card.type, True, (0,0,0)),(self.rightPanelX + self.availableCardSpacing + 110, self.rightPanelY +40+ self.availableCardSpacing + self.rightPanelY*(idx-self.availableCardWindow)))
+                screen.blit(gFont_list["small"].render( card.type.value, True, (0,0,0)),(self.rightPanelX + self.availableCardSpacing + 110, self.rightPanelY +40+ self.availableCardSpacing + self.rightPanelY*(idx-self.availableCardWindow)))
                 screen.blit(gFont_list["small"].render( "ATK: "+str(card.attack)+" DEF: "+str(card.defense)+" Range: "+str(card.range_start)+"-"+str(card.range_end)+" SPD: "+str(card.speed), True, (0,0,0)),(self.rightPanelX + self.availableCardSpacing + 110, self.rightPanelY +70+ self.availableCardSpacing + self.rightPanelY*(idx-self.availableCardWindow)))
         
         # render selected card detail
