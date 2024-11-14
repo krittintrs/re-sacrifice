@@ -1,4 +1,4 @@
-from src.Util import SpriteManager, DeckLoader
+from src.Util import SpriteManager
 from src.StateMachine import StateMachine
 from src.EnumResources import *
 import pygame
@@ -7,14 +7,33 @@ g_state_manager = StateMachine()
 
 sprite_collection = SpriteManager().spriteCollection
 
-CARD_DEFS = sprite_collection["card_conf"]  # dict {"name": CardConf class}
-DECK_DEFS = DeckLoader().deck_conf          # dict {"name": DeckConf class}
+# CARD_DEFS = sprite_collection["card_conf"]  # dict {"name": CardConf class}
+# DECK_DEFS = DeckLoader().deck_conf          # dict {"name": DeckConf class}
 
 gSounds = {
     "dice_roll": pygame.mixer.Sound("sounds/dice_roll.mp3"),
     "attack": pygame.mixer.Sound("sounds/attack.wav"),
     "block": pygame.mixer.Sound("sounds/block.wav"),
+    "warrior_attack": pygame.mixer.Sound("sounds/warrior_attack.mp3"),
+    "ranger_attack": pygame.mixer.Sound("sounds/ranger_attack.mp3"),
+    "mage_attack": pygame.mixer.Sound("sounds/mage_attack.wav"),
+    "sword_block": pygame.mixer.Sound("sounds/sword_block.mp3"),
+    "draw_card": pygame.mixer.Sound("sounds/draw_card.mp3"),
 }
+
+gBGM = {
+    "rpg_bgm": "sounds/rpg_bgm.mp3",
+    "battle_bgm": "sounds/battle_bgm.mp3",
+}
+
+def play_music(state):
+    # Stop any currently playing music
+    pygame.mixer.music.stop()
+
+    # Load and play the new music
+    pygame.mixer.music.load(gBGM[state])
+    pygame.mixer.music.set_volume(0.1)
+    pygame.mixer.music.play(loops=-1)  # Loop indefinitely
 
 gBuffIcon_image_list = {
     "buff": sprite_collection["buff_icon"].image,

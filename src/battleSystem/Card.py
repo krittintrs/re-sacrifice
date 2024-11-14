@@ -166,8 +166,5 @@ class Card:
     #     # Draw the highlighted border around the card
     #     pygame.draw.rect(screen, (255, 255, 0), (start_x, start_y, CARD_WIDTH, CARD_HEIGHT), 3)
 
-    def render_position(self, screen, position, scale):
-        pygame.draw.rect(screen, (0,0,0), (position[0],position[1],CARD_WIDTH*scale, CARD_HEIGHT*scale), 1)
-
     def update(self, dt, events):
         pass

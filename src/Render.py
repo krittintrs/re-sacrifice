@@ -81,12 +81,12 @@ def RenderDescription(screen, line_1, line_2=None):
 def RenderFieldSelection(screen, field, availableTile, selectTile, effectOwner):
     for fieldTile in field:            
         if fieldTile.index in set(availableTile):
-            fieldTile.image = gField_image_list[f"{effectOwner.value}_available"]
+            fieldTile.image = gField_image_list[f"{effectOwner.value.lower()}_available"]
         else:
             fieldTile.image = gField_image_list["normal"]
         if selectTile>=0:
             if fieldTile.index == availableTile[selectTile]:
-                fieldTile.image = gField_image_list[f"{effectOwner.value}_current"]
+                fieldTile.image = gField_image_list[f"{effectOwner.value.lower()}_current"]
             
         fieldTile.render(screen)
         fieldTile.image = gField_image_list["normal"]

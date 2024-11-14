@@ -20,12 +20,13 @@ class SelectionState(Enum):
 
 class RPGState(Enum):
     START = "start"
+    INTRO = "intro"
     TOWN = "town"
     TAVERN = "tavern"
 
 class PlayerType(Enum):
-    PLAYER = "player"
-    ENEMY = "enemy"
+    PLAYER = "Player"
+    ENEMY = "Enemy"
 
 class PlayerClass(Enum):
     WARRIOR = "Warrior"

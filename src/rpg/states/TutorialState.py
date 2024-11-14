@@ -1,15 +1,17 @@
 import pygame
 import sys
-from src.rpg.states.RPGStartState import RPGStartState  # Assuming RPGStartState is in src/rpg
+from src.rpg.states.TownState import TownState  # Assuming TownState is in src/rpg
 from src.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from src.rpg.EntityDefs import ENTITY_DEFS
 from src.rpg.StateMachine import StateMachine
 from src.rpg.Player import Player
 from src.rpg.entity.playerState.PlayerIdleState import PlayerIdleState
 from src.rpg.entity.playerState.PlayerWalkState import PlayerWalkState
-from src.resources import g_state_manager
+from src.resources import g_state_manager, play_music
 import cv2
 from src.EnumResources import RPGState
+from src.battleSystem.battleEntity.Player import Player as BattlePlayer
+from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
 
 class TutorialState:
     def __init__(self):
@@ -29,9 +31,20 @@ class TutorialState:
         })
         self.player.ChangeState('idle')  # Start in idle state
         
-        self.params = {"rpg_player" : self.player,"class": None, "story_checkpoint" : {"Find_Barkeeper":False,"Gate_Open" : False} ,'Money': None, 'Inventory': None,'deck': None,'card_player': None,'enemy': None}
-        
-         # Load tutorial images or placeholders for instructions and cutscenes
+        self.params = {
+            "rpg": {
+                "rpg_player": self.player,
+                "class": None,
+                "quests": {},
+                "story_checkpoint": {},
+                "money": 0,
+                "inventory": {"Health Potion": 1, "Mana Potion": 1},
+            },
+            # Todo: add stater deck params
+            "battleSystem": {},
+        }
+
+        # Load tutorial images or placeholders for instructions and cutscenes
         self.movement_image = pygame.image.load("src/rpg/sprite/Tutorial/images.png")
         self.movement_image = pygame.transform.scale(self.movement_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.battle_image = pygame.image.load("src/rpg/sprite/Tutorial/images (1).png")
@@ -95,6 +108,7 @@ class TutorialState:
                     self.current_stage = "class_select"  # Go back to class selection
 
     def Enter(self, enter_params):
+        play_music("rpg_bgm")
         if enter_params:
             self.params = enter_params
         print(self.params," Tutorial")
@@ -118,12 +132,19 @@ class TutorialState:
             else:
                 self.current_stage = "class_select"
         elif self.current_stage == "cutscene":
-            g_state_manager.Change(RPGState.TOWN, self.params)  # Transition to RPG start state
+            self.assign_class_and_start_rpg()
+
+    def assign_class_and_start_rpg(self):
+        # Assign the selected class to the RPGPlayer & BattlePlayer -> then start the RPG
+        self.params['class'] = self.selected_class
+        self.player.battlePlayer = BattlePlayer(BATTLE_ENTITY[f"default_{self.selected_class.lower()}"])
+        print(self.player.battlePlayer)
+        g_state_manager.Change(RPGState.TOWN, self.params)
 
     def skip_cutscene(self):
         self.playing_cutscene = False
         self.cutscene_video.release()  # Release video resource
-        g_state_manager.Change(RPGState.TOWN, self.params)
+        self.assign_class_and_start_rpg()
         
     def render_cutscene(self, screen):
         ret, frame = self.cutscene_video.read()

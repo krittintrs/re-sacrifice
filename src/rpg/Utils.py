@@ -1,39 +1,153 @@
+import time
 import pygame
 import json
+from src.constants import SCREEN_WIDTH, SCREEN_HEIGHT
+response_button_rect = pygame.Rect(950, 470, 125, 40)
+close_button_rect = pygame.Rect(1100, 470, 125, 40)
 
-def GenerateTiles(file_name, tile_width, tile_height, scale=3, colorkey=None):
-    image = pygame.image.load(file_name)
+def wrap_text(text, font, max_width):
+    # Split text into lines based on width constraints
+    words = text.split()
+    lines = []
+    current_line = ""
+    
+    for word in words:
+        # Test adding this word to the current line
+        test_line = f"{current_line} {word}".strip()
+        if font.size(test_line)[0] <= max_width:
+            current_line = test_line
+        else:
+            lines.append(current_line)
+            current_line = word
 
-    (img_width, img_height) = image.get_size()
+    # Append any remaining text to lines
+    if current_line:
+        lines.append(current_line)
+    
+    return lines
 
-    sheet_width = img_width//tile_width
-    sheet_height = img_height//tile_height
+def render_dialogue(screen,npc,dialogue_text,blink,last_blink_time,player_input):
+            
+    # Extend dialogue box to full width
+    dialogue_box_x = 50
+    dialogue_box_width = SCREEN_WIDTH - 100
+    dialogue_box_height = 150
+    dialogue_box_y = SCREEN_HEIGHT - 200
 
-    sheet_counter = 1
-    tile_sheet = []
+    # Render dialogue box
+    pygame.draw.rect(screen, (200, 200, 200), (dialogue_box_x, dialogue_box_y, dialogue_box_width, dialogue_box_height))
+    font = pygame.font.Font(None, 36)
+    
+    npc_image = pygame.image.load(npc.image_path+"/Face.png").convert_alpha()
+    npc_image = pygame.transform.scale(npc_image, (400, 400))  # Resize NPC image as needed
+    screen.blit(npc_image, (dialogue_box_x + dialogue_box_width - 400, dialogue_box_y - 400))  # Position image above dialogue box
+    
+    # Render NPC name box above the dialogue box
+    name_box_height = 40
+    name_box_width = 100
+    name_box_y = dialogue_box_y - name_box_height - 10
+    pygame.draw.rect(screen, (220, 220, 220), (dialogue_box_x, name_box_y, name_box_width, name_box_height))
+    name_font = pygame.font.Font(None, 28)
+    npc_name_surface = name_font.render(npc.name, True, (0, 0, 0))
+    # Center the NPC name within the name box
+    name_x = dialogue_box_x + (name_box_width - npc_name_surface.get_width()) // 2
+    screen.blit(npc_name_surface, (name_x, name_box_y +10))
+    
+    # Handle multiline dialogue text wrapping
+    dialogue_text_lines = wrap_text(dialogue_text, font, dialogue_box_width - 20)
+    line_height = 30
+    for i, line in enumerate(dialogue_text_lines):
+        dialogue_surface = font.render(line, True, (0, 0, 0))
+        screen.blit(dialogue_surface, (dialogue_box_x + 20, dialogue_box_y + 20 + i * line_height))
+        
+    # Toggle blinking for cursor
+    current_time = time.time()
+    if current_time - last_blink_time > 0.5:  # Blink every 0.5 seconds
+        blink = not blink
+        last_blink_time = current_time
+    
+    # Display player input with blinking cursor
+    input_text = player_input
+    if blink:
+        input_text += "_"  # Add blinking cursor
+    player_input_surface = font.render(input_text, True, (0, 0, 255))
+    screen.blit(player_input_surface, (70, SCREEN_HEIGHT - 100))
 
-    for y in range(sheet_height):
-        for x in range(sheet_width):
-            tile = pygame.Surface((tile_width, tile_height))
+    # Draw "Respond" button
+    pygame.draw.rect(screen, (100, 200, 100), response_button_rect)
+    respond_text = font.render("Respond", True, (255, 255, 255))
+    screen.blit(respond_text, (response_button_rect.x + 10, response_button_rect.y + 10))
 
-            # surface, location, area of surface
-            tile.blit(image, (0, 0), (x*tile_width, y*tile_height, tile_width, tile_height))
+    # Draw "Close" button
+    pygame.draw.rect(screen, (200, 100, 100), close_button_rect)
+    close_text = font.render("Close", True, (255, 255, 255))
+    screen.blit(close_text, (close_button_rect.x + 10, close_button_rect.y + 10))
 
-            # transparency
-            if colorkey is not None:
-                if colorkey == -1:
-                    colorkey = image.get_at((0, 0))
-                tile.set_colorkey(colorkey, pygame.RLEACCEL)
+def render_quests(screen,quests):
+    font = pygame.font.Font(None, 24)
+    # Set background dimensions
+    background_width = 280
+    background_height = 40 + len(quests) * 20
+    background_x = SCREEN_WIDTH - background_width - 100
+    background_y = 10
 
-            tile = pygame.transform.scale(
-                tile, (tile_width * scale, tile_height * scale)
-            )
+    # Draw the background with semi-transparency
+    background_surface = pygame.Surface((background_width, background_height))
+    background_surface.set_alpha(150)  # 150 for semi-transparency
+    background_surface.fill((0, 0, 0))  # Black background
+    screen.blit(background_surface, (background_x, background_y))
 
-            tile_sheet.append(tile)
+    # Display "Quest" title
+    quest_title_surface = font.render("Quest", True, (255, 255, 255))
+    screen.blit(quest_title_surface, (background_x + 10, background_y + 10))
 
-            sheet_counter += 1
+    # Display each quest below the title
+    for i, quest in enumerate(quests):
+        quest_text_surface = font.render(quests[quest], True, (255, 255, 255))
+        screen.blit(quest_text_surface, (background_x + 10, background_y + 40 + i * 20))
 
-    return tile_sheet
+def render_topics(screen,topics):
+    font = pygame.font.Font(None, 48)
+    # Set background dimensions
+    topic_background_width = 560
+    topic_background_height = 60 + len(topics) * 40
+    topic_background_x = SCREEN_WIDTH - topic_background_width - 620
+    topic_background_y = 10
+
+    # Draw the background with semi-transparency
+    topic_background_surface = pygame.Surface((topic_background_width, topic_background_height))
+    topic_background_surface.set_alpha(150)  # 150 for semi-transparency
+    topic_background_surface.fill((0, 0, 0))  # Black background
+    screen.blit(topic_background_surface, (topic_background_x, topic_background_y))
+
+    # Display "Quest" title
+    topic_title_surface = font.render("Suggested Conversation Topics", True, (255, 255, 255))
+    screen.blit(topic_title_surface, (topic_background_x + 10, topic_background_y + 10))
+
+    # Display each quest below the title
+    for i, topic in enumerate(topics):
+        topic_text_surface = font.render("- "+topics[topic], True, (255, 255, 255))
+        screen.blit(topic_text_surface, (topic_background_x + 10, topic_background_y + 60 + i * 50))
+        
+def render_interaction_dialogue(screen, dialogue_text,enter_action_text="Enter", escape_action_text="Escape"):
+    # Extend dialogue box to full width
+    dialogue_box_x = 50
+    dialogue_box_width = SCREEN_WIDTH - 100
+    dialogue_box_height = 150
+    dialogue_box_y = SCREEN_HEIGHT - 200
+
+    # Render dialogue box
+    pygame.draw.rect(screen, (200, 200, 200), (dialogue_box_x, dialogue_box_y, dialogue_box_width, dialogue_box_height))
+    font = pygame.font.Font(None, 36)
+
+    # Handle multiline dialogue text wrapping
+    dialogue_text_lines = wrap_text(dialogue_text, font, dialogue_box_width - 20)
+    line_height = 30
+    for i, line in enumerate(dialogue_text_lines):
+        dialogue_surface = font.render(line, True, (0, 0, 0))
+        screen.blit(dialogue_surface, (dialogue_box_x + 20, dialogue_box_y + 20 + i * line_height))
+
+    return None  # No action yet
 
 class Animation:
     def __init__(self, images, idleSprite=None, looping=True, interval_time=0.15):
