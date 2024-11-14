@@ -59,11 +59,7 @@ class SelectPullState(BaseState):
         print(f'SelectPullTile: {self.selectPullTile}')
 
         if self.effectOwner == PlayerType.ENEMY:
-            randomPull = []
-            for index in range(len(self.availablePullTile)):
-                if (not self.field[self.availablePullTile[index]].is_occupied()) or (self.availablePullTile[index] == self.player.fieldTile_index):
-                    randomPull.append(index)
-            self.selectPullTile = random.choice(randomPull)
+            self.selectPullTile = self.enemy.pullDecision(self.availablePullTile, self.field, self.player)
         
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()

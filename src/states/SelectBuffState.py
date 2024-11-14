@@ -70,10 +70,7 @@ class SelectBuffState(BaseState):
         print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
 
         if self.effectOwner == PlayerType.ENEMY:
-            for index in range(len(self.availableBuffTile)):
-                if self.field[self.availableBuffTile[index]].is_occupied():
-                    if self.field[self.availableBuffTile[index]].entity == self.player:
-                        self.selectBuffTile = index
+            self.selectBuffTile = self.enemy.oppoBuffDecision(self.availableBuffTile, self.field, self.player)
 
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()

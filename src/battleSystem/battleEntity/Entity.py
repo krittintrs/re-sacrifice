@@ -103,6 +103,7 @@ class Entity:
 
     def remove_selected_card(self):
         try:
+            self.deck.discard_pile.append(self.selectedCard)
             self.cardsOnHand.remove(self.selectedCard)
         except:
             for card in self.cardsOnHand:
@@ -113,7 +114,11 @@ class Entity:
 
     def next_turn(self):
         # draw new card
-        self.cardsOnHand.append(self.deck.draw(1)[0])
+        try:
+            self.cardsOnHand.append(self.deck.draw(1)[0])
+        except:
+            self.deck.reset()
+            self.cardsOnHand.append(self.deck.draw(1)[0])
 
         # count down & remove expired buffs
         for buff in self.buffs:
