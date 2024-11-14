@@ -64,7 +64,7 @@ class VFXType(Enum):
     HeavyAttack = "HeavyAttack"
     PhysicalHit = "PhysicalHit"
     MagicHit = "MagicalHit"
-    DefenseAura = "DefenseAura"
+    DefenseAura = "shield_vfx"
     LeavesFall = "LeavesFalling"
     FireFly = "FireFly"
     Strike = "Strike"

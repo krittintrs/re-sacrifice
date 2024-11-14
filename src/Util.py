@@ -1,6 +1,6 @@
 import pygame
 import json
-from src.EnumResources import EffectType, VFXType, AnimationType
+from src.EnumResources import EffectType, VFXType, AnimationType, CardType
 from src.battleSystem.card_defs import CardConf
 from src.battleSystem.Effect import Effect
 from src.battleSystem.deck_defs import DeckConf
@@ -160,8 +160,14 @@ class SpriteManager:
                     ySize = card.get('ysize', data['size'][1])  # If ysize is not present, use default size
                 except KeyError:
                     xSize, ySize = data['size']
+                try: 
+                    card_type = CardType(card["type"])
+                except KeyError:
+                    card_type = None
                 try:
                     vfx_type = VFXType(card["vfxType"])
+                    print(f"card vfxType: {card['vfxType']}")
+                    print(f"VFX Type: {vfx_type}")
                 except KeyError:
                     vfx_type = None
                 try:
@@ -207,7 +213,7 @@ class SpriteManager:
                     ).image,
                     id=card["id"],
                     class_=card["class"],
-                    type=card["type"],
+                    type=card_type,
                     vfx_type=vfx_type,
                     animation_type=animation_type,
                     speed=card["speed"],

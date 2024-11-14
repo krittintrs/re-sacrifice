@@ -98,7 +98,7 @@ class Entity:
             self.vfx.play("debuff_vfx")
         elif buff.vfx_type == VFXType.BUFF:
             self.vfx.play("buff_vfx")
-        elif buff.vfx.type == VFXType.PhysicalHit: 
+        elif buff.vfx_type == VFXType.PhysicalHit: 
             self.vfx.play("physical_hit_vfx")
                 
        
@@ -113,8 +113,12 @@ class Entity:
         self.buffs = [buff for buff in self.buffs if buff.is_active()]
 
     def select_card(self, card):
+        print(f'{self.name} selected card: {card.name} type {card.type} vfx {card.vfxType} animation {card.animationType}') 
         self.selectedCard = card
         self.selectedCard.isSelected = True
+        if card.type == CardType.DEFENSE:
+            print("defense card selected")
+            self.vfx.play(card.vfxType)
 
     def remove_selected_card(self):
         try:
