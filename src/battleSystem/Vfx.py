@@ -48,16 +48,13 @@ class Vfx:
     def play(self, name, offset_x=-20, offset_y=0):
         # Check if name is an instance of VFXType
         if isinstance(name, VFXType):
-            vfx_name = name.value  # Access the value if it's an enum
+            vfx_name = name.value
         else:
-            vfx_name = name  # Use directly if it's already a string
-
-        print(f"Vfx play: {vfx_name}")
+            vfx_name = name
         self.animation_order.append(vfx_name)
         self.stunted = False
         self.offset_x = offset_x
         self.offset_y = offset_y
-        print(f"Vfx play: {name} animation_order: {self.animation_order}")
 
     def stop(self):
         if self.vfxAnimation is not None:

@@ -144,8 +144,8 @@ class BattleResolveState(BaseState):
                     buff = self.getBuffFromEffect(effect)
                     print(f'{effectOwner.name} self buff: {buff}')
                     if effectOwner == PlayerType.PLAYER:
+                        self.player.ChangeAnimation("cast_loop")
                         self.player.add_buff(buff)
-                        print(f'render vfx: {self.player.vfx}')
                     elif effectOwner == PlayerType.ENEMY:
                         self.enemy.add_buff(buff)
                 case EffectType.PUSH:

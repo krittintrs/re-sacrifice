@@ -5,8 +5,8 @@
       "shield_vfx": {
         "loop": "False",
         "interval_time": 0.2,
-        "offset_x"  : -10,
-        "offset_y"  : -100,
+        "offset_x"  : 10,
+        "offset_y"  : -40,
         "sprites": [
           {
             "fileName": "shield1",
