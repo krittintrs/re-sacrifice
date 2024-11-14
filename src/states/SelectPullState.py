@@ -63,7 +63,7 @@ class SelectPullState(BaseState):
             for index in range(len(self.availablePullTile)):
                 if (not self.field[self.availablePullTile[index]].is_occupied()) or (self.availablePullTile[index] == self.player.fieldTile_index):
                     randomPull.append(index)
-            self.selectPullTile = random.choice(self.availablePullTile)
+            self.selectPullTile = random.choice(randomPull)
         
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()

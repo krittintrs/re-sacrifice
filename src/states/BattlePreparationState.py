@@ -25,7 +25,7 @@ class BattlePreparationState(BaseState):
     def initialDraw(self):
         self.player.deck.shuffle()
         # for card in self.enemy.deck.card_deck:
-        #     if card.name in ["Move 1", "Ditto"]:
+        #     if card.name in ["Pull Attack", "Push Attack"]:
         #         self.enemy.cardsOnHand.append(card)
         # for card in self.player.deck.card_deck:
         #     if card.name in ["Long Range Attack", "Move 1"]:
@@ -53,7 +53,7 @@ class BattlePreparationState(BaseState):
 
         if self.enemy is None:
             # mock enemy
-            self.enemy = Enemy("enemy", gNormalGoblin_animation_list)
+            self.enemy = Enemy("enemy", gNormalGoblin_animation_list) #choose type of enemy here
             self.enemy.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)
 
         #Set up the initial default position of player and enemy

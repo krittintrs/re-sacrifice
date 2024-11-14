@@ -63,7 +63,7 @@ class SelectPushState(BaseState):
             for index in range(len(self.availablePushTile)):
                 if (not self.field[self.availablePushTile[index]].is_occupied()) or (self.availablePushTile[index] == self.player.fieldTile_index):
                     randomPush.append(index)
-            self.selectPushTile = random.choice(self.availablePushTile)
+            self.selectPushTile = random.choice(randomPush)
         
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
