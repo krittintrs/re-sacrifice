@@ -24,7 +24,7 @@ class GoblinMapState:
             NPC("Hiw", 449, 136, "src/rpg/sprite/NPC/GoblinGang", PROMPTS['Thaddeus'],'down',0.1,DEFAULT_TEXT['Thaddeus']),
             NPC("Kao", 393, 164, "src/rpg/sprite/NPC/GoblinGang", PROMPTS['Thaddeus'],'down',0.1,DEFAULT_TEXT['Thaddeus']),
             NPC("Timothy", 640, 537, "src/rpg/sprite/NPC/Timothy_GoblinGuard", PROMPTS['Timothy'],'down',1.2,DEFAULT_TEXT['Timothy']),
-            NPC("Steve", 1125, 236, "src/rpg/sprite/NPC/Steve_GoblinWaterMan", PROMPTS['Thaddeus'],'down',1,DEFAULT_TEXT['Thaddeus']),
+            NPC("Gruzz", 1125, 236, "src/rpg/sprite/NPC/Steve_GoblinWaterMan", PROMPTS['Gruzz'],'down',1,DEFAULT_TEXT['Gruzz']),
         ]
         self.params = None
         self.current_state = self
@@ -113,6 +113,12 @@ class GoblinMapState:
         # Execute the selected menu option
         if self.menu_options[self.selected_option] == "Edit Deck":
             print("Editing deck...")  # Replace with actual function to edit deck
+            self.params['battleSystem'] = {
+                'player': self.player.battlePlayer,
+                'enemy': None,
+                'edit_player_deck': True,
+                'from_state': RPGState.GOBLIN
+            }
             g_state_manager.Change(BattleState.DECK_BUILDING, self.params)
         elif self.menu_options[self.selected_option] == "Inventory":
             print("Opening inventory...")  # Replace with actual function to open inventory

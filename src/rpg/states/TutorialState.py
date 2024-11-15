@@ -142,7 +142,7 @@ class TutorialState:
         self.params['class'] = self.selected_class
         self.player.battlePlayer = BattlePlayer(BATTLE_ENTITY[f"default_{self.selected_class.lower()}"])
         print(self.player.battlePlayer)
-        g_state_manager.Change(RPGState.GOBLIN, self.params)
+        g_state_manager.Change(RPGState.TOWN, self.params)
 
     def skip_cutscene(self):
         self.playing_cutscene = False
