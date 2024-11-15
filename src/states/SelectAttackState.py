@@ -74,10 +74,7 @@ class SelectAttackState(BaseState):
         print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
 
         if self.effectOwner == PlayerType.ENEMY:
-            for index in range(len(self.availableAttackTile)):
-                if self.field[self.availableAttackTile[index]].is_occupied():
-                    if self.field[self.availableAttackTile[index]].entity == self.player:
-                        self.selectAttackTile = index
+            self.selectAttackTile = self.enemy.attackDecision(self.availableAttackTile, self.field, self.player)
 
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()

@@ -1,4 +1,5 @@
 import copy
+from src.battleSystem.battleEntity.Boss import Boss
 from src.dependency import *
 from src.constants import *
 from src.battleSystem.battleEntity.Player import Player
@@ -30,7 +31,7 @@ class BattlePreparationState(BaseState):
         #     if card.name in ["Trap", "You shall not pass", "Long Range Attack", "Move 2", "Move 1"]:
         #         self.player.cardsOnHand.append(card)
         # for card in self.enemy.deck.card_deck:
-        #     if card.name in ["Move 1", "Ditto"]:
+        #     if card.name in ["Pull Attack", "Push Attack"]:
         #         self.enemy.cardsOnHand.append(card)
         # for card in self.player.deck.card_deck:
         #     if card.name in ["Long Range Attack", "Move 1"]:
@@ -54,7 +55,9 @@ class BattlePreparationState(BaseState):
             # mock player
             self.player = Player(BATTLE_ENTITY["default_warrior"])
             # mock enemy
-            self.enemy = Enemy(BATTLE_ENTITY["default_enemy"])
+
+            # self.enemy = Enemy(BATTLE_ENTITY["default_enemy"]) #choose type of enemy here
+            self.enemy = Boss(BATTLE_ENTITY["default_enemy"])
 
         #Set up the initial default position of player and enemy
         self.player.fieldTile_index  = 2
