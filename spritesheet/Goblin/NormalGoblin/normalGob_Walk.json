@@ -4,6 +4,7 @@
   "animations": {
     "normalGoblinWalk": {
       "loop": "False",
+      "interval_time": 0.15,
       "offset_x":-185,
       "offset_y":-185,
       "sprites": [

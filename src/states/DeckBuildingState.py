@@ -303,7 +303,7 @@ class DeckBuildingState(BaseState):
                 scaled_image = pygame.transform.scale(card.image, (int(CARD_WIDTH * self.availableCardScale), int(CARD_HEIGHT * self.availableCardScale)))
                 screen.blit(scaled_image, (card_x, card_y))
                 screen.blit(gFont_list["default"].render( card.name, True, (0,0,0)),(card_x + 110, card_y + 10))
-                screen.blit(gFont_list["small"].render( card.type, True, (0,0,0)),(card_x + 110, card_y + 40))
+                screen.blit(gFont_list["small"].render( card.type.value, True, (0,0,0)),(card_x + 110, card_y + 40))
                 screen.blit(gFont_list["small"].render( "ATK: "+str(card.attack)+" DEF: "+str(card.defense)+" Range: "+str(card.range_start)+"-"+str(card.range_end)+" SPD: "+str(card.speed), True, (0,0,0)),(card_x + 110, card_y+70))
         
         # render selected card detail

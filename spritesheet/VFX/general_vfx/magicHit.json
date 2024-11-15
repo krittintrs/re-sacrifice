@@ -1,0 +1,286 @@
+{
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/VFX/general_vfx/magicHit.png",
+  "animations": {
+    "magicHit_vfx": {
+      "loop": "False",
+      "interval_time": 0.2,
+      "offset_x"  : -20,
+      "offset_y"  : -125,
+      "sprites": [
+        {
+          "fileName": "MagicHit1",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit2",
+          "width": 96,
+          "height": 96,
+          "x": 96,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit3",
+          "width": 96,
+          "height": 96,
+          "x": 192,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit4",
+          "width": 96,
+          "height": 96,
+          "x": 288,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit5",
+          "width": 96,
+          "height": 96,
+          "x": 384,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit6",
+          "width": 96,
+          "height": 96,
+          "x": 480,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit7",
+          "width": 96,
+          "height": 96,
+          "x": 576,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit8",
+          "width": 96,
+          "height": 96,
+          "x": 672,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit9",
+          "width": 96,
+          "height": 96,
+          "x": 768,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit10",
+          "width": 96,
+          "height": 96,
+          "x": 864,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit11",
+          "width": 96,
+          "height": 96,
+          "x": 960,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit12",
+          "width": 96,
+          "height": 96,
+          "x": 1056,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit13",
+          "width": 96,
+          "height": 96,
+          "x": 1152,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit14",
+          "width": 96,
+          "height": 96,
+          "x": 1248,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit15",
+          "width": 96,
+          "height": 96,
+          "x": 1344,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit16",
+          "width": 96,
+          "height": 96,
+          "x": 1440,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit17",
+          "width": 96,
+          "height": 96,
+          "x": 1536,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit18",
+          "width": 96,
+          "height": 96,
+          "x": 1632,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit19",
+          "width": 96,
+          "height": 96,
+          "x": 1728,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit20",
+          "width": 96,
+          "height": 96,
+          "x": 1824,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit21",
+          "width": 96,
+          "height": 96,
+          "x": 1920,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit22",
+          "width": 96,
+          "height": 96,
+          "x": 2016,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit23",
+          "width": 96,
+          "height": 96,
+          "x": 2112,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit24",
+          "width": 96,
+          "height": 96,
+          "x": 2208,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit25",
+          "width": 96,
+          "height": 96,
+          "x": 2304,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit26",
+          "width": 96,
+          "height": 96,
+          "x": 2400,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit27",
+          "width": 96,
+          "height": 96,
+          "x": 2496,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit28",
+          "width": 96,
+          "height": 96,
+          "x": 2592,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit29",
+          "width": 96,
+          "height": 96,
+          "x": 2688,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit30",
+          "width": 96,
+          "height": 96,
+          "x": 2784,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit31",
+          "width": 96,
+          "height": 96,
+          "x": 2880,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit32",
+          "width": 96,
+          "height": 96,
+          "x": 2976,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit33",
+          "width": 96,
+          "height": 96,
+          "x": 3072,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "MagicHit34",
+          "width": 96,
+          "height": 96,
+          "x": 3168,
+          "y": 0,
+          "scale": 1.5
+        }
+      ]
+    }
+  }
+}

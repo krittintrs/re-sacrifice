@@ -1,0 +1,246 @@
+{
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/VFX/general_vfx/debuff.png",
+  "animations": {
+    "debuff_vfx": {
+      "loop": "False",
+      "interval_time": 0.005,
+      "offset_x"  : -20,
+      "offset_y"  : -125,
+      "sprites": [
+        {
+          "fileName": "debuff_vfx1",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx2",
+          "width": 96,
+          "height": 96,
+          "x": 96,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx3",
+          "width": 96,
+          "height": 96,
+          "x": 192,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx4",
+          "width": 96,
+          "height": 96,
+          "x": 288,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx5",
+          "width": 96,
+          "height": 96,
+          "x": 384,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx6",
+          "width": 96,
+          "height": 96,
+          "x": 480,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx7",
+          "width": 96,
+          "height": 96,
+          "x": 576,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx8",
+          "width": 96,
+          "height": 96,
+          "x": 672,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx9",
+          "width": 96,
+          "height": 96,
+          "x": 768,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx10",
+          "width": 96,
+          "height": 96,
+          "x": 864,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx11",
+          "width": 96,
+          "height": 96,
+          "x": 960,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx12",
+          "width": 96,
+          "height": 96,
+          "x": 1056,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx13",
+          "width": 96,
+          "height": 96,
+          "x": 1152,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx14",
+          "width": 96,
+          "height": 96,
+          "x": 1248,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx15",
+          "width": 96,
+          "height": 96,
+          "x": 1344,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx16",
+          "width": 96,
+          "height": 96,
+          "x": 1440,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx17",
+          "width": 96,
+          "height": 96,
+          "x": 1536,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx18",
+          "width": 96,
+          "height": 96,
+          "x": 1632,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx19",
+          "width": 96,
+          "height": 96,
+          "x": 1728,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx20",
+          "width": 96,
+          "height": 96,
+          "x": 1824,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx21",
+          "width": 96,
+          "height": 96,
+          "x": 1920,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx22",
+          "width": 96,
+          "height": 96,
+          "x": 2016,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx23",
+          "width": 96,
+          "height": 96,
+          "x": 2112,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx24",
+          "width": 96,
+          "height": 96,
+          "x": 2208,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx25",
+          "width": 96,
+          "height": 96,
+          "x": 2304,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx26",
+          "width": 96,
+          "height": 96,
+          "x": 2400,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx27",
+          "width": 96,
+          "height": 96,
+          "x": 2496,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx28",
+          "width": 96,
+          "height": 96,
+          "x": 2592,
+          "y": 0,
+          "scale": 2
+        },
+        {
+          "fileName": "debuff_vfx29",
+          "width": 96,
+          "height": 96,
+          "x": 2688,
+          "y": 0,
+          "scale": 2
+        }
+      ]
+    }
+  }
+}

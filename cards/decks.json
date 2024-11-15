@@ -2,15 +2,15 @@
     "default": [
         {
             "name": "Move 3",
-            "quantity": 1
+            "quantity": 2
         },
         {
             "name": "Move 2",
-            "quantity": 1
+            "quantity": 2
         },
         {
             "name": "Move 1",
-            "quantity": 1
+            "quantity": 2
         },
         {
             "name": "Quick Attack",
@@ -34,7 +34,7 @@
         },
         {
             "name": "Long Range Attack",
-            "quantity": 1
+            "quantity": 2
         },
         {
             "name": "Sweep Attack",
@@ -62,7 +62,7 @@
         },
         {
             "name": "Pull Attack",
-            "quantity": 0
+            "quantity": 1
         },
         {
             "name": "Block Attack",

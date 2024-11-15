@@ -59,6 +59,35 @@ class EffectType(Enum):
     HEAL = "heal"
     COPY = "copy"
 
+class VFXType(Enum):
+    BUFF = "Buff"
+    DEBUFF = "Debuff"
+    LightAttack = "LightAttack"
+    HeavyAttack = "HeavyAttack"
+    PhysicalHit = "PhysicalHit"
+    MagicHit = "MagicalHit"
+    DefenseAura = "shield_vfx"
+    LeavesFall = "LeavesFalling"
+    FireFly = "FireFly"
+    Strike = "Strike"
+    Blood = "Blood"
+    Shot = "Shot"
+    Explosion = "Explosion"
+    TrueDamage = "TrueDamage"
+    MageDebuff = "MageDebuff"
+    Heal = "Heal"
+    ATTACK = "Attack"
+
+class AnimationType(Enum):
+    IDLE = "idle"
+    MOVE = "move"
+    ATTACK = "attack"
+    DEATH = "death"
+    SINGLE_ATTACK = "single_attack"
+    MULTI_ATTACK = "multi_attack"
+    CAST = "cast"
+    CAST_LOOP = "cast_loop"
+
 class CardType(Enum):
     MOVE = "Move"
     ATTACK = "Attack"

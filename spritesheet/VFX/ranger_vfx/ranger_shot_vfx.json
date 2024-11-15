@@ -1,0 +1,124 @@
+{
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/VFX/ranger_vfx/ranger_shot_vfx.png",
+  "animations": {
+    "ranger_shot_vfx": {
+      "loop": "False",
+      "interval_time": 0.2,
+      "sprites": [
+        {
+          "fileName": "ranger_shot_vfx1",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "fileName": "ranger_shot_vfx2",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 96
+        },
+        {
+          "fileName": "ranger_shot_vfx3",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 192
+        },
+        {
+          "fileName": "ranger_shot_vfx4",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 288
+        },
+        {
+          "fileName": "ranger_shot_vfx5",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 384
+        },
+        {
+          "fileName": "ranger_shot_vfx6",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 480
+        },
+        {
+          "fileName": "ranger_shot_vfx7",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 576
+        },
+        {
+          "fileName": "ranger_shot_vfx8",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 672
+        },
+        {
+          "fileName": "ranger_shot_vfx9",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 768
+        },
+        {
+          "fileName": "ranger_shot_vfx10",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 864
+        },
+        {
+          "fileName": "ranger_shot_vfx11",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 960
+        },
+        {
+          "fileName": "ranger_shot_vfx12",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 1056
+        },
+        {
+          "fileName": "ranger_shot_vfx13",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 1152
+        },
+        {
+          "fileName": "ranger_shot_vfx14",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 1248
+        },
+        {
+          "fileName": "ranger_shot_vfx15",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 1344
+        },
+        {
+          "fileName": "ranger_shot_vfx16",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 1440
+        }
+      ]
+    }
+  }
+}

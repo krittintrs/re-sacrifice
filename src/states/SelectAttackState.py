@@ -5,6 +5,7 @@ from src.constants import *
 from src.Render import *
 import pygame
 import sys
+import time
 
 class SelectAttackState(BaseState):
     def __init__(self):
@@ -73,10 +74,7 @@ class SelectAttackState(BaseState):
         print(f'Effect: {self.effect.type} ({self.effect.minRange} - {self.effect.maxRange})')
 
         if self.effectOwner == PlayerType.ENEMY:
-            for index in range(len(self.availableAttackTile)):
-                if self.field[self.availableAttackTile[index]].is_occupied():
-                    if self.field[self.availableAttackTile[index]].entity == self.player:
-                        self.selectAttackTile = index
+            self.selectAttackTile = self.enemy.attackDecision(self.availableAttackTile, self.field, self.player)
 
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
@@ -125,7 +123,13 @@ class SelectAttackState(BaseState):
                         if attacking_field.is_occupied():
                             # RENDER ATTACKER ANIMATION
                             if self.effectOwner == PlayerType.PLAYER:
-                                self.player.ChangeAnimation("multi_attack")
+                                match self.player.selectedCard.name:
+                                    case "Sword Strike" | "Bash Strike" | "Blood Sacrifice" | "Kite Attack" | "Sharp Shooter" | "Arrow shower" | "Meteor" | "True Damage" :
+                                        self.player.ChangeAnimation("multi_attack")
+                                    case "Quick Attack" | "Push Attack" | "Pull Attack":
+                                        self.player.ChangeAnimation("cast")
+                                    case _:
+                                        self.player.ChangeAnimation("single_attack")
                                 attacker = self.player
                             elif self.effectOwner == PlayerType.ENEMY:
                                 self.enemy.ChangeAnimation("attack")
@@ -152,9 +156,39 @@ class SelectAttackState(BaseState):
                                 print(f'{defender} takes {damage} damage')
                                 # RENDER DEFENDER ANIMATION
                                 if self.effectOwner == PlayerType.PLAYER:
-                                    self.enemy.ChangeAnimation("death")
+                                    match self.player.selectedCard.name:
+                                        case "Quick Attack" | "Normal Attack" | "Versatile Range Attack" | "Mid Range Attack":
+                                            if self.player.job == PlayerClass.WARRIOR:
+                                                defender.vfx.play("warrior_light_vfx")
+                                            elif self.player.job == PlayerClass.MAGE:
+                                                defender.vfx.play("mage_light_vfx")
+                                            elif self.player.job == PlayerClass.RANGER:
+                                                defender.vfx.play("ranger_light_vfx")
+                                        case "Heavy Attack" | "Long Range Attack":
+                                            if self.player.job == PlayerClass.WARRIOR:
+                                                defender.vfx.play("warrior_heavy_vfx")
+                                            elif self.player.job == PlayerClass.MAGE:
+                                                defender.vfx.play("mage_heavy_vfx")
+                                            elif self.player.job == PlayerClass.RANGER:
+                                                defender.vfx.play("ranger_heavy_vfx")
+                                        case "Sweep Attack" | "Push Attack" | "Pull Attack" | "Block Attack":
+                                            defender.vfx.play("physicalHit_vfx")
+                                        case "Mini Fireball":
+                                            defender.vfx.play("magicHit_vfx")
+                                        case "Sword Strike" | "Bash Strike":
+                                            defender.vfx.play("warrior_strike_vfx")
+                                        case "Blood Sacrifice":
+                                            defender.vfx.play("warrior_blood_vfx")
+                                        case "Kite Attack" | "Sharp Shooter" | "Arrow shower":
+                                            defender.vfx.play("ranger_shot_vfx")
+                                        case "Meteor":
+                                            defender.vfx.play("mage_explosion_vfx")
+                                        case "True Damage" :
+                                            defender.vfx.play("mage_true_vfx")
+                                    defender.ChangeAnimation("death")
+                                    defender.vfx.play("dizzy_vfx")
                                 elif self.effectOwner == PlayerType.ENEMY:
-                                    self.player.ChangeAnimation("knockdown")
+                                    defender.vfx.play("dizzy_vfx")
                                 # APPLY BUFF
                                 if self.effect.type == EffectType.ATTACK_SELF_BUFF:
                                     buff = self.getBuffFromEffect(self.effect)
