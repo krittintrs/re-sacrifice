@@ -112,9 +112,47 @@ gEntity_animation_dict = {
 }
 
 gBackground_image_list = {
-    BackgroundState.BATTLE: pygame.image.load("./graphics/battle_background.png"), 
+    BackgroundState.BATTLE: pygame.image.load("./graphics/battle/battle_UI.png"), 
     BackgroundState.DECK_BUILDING: pygame.image.load("./graphics/deckbuilding_background.png"),
 }
+
+# gBattleBackground_image_list = {
+#     "cave1": pygame.image.load("./graphics/battle/background/battle_bg_cave1.png"),
+#     "cave2": pygame.image.load("./graphics/battle/background/battle_bg_cave2.png"),
+#     "dungeon1": pygame.image.load("./graphics/battle/background/battle_bg_dungeon1.png"),
+#     "dungeon2": pygame.image.load("./graphics/battle/background/battle_bg_dungeon2.png"),
+#     "forest1": pygame.image.load("./graphics/battle/background/battle_bg_forest1.png"),
+#     "town": pygame.image.load("./graphics/battle/background/battle_bg_town.png"),
+# }
+
+gBattleBackground_image_list = {}
+
+# Load and scale each background image
+background_paths = {
+    "cave1": "./graphics/battle/background/battle_bg_cave1.png",
+    "cave2": "./graphics/battle/background/battle_bg_cave2.png",
+    "dungeon1": "./graphics/battle/background/battle_bg_dungeon1.png",
+    "dungeon2": "./graphics/battle/background/battle_bg_dungeon2.png",
+    "forest1": "./graphics/battle/background/battle_bg_forest1.png",
+    "town": "./graphics/battle/background/battle_bg_town.png"
+}
+
+for key, path in background_paths.items():
+    # Load the original image
+    original_image = pygame.image.load(path)
+    
+    # Get original dimensions
+    original_width, original_height = original_image.get_size()
+    from src.constants import *
+    # Calculate the new height to maintain the aspect ratio
+    new_width = SCREEN_WIDTH
+    new_height = SCREEN_HEIGHT - HUD_HEIGHT
+    
+    # Scale the image
+    scaled_image = pygame.transform.scale(original_image, (new_width, new_height))
+    
+    # Store in the dictionary
+    gBattleBackground_image_list[key] = scaled_image
 
 gClock_image_list = {
     "clock_0": sprite_collection["clock_0"].image,

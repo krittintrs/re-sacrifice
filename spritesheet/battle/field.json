@@ -1,6 +1,6 @@
 {
     "type": "static",
-    "spriteSheetURL": "graphics/field.png",
+    "spriteSheetURL": "graphics/battle/field.png",
     "sprites": [
       {
         "name": "field_normal",

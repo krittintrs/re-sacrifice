@@ -1,6 +1,6 @@
 {
     "type": "static",
-    "spriteSheetURL": "graphics/clock.png",
+    "spriteSheetURL": "graphics/battle/clock.png",
     "sprites": [
       {
         "name": "clock_0",

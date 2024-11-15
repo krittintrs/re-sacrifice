@@ -1,6 +1,6 @@
 {
     "type": "static",
-    "spriteSheetURL": "graphics/dice.png",
+    "spriteSheetURL": "graphics/battle/dice.png",
     "sprites": [
       {
         "name": "dice_1",
