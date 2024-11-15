@@ -34,7 +34,7 @@ class BattleActionState(BaseState):
         player_selected_card.print_effects()
 
         # enemy
-        enemy_selected_Card_index = random.randint(0,4)
+        enemy_selected_Card_index = self.enemy.cardDecision(self.player)
         enemy_selected_card = self.enemy.cardsOnHand[enemy_selected_Card_index] #for normal goblin it's just random
         self.enemy.select_card(enemy_selected_card)
         enemy_selected_card.print_effects()

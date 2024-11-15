@@ -10,6 +10,10 @@ class Enemy(Entity):
         self.type = PlayerType.ENEMY
         self.x, self.y = 1200, ENTITY_Y  # Initial position for rendering
     
+    def cardDecision(self, player):
+        enemy_selected_Card_index = random.randint(0,4)
+        return enemy_selected_Card_index
+    
     #after this part is ai
     def moveDecision(self, availableMoveTile, field, player, currentTurnOwner):
         selectMoveTile = 0

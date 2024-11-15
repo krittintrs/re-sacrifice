@@ -1,5 +1,5 @@
 import random
-from src.EnumResources import PlayerType
+from src.EnumResources import CardType, PlayerType
 from src.battleSystem.battleEntity.Enemy import Enemy
 
 
@@ -7,6 +7,23 @@ class Boss(Enemy):
     def __init__(self, name, animationlist):
         super().__init__(name, animationlist)
         # Example additional attribute for Boss
+    
+    def cardDecision(self, player):
+        enemy_selected_Card_index = random.randint(0,4)
+        cardArray = []
+        for index in range(len(self.cardsOnHand)):
+            if self.cardsOnHand[index].type == CardType.ATTACK or self.cardsOnHand[index].type == CardType.DEBUFF:
+                if (player.fieldTile_index <= self.fieldTile_index + self.cardsOnHand[index].range_end and player.fieldTile_index >= self.fieldTile_index + self.cardsOnHand[index].range_start) or (player.fieldTile_index >= self.fieldTile_index - self.cardsOnHand[index].range_end and player.fieldTile_index <= self.fieldTile_index - self.cardsOnHand[index].range_start):
+                    cardArray.append(index)
+                else:
+                    if random.random() < .3:
+                        cardArray.append(index)
+            else:
+                if random.random() < .5:
+                    cardArray.append(index)
+        if len(cardArray) > 0:
+            enemy_selected_Card_index = random.choice(cardArray)
+        return enemy_selected_Card_index
     
     def moveDecision(self, availableMoveTile, field, player, currentTurnOwner):
         selectMoveTile = 0
