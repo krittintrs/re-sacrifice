@@ -12,6 +12,7 @@ import cv2
 from src.EnumResources import RPGState
 from src.battleSystem.battleEntity.Player import Player as BattlePlayer
 from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
+# from src.dependency import *
 
 class TutorialState:
     def __init__(self):
@@ -141,6 +142,7 @@ class TutorialState:
         # Assign the selected class to the RPGPlayer & BattlePlayer -> then start the RPG
         self.params['class'] = self.selected_class
         self.player.battlePlayer = BattlePlayer(BATTLE_ENTITY[f"default_{self.selected_class.lower()}"])
+        self.player.battlePlayer.deck.readInventoryConf()
         print(self.player.battlePlayer)
         g_state_manager.Change(RPGState.TOWN, self.params)
 

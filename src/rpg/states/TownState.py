@@ -97,6 +97,7 @@ class TownState:
         "Poison": {"price": 50, "description": "1 drop of this poison can defeat an entire army"},
         "Banana": {"price": 75, "description": "Ou Ou Ah Ah"},
         "Sword": {"price": 100, "description": "Increases attack power"},
+        "Move 3 Card":{"price": 1, "description": "Move 3 card"} # Card Naming Scheme "{Card name} Card"
         # Add more items as needed
         }
         self.selected_shop_item = 0
@@ -308,6 +309,10 @@ class TownState:
         if self.params['rpg']['inventory']['Gold'] >= item['price']:
             self.params['rpg']['inventory']['Gold'] -= item['price']
             self.params['rpg']['inventory'][item_name] = self.params['rpg']['inventory'].get(item_name, 0) + 1
+            if "card" in item_name.lower():
+                card_name =item_name.replace(" Card", "")
+                self.player.battlePlayer.deck.addCardInventory(card_name)
+                print(f"add {item_name} to player deck")
             print(f"Purchased {item_name}. Remaining coins: {self.params['rpg']['inventory']['Gold']}")
         else:
             print("Not enough coins to buy this item.")
