@@ -11,7 +11,7 @@ class Enemy(Entity):
         self.x, self.y = 1200, ENTITY_Y  # Initial position for rendering
     
     #after this part is ai
-    def moveDecision(self, availableMoveTile, field, player):
+    def moveDecision(self, availableMoveTile, field, player, currentTurnOwner):
         selectMoveTile = 0
         randomLeft = []
         randomRight = []

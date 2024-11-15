@@ -116,7 +116,7 @@ class SelectMoveState(BaseState):
         print(f'SelectMoveTile: {self.selectMoveTile}')
 
         if self.effectOwner == PlayerType.ENEMY:
-            self.selectMoveTile = self.enemy.moveDecision(self.availableMoveTile, self.field, self.player)
+            self.selectMoveTile = self.enemy.moveDecision(self.availableMoveTile, self.field, self.player, self.currentTurnOwner)
         
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
