@@ -37,10 +37,11 @@ class TutorialState:
                 "class": None,
                 "quests": {},
                 "story_checkpoint": {"Gate_Open" : True},
-                "inventory": {"Amulet": 1, "Gold": 100},
+                "inventory": {"Amulet": 1, "Gold": 100,"Banana":1},
                 "enter_battle": False,
                 "exit_battle": False,
-                "win_battle": None
+                "win_battle": None,
+                "map": "TOWN"
             },
             # Todo: add stater deck params
             "battleSystem": {},

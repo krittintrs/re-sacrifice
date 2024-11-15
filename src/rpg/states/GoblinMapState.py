@@ -79,6 +79,14 @@ class GoblinMapState:
         self.show_popup = False
         self.popup = None
         
+        self.entering_battle = False
+        self.giving_item = False
+        
+        self.skull_image = pygame.image.load("src/rpg/sprite/Other/skull.png")
+        width, height = self.skull_image.get_size()
+        reduced_size = (int(width * 0.07), int(height * 0.07))  # Reduce by 10%
+        self.skull_image = pygame.transform.smoothscale(self.skull_image, reduced_size)
+        
 
     def toggle_menu(self):
         # Toggle the menu display on/off
@@ -310,14 +318,60 @@ class GoblinMapState:
                         print("enter battle enter")
                         #TODO Change to goblin king battle
                         self.params['rpg']["enter_battle"] = True
+                        self.params['rpg']["map"] = "GOBLIN"
                         self.params['battleSystem'] = {
                             'player': self.player.battlePlayer,
                             'enemy': BattleEnemy(BATTLE_ENTITY["default_enemy"])
                         }
                         self.entering_battle = False
                         g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
-             
-                
+                if self.params['rpg']["exit_battle"]:
+                    self.params['rpg']["exit_battle"] = False
+                    if self.params['rpg']['win_battle']:
+                        self.current_npc.defeated = True
+                    else:
+                        self.dialogue_text = self.current_npc.get_dialogue("{You defeated the player}") 
+            if self.current_npc.name == "Timothy":
+                if self.current_npc.choice == 5 and not self.params['rpg']["enter_battle"]:
+                    print("enter battle")
+                    self.entering_battle = True
+                    pygame.event.get()
+                    keys = pygame.key.get_pressed()  # Get current key states
+                    if keys[pygame.K_RETURN]:  # Check if Enter key is pressed
+                        self.current_npc.choice = 0
+                        print("enter battle enter")
+                        #TODO Change to goblin king battle
+                        self.params['rpg']["enter_battle"] = True
+                        self.params['rpg']["map"] = "GOBLIN"
+                        self.params['battleSystem'] = {
+                            'player': self.player.battlePlayer,
+                            'enemy': BattleEnemy(BATTLE_ENTITY["default_enemy"])
+                        }
+                        self.entering_battle = False
+                        g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
+                if self.params['rpg']["exit_battle"]:
+                    self.params['rpg']["exit_battle"] = False
+                    if self.params['rpg']['win_battle']:
+                        self.current_npc.defeated = True
+                        print(f'{self.current_npc.name} is defeated')
+                    else:
+                        self.dialogue_text = self.current_npc.get_dialogue("{You defeated the player}") 
+                if self.current_npc.choice == 1:
+                    self.giving_item = True
+                    pygame.event.get()
+                    keys = pygame.key.get_pressed()  # Get current key states
+                    if keys[pygame.K_RETURN]:  # Check if Enter key is pressed
+                        self.current_npc.choice = 0
+                        if self.params['rpg']['inventory']['Banana'] > 0:
+                            self.dialogue_text = self.current_npc.get_dialogue("{the player gave you a real banana, you will let the player pass}") 
+                            self.params['rpg']['inventory']['Banana'] += -1
+                            self.current_npc.x = 594
+                            self.current_npc.y = 592
+                        else:
+                            self.dialogue_text = self.current_npc.get_dialogue("{the player don't have a banana}") 
+                        self.giving_item = False
+                    
+            
     def Enter(self, params):
         self.params = params
         print(self.params," Tavern")
@@ -326,7 +380,6 @@ class GoblinMapState:
         print(self.player.x, self.player.y)
         self.show_dialogue = False
         self.dialogue_text = ""
-        self.current_npc = None
         #print(self.player)
         # self.player.ChangeCoord(x=SCREEN_WIDTH // 2, y=SCREEN_HEIGHT - 100)  # Adjust starting position inside tavern
 
@@ -347,7 +400,7 @@ class GoblinMapState:
                     if self.show_popup:
                         if self.popup == "Item_Description":
                             self.show_popup = False
-                    if self.show_dialogue:
+                    if self.show_dialogue and not self.entering_battle and not self.giving_item:
                         # Handle Enter key to send response
                         if not self.player_input:
                             self.player_input = "ok"  # Default to "ok" if input is empty
@@ -373,11 +426,12 @@ class GoblinMapState:
                                 if building_id in self.building_interactions:
                                     self.building_interactions[building_id]()  # Call the unique interaction function
                         for npc in self.npcs:
-                            npc_rect = npc.get_rect()
-                            if self.player.Collides(npc_rect.inflate(10,10)):
-                                print(self.player.x,self.player.y)
-                                print(f"interact with npc {npc.name}")
-                                self.interact_with_npc(npc)
+                            if not npc.defeated:
+                                npc_rect = npc.get_rect()
+                                if self.player.Collides(npc_rect.inflate(10,10)):
+                                    print(self.player.x,self.player.y)
+                                    print(f"interact with npc {npc.name}")
+                                    self.interact_with_npc(npc)
 
             
                 # Inventory navigation
@@ -439,12 +493,14 @@ class GoblinMapState:
                 self.player.ChangeCoord(original_x, original_y)  # Revert position
                 break
         for npc in self.npcs:
-            npc_rect = npc.get_rect()
-            in_dialogue = self.show_dialogue and self.current_npc == npc
-            npc.update(in_dialogue)
-            if self.player.Collides(npc_rect):
-                self.player.ChangeCoord(original_x, original_y)  # Revert position
-                break
+            if not npc.defeated:
+                npc_rect = npc.get_rect()
+                in_dialogue = self.show_dialogue and self.current_npc == npc
+                npc.update(in_dialogue)
+                if not npc.defeated:
+                    if self.player.Collides(npc_rect):
+                        self.player.ChangeCoord(original_x, original_y)  # Revert position
+                        break
 
         # Update player animations
         self.update_story()
@@ -460,6 +516,10 @@ class GoblinMapState:
             
         for npc in self.npcs:
             screen.blit(npc.image, (npc.x, npc.y))  # Render each NPC at its coordinates
+            if npc.defeated:  # If the NPC is defeated, draw the skull image above it
+                skull_x = npc.x + (npc.image.get_width() - self.skull_image.get_width()) // 2 +5
+                skull_y = npc.y + 10 # Position skull above the NPC
+                screen.blit(self.skull_image, (skull_x, skull_y))
     
         self.player.render(screen)
         

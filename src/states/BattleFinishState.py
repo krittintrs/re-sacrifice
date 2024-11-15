@@ -42,7 +42,12 @@ class BattleFinishState(BaseState):
                         self.params['rpg']["win_battle"] = False
                     self.params['rpg']["enter_battle"] = False
                     self.params['rpg']["exit_battle"] = True
-                    g_state_manager.Change(RPGState.TOWN, self.params)
+                    if self.params['rpg']["map"] == "TOWN":
+                        g_state_manager.Change(RPGState.TOWN, self.params)
+                    elif self.params['rpg']["map"] == "TAVERN":
+                        g_state_manager.Change(RPGState.TAVERN, self.params)
+                    elif self.params['rpg']["map"] == "GOBLIN":
+                        g_state_manager.Change(RPGState.GOBLIN, self.params)
 
         # Update buff
         for buff in self.player.buffs:

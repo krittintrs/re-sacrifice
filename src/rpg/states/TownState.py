@@ -446,6 +446,7 @@ class TownState:
                         self.current_npc.choice = 0
                         print("enter battle enter")
                         self.params['rpg']["enter_battle"] = True
+                        self.params['rpg']["map"] = "TOWN"
                         self.params['battleSystem'] = {
                             'player': self.player.battlePlayer,
                             'enemy': BattleEnemy(BATTLE_ENTITY["default_enemy"])
