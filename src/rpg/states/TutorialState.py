@@ -12,6 +12,7 @@ import cv2
 from src.EnumResources import RPGState
 from src.battleSystem.battleEntity.Player import Player as BattlePlayer
 from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
+# from src.dependency import *
 
 class TutorialState:
     def __init__(self):
@@ -36,9 +37,12 @@ class TutorialState:
                 "rpg_player": self.player,
                 "class": None,
                 "quests": {},
-                "story_checkpoint": {},
-                "money": 0,
-                "inventory": {"Health Potion": 1, "Mana Potion": 1},
+                "story_checkpoint": {"Gate_Open" : True},
+                "inventory": {"Amulet": 1, "Gold": 100,"Banana":1},
+                "enter_battle": False,
+                "exit_battle": False,
+                "win_battle": None,
+                "map": "TOWN"
             },
             # Todo: add stater deck params
             "battleSystem": {},
@@ -138,6 +142,7 @@ class TutorialState:
         # Assign the selected class to the RPGPlayer & BattlePlayer -> then start the RPG
         self.params['class'] = self.selected_class
         self.player.battlePlayer = BattlePlayer(BATTLE_ENTITY[f"default_{self.selected_class.lower()}"])
+        self.player.battlePlayer.deck.readInventoryConf()
         print(self.player.battlePlayer)
         g_state_manager.Change(RPGState.TOWN, self.params)
 

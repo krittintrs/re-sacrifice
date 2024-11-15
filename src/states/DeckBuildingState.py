@@ -122,7 +122,7 @@ class DeckBuildingState(BaseState):
 
             # check condition
             effect_flag = effects.issubset(card_effect)
-            type_flag = card.type in types
+            type_flag = card.type.value in types
             class_flag = card.class_ in classes
 
             if effect_flag and type_flag and class_flag:

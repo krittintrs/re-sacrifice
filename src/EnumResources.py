@@ -23,6 +23,7 @@ class RPGState(Enum):
     INTRO = "intro"
     TOWN = "town"
     TAVERN = "tavern"
+    GOBLIN = "goblin"
 
 class PlayerType(Enum):
     PLAYER = "Player"

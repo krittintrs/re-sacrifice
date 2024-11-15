@@ -19,6 +19,7 @@ class NPC:
         self.x = x
         self.y = y
         self.default_text = default_text
+        self.defeated = False
         # scale_factor = 1.5  # Scale factor for increasing size
         self.image_path = image_path
         # Load and scale directional sprites

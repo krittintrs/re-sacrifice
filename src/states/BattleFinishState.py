@@ -36,8 +36,18 @@ class BattleFinishState(BaseState):
                 if event.key == pygame.K_RETURN:
                     # TODO: entering RPG
                     if self.winner == PlayerType.PLAYER:
-                        self.params['rpg']['money'] += 100
-                    g_state_manager.Change(RPGState.TOWN, self.params)
+                        self.params['rpg']['inventory']['Gold'] += 100
+                        self.params['rpg']["win_battle"] = True
+                    else:
+                        self.params['rpg']["win_battle"] = False
+                    self.params['rpg']["enter_battle"] = False
+                    self.params['rpg']["exit_battle"] = True
+                    if self.params['rpg']["map"] == "TOWN":
+                        g_state_manager.Change(RPGState.TOWN, self.params)
+                    elif self.params['rpg']["map"] == "TAVERN":
+                        g_state_manager.Change(RPGState.TAVERN, self.params)
+                    elif self.params['rpg']["map"] == "GOBLIN":
+                        g_state_manager.Change(RPGState.GOBLIN, self.params)
 
         # Update buff
         for buff in self.player.buffs:

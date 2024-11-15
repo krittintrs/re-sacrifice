@@ -69,7 +69,9 @@ class Deck:
     
     
     # Inventory methods
-    def addCardInventory(self, card: Card):
+    def addCardInventory(self, card_name):
+        card = Card()
+        card.read_conf(CARD_DEFS[card_name])
         self.inventory.append(card)
 
     def removeCardInventory(self, card: Card):
