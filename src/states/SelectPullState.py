@@ -59,7 +59,7 @@ class SelectPullState(BaseState):
         print(f'SelectPullTile: {self.selectPullTile}')
 
         if self.effectOwner == PlayerType.ENEMY:
-            self.selectPullTile = self.enemy.pullDecision(self.availablePullTile, self.field, self.player)
+            self.selectPullTile = self.enemy.pullDecision(self.availablePullTile, self.field, self.player, self.currentTurnOwner)
         
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()

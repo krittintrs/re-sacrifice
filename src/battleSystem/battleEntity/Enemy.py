@@ -5,8 +5,8 @@ from src.dependency import *
 class Enemy(Entity):
     def __init__(self, name, animationlist):
         super().__init__(name, animationlist)
-        self.health = 6  # Example additional attribute for Enemy
-        self.maxhealth = 6
+        self.health = 10  # Example additional attribute for Enemy
+        self.maxhealth = 10
         self.type = PlayerType.ENEMY
         self.x, self.y = 1200, ENTITY_Y  # Initial position for rendering
     
@@ -48,7 +48,7 @@ class Enemy(Entity):
                         selectBuffTile = index
         return selectBuffTile
     
-    def pullDecision(self, availablePullTile, field, player):
+    def pullDecision(self, availablePullTile, field, player, currentTurnOwner):
         selectPullTile = 0
         randomPull = []
         for index in range(len(availablePullTile)):
@@ -57,7 +57,7 @@ class Enemy(Entity):
         selectPullTile = random.choice(randomPull)
         return selectPullTile
     
-    def pushDecision(self, availablePushTile, field, player):
+    def pushDecision(self, availablePushTile, field, player, currentTurnOwner):
         selectPushTile = 0
         randomPush = []
         for index in range(len(availablePushTile)):

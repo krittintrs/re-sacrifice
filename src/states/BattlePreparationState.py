@@ -1,4 +1,5 @@
 import copy
+from src.battleSystem.battleEntity.Boss import Boss
 from src.dependency import *
 from src.constants import *
 from src.battleSystem.battleEntity.Player import Player
@@ -53,7 +54,8 @@ class BattlePreparationState(BaseState):
 
         if self.enemy is None:
             # mock enemy
-            self.enemy = Enemy("enemy", gNormalGoblin_animation_list) #choose type of enemy here
+            # self.enemy = Enemy("enemy", gNormalGoblin_animation_list) #choose type of enemy here
+            self.enemy = Boss("enemy", gNormalGoblin_animation_list)
             self.enemy.deck.read_conf(DECK_DEFS["default"], CARD_DEFS)
 
         #Set up the initial default position of player and enemy

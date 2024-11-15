@@ -59,7 +59,7 @@ class SelectPushState(BaseState):
         print(f'SelectPushTile: {self.selectPushTile}')
 
         if self.effectOwner == PlayerType.ENEMY:
-            self.selectPushTile = self.enemy.pushDecision(self.availablePushTile, self.field, self.player)
+            self.selectPushTile = self.enemy.pushDecision(self.availablePushTile, self.field, self.player, self.currentTurnOwner)
         
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()

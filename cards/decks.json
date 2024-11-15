@@ -58,11 +58,11 @@
         },
         {
             "name": "Push Attack",
-            "quantity": 1
+            "quantity": 5
         },
         {
             "name": "Pull Attack",
-            "quantity": 0
+            "quantity": 5
         },
         {
             "name": "Block Attack",
