@@ -1,6 +1,7 @@
 import pygame
 from src.dependency import *
 from src.battleSystem.Deck import Deck
+from src.battleSystem.Vfx import Vfx
 import tween
 
 # Define the global font variable
@@ -9,7 +10,7 @@ g_font = pygame.font.Font(None, 36)
 
 
 class Entity:
-    def __init__(self, name, deckInv, animation_list=None, health=10, is_occupied_field = True, type = None):
+    def __init__(self, name, deckInv, animation_list, x, y, vfxAnimation_list, health=10, is_occupied_field = True, type = None):
         self.name = name
         self.fieldTile_index = None  # Keep track of which field it is on
         self.animation_list = animation_list
@@ -17,6 +18,11 @@ class Entity:
         self.frame_index = 0  # Frame index for animations
         self.frame_timer = 0  # Timer to manage frame rate
         self.frame_duration = 0.1  # Duration for each frame (adjust as needed)
+        self.x = x  
+        self.y = y
+
+        # Vfx
+        self.vfx = Vfx(vfxAnimation_list, self.x, self.y, self)
         self.is_occupied_field = is_occupied_field
         self.type = type
 
@@ -53,6 +59,8 @@ class Entity:
         self.speed = 0
         self.range = 0
         self.stunt = False
+        self.vfx.stop()
+        self.ChangeAnimation("idle")
 
     def print_buffs(self):
         for buff in self.buffs:
@@ -87,6 +95,13 @@ class Entity:
 
     def add_buff(self, buff):
         self.buffs.append(buff)
+        if buff.vfx_type == VFXType.DEBUFF:
+            self.vfx.play("debuff_vfx")
+        elif buff.vfx_type == VFXType.BUFF:
+            self.vfx.play("buff_vfx")
+        elif buff.vfx_type == VFXType.PhysicalHit: 
+            self.vfx.play("physical_hit_vfx")
+                
        
     def apply_buffs_to_cardsOnHand(self):
         for card in self.cardsOnHand:
@@ -99,8 +114,12 @@ class Entity:
         self.buffs = [buff for buff in self.buffs if buff.is_active()]
 
     def select_card(self, card):
+        print(f'{self.name} selected card: {card.name} type {card.type} vfx {card.vfxType} animation {card.animationType}') 
         self.selectedCard = card
         self.selectedCard.isSelected = True
+        if card.type == CardType.DEFENSE:
+            print("defense card selected")
+            self.vfx.play(card.vfxType)
 
     def remove_selected_card(self):
         try:
@@ -143,6 +162,9 @@ class Entity:
             # If the animation has finished, switch to the idle animation
             if animation.is_finished() and self.curr_animation != "idle":
                 self.ChangeAnimation("idle")
+        
+        # Update Vfx
+        self.vfx.update(dt, self.x, self.y)
 
     def render(self, screen, x, y, color=(255, 0, 0)):
         # Use tweened x, y position if tween is in progress
@@ -175,10 +197,8 @@ class Entity:
                 (entity_x + offset_x, entity_y + offset_y)
             )
 
-        else:
-            # Placeholder red rectangle if no animation is provided
-            pygame.draw.rect(
-                screen, color, (entity_x, entity_y, entity_width, entity_height))
+        # Render Vfx
+        self.vfx.render(screen)
 
         # Render Buff Icons
         for index, buff in enumerate(self.buffs):

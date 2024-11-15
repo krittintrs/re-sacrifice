@@ -4,6 +4,7 @@
   "animations": {
     "normalGoblinAttack": {
       "loop": "False",
+      "interval_time": 0.1,
       "offset_x":-185,
       "offset_y":-185,
       "sprites": [

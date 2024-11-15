@@ -148,6 +148,5 @@ class BattlePreparationState(BaseState):
         for i in range(num_fieldTile + 1):
             x = start_x + (i * (FIELD_WIDTH + FIELD_GAP))
             y = FIELD_OFFSET_Y
-            print(f'x: {x}, y: {y}')
             field.append(FieldTile(i, (x, y)))  # Create and append each fieldTile
         return field

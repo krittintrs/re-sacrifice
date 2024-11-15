@@ -1,0 +1,70 @@
+{
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/VFX/mage_vfx/mage_debuff_vfx.png",
+  "animations": {
+    "mage_debuff_vfx": {
+      "loop": "False",
+      "interval_time": 0.1,
+      "offset_x"  : -20,
+      "offset_y"  : -125,
+      "sprites": [
+        {
+          "fileName": "mage_debuff1",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "fileName": "mage_debuff2",
+          "width": 96,
+          "height": 96,
+          "x": 96,
+          "y": 0
+        },
+        {
+          "fileName": "mage_debuff3",
+          "width": 96,
+          "height": 96,
+          "x": 192,
+          "y": 0
+        },
+        {
+          "fileName": "mage_debuff4",
+          "width": 96,
+          "height": 96,
+          "x": 288,
+          "y": 0
+        },
+        {
+          "fileName": "mage_debuff5",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 96
+        },
+        {
+          "fileName": "mage_debuff6",
+          "width": 96,
+          "height": 96,
+          "x": 96,
+          "y": 96
+        },
+        {
+          "fileName": "mage_debuff7",
+          "width": 96,
+          "height": 96,
+          "x": 192,
+          "y": 96
+        },
+        {
+          "fileName": "mage_debuff8",
+          "width": 96,
+          "height": 96,
+          "x": 288,
+          "y": 96
+        }
+      ]
+    }
+  }
+}

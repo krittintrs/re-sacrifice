@@ -55,6 +55,7 @@ gWarrior_animation_list = {
     "idle": sprite_collection["idle_warrior"].animation,
     "knock_down": sprite_collection["knockDown_warrior"].animation,
     "walk": sprite_collection["walk_warrior"].animation,
+    "stunt": sprite_collection["stunt_warrior"].animation,
 }
 
 gRanger_animation_list = {
@@ -65,6 +66,7 @@ gRanger_animation_list = {
     "idle": sprite_collection["idle_ranger"].animation,
     "knock_down": sprite_collection["knockDown_ranger"].animation,
     "walk": sprite_collection["walk_ranger"].animation,
+    "stunt": sprite_collection["stunt_ranger"].animation,
 }
 
 gMage_animation_list = {
@@ -75,6 +77,7 @@ gMage_animation_list = {
     "idle": sprite_collection["idle_mage"].animation,
     "knock_down": sprite_collection["knockDown_mage"].animation,
     "walk": sprite_collection["walk_mage"].animation,
+    "stunt": sprite_collection["stunt_mage"].animation,
 }
 
 gNormalGoblin_animation_list = {
@@ -82,6 +85,7 @@ gNormalGoblin_animation_list = {
     "attack": sprite_collection["normalGoblinAttack"].animation,
     "death": sprite_collection["normalGoblinDeath"].animation,
     "walk": sprite_collection["normalGoblinWalk"].animation,
+    "stunt": sprite_collection["normalGoblinStunt"].animation,
 }
 
 gGhost_animation_list = {
@@ -147,4 +151,29 @@ gFont_list = {
     "default": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 10),
     "header": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 15),
     "title": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 20),
+}
+
+gVfx_animation_list = {
+    "mage_heavy_vfx": sprite_collection["mage_heavy_vfx"].animation,
+    "mage_light_vfx": sprite_collection["mage_light_vfx"].animation,
+    "mage_debuff_vfx": sprite_collection["mage_debuff_vfx"].animation,
+    "mage_explosion_vfx": sprite_collection["mage_explosion_vfx"].animation,
+    "mage_true_vfx": sprite_collection["mage_true_vfx"].animation,
+    "ranger_heavy_vfx": sprite_collection["ranger_heavy_vfx"].animation,
+    "ranger_light_vfx": sprite_collection["ranger_light_vfx"].animation,
+    "ranger_shot_vfx": sprite_collection["ranger_shot_vfx"].animation,
+    "warrior_heavy_vfx": sprite_collection["warrior_heavy_vfx"].animation,
+    "warrior_light_vfx": sprite_collection["warrior_light_vfx"].animation,
+    "warrior_blood_vfx": sprite_collection["warrior_blood_vfx"].animation,
+    "warrior_strike_vfx": sprite_collection["warrior_strike_vfx"].animation,
+    "monster_attack_vfx": sprite_collection["monster_attack_vfx"].animation,
+    "buff_vfx": sprite_collection["buff_vfx"].animation,
+    "debuff_vfx": sprite_collection["debuff_vfx"].animation,
+    "dizzy_vfx": sprite_collection["dizzy_vfx"].animation,
+    "firefly_vfx": sprite_collection["firefly_vfx"].animation,
+    "leavesFalling_vfx": sprite_collection["leavesFalling_vfx"].animation,
+    "magicHit_vfx": sprite_collection["magicHit_vfx"].animation,
+    "physicalHit_vfx": sprite_collection["physicalHit_vfx"].animation,
+    "shield_vfx": sprite_collection["shield_vfx"].animation,
+    "heal_vfx": sprite_collection["heal_vfx"].animation,
 }

@@ -132,6 +132,7 @@ class BattleResolveState(BaseState):
                     buff = self.getBuffFromEffect(effect)
                     print(f'{effectOwner.name} self buff: {buff}')
                     if effectOwner == PlayerType.PLAYER:
+                        self.player.ChangeAnimation("cast_loop")
                         self.player.add_buff(buff)
                     elif effectOwner == PlayerType.ENEMY:
                         self.enemy.add_buff(buff)
@@ -145,11 +146,13 @@ class BattleResolveState(BaseState):
                             if buff.type == BuffType.DEBUFF:
                                 buff.duration = 0
                         self.player.remove_expired_buffs()
+                        self.player.vfx.play("buff_vfx")
                     elif effectOwner == PlayerType.ENEMY:
                         for buff in self.enemy.buffs:
                             if buff.type == BuffType.DEBUFF:
                                 buff.duration = 0
                         self.enemy.remove_expired_buffs()
+                        self.enemy.vfx.play("buff_vfx")
                 case EffectType.DISCARD:
                     pass
                 case EffectType.SAND_THROW:
@@ -169,6 +172,7 @@ class BattleResolveState(BaseState):
                     self.player.health -= hp_paid
                     buff = self.getBuffFromEffect(effect)
                     buff.value[0] = hp_paid
+                    self.player.ChangeAnimation("cast")
                     self.player.add_buff(buff)
                 # RANGER CLASS
                 case EffectType.CRITICAL:
@@ -183,6 +187,7 @@ class BattleResolveState(BaseState):
                         print('Critical hit!')
                         critical_buff = Buff(CARD_BUFF['critical_buff'])
                         critical_buff.value[0] = self.player.selectedCard.attack // 2
+                        self.player.ChangeAnimation("cast")
                         self.player.add_buff(critical_buff)
                 # MAGE CLASS
                 case EffectType.NEXT_MULTI:
@@ -195,6 +200,7 @@ class BattleResolveState(BaseState):
                 case EffectType.HEAL:
                     if effectOwner == PlayerType.ENEMY:
                         self.enemy.health += self.enemy.maxhealth // 2
+                        self.enemy.vfx.play("heal_vfx")
                         if self.enemy.health > self.enemy.maxhealth:
                             self.enemy.health = self.enemy.maxhealth
                 case EffectType.COPY:

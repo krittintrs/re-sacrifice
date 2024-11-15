@@ -1,0 +1,38 @@
+{
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/VFX/general_vfx/physicalHit.png",
+  "animations": {
+    "physicalHit_vfx": {
+      "loop": "False",
+      "interval_time": 0.2,
+      "offset_x"  : -20,
+      "offset_y"  : -125,
+      "sprites": [
+        {
+          "fileName": "physicalHit1",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "physicalHit2",
+          "width": 96,
+          "height": 96,
+          "x": 96,
+          "y": 0,
+          "scale": 1.5
+        },
+        {
+          "fileName": "physicalHit3",
+          "width": 96,
+          "height": 96,
+          "x": 192,
+          "y": 0,
+          "scale": 1.5
+        }
+      ]
+    }
+  }
+}
