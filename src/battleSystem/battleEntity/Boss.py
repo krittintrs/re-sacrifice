@@ -4,8 +4,8 @@ from src.battleSystem.battleEntity.Enemy import Enemy
 
 
 class Boss(Enemy):
-    def __init__(self, name, animationlist):
-        super().__init__(name, animationlist)
+    def __init__(self, conf):
+        super().__init__(conf)
         # Example additional attribute for Boss
     
     def cardDecision(self, player):
