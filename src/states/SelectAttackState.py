@@ -5,20 +5,23 @@ from src.constants import *
 from src.Render import *
 import pygame
 import sys
+import time
 
 class SelectAttackState(BaseState):
     def __init__(self):
         super(SelectAttackState, self).__init__()
 
     def Enter(self, params):
-        self.player = params['player']
-        self.enemy = params['enemy']
-        self.field = params['field']
-        self.turn = params['turn']
-        self.currentTurnOwner = params['currentTurnOwner']  
-        self.effectOrder = params['effectOrder']
-        self.effect = params['effect']
-        self.effectOwner = params['effectOwner']
+        self.params = params
+        battle_param = self.params['battleSystem']
+        self.player = battle_param['player']
+        self.enemy = battle_param['enemy']
+        self.field = battle_param['field']
+        self.turn = battle_param['turn']
+        self.currentTurnOwner = battle_param['currentTurnOwner']  
+        self.effectOrder = battle_param['effectOrder']
+        self.effect = battle_param['effect']
+        self.effectOwner = battle_param['effectOwner']
         self.choosing = False
 
         self.leftSkip = False
@@ -120,7 +123,13 @@ class SelectAttackState(BaseState):
                         if attacking_field.is_occupied():
                             # RENDER ATTACKER ANIMATION
                             if self.effectOwner == PlayerType.PLAYER:
-                                self.player.ChangeAnimation("multi_attack")
+                                match self.player.selectedCard.name:
+                                    case "Sword Strike" | "Bash Strike" | "Blood Sacrifice" | "Kite Attack" | "Sharp Shooter" | "Arrow shower" | "Meteor" | "True Damage" :
+                                        self.player.ChangeAnimation("multi_attack")
+                                    case "Quick Attack" | "Push Attack" | "Pull Attack":
+                                        self.player.ChangeAnimation("cast")
+                                    case _:
+                                        self.player.ChangeAnimation("single_attack")
                                 attacker = self.player
                             elif self.effectOwner == PlayerType.ENEMY:
                                 self.enemy.ChangeAnimation("attack")
@@ -130,7 +139,7 @@ class SelectAttackState(BaseState):
                             if self.effect.type == EffectType.TRUE_DAMAGE:
                                 damage = attacker.attack
                             else:
-                                damage = attacker.attack - defender.defense
+                                damage = attacker.attack #- defender.defense
 
                             # Check For Evade Buff
                             is_evade = False
@@ -141,15 +150,45 @@ class SelectAttackState(BaseState):
                                
                             if damage > 0 and not is_evade:
                                 # ATTACK HIT
-                                gSounds['attack'].play()
+                                gSounds[f'{self.player.job.value.lower()}_attack'].play()
                                 defender.health -= damage
                                 defender.stunt = True
                                 print(f'{defender} takes {damage} damage')
                                 # RENDER DEFENDER ANIMATION
                                 if self.effectOwner == PlayerType.PLAYER:
-                                    self.enemy.ChangeAnimation("death")
+                                    match self.player.selectedCard.name:
+                                        case "Quick Attack" | "Normal Attack" | "Versatile Range Attack" | "Mid Range Attack":
+                                            if self.player.job == PlayerClass.WARRIOR:
+                                                defender.vfx.play("warrior_light_vfx")
+                                            elif self.player.job == PlayerClass.MAGE:
+                                                defender.vfx.play("mage_light_vfx")
+                                            elif self.player.job == PlayerClass.RANGER:
+                                                defender.vfx.play("ranger_light_vfx")
+                                        case "Heavy Attack" | "Long Range Attack":
+                                            if self.player.job == PlayerClass.WARRIOR:
+                                                defender.vfx.play("warrior_heavy_vfx")
+                                            elif self.player.job == PlayerClass.MAGE:
+                                                defender.vfx.play("mage_heavy_vfx")
+                                            elif self.player.job == PlayerClass.RANGER:
+                                                defender.vfx.play("ranger_heavy_vfx")
+                                        case "Sweep Attack" | "Push Attack" | "Pull Attack" | "Block Attack":
+                                            defender.vfx.play("physicalHit_vfx")
+                                        case "Mini Fireball":
+                                            defender.vfx.play("magicHit_vfx")
+                                        case "Sword Strike" | "Bash Strike":
+                                            defender.vfx.play("warrior_strike_vfx")
+                                        case "Blood Sacrifice":
+                                            defender.vfx.play("warrior_blood_vfx")
+                                        case "Kite Attack" | "Sharp Shooter" | "Arrow shower":
+                                            defender.vfx.play("ranger_shot_vfx")
+                                        case "Meteor":
+                                            defender.vfx.play("mage_explosion_vfx")
+                                        case "True Damage" :
+                                            defender.vfx.play("mage_true_vfx")
+                                    defender.ChangeAnimation("death")
+                                    defender.vfx.play("dizzy_vfx")
                                 elif self.effectOwner == PlayerType.ENEMY:
-                                    self.player.ChangeAnimation("knockdown")
+                                    defender.vfx.play("dizzy_vfx")
                                 # APPLY BUFF
                                 if self.effect.type == EffectType.ATTACK_SELF_BUFF:
                                     buff = self.getBuffFromEffect(self.effect)
@@ -159,7 +198,7 @@ class SelectAttackState(BaseState):
                                     defender.add_buff(buff)
                             else:
                                 # ATTACK BLOCK
-                                gSounds['block'].play()
+                                gSounds['sword_block'].play()
                                 print(f'{defender} takes no damage')
                             defender.print_stats()
                         elif attacking_field.second_entity:
@@ -177,27 +216,29 @@ class SelectAttackState(BaseState):
                         print("there is no attack happen")
                     
                     if self.player.health > 0 and self.enemy.health > 0:
-                        g_state_manager.Change(BattleState.RESOLVE_PHASE, {
+                        self.params['battleSystem'] = {
                             'player': self.player,
                             'enemy': self.enemy,
                             'field': self.field,
                             'turn': self.turn,
                             'currentTurnOwner': self.currentTurnOwner,
                             'effectOrder': self.effectOrder
-                        })
+                        }
+                        g_state_manager.Change(BattleState.RESOLVE_PHASE, self.params)
                     else:
                         if self.player.health <= 0:
                             self.winner = PlayerType.ENEMY
                         elif self.enemy.health <= 0:
                             self.winner = PlayerType.PLAYER
-                        g_state_manager.Change(BattleState.FINISH_PHASE, {
+                        self.params['battleSystem'] = {
                             'player': self.player,
                             'enemy': self.enemy,
                             'field': self.field,
                             'turn': self.turn,
                             'currentTurnOwner': self.currentTurnOwner,
                             'winner': self.winner
-                        })
+                        }
+                        g_state_manager.Change(BattleState.FINISH_PHASE, self.params)
                     
         for buff in self.player.buffs:
             buff.update(dt, events)

@@ -2,18 +2,20 @@ import copy
 import random
 import pygame
 from src.battleSystem.Card import Card
+from src.dependency import *
 
 class Deck:
     def __init__(self):
         self.card_deck = []
         self.discard_pile = []
+        self.inventory = []
 
-    def read_conf(self,deck_conf, card_conf):
+    def read_conf(self, conf = DECK_DEFS["default"]):
         self.card_deck = []
-        for card_info in deck_conf.card_dict:
+        for card_info in conf.card_dict:
             for i in range(card_info["quantity"]):
                 card = Card()
-                card.read_conf(card_conf[card_info["name"]])
+                card.read_conf(CARD_DEFS[card_info["name"]])
                 self.card_deck.append(card)
 
     
@@ -52,6 +54,43 @@ class Deck:
             return False
         else:
             return True
+        
+    def isCardDuplicateWithinLimit(self):
+        dup = {}
+        for card in self.card_deck:
+            if card.name in dup:
+                dup[card.name] += 1
+            else:
+                dup[card.name] = 1
+        for i in list(dup.values()):
+            if i > 3:
+                return False
+        return True
+    
+    
+    # Inventory methods
+    def addCardInventory(self, card: Card):
+        self.inventory.append(card)
+
+    def removeCardInventory(self, card: Card):
+        if card in self.inventory:
+            self.inventory.remove(card)
+        else:
+            print("Card is not in inventory")
+
+    def readInventoryConf(self, conf = DECK_DEFS["default_inventory"]):
+        """
+        Note that it read from the source as deck (DECK_DEFS)
+        """
+        self.inventory = []
+        for card_info in conf.card_dict:
+            for i in range(card_info["quantity"]):
+                card = Card()
+                card.read_conf(CARD_DEFS[card_info["name"]])
+                self.inventory.append(card)
+
+    
+
 
     def render(self, screen):
         # Draw the deck

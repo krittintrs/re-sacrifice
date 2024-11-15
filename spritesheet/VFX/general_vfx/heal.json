@@ -1,0 +1,127 @@
+{
+    "type": "animation",
+    "spriteSheetURL": "spritesheet/VFX/general_vfx/heal.png",
+    "animations": {
+      "heal_vfx": {
+        "loop": "False",
+        "interval_time": 0.2,
+        "offset_x"  : -20,
+        "offset_y"  : -125,
+        "sprites": [
+          {
+            "fileName": "heal_vfx1",
+            "width": 96,
+            "height": 96,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "fileName": "heal_vfx2",
+            "width": 96,
+            "height": 96,
+            "x": 96,
+            "y": 0
+          },
+          {
+            "fileName": "heal_vfx3",
+            "width": 96,
+            "height": 96,
+            "x": 192,
+            "y": 0
+          },
+          {
+            "fileName": "heal_vfx4",
+            "width": 96,
+            "height": 96,
+            "x": 288,
+            "y": 0
+          },
+          {
+            "fileName": "heal_vfx5",
+            "width": 96,
+            "height": 96,
+            "x": 0,
+            "y": 96
+          },
+          {
+            "fileName": "heal_vfx6",
+            "width": 96,
+            "height": 96,
+            "x": 96,
+            "y": 96
+          },
+          {
+            "fileName": "heal_vfx7",
+            "width": 96,
+            "height": 96,
+            "x": 192,
+            "y": 96
+          },
+          {
+            "fileName": "heal_vfx8",
+            "width": 96,
+            "height": 96,
+            "x": 288,
+            "y": 96
+          },
+          {
+            "fileName": "heal_vfx9",
+            "width": 96,
+            "height": 96,
+            "x": 0,
+            "y": 192
+          },
+          {
+            "fileName": "heal_vfx10",
+            "width": 96,
+            "height": 96,
+            "x": 96,
+            "y": 192
+          },
+          {
+            "fileName": "heal_vfx11",
+            "width": 96,
+            "height": 96,
+            "x": 192,
+            "y": 192
+          },
+          {
+            "fileName": "heal_vfx12",
+            "width": 96,
+            "height": 96,
+            "x": 288,
+            "y": 192
+          },
+          {
+            "fileName": "heal_vfx13",
+            "width": 96,
+            "height": 96,
+            "x": 0,
+            "y": 288
+          },
+          {
+            "fileName": "heal_vfx14",
+            "width": 96,
+            "height": 96,
+            "x": 96,
+            "y": 288
+          },
+          {
+            "fileName": "heal_vfx15",
+            "width": 96,
+            "height": 96,
+            "x": 192,
+            "y": 288
+          },
+          {
+            "fileName": "heal_vfx16",
+            "width": 96,
+            "height": 96,
+            "x": 288,
+            "y": 288
+          }
+        ]
+      }
+    }
+  }
+  

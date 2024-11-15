@@ -11,11 +11,13 @@ class BattleSelectState(BaseState):
     def Enter(self, params):
         print("\n>>>>>> Enter BattleSelectState <<<<<<")
         # Retrieve the cards, entities, and field from the parameter
-        self.player = params['player']
-        self.enemy = params['enemy']
-        self.field = params['field']
-        self.turn = params['turn']
-        self.currentTurnOwner = params['currentTurnOwner']  
+        self.params = params
+        battle_param = self.params['battleSystem']
+        self.player = battle_param['player']
+        self.enemy = battle_param['enemy']
+        self.field = battle_param['field']
+        self.turn = battle_param['turn']
+        self.currentTurnOwner = battle_param['currentTurnOwner']  
 
         self.player.cardsOnHand[self.selected_index].isSelected = True
 
@@ -28,8 +30,6 @@ class BattleSelectState(BaseState):
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
         self.enemy.apply_buffs_to_cardsOnHand()
-
-        self.player.ChangeAnimation("cast")
 
     def Exit(self):
         pass
@@ -55,13 +55,14 @@ class BattleSelectState(BaseState):
                     selectedCard.print_stats()
                     for card in self.player.cardsOnHand:
                         print(f'Player\'s Hand Card: {card.name}, isSelected: {card.isSelected}')
-                    g_state_manager.Change(BattleState.ACTION_PHASE, {
+                    self.params['battleSystem'] = {
                         'player': self.player,
                         'enemy': self.enemy,
                         'field': self.field,
                         'turn': self.turn,
                         'currentTurnOwner': self.currentTurnOwner,
-                    })
+                    }
+                    g_state_manager.Change(BattleState.ACTION_PHASE, self.params)
 
         # Update buff
         for buff in self.player.buffs:

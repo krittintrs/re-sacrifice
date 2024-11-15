@@ -7,7 +7,7 @@ from src.rpg.Player import Player
 from src.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from src.rpg.StateMachine import StateMachine
 
-class RPGStartState:
+class TownState:
     def __init__(self):
         # Load the full-scale map without resizing
         self.map_surface = pygame.image.load("src/rpg/sprite/map/TownMap.jpg")

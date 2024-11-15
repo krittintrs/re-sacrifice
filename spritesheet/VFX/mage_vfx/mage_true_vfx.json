@@ -1,0 +1,82 @@
+{
+  "type": "animation",
+  "spriteSheetURL": "spritesheet/VFX/mage_vfx/mage_true_vfx.png",
+  "animations": {
+    "mage_true_vfx": {
+      "loop": "False",
+      "interval_time": 0.1,
+      "sprites": [
+        {
+          "fileName": "mage_true1",
+          "width": 96,
+          "height": 96,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "fileName": "mage_true2",
+          "width": 96,
+          "height": 96,
+          "x": 96,
+          "y": 0
+        },
+        {
+          "fileName": "mage_true3",
+          "width": 96,
+          "height": 96,
+          "x": 192,
+          "y": 0
+        },
+        {
+          "fileName": "mage_true4",
+          "width": 96,
+          "height": 96,
+          "x": 288,
+          "y": 0
+        },
+        {
+          "fileName": "mage_true5",
+          "width": 96,
+          "height": 96,
+          "x": 384,
+          "y": 0
+        },
+        {
+          "fileName": "mage_true6",
+          "width": 96,
+          "height": 96,
+          "x": 480,
+          "y": 0
+        },
+        {
+          "fileName": "mage_true7",
+          "width": 96,
+          "height": 96,
+          "x": 576,
+          "y": 0
+        },
+        {
+          "fileName": "mage_true8",
+          "width": 96,
+          "height": 96,
+          "x": 672,
+          "y": 0
+        },
+        {
+          "fileName": "mage_true9",
+          "width": 96,
+          "height": 96,
+          "x": 768,
+          "y": 0
+        },
+        {
+          "fileName": "mage_true10",
+          "width": 96,
+          "height": 96,
+          "x": 864,
+          "y": 0
+        }
+      ]
+    }
+  }
+}

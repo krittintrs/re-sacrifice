@@ -7,6 +7,7 @@ class Buff():
         self.description = conf.description
         self.duration = conf.duration
         self.type = conf.type
+        self.vfx_type = conf.vfx_type
         self.value = conf.value  # [1,0,0,0] == [atk,def,spd,range]
         self.dot_damage = conf.dot_damage
         self.imageName = conf.imageName

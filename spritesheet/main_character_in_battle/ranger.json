@@ -4,6 +4,7 @@
   "animations": {
     "cast_ranger": {
       "loop": "False",
+      "interval_time": 0.1,
       "offset_x":-55,
       "offset_y":-20,
       "sprites": [
@@ -39,6 +40,7 @@
     },
     "castloop_ranger": {
       "loop": "False",
+      "interval_time": 0.1,
       "offset_x":-55,
       "offset_y":-20,
       "sprites": [
@@ -102,6 +104,7 @@
     },
     "multiAttack_ranger": {
       "loop": "False",
+      "interval_time": 0.1,
       "offset_x":-55,
       "offset_y":-20,
       "sprites": [
@@ -151,6 +154,7 @@
     },
     "singleAttack_ranger": {
       "loop": "False",
+      "interval_time": 0.1,
       "offset_x":-55,
       "offset_y":-20,
       "sprites": [

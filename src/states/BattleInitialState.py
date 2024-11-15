@@ -15,12 +15,13 @@ class BattleInitialState(BaseState):
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleInitialState <<<<<<")
-
-        self.player = params['player']
-        self.enemy = params['enemy']
-        self.field = params['field']
-        self.turn = params['turn']
-        self.currentTurnOwner = params['currentTurnOwner']  
+        self.params = params
+        battle_param = self.params['battleSystem']
+        self.player = battle_param['player']
+        self.enemy = battle_param['enemy']
+        self.field = battle_param['field']
+        self.turn = battle_param['turn']
+        self.currentTurnOwner = battle_param['currentTurnOwner']  
 
         # For setting up the initial position at the start of each battle
         self.player.move_to(self.field[self.player.fieldTile_index], self.field)
@@ -33,8 +34,8 @@ class BattleInitialState(BaseState):
             print("Player's Hand Card: ", card.name)
 
         # Mock buff
-        mock_buff = Buff(CARD_BUFF["attack_boost"])
-        self.player.add_buff(mock_buff)
+        # mock_buff = Buff(CARD_BUFF["attack_boost"])
+        # self.player.add_buff(mock_buff)
         print(f'Player Buffs: {self.player.buffs}')
         print(f'Enemy Buffs: {self.enemy.buffs}')
 
@@ -54,17 +55,21 @@ class BattleInitialState(BaseState):
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-                elif event.key == pygame.K_SPACE and self.roll == False and self.currentTurnOwner == PlayerType.PLAYER:
-                    self.roll_dice()
-                    self.roll = True
-                elif event.key == pygame.K_RETURN and self.roll == True:
-                    g_state_manager.Change(BattleState.SELECTION_PHASE, {
-                        'player': self.player,
-                        'enemy': self.enemy,
-                        'field': self.field,
-                        'turn': self.turn,
-                        'currentTurnOwner': self.currentTurnOwner
-                    })
+                elif event.key == pygame.K_SPACE:
+                    pass
+                elif event.key == pygame.K_RETURN:
+                    if self.roll == False and self.currentTurnOwner == PlayerType.PLAYER:
+                        self.roll_dice()
+                        self.roll = True
+                    elif self.roll == True:
+                        self.params['battleSystem'] = {
+                            'player': self.player,
+                            'enemy': self.enemy,
+                            'field': self.field,
+                            'turn': self.turn,
+                            'currentTurnOwner': self.currentTurnOwner
+                        }
+                        g_state_manager.Change(BattleState.SELECTION_PHASE, self.params)
         
         if self.currentTurnOwner == PlayerType.ENEMY and self.roll == False:
             self.roll_dice()
@@ -107,7 +112,7 @@ class BattleInitialState(BaseState):
             desc_2 = "Press Enter to Start"
             RenderDescription(screen, desc_1, desc_2)
         else:
-            RenderDescription(screen, "Press Spacebar to Roll the Dice")
+            RenderDescription(screen, "Press Enter to Roll the Dice")
              
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
@@ -131,6 +136,8 @@ class BattleInitialState(BaseState):
         for _ in range(30):  # Increase the number of iterations for a smoother effect
             self.dice = random.randint(1, 6)  # Randomly change the dice number
             self.render(pygame.display.get_surface())  # Render the current state of the screen
+            # screen = pygame.display.get_surface()
+            # screen.blit(gDice_image_list[f'dice_roll_{self.dice}'], (SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT - HUD_HEIGHT - 74))
             pygame.display.flip()  # Update the display to show changes
             pygame.time.delay(10)  # Delay to control the speed of dice rolling
 

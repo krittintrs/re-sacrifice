@@ -1,4 +1,4 @@
-from src.Util import SpriteManager, DeckLoader
+from src.Util import SpriteManager
 from src.StateMachine import StateMachine
 from src.EnumResources import *
 import pygame
@@ -7,14 +7,33 @@ g_state_manager = StateMachine()
 
 sprite_collection = SpriteManager().spriteCollection
 
-CARD_DEFS = sprite_collection["card_conf"]  # dict {"name": CardConf class}
-DECK_DEFS = DeckLoader().deck_conf          # dict {"name": DeckConf class}
+# CARD_DEFS = sprite_collection["card_conf"]  # dict {"name": CardConf class}
+# DECK_DEFS = DeckLoader().deck_conf          # dict {"name": DeckConf class}
 
 gSounds = {
     "dice_roll": pygame.mixer.Sound("sounds/dice_roll.mp3"),
     "attack": pygame.mixer.Sound("sounds/attack.wav"),
     "block": pygame.mixer.Sound("sounds/block.wav"),
+    "warrior_attack": pygame.mixer.Sound("sounds/warrior_attack.mp3"),
+    "ranger_attack": pygame.mixer.Sound("sounds/ranger_attack.mp3"),
+    "mage_attack": pygame.mixer.Sound("sounds/mage_attack.wav"),
+    "sword_block": pygame.mixer.Sound("sounds/sword_block.mp3"),
+    "draw_card": pygame.mixer.Sound("sounds/draw_card.mp3"),
 }
+
+gBGM = {
+    "rpg_bgm": "sounds/rpg_bgm.mp3",
+    "battle_bgm": "sounds/battle_bgm.mp3",
+}
+
+def play_music(state):
+    # Stop any currently playing music
+    pygame.mixer.music.stop()
+
+    # Load and play the new music
+    pygame.mixer.music.load(gBGM[state])
+    pygame.mixer.music.set_volume(0.1)
+    pygame.mixer.music.play(loops=-1)  # Loop indefinitely
 
 gBuffIcon_image_list = {
     "buff": sprite_collection["buff_icon"].image,
@@ -36,6 +55,7 @@ gWarrior_animation_list = {
     "idle": sprite_collection["idle_warrior"].animation,
     "knock_down": sprite_collection["knockDown_warrior"].animation,
     "walk": sprite_collection["walk_warrior"].animation,
+    "stunt": sprite_collection["stunt_warrior"].animation,
 }
 
 gRanger_animation_list = {
@@ -46,6 +66,7 @@ gRanger_animation_list = {
     "idle": sprite_collection["idle_ranger"].animation,
     "knock_down": sprite_collection["knockDown_ranger"].animation,
     "walk": sprite_collection["walk_ranger"].animation,
+    "stunt": sprite_collection["stunt_ranger"].animation,
 }
 
 gMage_animation_list = {
@@ -56,6 +77,7 @@ gMage_animation_list = {
     "idle": sprite_collection["idle_mage"].animation,
     "knock_down": sprite_collection["knockDown_mage"].animation,
     "walk": sprite_collection["walk_mage"].animation,
+    "stunt": sprite_collection["stunt_mage"].animation,
 }
 
 gNormalGoblin_animation_list = {
@@ -63,6 +85,7 @@ gNormalGoblin_animation_list = {
     "attack": sprite_collection["normalGoblinAttack"].animation,
     "death": sprite_collection["normalGoblinDeath"].animation,
     "walk": sprite_collection["normalGoblinWalk"].animation,
+    "stunt": sprite_collection["normalGoblinStunt"].animation,
 }
 
 gGhost_animation_list = {
@@ -128,4 +151,29 @@ gFont_list = {
     "default": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 10),
     "header": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 15),
     "title": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 20),
+}
+
+gVfx_animation_list = {
+    "mage_heavy_vfx": sprite_collection["mage_heavy_vfx"].animation,
+    "mage_light_vfx": sprite_collection["mage_light_vfx"].animation,
+    "mage_debuff_vfx": sprite_collection["mage_debuff_vfx"].animation,
+    "mage_explosion_vfx": sprite_collection["mage_explosion_vfx"].animation,
+    "mage_true_vfx": sprite_collection["mage_true_vfx"].animation,
+    "ranger_heavy_vfx": sprite_collection["ranger_heavy_vfx"].animation,
+    "ranger_light_vfx": sprite_collection["ranger_light_vfx"].animation,
+    "ranger_shot_vfx": sprite_collection["ranger_shot_vfx"].animation,
+    "warrior_heavy_vfx": sprite_collection["warrior_heavy_vfx"].animation,
+    "warrior_light_vfx": sprite_collection["warrior_light_vfx"].animation,
+    "warrior_blood_vfx": sprite_collection["warrior_blood_vfx"].animation,
+    "warrior_strike_vfx": sprite_collection["warrior_strike_vfx"].animation,
+    "monster_attack_vfx": sprite_collection["monster_attack_vfx"].animation,
+    "buff_vfx": sprite_collection["buff_vfx"].animation,
+    "debuff_vfx": sprite_collection["debuff_vfx"].animation,
+    "dizzy_vfx": sprite_collection["dizzy_vfx"].animation,
+    "firefly_vfx": sprite_collection["firefly_vfx"].animation,
+    "leavesFalling_vfx": sprite_collection["leavesFalling_vfx"].animation,
+    "magicHit_vfx": sprite_collection["magicHit_vfx"].animation,
+    "physicalHit_vfx": sprite_collection["physicalHit_vfx"].animation,
+    "shield_vfx": sprite_collection["shield_vfx"].animation,
+    "heal_vfx": sprite_collection["heal_vfx"].animation,
 }

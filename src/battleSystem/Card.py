@@ -7,6 +7,8 @@ class Card:
         self.id = id
         self.class_ = class_
         self.type = type
+        self.vfxType = None
+        self.animationType = None
         self.name = name
         self.description = description
         self.image = image
@@ -36,6 +38,8 @@ class Card:
         self.id = conf.id
         self.class_ = conf.class_
         self.type = conf.type
+        self.vfxType = conf.vfx_type
+        self.animationType = conf.animation_type
         self.name = conf.name
         self.description = conf.description
         self.image = conf.image
@@ -165,9 +169,6 @@ class Card:
         
     #     # Draw the highlighted border around the card
     #     pygame.draw.rect(screen, (255, 255, 0), (start_x, start_y, CARD_WIDTH, CARD_HEIGHT), 3)
-
-    def render_position(self, screen, position, scale):
-        pygame.draw.rect(screen, (0,0,0), (position[0],position[1],CARD_WIDTH*scale, CARD_HEIGHT*scale), 1)
 
     def update(self, dt, events):
         pass
