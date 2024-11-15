@@ -71,7 +71,7 @@ class IntroState:
 
     def Enter(self, enter_params):
         self.params = enter_params
-        self.player = enter_params['rpg_player']
+        self.player = enter_params['rpg']['rpg_player']
         print(self.params," TownMap")
         
         print("Entering RPG Start State")
@@ -96,9 +96,6 @@ class IntroState:
         self.add_invisible_wall("warp_door", 526, 9, 766, 34)
         self.add_invisible_wall("door", 526, 39, 766, 64)
         
-        # #NPC
-        # self.add_invisible_wall("John_npc", 411, 453, 440, 480)
-        
     # Unique interaction functions for each building
     def interact_with_building_1(self):
         print("Player interacted with Building 1: Welcome to the inn!")
@@ -106,8 +103,8 @@ class IntroState:
     def interact_with_tavern(self):
         print(self.params)
         # self.player = self.params['player']
-        self.params['rpg_player'].x  = 620
-        self.params['rpg_player'].y  = 634
+        self.params['rpg']['rpg_player'].x  = 620
+        self.params['rpg']['rpg_player'].y  = 634
         g_state_manager.Change(RPGState.TOWN, self.params)
         
     def interact_with_npc(self, npc):
@@ -142,19 +139,19 @@ class IntroState:
     def update_story(self):
         for npc in self.npcs:
             if npc.name == "God" and npc.choice == 1:
-                self.params["story_checkpoint"]["Fight_Intro"] = True
+                self.params['rpg']["story_checkpoint"]["Fight_Intro"] = True
                 
                 
          # Quest tracking logic
         # Example quest: "Open the gate"
-        if not self.params["story_checkpoint"].get("Fight_Intro"):
+        if not self.params['rpg']["story_checkpoint"].get("Fight_Intro"):
             self.quests["explore"] = "Speak with the mysterious lady"  # Update or add quest
             self.topics["explore"] = "Game Controls"
         else:
             self.buildings = [b for b in self.buildings if b['id'] != "door"]
             #g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
-            self.params["rpg_player"].x = 625
-            self.params["rpg_player"].y = 326
+            self.params['rpg']["rpg_player"].x = 625
+            self.params['rpg']["rpg_player"].y = 326
             g_state_manager.Change(RPGState.TOWN, self.params)
               
     def update(self, dt, events):

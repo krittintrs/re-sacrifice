@@ -17,7 +17,9 @@ gPlayer_animation_list = {"down": sprite_collection["character_walk_down"].anima
 ITEM_DESCRIPTIONS = {
     "Health Potion": "A potion that restores 50 HP.",
     "Mana Potion": "A potion that restores 30 MP.",
-    "Key": "A mysterious key that might unlock something important."
+    "Key": "A mysterious key that might unlock something important.",
+    "Gold": "Money",
+    "Amulet": "A mysterious amulet"
 }
 
 # gFonts = {

@@ -34,7 +34,8 @@ class GameMain:
                 RPGState.START: TutorialState(),# Add RPG start state here
                 RPGState.INTRO: IntroState(),
                 RPGState.TOWN: TownState(),
-                RPGState.TAVERN: TavernMapState()
+                RPGState.TAVERN: TavernMapState(),
+                RPGState.GOBLIN: GoblinMapState()
         }
 
         # Set initial states for battle mode

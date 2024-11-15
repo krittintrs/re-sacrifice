@@ -73,15 +73,15 @@ def render_dialogue(screen,npc,dialogue_text,blink,last_blink_time,player_input)
     player_input_surface = font.render(input_text, True, (0, 0, 255))
     screen.blit(player_input_surface, (70, SCREEN_HEIGHT - 100))
 
-    # Draw "Respond" button
-    pygame.draw.rect(screen, (100, 200, 100), response_button_rect)
-    respond_text = font.render("Respond", True, (255, 255, 255))
-    screen.blit(respond_text, (response_button_rect.x + 10, response_button_rect.y + 10))
+    # # Draw "Respond" button
+    # pygame.draw.rect(screen, (100, 200, 100), response_button_rect)
+    # respond_text = font.render("Respond", True, (255, 255, 255))
+    # screen.blit(respond_text, (response_button_rect.x + 10, response_button_rect.y + 10))
 
-    # Draw "Close" button
-    pygame.draw.rect(screen, (200, 100, 100), close_button_rect)
-    close_text = font.render("Close", True, (255, 255, 255))
-    screen.blit(close_text, (close_button_rect.x + 10, close_button_rect.y + 10))
+    # # Draw "Close" button
+    # pygame.draw.rect(screen, (200, 100, 100), close_button_rect)
+    # close_text = font.render("Close", True, (255, 255, 255))
+    # screen.blit(close_text, (close_button_rect.x + 10, close_button_rect.y + 10))
 
 def render_quests(screen,quests):
     font = pygame.font.Font(None, 24)

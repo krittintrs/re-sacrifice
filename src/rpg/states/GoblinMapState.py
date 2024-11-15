@@ -12,19 +12,24 @@ from src.rpg.Prompts import DEFAULT_TEXT, PROMPTS
 from src.resources import g_state_manager
 from src.EnumResources import BattleState, RPGState
 from src.rpg.Utils import render_dialogue, render_interaction_dialogue,render_quests,render_topics
+from src.battleSystem.battleEntity.Enemy import Enemy as BattleEnemy
+from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
 
-class TavernMapState:
+class GoblinMapState:
     def __init__(self):
-        scale_factor = 2
+        scale_factor = 1.5
          # Initialize tavern NPCs
         self.npcs = [
-            NPC("John", 650, 375, "src/rpg/sprite/NPC/John_Tavernkeeper", PROMPTS['John'], 'left',scale_factor,"Hello, traveler! How can I help you?"),
-            NPC("Thaddeus", 994, 410, "src/rpg/sprite/NPC/Thaddeus_OldMan", PROMPTS['Thaddeus'],'down',scale_factor,DEFAULT_TEXT['Thaddeus'])
+            NPC("Zeus", 281, 430, "src/rpg/sprite/NPC/Zeus_GoblinKing", PROMPTS['Zeus'],'down',scale_factor,DEFAULT_TEXT['Zeus']),
+            NPC("Hiw", 449, 136, "src/rpg/sprite/NPC/GoblinGang", PROMPTS['Thaddeus'],'down',0.1,DEFAULT_TEXT['Thaddeus']),
+            NPC("Kao", 393, 164, "src/rpg/sprite/NPC/GoblinGang", PROMPTS['Thaddeus'],'down',0.1,DEFAULT_TEXT['Thaddeus']),
+            NPC("Timothy", 640, 537, "src/rpg/sprite/NPC/Timothy_GoblinGuard", PROMPTS['Timothy'],'down',1.2,DEFAULT_TEXT['Timothy']),
+            NPC("Steve", 1125, 236, "src/rpg/sprite/NPC/Steve_GoblinWaterMan", PROMPTS['Thaddeus'],'down',1,DEFAULT_TEXT['Thaddeus']),
         ]
         self.params = None
         self.current_state = self
         # Load the tavern map
-        self.map_surface = pygame.image.load("src/rpg/sprite/map/TavernMap.jpg")
+        self.map_surface = pygame.image.load("src/rpg/sprite/map/GoblinMap.jpg")
         self.map_surface = pygame.transform.scale(self.map_surface, (SCREEN_WIDTH, SCREEN_HEIGHT))
     
         # Dialogue state
@@ -71,6 +76,9 @@ class TavernMapState:
             "Mana Potion": lambda: print("You drink the Mana Potion and restore MP!")
         }
         
+        self.show_popup = False
+        self.popup = None
+        
 
     def toggle_menu(self):
         # Toggle the menu display on/off
@@ -79,10 +87,10 @@ class TavernMapState:
     def handle_menu_input(self, event):
         # Navigate the menu options and select one
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE and not self.show_inventory and not self.show_dialogue:
+            if event.key == pygame.K_ESCAPE and not self.show_inventory and not self.show_dialogue and not self.show_popup:
                 self.toggle_menu()  # Toggle menu visibility
 
-            elif self.show_menu and not self.show_inventory and not self.show_dialogue:
+            elif self.show_menu and not self.show_inventory and not self.show_dialogue and not self.show_popup:
                 if event.key == pygame.K_UP:
                     # Move up in menu options
                     self.selected_option = (self.selected_option - 1) % len(self.menu_options)
@@ -157,6 +165,9 @@ class TavernMapState:
         """Displays item description."""
         description = ITEM_DESCRIPTIONS.get(item, "No description available.")
         print(f"Examine {item}: {description}")  # This could be replaced with a Pygame popup
+        self.show_popup = True
+        self.popup = "Item_Description"
+        self.popup_text = description  # Store the dialogue text for rendering in the popup
         return description
     def next_item_in_inventory(self,inventory, current_item):
         items = list(inventory.keys())
@@ -196,30 +207,75 @@ class TavernMapState:
     
     def generate_buildings(self):
         #Walls
-        self.add_invisible_wall("wall", 523, 552, 536, 703)
-        self.add_invisible_wall("wall", 727, 551, 743, 702)
-        self.add_invisible_wall("wall", 743, 582, 1219, 618)
-        self.add_invisible_wall("wall", 46, 584, 521, 599)
-        self.add_invisible_wall("wall", 40, 146, 147, 579)
-        self.add_invisible_wall("wall", 140, 138, 294, 262)
-        self.add_invisible_wall("wall", 1180, 24, 1229, 580)
-        self.add_invisible_wall("wall", 992, 318, 1181, 357)
-        self.add_invisible_wall("wall", 1128, 349, 1177, 402)
-        self.add_invisible_wall("bar", 534, 445, 814, 482)
-        self.add_invisible_wall("bar", 730, 370, 819, 482)
-        self.add_invisible_wall("bar", 532, 373, 609, 476)
-        self.add_invisible_wall("wall", 298, 308, 356, 442)
-        self.add_invisible_wall("wall", 358, 393, 492, 442)
-        self.add_invisible_wall("wall", 140, 138, 294, 262)
-        self.add_invisible_wall("wall", 219, 4, 260, 136)
-        self.add_invisible_wall("wall", 927, 26, 1227, 54)
-        self.add_invisible_wall("wall", 263, 3, 1177, 110)
-        self.add_invisible_wall("wall", 140, 138, 294, 262)
-        self.add_invisible_wall("wall", 140, 138, 294, 262)
-        # #NPC
-        # self.add_invisible_wall("John_npc", 411, 453, 440, 480)
-        # Add a door interaction
-        self.add_invisible_wall("door", 538, 694, 730, 718)  # Adjust coordinates for the door
+        self.add_invisible_wall("wall_1", 62, 44, 147, 52)        # Wall from (62, 44) to (147, 52)
+        self.add_invisible_wall("wall_2", 60, 43, 73, 671)        # Wall from (60, 43) to (73, 671)
+        self.add_invisible_wall("wall_3", 245, 56, 1198, 62)      # Wall from (245, 56) to (1198, 62)
+        self.add_invisible_wall("wall_4", 1187, 45, 1198, 661)    # Wall from (1187, 45) to (1198, 661)
+        self.add_invisible_wall("wall_5", 697, 666, 1198, 680)    # Wall from (697, 666) to (1198, 680)
+        self.add_invisible_wall("wall_6", 72, 263, 337, 269)
+        self.add_invisible_wall("wall_7", 327, 252, 470, 258)
+        self.add_invisible_wall("wall_8", 244, 58, 259, 152)
+        self.add_invisible_wall("wall_9", 235, 146, 293, 157)
+        self.add_invisible_wall("wall_10", 280, 148, 293, 201)
+        self.add_invisible_wall("wall_11", 282, 191, 382, 200)
+        self.add_invisible_wall("wall_12", 435, 193, 521, 200)
+        self.add_invisible_wall("wall_13", 510, 60, 524, 222)
+        self.add_invisible_wall("wall_14", 462, 287, 475, 415)
+        self.add_invisible_wall("wall_15", 326, 252, 341, 372)
+        self.add_invisible_wall("wall_16", 266, 388, 473, 395)
+        self.add_invisible_wall("wall_17", 266, 389, 278, 411)
+        self.add_invisible_wall("wall_18", 151, 386, 225, 398)
+        self.add_invisible_wall("wall_19", 213, 387, 224, 409)
+        self.add_invisible_wall("wall_20", 212, 303, 224, 319)
+        self.add_invisible_wall("wall_21", 151, 302, 222, 309)
+        self.add_invisible_wall("wall_22", 151, 305, 162, 474)
+        self.add_invisible_wall("wall_23", 58, 416, 158, 425)
+        self.add_invisible_wall("wall_24", 168, 547, 462, 556)
+        self.add_invisible_wall("wall_25", 167, 549, 179, 627)
+        self.add_invisible_wall("wall_26", 61, 665, 100, 672)
+        self.add_invisible_wall("wall_67", 141, 664, 470, 671)
+        self.add_invisible_wall("wall_68", 89, 666, 98, 683)
+        self.add_invisible_wall("wall_69", 140, 666, 151, 682)
+        self.add_invisible_wall("wall_27", 463, 575, 474, 669)
+        self.add_invisible_wall("wall_28", 439, 575, 521, 583)
+        self.add_invisible_wall("wall_29", 527, 508, 539, 584)
+        self.add_invisible_wall("wall_30", 477, 639, 618, 647)
+        self.add_invisible_wall("wall_31", 528, 506, 619, 518)
+        self.add_invisible_wall("wall_32", 608, 506, 618, 589)
+        self.add_invisible_wall("wall_33", 462, 407, 557, 417)
+        self.add_invisible_wall("wall_34", 527, 410, 538, 470)
+        self.add_invisible_wall("wall_35", 678, 483, 861, 507)
+        self.add_invisible_wall("wall_36", 860, 501, 935, 508)
+        self.add_invisible_wall("wall_37", 694, 518, 703, 611)
+        self.add_invisible_wall("wall_38", 902, 578, 914, 660)
+        self.add_invisible_wall("wall_39", 916, 596, 1009, 603)
+        self.add_invisible_wall("wall_40", 917, 599, 932, 661)
+        self.add_invisible_wall("wall_41", 924, 483, 936, 510)
+        self.add_invisible_wall("wall_42", 923, 484, 1197, 488)
+        self.add_invisible_wall("wall_43", 1050, 415, 1063, 487)
+        self.add_invisible_wall("wall_44", 1064, 286, 1075, 421)
+        self.add_invisible_wall("wall_45", 1064, 287, 1192, 291)
+        self.add_invisible_wall("wall_46", 1104, 148, 1193, 157)
+        self.add_invisible_wall("wall_47", 1105, 150, 1114, 224)
+        self.add_invisible_wall("wall_48", 846, 192, 855, 225)
+        self.add_invisible_wall("wall_49", 799, 219, 853, 226)
+        self.add_invisible_wall("wall_50", 900, 56, 914, 147)
+        self.add_invisible_wall("wall_51", 722, 60, 735, 130)
+        self.add_invisible_wall("wall_52", 694, 125, 733, 131)
+        self.add_invisible_wall("wall_53", 692, 124, 704, 140)
+        self.add_invisible_wall("wall_54", 520, 124, 634, 132)
+        self.add_invisible_wall("wall_55", 622, 126, 635, 144)
+        self.add_invisible_wall("wall_56", 518, 58, 540, 106)
+        self.add_invisible_wall("wall_57", 518, 506, 616, 515)
+        self.add_invisible_wall("wall_58", 616, 515, 510, 216)
+        self.add_invisible_wall("wall_59", 737, 228, 725, 219)
+        self.add_invisible_wall("wall_60", 735, 236, 847, 192)
+        self.add_invisible_wall("wall_61", 847, 192, 1027, 201)
+        self.add_invisible_wall("wall_62", 511, 217, 736, 229)
+        self.add_invisible_wall("wall_63", 726, 220, 736, 236)
+        self.add_invisible_wall("wall_64", 849, 416, 970, 423)
+        self.add_invisible_wall("wall_65", 1007, 418, 1062, 422)
+        self.add_invisible_wall("wall_66", 848, 418, 858, 483)
     def interact_none(self):
         print("interacted")
     def interact_with_door(self):
@@ -242,12 +298,26 @@ class TavernMapState:
         self.dialogue_text = npc.dialogue_text or npc.default_text
     
     def update_story(self):
-        for npc in self.npcs:
-            if npc.name == "John" and npc.choice == 1:
-                self.params['rpg']["story_checkpoint"]["Gate_Open"] = True
-            if npc.name == "Thaddeus" and npc.choice == 1:
-                self.params['rpg']["story_checkpoint"]["Receive_Parcel"] = True
-                self.params['rpg']['Inventory']['Parcel'] = 1
+        if self.current_npc:
+            if self.current_npc.name == "Zeus":
+                if self.current_npc.choice == 1 and not self.params['rpg']["enter_battle"]:
+                    print("enter battle")
+                    self.entering_battle = True
+                    pygame.event.get()
+                    keys = pygame.key.get_pressed()  # Get current key states
+                    if keys[pygame.K_RETURN]:  # Check if Enter key is pressed
+                        self.current_npc.choice = 0
+                        print("enter battle enter")
+                        #TODO Change to goblin king battle
+                        self.params['rpg']["enter_battle"] = True
+                        self.params['battleSystem'] = {
+                            'player': self.player.battlePlayer,
+                            'enemy': BattleEnemy(BATTLE_ENTITY["default_enemy"])
+                        }
+                        self.entering_battle = False
+                        g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
+             
+                
     def Enter(self, params):
         self.params = params
         print(self.params," Tavern")
@@ -270,16 +340,22 @@ class TavernMapState:
                 if event.key == pygame.K_ESCAPE:
                     if self.show_dialogue:
                         self.show_dialogue = False
+                    elif self.show_popup:  # Close the goblin camp popup if it's active
+                        self.show_popup = False
                    
-                elif event.key == pygame.K_RETURN and self.show_dialogue:
-                    # Handle Enter key to send response
-                    if not self.player_input:
-                        self.player_input = "ok"  # Default to "ok" if input is empty
-                    self.dialogue_text = self.current_npc.get_dialogue(self.player_input)
-                    self.player_input = ""  # Clear player input after sending
+                elif event.key == pygame.K_RETURN:
+                    if self.show_popup:
+                        if self.popup == "Item_Description":
+                            self.show_popup = False
+                    if self.show_dialogue:
+                        # Handle Enter key to send response
+                        if not self.player_input:
+                            self.player_input = "ok"  # Default to "ok" if input is empty
+                        self.dialogue_text = self.current_npc.get_dialogue(self.player_input)
+                        self.player_input = ""  # Clear player input after sending
 
-                    # Print or display the player's selected choice
-                    print(f"Player choice: {self.current_npc.choice}")
+                        # Print or display the player's selected choice
+                        print(f"Player choice: {self.current_npc.choice}")
                 elif event.key == pygame.K_BACKSPACE and self.show_dialogue:
                     # Handle backspace for text input
                     self.player_input = self.player_input[:-1]
@@ -308,9 +384,9 @@ class TavernMapState:
                 if self.show_inventory and not self.showing_options:
                     self.showing_options = False
                     if event.key == pygame.K_DOWN:
-                        self.selected_item = self.next_item_in_inventory(self.params['rpg']['Inventory'], self.selected_item)
+                        self.selected_item = self.next_item_in_inventory(self.params['rpg']['inventory'], self.selected_item)
                     elif event.key == pygame.K_UP:
-                        self.selected_item = self.previous_item_in_inventory(self.params['rpg']['Inventory'], self.selected_item)
+                        self.selected_item = self.previous_item_in_inventory(self.params['rpg']['inventory'], self.selected_item)
                     elif event.key == pygame.K_RETURN and self.selected_item:
                         print("showing option")
                         self.showing_options = True
@@ -347,14 +423,15 @@ class TavernMapState:
 
         # Handle player movement
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_w] or keys[pygame.K_UP]:
-            self.player.MoveY(-self.player.walk_speed * dt)
-        elif keys[pygame.K_s] or keys[pygame.K_DOWN]:
-            self.player.MoveY(self.player.walk_speed * dt)
-        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-            self.player.MoveX(-self.player.walk_speed * dt)
-        elif keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-            self.player.MoveX(self.player.walk_speed * dt)
+        if not self.show_dialogue and not self.show_popup and not self.show_menu and not self.show_inventory :
+            if keys[pygame.K_w] or keys[pygame.K_UP]:
+                self.player.MoveY(-self.player.walk_speed * dt)
+            elif keys[pygame.K_s] or keys[pygame.K_DOWN]:
+                self.player.MoveY(self.player.walk_speed * dt)
+            if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+                self.player.MoveX(-self.player.walk_speed * dt)
+            elif keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+                self.player.MoveX(self.player.walk_speed * dt)
 
         # Check for collisions with each building and revert to original position if collided
         for building in self.buildings:
@@ -392,8 +469,17 @@ class TavernMapState:
         if self.show_dialogue:
             render_topics(screen,self.topics)
             render_dialogue(screen,self.current_npc,self.dialogue_text,self.blink,self.last_blink_time,self.player_input)
+            
+        # Render the escape menu if it's active
+        if self.show_menu and not self.show_dialogue:
+            self.render_menu(screen)    
+            
         # Render inventory if open
         if self.show_inventory and not self.show_dialogue:
-            self.render_inventory_menu(screen, self.params['rpg']['Inventory'], self.selected_item, self.item_options, self.showing_options, self.selected_item_option)
+            self.render_inventory_menu(screen, self.params['rpg']['inventory'], self.selected_item, self.item_options, self.showing_options, self.selected_item_option)
+        #render popup
+        if self.show_popup:
+            if self.popup == "Item_Description":
+                render_interaction_dialogue(screen, self.popup_text, enter_action_text="Enter", escape_action_text="Escape")
     def Exit(self):
         pass

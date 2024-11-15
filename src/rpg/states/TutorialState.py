@@ -36,9 +36,11 @@ class TutorialState:
                 "rpg_player": self.player,
                 "class": None,
                 "quests": {},
-                "story_checkpoint": {},
-                "money": 0,
-                "inventory": {"Health Potion": 1, "Mana Potion": 1},
+                "story_checkpoint": {"Gate_Open" : True},
+                "inventory": {"Amulet": 1, "Gold": 100},
+                "enter_battle": False,
+                "exit_battle": False,
+                "win_battle": None
             },
             # Todo: add stater deck params
             "battleSystem": {},
@@ -139,7 +141,7 @@ class TutorialState:
         self.params['class'] = self.selected_class
         self.player.battlePlayer = BattlePlayer(BATTLE_ENTITY[f"default_{self.selected_class.lower()}"])
         print(self.player.battlePlayer)
-        g_state_manager.Change(RPGState.TOWN, self.params)
+        g_state_manager.Change(RPGState.GOBLIN, self.params)
 
     def skip_cutscene(self):
         self.playing_cutscene = False
