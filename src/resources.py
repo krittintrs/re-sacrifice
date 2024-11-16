@@ -113,7 +113,7 @@ gEntity_animation_dict = {
 
 gBackground_image_list = {
     BackgroundState.BATTLE: pygame.image.load("./graphics/battle/battle_UI.png"), 
-    BackgroundState.DECK_BUILDING: pygame.image.load("./graphics/deckbuilding_background.png"),
+    BackgroundState.DECK_BUILDING: pygame.image.load("./graphics/deckBuilding/deck_bg.png"),
     BackgroundState.TITLE: pygame.image.load("./graphics/main/title_bg.png"),
 }
 
@@ -215,7 +215,14 @@ gVfx_animation_list = {
     "physicalHit_vfx": sprite_collection["physicalHit_vfx"].animation,
     "shield_vfx": sprite_collection["shield_vfx"].animation,
     "heal_vfx": sprite_collection["heal_vfx"].animation,
-}gSelector_image_list = {
+}
+
+gDeckButton_image_list = {
+    "deck_button_default": sprite_collection["deck_button_default"].image,
+    "deck_button_hover": sprite_collection["deck_button_hover"].image,
+    "deck_button_clicked": sprite_collection["deck_button_clicked"].image,
+}
+
 gSelector_image_list = {
     "start_selector_default": sprite_collection["start_selector_default"].image,
     "start_selector_clicked": sprite_collection["start_selector_clicked"].image,

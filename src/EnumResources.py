@@ -103,9 +103,9 @@ class CardType(Enum):
 
 class CardClass(Enum):
     COMMON = "Common"
-    GK_NOW = "GK Now"
-    GK_PAST = "GK Past"
-    RH_MAN = "RH Man"
+    GK_NOW = "GK_Now"
+    GK_PAST = "GK_Past"
+    RH_MAN = "RH_Man"
     WARRIOR = "Warrior"
     RANGER = "Ranger"
     MAGE = "Mage"

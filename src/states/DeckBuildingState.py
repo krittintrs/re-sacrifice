@@ -1,3 +1,4 @@
+from src.components.DeckButton import DeckButton
 from src.battleSystem.Card import Card
 from src.battleSystem.Deck import Deck
 from src.states.BaseState import BaseState
@@ -65,20 +66,20 @@ class DeckBuildingState(BaseState):
 
         self.effectButton = []
         for idx, effect in enumerate(self.cardEffect):
-            button = Button(self.rightPanelX - 60 + (BUTTON_WIDTH+3)*(idx%4), self.topPanelY + BUTTON_UPPER_OFFSET + 28*(idx//4), BUTTON_WIDTH, BUTTON_HEIGHT, effect.value)
+            button = DeckButton(self.rightPanelX - 60 + (BUTTON_WIDTH+3)*(idx%4), self.topPanelY + BUTTON_UPPER_OFFSET + 26*(idx//4), BUTTON_WIDTH, BUTTON_HEIGHT, effect.value)
             self.effectButton.append(button)
 
         self.classButton = []
         for idx, class_ in enumerate(self.cardClass):
-            button = Button(self.topPanelX+10 + (BUTTON_WIDTH+3)*idx, self.topPanelY + BUTTON_UPPER_OFFSET, BUTTON_WIDTH, BUTTON_HEIGHT, class_.value)
+            button = DeckButton(self.topPanelX+10 + (BUTTON_WIDTH+3)*idx, self.topPanelY + BUTTON_UPPER_OFFSET, BUTTON_WIDTH, BUTTON_HEIGHT, class_.value)
             self.classButton.append(button)
 
         self.typeButton = []
         for idx, type in enumerate(CardType):
-            button = Button(self.topPanelX+10 + (BUTTON_WIDTH+3)*idx, self.topPanelY + BUTTON_LOWER_OFFSET, BUTTON_WIDTH, BUTTON_HEIGHT, type.value)
+            button = DeckButton(self.topPanelX+10 + (BUTTON_WIDTH+3)*idx, self.topPanelY + BUTTON_LOWER_OFFSET, BUTTON_WIDTH, BUTTON_HEIGHT, type.value)
             self.typeButton.append(button)
 
-        self.sortButton = Button(self.topPanelX+10, self.topPanelY + BUTTON_LOWER_OFFSET + BUTTON_HEIGHT + 5, BUTTON_WIDTH, BUTTON_HEIGHT, "sort")
+        self.sortButton = DeckButton(self.topPanelX+10, self.topPanelY + BUTTON_LOWER_OFFSET + BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT, "sort")
 
         self.availableCardScale = 0.5
 
@@ -355,7 +356,10 @@ class DeckBuildingState(BaseState):
         # render scroll wheel
         if len(self.availableCard) != 0:
             scroll_wheel_y = self.rightPanelY + ((SCREEN_HEIGHT*0.8-60)/len(self.availableCard) * self.availableCardWindow)
-            pygame.draw.rect(screen, (100,100,100), (SCREEN_WIDTH * 0.98, scroll_wheel_y, SCREEN_WIDTH * 0.02, 60))
+            slider = pygame.image.load("./graphics/deckBuilding/deck_slider.png")
+            slider = pygame.transform.scale(slider, (8, 60))
+            screen.blit(slider, (SCREEN_WIDTH - 30, scroll_wheel_y))
+            #pygame.draw.rect(screen, (100,100,100), (SCREEN_WIDTH * 0.98, scroll_wheel_y, SCREEN_WIDTH * 0.02, 60))
 
         # render filter button
         for button in self.effectButton:
@@ -369,43 +373,8 @@ class DeckBuildingState(BaseState):
         
         # render filter description
         screen.blit(gFont_list["default"].render("Card Class", True, (0,0,0)),(self.topPanelX + 10, self.topPanelY))
-        screen.blit(gFont_list["default"].render("Card Type", True, (0,0,0)),(self.topPanelX + 10, self.topPanelY + BUTTON_LOWER_OFFSET - 15))
+        screen.blit(gFont_list["default"].render("Card Type", True, (0,0,0)),(self.topPanelX + 10, self.topPanelY + BUTTON_LOWER_OFFSET - 12))
         screen.blit(gFont_list["default"].render("Effect Type", True, (0,0,0)),(self.rightPanelX - 60, self.topPanelY))
 
         # render sort button
         self.sortButton.draw(screen)
-
-
-
-
-
-
-
-class Button:
-    def __init__(self, x, y, width, height, text=''):
-        self.rect = pygame.Rect(x, y, width, height)
-        self.color = (150, 150, 150)
-        self.clicked_color = (100, 200, 100)
-        self.hover_color = (100, 100, 50)
-        self.text = text
-        self.isClick = False
-        self.font = gFont_list["small"]
-        self.text_surface = self.font.render(self.text, True, (0,0,0))
-        self.text_rect = self.text_surface.get_rect(center=self.rect.center)
-        
-    def draw(self, screen):
-        mouse_pos = pygame.mouse.get_pos()
-        if self.rect.collidepoint(mouse_pos):
-            pygame.draw.rect(screen, self.hover_color, self.rect)
-        elif self.isClick:
-            pygame.draw.rect(screen, self.clicked_color, self.rect)
-        else:
-            pygame.draw.rect(screen, self.color, self.rect)
-        screen.blit(self.text_surface, self.text_rect)
-
-    def clicked(self, event):
-        if self.rect.collidepoint(event.pos):
-            self.isClick = not self.isClick
-            return True
-        else:
-            return False

@@ -1,0 +1,27 @@
+{
+  "type": "static",
+  "spriteSheetURL": "graphics/deckBuilding/deck_button.png",
+  "sprites": [
+    {
+      "name": "deck_button_default",
+      "width": 84,
+      "height": 29,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "deck_button_hover",
+      "width": 84,
+      "height": 29,
+      "x": 84,
+      "y": 0
+    },
+    {
+      "name": "deck_button_clicked",
+      "width": 84,
+      "height": 29,
+      "x": 168,
+      "y": 0
+    }
+  ]
+}
