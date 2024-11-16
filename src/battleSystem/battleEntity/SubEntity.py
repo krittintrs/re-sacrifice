@@ -45,6 +45,7 @@ class SubEntity(Entity): # these sub entity will attack every round if attack !=
         if self.name == "trap":
             if target.type != self.side:
                 # mock animation
+                target.health -= 1
                 buff = Buff(CARD_BUFF["fire"])
                 target.add_buff(buff)
                 self.ChangeAnimation('attack', True)
