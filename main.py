@@ -15,89 +15,103 @@ class GameMain:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
         g_state_manager.SetScreen(self.screen)
-        self.state = "start"  # Start with the start screen
+        self.state = GameState.START  # Start with the start screen
 
         # Define battle and RPG states
         self.states = {
-                BattleState.DECK_BUILDING: DeckBuildingState(),
-                BattleState.PREPARATION_PHASE: BattlePreparationState(),
-                BattleState.INITIAL_PHASE: BattleInitialState(),
-                BattleState.SELECTION_PHASE: BattleSelectState(),
-                BattleState.ACTION_PHASE: BattleActionState(),
-                BattleState.RESOLVE_PHASE: BattleResolveState(),
-                SelectionState.ATTACK: SelectAttackState(),
-                SelectionState.BUFF: SelectBuffState(),
-                SelectionState.MOVE: SelectMoveState(),
-                SelectionState.PUSH: SelectPushState(),
-                SelectionState.PULL: SelectPullState(),
-                SelectionState.SPAWN: SelectSpawnState(),
-                BattleState.END_PHASE: BattleEndState(),
-                BattleState.FINISH_PHASE: BattleFinishState(),
-                RPGState.START: TutorialState(),# Add RPG start state here
-                RPGState.INTRO: IntroState(),
-                RPGState.TOWN: TownState(),
-                RPGState.TAVERN: TavernMapState(),
-                RPGState.GOBLIN: GoblinMapState()
+            BattleState.DECK_BUILDING: DeckBuildingState(),
+            BattleState.PREPARATION_PHASE: BattlePreparationState(),
+            BattleState.INITIAL_PHASE: BattleInitialState(),
+            BattleState.SELECTION_PHASE: BattleSelectState(),
+            BattleState.ACTION_PHASE: BattleActionState(),
+            BattleState.RESOLVE_PHASE: BattleResolveState(),
+            SelectionState.ATTACK: SelectAttackState(),
+            SelectionState.BUFF: SelectBuffState(),
+            SelectionState.MOVE: SelectMoveState(),
+            SelectionState.PUSH: SelectPushState(),
+            SelectionState.PULL: SelectPullState(),
+            SelectionState.SPAWN: SelectSpawnState(),
+            BattleState.END_PHASE: BattleEndState(),
+            BattleState.FINISH_PHASE: BattleFinishState(),
+            RPGState.START: TutorialState(),
+            RPGState.INTRO: IntroState(),
+            RPGState.TOWN: TownState(),
+            RPGState.TAVERN: TavernMapState(),
+            RPGState.GOBLIN: GoblinMapState()
         }
 
         # Set initial states for battle mode
         g_state_manager.SetStates(self.states)
 
-    def StartScreen(self):
+        # Initialize selectors
+        self.selectors = [
+            Selector("start", y=400, scale=1.2, center=True),
+            Selector("quickplay", y=475, scale=1.2, center=True),
+            Selector("exit", y=550, scale=1.2, center=True)
+        ]
+        self.selected_index = 0
+
+    def start_screen(self):
+        """Handles rendering and input for the start screen."""
         RenderBackground(self.screen, BackgroundState.TITLE)
 
-        # Initialize selectors with positions
-        start_selector = Selector("start", y=400, scale=1.2, center=True)
-        quickplay_selector = Selector("quickplay", y=475, scale=1.2, center=True)
-        exit_selector = Selector("exit", y=550, scale=1.2, center=True)
-        
-        # Draw selectors
-        start_selector.draw(self.screen)
-        quickplay_selector.draw(self.screen)
-        exit_selector.draw(self.screen)
+        # Highlight the selected option using set_active
+        for idx, selector in enumerate(self.selectors):
+            selector.set_active(idx == self.selected_index)
 
-        pygame.display.flip()
+        # Draw the updated selectors
+        for selector in self.selectors:
+            selector.draw(self.screen)
 
-        return start_selector, quickplay_selector, exit_selector
+        pygame.display.update()
 
-    def PlayGame(self):
+        # Handle events for start screen
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return False
+
+            # Navigate using arrow keys
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_DOWN:
+                    self.selected_index = (self.selected_index + 1) % len(self.selectors)
+                elif event.key == pygame.K_UP:
+                    self.selected_index = (self.selected_index - 1) % len(self.selectors)
+                elif event.key == pygame.K_RETURN:
+                    selected_selector = self.selectors[self.selected_index]
+                    if selected_selector.name == "start":
+                        self.state = GameState.RPG
+                        g_state_manager.Change(RPGState.START, {})
+                    elif selected_selector.name == "quickplay":
+                        self.state = GameState.BATTLE
+                        params = {
+                            'battleSystem': {
+                                'player': None, 
+                                'enemy': None
+                            }
+                        }
+                        g_state_manager.Change(BattleState.PREPARATION_PHASE, params)
+                    elif selected_selector.name == "exit":
+                        pygame.quit()
+                        return False
+        return True
+
+    def play_game(self):
         clock = pygame.time.Clock()
 
         while True:
             dt = clock.tick(self.max_frame_rate) / 1000.0
-            events = pygame.event.get()
 
-            # Start screen state
-            if self.state == "start":
-                start_selector, quickplay_selector, exit_selector = self.StartScreen()
-                for event in events:
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        return
-
-                if start_selector.is_clicked():
-                    self.state = "rpg"
-                    g_state_manager.Change(RPGState.START, {})  # Initialize TownState
-
-                if quickplay_selector.is_clicked():
-                    self.state = "battle"
-                    params = {
-                        'battleSystem': {
-                            'player': None,
-                            'enemy': None
-                        }
-                    }
-                    g_state_manager.Change(BattleState.PREPARATION_PHASE, params)
-
-                if exit_selector.is_clicked():
-                    pygame.quit()
+            if self.state == GameState.START:
+                if not self.start_screen():
                     return
-
             else:
+                # Update and render the current game state
+                events = pygame.event.get()
                 g_state_manager.update(dt, events)
                 g_state_manager.render()
                 pygame.display.update()
 
 if __name__ == '__main__':
     main = GameMain()
-    main.PlayGame()
+    main.play_game()

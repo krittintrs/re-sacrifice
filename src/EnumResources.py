@@ -25,6 +25,11 @@ class RPGState(Enum):
     TAVERN = "tavern"
     GOBLIN = "goblin"
 
+class GameState:
+    START = "start"
+    RPG = "rpg"
+    BATTLE = "battle"
+
 class PlayerType(Enum):
     PLAYER = "Player"
     ENEMY = "Enemy"

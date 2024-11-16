@@ -27,10 +27,12 @@ class BattlePreparationState(BaseState):
         self.field = self.create_field(9)  # Create 9 field in a single row
 
         # Create selector
-        self.start_battle_selector = Selector("start_battle", y=491, scale=1.0, center=True)
-        self.edit_deck_selector = Selector("edit_deck", y=556, scale=1.0, center=True)
-        self.edit_opponent_deck_selector = Selector("edit_opponent_deck", y=621, scale=1.0, center=True)
-    
+        self.selectors = [
+            Selector("start_battle", y=491, scale=1.0, center=True),
+            Selector("edit_deck", y=556, scale=1.0, center=True),
+            Selector("edit_opponent_deck", y=621, scale=1.0, center=True)
+        ]
+
     def initialDraw(self):
         self.player.deck.shuffle()
         # for card in self.player.deck.card_deck:
@@ -74,7 +76,8 @@ class BattlePreparationState(BaseState):
             print('player deck size: ', len(self.player.deck.card_deck))
         else:
             print('player deck is None')
-        pygame.time.delay(100)
+
+        self.selected_index = 0
 
     def Exit(self):
         pass
@@ -84,34 +87,44 @@ class BattlePreparationState(BaseState):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        
-        if self.start_battle_selector.is_clicked():
-            self.initialDraw()
-            self.params['battleSystem'] = {
-                'player': self.player,
-                'enemy': self.enemy,
-                'field': self.field,
-                'turn': self.turn,
-                'currentTurnOwner': self.currentTurnOwner
-            }
-            g_state_manager.Change(BattleState.INITIAL_PHASE, self.params)
-        if self.edit_deck_selector.is_clicked():
+                # Navigate using arrow keys
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_DOWN:
+                    self.selected_index = (self.selected_index + 1) % len(self.selectors)
+                elif event.key == pygame.K_UP:
+                    self.selected_index = (self.selected_index - 1) % len(self.selectors)
+                elif event.key == pygame.K_RETURN:
+                    selected_selector = self.selectors[self.selected_index]
+                    if selected_selector.name == "start_battle":
+                        self.initialDraw()
+                        self.params['battleSystem'] = {
+                            'player': self.player,
+                            'enemy': self.enemy,
+                            'field': self.field,
+                            'turn': self.turn,
+                            'currentTurnOwner': self.currentTurnOwner
+                        }
+                        g_state_manager.Change(BattleState.INITIAL_PHASE, self.params)
+                    elif selected_selector.name == "edit_deck":
+                        self.params['battleSystem'] = {
+                            'player': self.player,
+                            'enemy': self.enemy,
+                            'edit_player_deck': True,
+                            'from_state': BattleState.PREPARATION_PHASE 
+                        }
+                        g_state_manager.Change(BattleState.DECK_BUILDING, self.params)    
+                    elif selected_selector.name == "edit_opponent_deck":
+                        self.params['battleSystem'] = {
+                            'player': self.player,
+                            'enemy': self.enemy,
+                            'edit_player_deck': False,
+                            'from_state': BattleState.PREPARATION_PHASE
+                        }
+                        g_state_manager.Change(BattleState.DECK_BUILDING, self.params)
 
-            self.params['battleSystem'] = {
-                'player': self.player,
-                'enemy': self.enemy,
-                'edit_player_deck': True,
-                'from_state': BattleState.PREPARATION_PHASE 
-            }
-            g_state_manager.Change(BattleState.DECK_BUILDING, self.params)
-        if self.edit_opponent_deck_selector.is_clicked():
-            self.params['battleSystem'] = {
-                'player': self.player,
-                'enemy': self.enemy,
-                'edit_player_deck': False,
-                'from_state': BattleState.PREPARATION_PHASE
-            }
-            g_state_manager.Change(BattleState.DECK_BUILDING, self.params)
+        # Update selector
+        for idx, selector in enumerate(self.selectors):
+            selector.set_active(idx == self.selected_index)
 
         # Update buff
         for buff in self.player.buffs:
@@ -127,10 +140,9 @@ class BattlePreparationState(BaseState):
         RenderEntityStats(screen, self.player, self.enemy)
              
         # Render selector
-        self.start_battle_selector.draw(screen)
-        self.edit_deck_selector.draw(screen)
-        self.edit_opponent_deck_selector.draw(screen)
-        
+        for selector in self.selectors:
+            selector.draw(screen)
+
         # Render cards on player's hand
         for order, card in enumerate(self.player.cardsOnHand):
             card.render(screen, order)

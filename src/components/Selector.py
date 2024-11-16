@@ -35,26 +35,40 @@ class Selector:
 
         # Rect for collision detection
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        
+        self.active = False  
 
     def draw(self, screen):
         """Draws the button on the screen."""
-        # Get the mouse position
-        mouse_pos = pygame.mouse.get_pos()
-
-        # Check if the mouse is hovering over the button
-        if self.rect.collidepoint(mouse_pos):
-            # If hovering, display the clicked image
+        # Render the image based on whether it is active (selected)
+        if self.active:
             screen.blit(self.clicked_image, (self.x, self.y))
         else:
-            # Otherwise, display the default image
             screen.blit(self.default_image, (self.x, self.y))
 
-    def is_clicked(self):
-        """Checks if the button is clicked and returns its name."""
-        mouse_pos = pygame.mouse.get_pos()
-        mouse_pressed = pygame.mouse.get_pressed()
+    def set_active(self, active):
+        """Set the selector as active or inactive."""
+        self.active = active
+    
+    # def draw(self, screen):
+    #     """Draws the button on the screen."""
+    #     # Get the mouse position
+    #     mouse_pos = pygame.mouse.get_pos()
 
-        # If the mouse is clicked and hovering over the button
-        if self.rect.collidepoint(mouse_pos) and mouse_pressed[0]:
-            return self.name  # Return the name of the button
-        return None
+    #     # Check if the mouse is hovering over the button
+    #     if self.rect.collidepoint(mouse_pos):
+    #         # If hovering, display the clicked image
+    #         screen.blit(self.clicked_image, (self.x, self.y))
+    #     else:
+    #         # Otherwise, display the default image
+    #         screen.blit(self.default_image, (self.x, self.y))
+
+    # def is_clicked(self):
+    #     """Checks if the button is clicked and returns its name."""
+    #     mouse_pos = pygame.mouse.get_pos()
+    #     mouse_pressed = pygame.mouse.get_pressed()
+
+    #     # If the mouse is clicked and hovering over the button
+    #     if self.rect.collidepoint(mouse_pos) and mouse_pressed[0]:
+    #         return self.name  # Return the name of the button
+    #     return None
