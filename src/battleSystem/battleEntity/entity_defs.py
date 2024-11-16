@@ -16,6 +16,10 @@ BATTLE_ENTITY = {
     "default_warrior": PlayerConf("player", PlayerClass.WARRIOR, DECK_DEFS["default"]),
     "default_ranger": PlayerConf("player", PlayerClass.RANGER, DECK_DEFS["default"]),
     "default_mage": PlayerConf("player", PlayerClass.MAGE, DECK_DEFS["default"]),
-    "default_enemy": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["default"])
+    "default_enemy": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["default"]),
+    "close_range_goblin": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_close_range"]),
+    "strong_close_range_goblin": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_close_range_strong"]),
+    "long_range_goblin": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_long_range"]),
+    "goblin_king":EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_king"]),
 }
 

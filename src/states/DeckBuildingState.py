@@ -24,6 +24,8 @@ class DeckBuildingState(BaseState):
         self.isMouseOn = False
         self.cardClass = list(CardClass)
         self.cardEffect = [EffectType.ATTACK, EffectType.MOVE, EffectType.SELF_BUFF, EffectType.OPPO_BUFF, EffectType.PULL, EffectType.PUSH, EffectType.CLEANSE]
+        self.presetIndex = 0
+        self.presetKeyList = list(DECK_DEFS)
         
         self.leftBorder = SCREEN_WIDTH * 0.25
         self.topBorder = SCREEN_HEIGHT * 0.2
@@ -258,6 +260,11 @@ class DeckBuildingState(BaseState):
                 elif event.key == pygame.K_m:
                     self.deckIndex = 0
                     self.player.deck.read_conf(DECK_DEFS["mage"])
+                elif event.key == pygame.K_TAB:
+                    print(self.presetKeyList[self.presetIndex])
+                    self.deckIndex = 0
+                    self.player.deck.read_conf(DECK_DEFS[self.presetKeyList[self.presetIndex]])
+                    self.presetIndex = (self.presetIndex+1)% len(self.presetKeyList)
 
                 elif event.key == pygame.K_RETURN:
                     if self.player.deck.isCardMinimumReach():
