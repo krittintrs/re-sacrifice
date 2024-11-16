@@ -120,3 +120,4 @@ class BuffType(Enum):
 class BackgroundState(Enum):
     DECK_BUILDING = "deckbuilding"
     BATTLE = "battle"
+    TITLE = "title"
