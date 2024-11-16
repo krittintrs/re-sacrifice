@@ -58,7 +58,10 @@ class BattleEndState(BaseState):
             if buff.dot_damage > 0:
                 print(f"{entity.name} receive {buff.dot_damage} health from {buff.name}")
             elif buff.dot_damage < 0:
-                self.enemy.ChangeAnimation("death")
+                if entity.type == PlayerType.ENEMY:
+                    entity.ChangeAnimation("death")
+                else:
+                    entity.ChangeAnimation("knock_down")
                 gSounds['attack'].play()
                 print(f"{entity.name} receive {buff.dot_damage} damage from {buff.name}")
 
