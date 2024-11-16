@@ -25,6 +25,8 @@ class DeckBuildingState(BaseState):
         self.isMouseOn = False
         self.cardClass = list(CardClass)
         self.cardEffect = [EffectType.ATTACK, EffectType.MOVE, EffectType.SELF_BUFF, EffectType.OPPO_BUFF, EffectType.PULL, EffectType.PUSH, EffectType.CLEANSE]
+        self.presetIndex = 0
+        self.presetKeyList = list(DECK_DEFS)
         
         self.leftBorder = SCREEN_WIDTH * 0.25
         self.topBorder = SCREEN_HEIGHT * 0.2
@@ -133,6 +135,37 @@ class DeckBuildingState(BaseState):
     # sort card based on ID
     def sort_card(self,cards):
         cards.sort(key=lambda card: int(card.id[1:]))
+
+    def draw_wrapped_text(self, screen, text, font, color, position, max_width, line_spacing=10):
+
+        x, y = position
+        lines = text.split('\n')  # Split text into lines by newline characters
+
+        for line_index, line in enumerate(lines):
+            words = line.split(' ')
+            current_line = ""
+
+            for word in words:
+                # Test if adding this word exceeds the maximum width
+                test_line = f"{current_line} {word}".strip()
+                if font.size(test_line)[0] > max_width:
+                    # Render the current line and start a new one
+                    screen.blit(font.render(current_line, True, color), (x, y))
+                    y += font.get_linesize()
+                    current_line = word
+                else:
+                    current_line = test_line
+
+            # Render the last line of the current segment
+            if current_line:
+                screen.blit(font.render(current_line, True, color), (x, y))
+                y += font.get_linesize()
+
+            # Add extra spacing between lines split by '\n', except for the last line
+            if line_index < len(lines) - 1:
+                y += line_spacing
+
+
 
 
     def update(self, dt, events):
@@ -259,6 +292,11 @@ class DeckBuildingState(BaseState):
                 elif event.key == pygame.K_m:
                     self.deckIndex = 0
                     self.player.deck.read_conf(DECK_DEFS["mage"])
+                elif event.key == pygame.K_TAB:
+                    print(self.presetKeyList[self.presetIndex])
+                    self.deckIndex = 0
+                    self.player.deck.read_conf(DECK_DEFS[self.presetKeyList[self.presetIndex]])
+                    self.presetIndex = (self.presetIndex+1)% len(self.presetKeyList)
 
                 elif event.key == pygame.K_RETURN:
                     if self.player.deck.isCardMinimumReach():
@@ -316,7 +354,8 @@ class DeckBuildingState(BaseState):
             # screen.blit(gFont_list["header"].render("range : " + str(card.range_end), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 80))
             # screen.blit(gFont_list["header"].render("defend : " + str(card.defense), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 110))
             # screen.blit(gFont_list["header"].render("speed : " + str(card.speed), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 140))
-            screen.blit(gFont_list["header"].render("description : " + card.description, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 50))
+            screen.blit(gFont_list["header"].render("description : ", True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 50))
+            self.draw_wrapped_text(screen, card.description, gFont_list["default"], (0,0,0), (self.selectedCardSpacing + 10 , self.selectedCardSpacing + CARD_HEIGHT + 80), 250)
             bold_font = gFont_list["header"]
             bold_font.set_bold(True)
             screen.blit(bold_font.render(str(card.attack), True, (0,0,0)), (self.selectedCardSpacing + 43, self.selectedCardSpacing +207))
@@ -333,7 +372,8 @@ class DeckBuildingState(BaseState):
             # screen.blit(gFont_list["header"].render("range : " + str(card.range_end), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 80))
             # screen.blit(gFont_list["header"].render("defend : " + str(card.defense), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 110))
             # screen.blit(gFont_list["header"].render("speed : " + str(card.speed), True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 140))
-            screen.blit(gFont_list["header"].render("description : " + card.description, True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 50))
+            screen.blit(gFont_list["header"].render("description : ", True, (0,0,0)),(self.selectedCardSpacing , self.selectedCardSpacing + CARD_HEIGHT + 50))
+            self.draw_wrapped_text(screen, card.description, gFont_list["default"], (0,0,0), (self.selectedCardSpacing + 10 , self.selectedCardSpacing + CARD_HEIGHT + 80), 250)
             bold_font = gFont_list["header"]
             bold_font.set_bold(True)
             screen.blit(bold_font.render(str(card.attack), True, (0,0,0)), (self.selectedCardSpacing + 43, self.selectedCardSpacing +207))

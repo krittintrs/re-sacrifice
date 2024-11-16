@@ -34,6 +34,7 @@ class Entity:
 
         # Entity Stats
         self.health = health
+        self.maxhealth = health
         self.attack = 0
         self.defense = 0
         self.speed = 0
@@ -61,6 +62,14 @@ class Entity:
         self.stunt = False
         self.vfx.stop()
         self.ChangeAnimation("idle")
+    
+    def reset_everything(self):
+        self.reset_stats()
+        self.health = self.maxhealth
+        self.cardsOnHand = []
+        self.selectedCard = None
+        self.fieldTile_index = None
+        self.buffs = [] 
 
     def print_buffs(self):
         for buff in self.buffs:
@@ -130,6 +139,7 @@ class Entity:
                 if card.name == "Ditto":
                     self.cardsOnHand.remove(card)
                     print("remove ditto")
+                    break
         self.selectedCard = None
 
     def next_turn(self):

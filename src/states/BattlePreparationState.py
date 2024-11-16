@@ -66,11 +66,13 @@ class BattlePreparationState(BaseState):
             # mock enemy
 
             # self.enemy = Enemy(BATTLE_ENTITY["default_enemy"]) #choose type of enemy here
-            self.enemy = Boss(BATTLE_ENTITY["default_enemy"])
+            self.enemy = Boss(BATTLE_ENTITY["goblin_king"])
 
         #Set up the initial default position of player and enemy
         self.player.fieldTile_index  = 2
         self.enemy.fieldTile_index = 7
+        self.player.move_to(self.field[self.player.fieldTile_index], self.field)
+        self.enemy.move_to(self.field[self.enemy.fieldTile_index], self.field)
 
         if len(self.player.deck.card_deck) > 0:
             print('player deck size: ', len(self.player.deck.card_deck))
