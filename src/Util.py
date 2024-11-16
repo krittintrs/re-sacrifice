@@ -59,6 +59,7 @@ class SpriteManager:
                 "./spritesheet/battle/clock.json",
                 "./spritesheet/battle/dice.json",
                 "./spritesheet/battle/field.json",
+                "./spritesheet/main/selector.json",
             ]
         )
         # self.spriteCollection["card_conf"] = self.loadCardConf("./cards/cards_corrected.json")

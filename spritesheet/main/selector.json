@@ -1,0 +1,166 @@
+{
+  "type": "static",
+  "spriteSheetURL": "graphics/main/selector.png",
+  "sprites": [
+    {
+      "name": "start_selector_default",
+      "width": 121,
+      "height": 27,
+      "x": 0,
+      "y": 0,
+      "colorKey": -1
+    },
+    {
+      "name": "start_selector_clicked",
+      "width": 121,
+      "height": 31,
+      "x": 0,
+      "y": 27,
+      "colorKey": -1
+    },
+    {
+      "name": "quickplay_selector_default",
+      "width": 205,
+      "height": 27,
+      "x": 0,
+      "y": 58,
+      "colorKey": -1
+    },
+    {
+      "name": "quickplay_selector_clicked",
+      "width": 205,
+      "height": 31,
+      "x": 0,
+      "y": 85,
+      "colorKey": -1
+    },
+    {
+      "name": "exit_selector_default",
+      "width": 85,
+      "height": 27,
+      "x": 0,
+      "y": 116,
+      "colorKey": -1
+    },
+    {
+      "name": "exit_selector_clicked",
+      "width": 85,
+      "height": 31,
+      "x": 0,
+      "y": 143,
+      "colorKey": -1
+    },
+    {
+      "name": "start_battle_selector_default",
+      "width": 274,
+      "height": 27,
+      "x": 0,
+      "y": 174,
+      "colorKey": -1
+    },
+    {
+      "name": "start_battle_selector_clicked",
+      "width": 274,
+      "height": 31,
+      "x": 0,
+      "y": 201,
+      "colorKey": -1
+    },
+    {
+      "name": "edit_deck_selector_default",
+      "width": 196,
+      "height": 27,
+      "x": 0,
+      "y": 232,
+      "colorKey": -1
+    },
+    {
+      "name": "edit_deck_selector_clicked",
+      "width": 196,
+      "height": 31,
+      "x": 0,
+      "y": 259,
+      "colorKey": -1
+    },
+    {
+      "name": "edit_opponent_deck_selector_default",
+      "width": 400,
+      "height": 27,
+      "x": 0,
+      "y": 290,
+      "colorKey": -1
+    },
+    {
+      "name": "edit_opponent_deck_selector_clicked",
+      "width": 400,
+      "height": 31,
+      "x": 0,
+      "y": 317,
+      "colorKey": -1
+    },
+    {
+      "name": "back_selector_default",
+      "width": 103,
+      "height": 27,
+      "x": 0,
+      "y": 348,
+      "colorKey": -1
+    },
+    {
+      "name": "back_selector_clicked",
+      "width": 103,
+      "height": 31,
+      "x": 0,
+      "y": 375,
+      "colorKey": -1
+    },
+    {
+      "name": "resume_selector_default",
+      "width": 151,
+      "height": 27,
+      "x": 0,
+      "y": 406,
+      "colorKey": -1
+    },
+    {
+      "name": "resume_selector_clicked",
+      "width": 151,
+      "height": 31,
+      "x": 0,
+      "y": 433,
+      "colorKey": -1
+    },
+    {
+      "name": "restart_selector_default",
+      "width": 169,
+      "height": 27,
+      "x": 0,
+      "y": 464,
+      "colorKey": -1
+    },
+    {
+      "name": "restart_selector_clicked",
+      "width": 169,
+      "height": 31,
+      "x": 0,
+      "y": 491,
+      "colorKey": -1
+    },
+    {
+      "name": "return_to_title_selector_default",
+      "width": 481,
+      "height": 27,
+      "x": 0,
+      "y": 522,
+      "colorKey": -1
+    },
+    {
+      "name": "return_to_title_selector_clicked",
+      "width": 481,
+      "height": 31,
+      "x": 0,
+      "y": 549,
+      "colorKey": -1
+    }
+  ]
+}

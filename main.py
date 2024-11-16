@@ -6,6 +6,8 @@ music_channel = pygame.mixer.Channel(0)
 music_channel.set_volume(0.2)
 
 from src.dependency import *
+from src.Render import *
+from src.components.Selector import Selector
 
 class GameMain:
     def __init__(self):
@@ -42,13 +44,21 @@ class GameMain:
         g_state_manager.SetStates(self.states)
 
     def StartScreen(self):
-        self.screen.fill((0, 0, 0))
-        font = pygame.font.Font(None, 74)
-        text_rpg = font.render("Press R for RPG Mode", True, (255, 255, 255))
-        text_battle = font.render("Press B for Battle Mode", True, (255, 255, 255))
-        self.screen.blit(text_rpg, (100, 200))
-        self.screen.blit(text_battle, (100, 300))
+        RenderBackground(self.screen, BackgroundState.TITLE)
+
+        # Initialize selectors with positions
+        start_selector = Selector("start", y=400, scale=1.2, center=True)
+        quickplay_selector = Selector("quickplay", y=475, scale=1.2, center=True)
+        exit_selector = Selector("exit", y=550, scale=1.2, center=True)
+        
+        # Draw selectors
+        start_selector.draw(self.screen)
+        quickplay_selector.draw(self.screen)
+        exit_selector.draw(self.screen)
+
         pygame.display.flip()
+
+        return start_selector, quickplay_selector, exit_selector
 
     def PlayGame(self):
         clock = pygame.time.Clock()
@@ -59,26 +69,29 @@ class GameMain:
 
             # Start screen state
             if self.state == "start":
-                self.StartScreen()
+                start_selector, quickplay_selector, exit_selector = self.StartScreen()
                 for event in events:
                     if event.type == pygame.QUIT:
                         pygame.quit()
                         return
-                    elif event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_r:
-                            # Change to RPG state and set RPG start state in state manager
-                            self.state = "rpg"
-                            g_state_manager.Change(RPGState.START,{})  # Initialize TownState
-                        elif event.key == pygame.K_b:
-                            # Change to Battle state and set initial battle phase in state manager
-                            self.state = "battle"
-                            params = {
-                                'battleSystem': {
-                                    'player': None,
-                                    'enemy': None
-                                }
-                            }
-                            g_state_manager.Change(BattleState.PREPARATION_PHASE, params)
+
+                if start_selector.is_clicked():
+                    self.state = "rpg"
+                    g_state_manager.Change(RPGState.START, {})  # Initialize TownState
+
+                if quickplay_selector.is_clicked():
+                    self.state = "battle"
+                    params = {
+                        'battleSystem': {
+                            'player': None,
+                            'enemy': None
+                        }
+                    }
+                    g_state_manager.Change(BattleState.PREPARATION_PHASE, params)
+
+                if exit_selector.is_clicked():
+                    pygame.quit()
+                    return
 
             else:
                 g_state_manager.update(dt, events)

@@ -114,6 +114,7 @@ gEntity_animation_dict = {
 gBackground_image_list = {
     BackgroundState.BATTLE: pygame.image.load("./graphics/battle/battle_UI.png"), 
     BackgroundState.DECK_BUILDING: pygame.image.load("./graphics/deckbuilding_background.png"),
+    BackgroundState.TITLE: pygame.image.load("./graphics/main/title_bg.png"),
 }
 
 # gBattleBackground_image_list = {
@@ -214,4 +215,27 @@ gVfx_animation_list = {
     "physicalHit_vfx": sprite_collection["physicalHit_vfx"].animation,
     "shield_vfx": sprite_collection["shield_vfx"].animation,
     "heal_vfx": sprite_collection["heal_vfx"].animation,
+}gSelector_image_list = {
+gSelector_image_list = {
+    "start_selector_default": sprite_collection["start_selector_default"].image,
+    "start_selector_clicked": sprite_collection["start_selector_clicked"].image,
+    "quickplay_selector_default": sprite_collection["quickplay_selector_default"].image,
+    "quickplay_selector_clicked": sprite_collection["quickplay_selector_clicked"].image,
+    "exit_selector_default": sprite_collection["exit_selector_default"].image,
+    "exit_selector_clicked": sprite_collection["exit_selector_clicked"].image,
+    "start_battle_selector_default": sprite_collection["start_battle_selector_default"].image,
+    "start_battle_selector_clicked": sprite_collection["start_battle_selector_clicked"].image,
+    "edit_deck_selector_default": sprite_collection["edit_deck_selector_default"].image,
+    "edit_deck_selector_clicked": sprite_collection["edit_deck_selector_clicked"].image,
+    "edit_opponent_deck_selector_default": sprite_collection["edit_opponent_deck_selector_default"].image,
+    "edit_opponent_deck_selector_clicked": sprite_collection["edit_opponent_deck_selector_clicked"].image,
+    "back_selector_default": sprite_collection["back_selector_default"].image,
+    "back_selector_clicked": sprite_collection["back_selector_clicked"].image,
+    "resume_selector_default": sprite_collection["resume_selector_default"].image,
+    "resume_selector_clicked": sprite_collection["resume_selector_clicked"].image,
+    "restart_selector_default": sprite_collection["restart_selector_default"].image,
+    "restart_selector_clicked": sprite_collection["restart_selector_clicked"].image,
+    "return_to_title_selector_default": sprite_collection["return_to_title_selector_default"].image,
+    "return_to_title_selector_clicked": sprite_collection["return_to_title_selector_clicked"].image
 }
+
