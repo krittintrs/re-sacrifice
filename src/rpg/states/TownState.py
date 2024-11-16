@@ -9,7 +9,7 @@ from src.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from src.rpg.StateMachine import StateMachine
 from src.rpg.NPC import NPC
 from src.rpg.Prompts import *
-from src.resources import g_state_manager
+from src.resources import g_state_manager, play_music
 from src.EnumResources import BattleState, RPGState
 from src.rpg.Utils import render_dialogue, render_interaction_dialogue,render_quests,render_topics
 from src.rpg.Resources import ITEM_DESCRIPTIONS
@@ -103,6 +103,7 @@ class TownState:
         self.selected_shop_item = 0
 
     def Enter(self, enter_params):
+        play_music("rpg_bgm")
         self.params = enter_params
         self.player = enter_params['rpg']['rpg_player']
         print(self.params," TownMap")

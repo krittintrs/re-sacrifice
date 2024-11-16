@@ -112,7 +112,6 @@ class TutorialState:
                     self.current_stage = "class_select"  # Go back to class selection
 
     def Enter(self, enter_params):
-        play_music("rpg_bgm")
         if enter_params:
             self.params = enter_params
         print(self.params," Tutorial")

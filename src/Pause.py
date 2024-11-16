@@ -92,7 +92,7 @@ class PauseHandler:
             return
         # Create a semi-transparent overlay
         overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)  
-        overlay.fill((0, 0, 0, 150))  
+        overlay.fill((0, 0, 0, 200))  
         screen.blit(overlay, (0, 0))
     
         if self.pause:

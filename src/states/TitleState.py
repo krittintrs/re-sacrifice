@@ -17,6 +17,7 @@ class TitleState(BaseState):
 
     def Enter(self, params=None):
         print("\n>>>>>> Enter TitleState <<<<<<")
+        play_music("title_bgm")
 
     def Exit(self):
         pass
