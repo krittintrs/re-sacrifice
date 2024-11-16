@@ -27,10 +27,24 @@ class PauseHandler:
     def is_paused(self):
         return self.pause
         
+    def reset_battle(self, params):
+        print("Resetting battle")
+        print(params)
+        battle_param = params['battleSystem']
+        player = battle_param['player']
+        enemy = battle_param['enemy']
+        field = battle_param['field']
+
+        player.reset_everything()
+        enemy.reset_everything()
+        for fieldtile in field:
+            fieldtile.remove_entity()
+            fieldtile.remove_second_entity()
+
     def update(self, dt, events, params):
         if not self.pause:
             return
-        
+
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -50,12 +64,13 @@ class PauseHandler:
                     elif self.pause_selectors[self.selected_pause_index].name == "restart":
                         self.pause = False
                         self.selected_pause_index = 0
-                        # TODO: reset game details
+                        self.reset_battle(params)
                         g_state_manager.Change(BattleState.PREPARATION_PHASE, params)
                     elif self.pause_selectors[self.selected_pause_index].name == "return_to_title":
                         self.pause = False
                         self.selected_pause_index = 0
-                        g_state_manager.Change(GameState.TITLE, params)
+                        self.reset_battle(params) 
+                        g_state_manager.Change(GameState.TITLE, {})
                     
         for idx, selector in enumerate(self.pause_selectors):
             selector.set_active(idx == self.selected_pause_index)
