@@ -57,7 +57,7 @@ class BattlePreparationState(BaseState):
             # mock enemy
 
             # self.enemy = Enemy(BATTLE_ENTITY["default_enemy"]) #choose type of enemy here
-            self.enemy = Boss(BATTLE_ENTITY["default_enemy"])
+            self.enemy = Boss(BATTLE_ENTITY["goblin_king"])
 
         #Set up the initial default position of player and enemy
         self.player.fieldTile_index  = 2

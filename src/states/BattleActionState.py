@@ -36,6 +36,7 @@ class BattleActionState(BaseState):
         if self.enemy.selectedCard.name == "Ditto":
             self.reserve_enemy_card = self.enemy.selectedCard
             self.enemy.selectedCard = self.player.selectedCard
+            self.enemy.selectedCard.speed += 1
             self.ditto = True
         
         # apply buff to all cards on hand
@@ -45,9 +46,6 @@ class BattleActionState(BaseState):
         # display entity stats
         self.player.display_stats()
         self.enemy.display_stats()
-
-        if self.ditto:
-            self.enemy.speed += 1
 
         # sort effects
         self.sortEffects()
@@ -129,7 +127,10 @@ class BattleActionState(BaseState):
     def render(self, screen):  
         RenderTurn(screen, 'battleAction', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
-        RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
+        if self.ditto:
+            RenderSelectedCard(screen, self.player.selectedCard, self.reserve_enemy_card)
+        else:
+            RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
         RenderDescription(screen, "Resolve Action: Press Enter to Confirm")
         
         # Render field

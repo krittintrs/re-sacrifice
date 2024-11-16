@@ -139,6 +139,7 @@ class Entity:
                 if card.name == "Ditto":
                     self.cardsOnHand.remove(card)
                     print("remove ditto")
+                    break
         self.selectedCard = None
 
     def next_turn(self):
