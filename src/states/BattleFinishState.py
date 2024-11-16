@@ -1,6 +1,7 @@
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
+from src.Pause import *
 from src.Render import *
 import pygame
 import sys
@@ -8,7 +9,7 @@ import sys
 class BattleFinishState(BaseState):
     def __init__(self):
         super(BattleFinishState, self).__init__()
-
+        self.pauseHandler = PauseHandler()
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleFinishState <<<<<<")
@@ -21,18 +22,23 @@ class BattleFinishState(BaseState):
         self.currentTurnOwner = battle_param['currentTurnOwner']  
         self.winner = battle_param['winner']  
 
+        self.pauseHandler.reset()
+
     def Exit(self):
         pass
 
     def update(self, dt, events):
+        if self.pauseHandler.is_paused():
+            self.pauseHandler.update(dt, events, self.params)
+            return
+        
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
+                    self.pauseHandler.pause_game()
                 if event.key == pygame.K_RETURN:
                     self.player.reset_everything()
                     self.enemy.reset_everything()
@@ -77,4 +83,4 @@ class BattleFinishState(BaseState):
                                                 text_rect.width + 2 * padding, text_rect.height + 2 * padding))
 
         # Blit the text surface on top of the rectangle
-        screen.blit(text_surface, text_rect)
+        screen.blit(text_surface, text_rect)        self.pauseHandler.render(screen)

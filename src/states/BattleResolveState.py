@@ -2,6 +2,7 @@ import random
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
+from src.Pause import *
 from src.Render import *
 from src.battleSystem.Buff import Buff
 import pygame
@@ -11,6 +12,7 @@ import math
 class BattleResolveState(BaseState):
     def __init__(self):
         super(BattleResolveState, self).__init__()
+        self.pauseHandler = PauseHandler()
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleResolveState <<<<<<")
@@ -43,18 +45,17 @@ class BattleResolveState(BaseState):
                     tile.remove_second_entity()
 
     def update(self, dt, events):
+        if self.pauseHandler.is_paused():
+            self.pauseHandler.update(dt, events, self.params)
+            return
+        
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-                if event.key == pygame.K_SPACE:
-                    pass
-                if event.key == pygame.K_RETURN:
-                    pass
+                    self.pauseHandler.pause_game()
             
         if self.effectOrder["before"]:
             print(self.effectOrder["before"][0][0].type)
@@ -235,3 +236,5 @@ class BattleResolveState(BaseState):
         # Render field
         for fieldTile in self.field:
             fieldTile.render(screen)
+
+        self.pauseHandler.render(screen)

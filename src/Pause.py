@@ -28,18 +28,30 @@ class PauseHandler:
         return self.pause
         
     def reset_battle(self, params):
-        print("Resetting battle")
-        print(params)
-        battle_param = params['battleSystem']
-        player = battle_param['player']
-        enemy = battle_param['enemy']
-        field = battle_param['field']
+        # Safely access the 'battleSystem' dictionary, return if it doesn't exist
+        battle_param = params.get('battleSystem')
+        if not battle_param:
+            print("Battle system parameters missing, skipping reset.")
+            return
 
+        # Check for each component and do nothing if they don't exist
+        player = battle_param.get('player')
+        enemy = battle_param.get('enemy')
+        field = battle_param.get('field')
+
+        if not player or not enemy or not field:
+            print("Missing player, enemy, or field. Skipping reset.")
+            return
+
+        # Reset player and enemy if they exist
         player.reset_everything()
         enemy.reset_everything()
+
+        # Reset each field tile if field is not empty
         for fieldtile in field:
-            fieldtile.remove_entity()
-            fieldtile.remove_second_entity()
+            if fieldtile:  # Check if the field tile is valid
+                fieldtile.remove_entity()
+                fieldtile.remove_second_entity()
 
     def update(self, dt, events, params):
         if not self.pause:
@@ -75,7 +87,7 @@ class PauseHandler:
         for idx, selector in enumerate(self.pause_selectors):
             selector.set_active(idx == self.selected_pause_index)
 
-    def draw(self, screen):
+    def render(self, screen):
         if not self.pause:
             return
         # Create a semi-transparent overlay

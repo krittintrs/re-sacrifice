@@ -132,7 +132,7 @@ class BattleInitialState(BaseState):
         else:
             screen.blit(gDice_image_list[f'dice_{self.dice}'], (SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT - HUD_HEIGHT - 74))
 
-        self.pauseHandler.draw(screen)
+        self.pauseHandler.render(screen)
         
     def roll_dice(self):
         # Play dice sound

@@ -2,7 +2,7 @@ import random
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
-from src.battleSystem.battleEntity.Entity import * 
+from src.Pause import *
 from src.Render import *
 import pygame
 import sys
@@ -11,6 +11,7 @@ class BattleActionState(BaseState):
     def __init__(self):
         super(BattleActionState, self).__init__()
         self.effectOrder = {"before": [], "main": [], "after":[]}
+        self.pauseHandler = PauseHandler()
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleActionState <<<<<<")
@@ -50,18 +51,23 @@ class BattleActionState(BaseState):
         # sort effects
         self.sortEffects()
 
+        self.pauseHandler.reset()
+
     def Exit(self):
         pass
 
     def update(self, dt, events):
+        if self.pauseHandler.is_paused():
+            self.pauseHandler.update(dt, events, self.params)
+            return
+        
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
+                    self.pauseHandler.pause_game()
                 if event.key == pygame.K_RETURN:
                     # print(self.effectOrder)
                     # if self.effectOrder["main"]:
@@ -136,3 +142,5 @@ class BattleActionState(BaseState):
         # Render field
         for fieldTile in self.field:
             fieldTile.render(screen)
+
+        self.pauseHandler.render(screen)
