@@ -9,6 +9,7 @@ class Player(Entity):
         self.loadClassAnimation()
         super().__init__(conf.name, conf.deckInv, self.animationList, 0, ENTITY_Y, gVfx_animation_list)
         self.health = 30
+        self.maxhealth = 30
         self.x, self.y = 0, ENTITY_Y
         self.type = PlayerType.PLAYER
 

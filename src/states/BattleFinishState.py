@@ -34,6 +34,11 @@ class BattleFinishState(BaseState):
                     pygame.quit()
                     sys.exit()
                 if event.key == pygame.K_RETURN:
+                    self.player.reset_everything()
+                    self.enemy.reset_everything()
+                    for fieldtile in self.field:
+                        fieldtile.remove_entity()
+                        fieldtile.remove_second_entity()
                     # TODO: entering RPG
                     if self.winner == PlayerType.PLAYER:
                         self.params['rpg']['inventory']['Gold'] += 100
