@@ -26,7 +26,7 @@ class RPGState(Enum):
     GOBLIN = "goblin"
 
 class GameState:
-    START = "start"
+    TITLE = "title"
     RPG = "rpg"
     BATTLE = "battle"
 
