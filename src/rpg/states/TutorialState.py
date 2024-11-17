@@ -18,35 +18,6 @@ class TutorialState:
     def __init__(self):
         pygame.init()
         #self.screen = pygame.display.get_surface()
-        
-        player_conf = ENTITY_DEFS['player']
-        self.player = Player(player_conf)
-        self.player.x = 623
-        self.player.y = 585
-
-        self.player.state_machine = StateMachine()
-        self.player.state_machine.SetScreen(pygame.display.get_surface())
-        self.player.state_machine.SetStates({
-            'walk': PlayerWalkState(self.player),
-            'idle': PlayerIdleState(self.player)
-        })
-        self.player.ChangeState('idle')  # Start in idle state
-        
-        self.params = {
-            "rpg": {
-                "rpg_player": self.player,
-                "class": None,
-                "quests": {},
-                "story_checkpoint": {"Gate_Open" : True},
-                "inventory": {"Amulet": 1, "Gold": 100,"Banana":1},
-                "enter_battle": False,
-                "exit_battle": False,
-                "win_battle": None,
-                "map": "TOWN"
-            },
-            # Todo: add stater deck params
-            "battleSystem": {},
-        }
 
         # Load tutorial images or placeholders for instructions and cutscenes
         self.movement_image = pygame.image.load("src/rpg/sprite/Tutorial/images.png")
@@ -111,13 +82,49 @@ class TutorialState:
                 elif self.cancel_rect.collidepoint(mouse_pos):
                     self.current_stage = "class_select"  # Go back to class selection
 
+    def init_player(self):
+        player_conf = ENTITY_DEFS['player']
+        self.player = Player(player_conf)
+        self.player.x = 623
+        self.player.y = 585
+
+        self.player.state_machine = StateMachine()
+        self.player.state_machine.SetScreen(pygame.display.get_surface())
+        self.player.state_machine.SetStates({
+            'walk': PlayerWalkState(self.player),
+            'idle': PlayerIdleState(self.player)
+        })
+        self.player.ChangeState('idle')  # Start in idle state
+
+        self.params = {
+            "rpg": {
+                "rpg_player": self.player,
+                "class": None,
+                "quests": {},
+                "story_checkpoint": {"Gate_Open" : True},
+                "inventory": {"Amulet": 1, "Gold": 100,"Banana":1},
+                "enter_battle": False,
+                "exit_battle": False,
+                "win_battle": None,
+                "map": "TOWN"
+            },
+            # Todo: add stater deck params
+            "battleSystem": {},
+        }
+
     def Enter(self, enter_params):
+        self.init_player()
+        
         if enter_params:
             self.params = enter_params
         print(self.params," Tutorial")
         
         print("Entering Tutorial State")
-        
+        # Track stages within the tutorial
+        self.current_stage = "movement"  # Stages: movement, battle, class_select, confirm, cutscene
+        self.selected_class = None
+        self.confirmation_selection = "confirm"  # Default confirmation selection
+
     def handle_enter(self):
         if self.current_stage == "movement":
             self.current_stage = "conversation"

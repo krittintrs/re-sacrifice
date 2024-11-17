@@ -15,6 +15,7 @@ from src.rpg.Utils import render_dialogue, render_interaction_dialogue,render_qu
 from src.rpg.Resources import ITEM_DESCRIPTIONS
 from src.battleSystem.battleEntity.Enemy import Enemy as BattleEnemy
 from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
+from src.rpg.RPGPause import RPGPauseHandler
 # genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")
 # Create the model
 
@@ -94,14 +95,15 @@ class TownState:
         
         self.show_shop = False
         self.shop_items = {
-        "Poison": {"price": 50, "description": "1 drop of this poison can defeat an entire army"},
-        "Banana": {"price": 75, "description": "Ou Ou Ah Ah"},
-        "Sword": {"price": 100, "description": "Increases attack power"},
-        "Move 3 Card":{"price": 1, "description": "Move 3 card"} # Card Naming Scheme "{Card name} Card"
-        # Add more items as needed
+            "Poison": {"price": 50, "description": "1 drop of this poison can defeat an entire army"},
+            "Banana": {"price": 75, "description": "Ou Ou Ah Ah"},
+            "Sword": {"price": 100, "description": "Increases attack power"},
+            "Move 3 Card": {"price": 1, "description": "Move 3 card"} # Card Naming Scheme "{Card name} Card"
+            # Add more items as needed
         }
         self.selected_shop_item = 0
 
+        self.pauseHandler = RPGPauseHandler()
     def Enter(self, enter_params):
         play_music("rpg_bgm")
         self.params = enter_params
@@ -496,6 +498,15 @@ class TownState:
         
     def update(self, dt, events):
         # Handle events
+        
+        if self.pauseHandler.is_paused():
+            inv = self.pauseHandler.update(dt, events, self.params, self.player)
+            if inv:
+                print("Opening inventory...")  # Replace with actual function to open inventory
+                self.inventoryHandler.toggle_inventory()
+            else:
+                return
+        
         for event in events:
             self.handle_menu_input(event)
             if self.show_shop:
@@ -504,14 +515,13 @@ class TownState:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_p:
+                    self.pauseHandler.pause_game()
+                elif event.key == pygame.K_ESCAPE:
                     if self.show_dialogue:
                         self.show_dialogue = False
                     elif self.show_popup:  # Close the goblin camp popup if it's active
                         self.show_popup = False
-                    # else:
-                    #     pygame.quit()
-                    #     sys.exit()
                 elif event.key == pygame.K_RETURN:
                     if self.show_popup:
                         if self.popup == "Goblin_Entrance":
@@ -664,5 +674,7 @@ class TownState:
         # Render the shop interface if it's open
         if self.show_shop:
             self.display_shop(screen, self.shop_items)
+
+        self.pauseHandler.render(screen)
     def Exit(self):
         pass
