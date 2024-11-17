@@ -21,10 +21,6 @@ class EntityBase():
 
         self.health = conf.health
 
-        #invincible
-        self.invulnerable = False
-        self.invulnerable_duration = 0
-        self.invulnerable_timer = 0
 
         #timer for turning transparency (flash)
         self.flash_timer = 0
@@ -63,10 +59,6 @@ class EntityBase():
     def Damage(self, dmg):
         self.health -= dmg
 
-    def SetInvulnerable(self, duration):
-        self.invulnerable = True
-        self.invulnerable_duration = duration
-
     def ChangeState(self, name):
         self.state_machine.Change(name)
 
@@ -77,26 +69,17 @@ class EntityBase():
 
         self.state_machine.update(dt, events)
 
+        # if self.curr_animation:
+        #     self.curr_animation.update(dt)
+
+        # Check if an animation is set and update it
         if self.curr_animation:
-            self.curr_animation.update(dt)
+            self.curr_animation.update(dt) 
 
     def ProcessAI(self, params, dt):
         self.state_machine.ProcessAI(params, dt)
 
-    def render(self, adjacent_offset_x=0, adjacent_offset_y=0):
-        if self.invulnerable and self.flash_timer > 0.06:
-            self.flash_timer = 0
-            if self.curr_animation.idleSprite is not None:
-                self.curr_animation.idleSprite.set_alpha(64)
-            self.curr_animation.image.set_alpha(64)
-
-        self.x = self.x + adjacent_offset_x
-        self.y = self.y + adjacent_offset_y
+    def render(self, screen, adjacent_offset_x=0, adjacent_offset_y=0):
         self.state_machine.render()
-        if self.curr_animation.idleSprite is not None:
-            self.curr_animation.idleSprite.set_alpha(255)
-        self.curr_animation.image.set_alpha(255)
 
-        self.x = self.x - adjacent_offset_x
-        self.y = self.y - adjacent_offset_y
 

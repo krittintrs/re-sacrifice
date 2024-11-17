@@ -161,7 +161,7 @@ class Animation:
         self.idleSprite = idleSprite
 
         self.interval_time = interval_time
-
+        self.finished = False
         self.looping = looping #default loop
 
         self.times_played = 0
@@ -170,27 +170,51 @@ class Animation:
         self.timer=0
         self.index = 0
         self.times_played=0
+        self.finished = False
 
     def update(self, dt):
-        # one time animation check (attacking)
-        if self.looping is False and self.times_played>0:
-            return
+        # old version of update
 
-        self.timer = self.timer + dt
+        # if self.looping is False and self.times_played>0:
+        #     return
 
-        if self.timer > self.interval_time:
-            self.timer = self.timer % self.interval_time
+        # self.timer = self.timer + dt
 
-            self.index = (self.index+1) % len(self.images)
-            #print(self.index)
+        # if self.timer > self.interval_time:
+        #     self.timer = self.timer % self.interval_time
 
-            if self.index == 0:
+        #     self.index = (self.index+1) % len(self.images)
+        #     #print(self.index)
+
+        #     if self.index == 0:
+        #         self.times_played += 1
+
+        # self.image = self.images[self.index]
+
+        self.timer += dt
+        if self.timer >= self.interval_time and not self.finished:
+            self.index += 1
+            self.timer = 0
+            if self.index >= len(self.images):
                 self.times_played += 1
-
-        self.image = self.images[self.index]
+                if self.looping:
+                    self.index = 0
+                else:
+                    self.finished = True
+                    self.index = 0
+            self.image = self.images[self.index]
+        elif self.finished:
+            self.index = 0
 
     def Idle(self):
         self.image = self.idleSprite
+
+    def is_finished(self):
+        return self.finished
+    
+    def stop(self):
+        self.index = 0
+        self.finished = True
 
 
 class Sprite:
@@ -248,7 +272,7 @@ class SpriteManager:
                         except KeyError:
                             idle_img = None
                         try:
-                            loop = sprite['loop']
+                            loop = sprite['loop'].lower() == 'true'
                         except KeyError:
                             loop = True
 

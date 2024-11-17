@@ -499,7 +499,7 @@ class TownState:
             screen.blit(npc.image, (npc.x, npc.y))  # Render each NPC at its coordinates
                        
         # Render player
-        self.player.render(screen)
+        self.player.render(screen = screen)
         
         # Render the quest tracker on top-right
         render_quests(screen,self.params['rpg']['quests'])

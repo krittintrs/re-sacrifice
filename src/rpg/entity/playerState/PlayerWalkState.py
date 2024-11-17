@@ -12,9 +12,7 @@ class PlayerWalkState(EntityWalkState):
         pass
 
     def Enter(self, params):
-        "Enter Walk"
-        self.entity.offset_y = 15
-        self.entity.offset_x = 0
+        print("enter Walk")
         super().Enter(params)
 
     def update(self, dt, events):
@@ -41,3 +39,6 @@ class PlayerWalkState(EntityWalkState):
 
         #move and bump to the wall check
         super().update(dt, events)
+
+    def render(self, screen):
+        super().render(screen)
