@@ -412,3 +412,9 @@ class DeckBuildingState(BaseState):
 
         # render sort button
         self.sortButton.draw(screen)
+
+        if not self.player.deck.isCardMinimumReach():
+            screen.blit(gFont_list["header"].render("Player deck must have at least 20 cards", True, (255, 0, 0)),(self.leftBorder +30, SCREEN_HEIGHT - 45))
+
+        if not self.player.deck.isCardDuplicateWithinLimit():
+            screen.blit(gFont_list["header"].render("Player deck must not have more than 3 duplicate of cards", True, (255, 0, 0)),(self.leftBorder +30, SCREEN_HEIGHT - 75))
