@@ -5,8 +5,8 @@
       "heal_vfx": {
         "loop": "False",
         "interval_time": 0.2,
-        "offset_x"  : -20,
-        "offset_y"  : -125,
+        "offset_x"  : -100,
+        "offset_y"  : -140,
         "sprites": [
           {
             "fileName": "heal_vfx1",

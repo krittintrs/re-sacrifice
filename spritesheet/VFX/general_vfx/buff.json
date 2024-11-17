@@ -5,7 +5,7 @@
     "buff_vfx": {
       "loop": "False",
       "interval_time": 0.01,
-      "offset_x"  : -20,
+      "offset_x"  : -15,
       "offset_y"  : -125,
       "sprites": [
         {
