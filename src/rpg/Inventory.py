@@ -86,10 +86,14 @@ class Inventory:
                         elif self.selected_item_option == "Interact" and self.selected_item in self.item_interactions:
                             self.item_interactions[self.selected_item]()
                             self.showing_options = False
+                    elif event.key == pygame.K_ESCAPE:
+                        self.showing_options = False
 
                 # Close examination popup
                 elif self.show_popup:
                     if event.key == pygame.K_RETURN:
+                        self.show_popup = False
+                    if event.key == pygame.K_ESCAPE:
                         self.show_popup = False
 
     def render(self, screen, inventory):

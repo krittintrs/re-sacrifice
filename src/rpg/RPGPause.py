@@ -63,7 +63,7 @@ class RPGPauseHandler:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
+                if event.key == pygame.K_ESCAPE:
                     self.pause = False
                     return
                 elif event.key == pygame.K_DOWN:
