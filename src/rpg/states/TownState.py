@@ -1,6 +1,7 @@
 import sys
 import time
 import pygame
+from src.rpg.Inventory import Inventory
 from src.rpg.entity.playerState.PlayerIdleState import PlayerIdleState
 from src.rpg.entity.playerState.PlayerWalkState import PlayerWalkState
 from src.rpg.EntityDefs import ENTITY_DEFS
@@ -56,20 +57,6 @@ class TownState:
         self.last_blink_time = 0
         self.blink = False
         
-        # Menu state
-        self.show_menu = False
-        self.menu_options = ["Edit Deck", "Inventory", "Exit Game"]
-        #Inventory
-        self.show_inventory = False
-        self.item_options = ["Examine", "Interact"]
-        self.selected_item_option = "Examine"
-        self.selected_item = 0
-        self.showing_options = False
-        self.item_interactions = {
-            "Health Potion": lambda: print("You drink the Health Potion and restore HP!"),
-            "Mana Potion": lambda: print("You drink the Mana Potion and restore MP!")
-        }
-
         self.params = None 
         # Initialize this attribute in the __init__ method or class constructor
         self.gate_open = False
@@ -104,6 +91,8 @@ class TownState:
         self.selected_shop_item = 0
 
         self.pauseHandler = RPGPauseHandler()
+        self.inventoryHandler = Inventory()
+
     def Enter(self, enter_params):
         play_music("rpg_bgm")
         self.params = enter_params
@@ -111,121 +100,8 @@ class TownState:
         print(self.params," TownMap")
         
         print("Entering RPG Start State")
-    
-    def toggle_menu(self):
-        # Toggle the menu display on/off
-        self.show_menu = not self.show_menu
-        
-    def handle_menu_input(self, event):
-        # Navigate the menu options and select one
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE and not self.show_inventory and not self.show_dialogue and not self.show_popup and not self.show_shop:
-                self.toggle_menu()  # Toggle menu visibility
+        self.pauseHandler.reset()
 
-            elif self.show_menu and not self.show_inventory and not self.show_dialogue:
-                if event.key == pygame.K_UP:
-                    # Move up in menu options
-                    self.selected_option = (self.selected_option - 1) % len(self.menu_options)
-                elif event.key == pygame.K_DOWN:
-                    # Move down in menu options
-                    self.selected_option = (self.selected_option + 1) % len(self.menu_options)
-                elif event.key == pygame.K_RETURN:
-                    # Execute the selected option
-                    self.execute_menu_option()
-            
-    def execute_menu_option(self):
-        # Execute the selected menu option
-        if self.menu_options[self.selected_option] == "Edit Deck":
-            # TODO: change to deckBuilding
-            print("Editing deck...")  # Replace with actual function to edit deck
-            self.params['battleSystem'] = {
-                'player': self.player.battlePlayer,
-                'enemy': None,
-                'edit_player_deck': True,
-                'from_state': RPGState.TOWN
-            }
-            g_state_manager.Change(BattleState.DECK_BUILDING, self.params)
-        elif self.menu_options[self.selected_option] == "Inventory":
-            print("Opening inventory...")  # Replace with actual function to open inventory
-            self.show_inventory = True
-            self.showing_options = False
-        elif self.menu_options[self.selected_option] == "Exit Game":
-            pygame.quit()
-            sys.exit()
-            
-    def render_menu(self, screen):
-        # Render the escape menu
-        if self.show_menu:
-            menu_width, menu_height = 300, 200
-            menu_x = (screen.get_width() - menu_width) // 2
-            menu_y = (screen.get_height() - menu_height) // 2
-            pygame.draw.rect(screen, (50, 50, 50), (menu_x, menu_y, menu_width, menu_height))
-
-            font = pygame.font.Font(None, 36)
-            for index, option in enumerate(self.menu_options):
-                color = (255, 255, 255) if index == self.selected_option else (180, 180, 180)
-                option_surface = font.render(option, True, color)
-                screen.blit(option_surface, (menu_x + 20, menu_y + 20 + index * 40))
-    
-    def render_inventory_menu(self,screen, inventory, selected_item, item_options, showing_options, selected_item_option):
-        # Inventory Box settings
-        inventory_box_x, inventory_box_y = 100, 100
-        inventory_box_width, inventory_box_height = 600, 400
-        pygame.draw.rect(screen, (240, 240, 240), (inventory_box_x, inventory_box_y, inventory_box_width, inventory_box_height))
-
-        font = pygame.font.Font(None, 32)
-
-        # Display inventory items
-        start_y = inventory_box_y + 20
-        for i, item in enumerate(inventory):
-            item_text = f"{item} x{inventory[item]}"
-            item_surface = font.render(item_text, True, (0, 0, 0))
-            screen.blit(item_surface, (inventory_box_x + 20, start_y + i * 30))
-
-            # Highlight selected item
-            if item == selected_item:
-                pygame.draw.rect(screen, (180, 180, 250), (inventory_box_x + 15, start_y + i * 30, inventory_box_width - 30, 30), 2)
-
-        # Show item options for the selected item if activated
-        if showing_options:
-            option_box_x, option_box_y = inventory_box_x + inventory_box_width - 150, start_y
-            pygame.draw.rect(screen, (220, 220, 220), (option_box_x, option_box_y, 120, 100))
-            
-            # Display options
-            for j, option in enumerate(item_options):
-                option_text = font.render(option, True, (0, 0, 0))
-                screen.blit(option_text, (option_box_x + 10, option_box_y + 10 + j * 30))
-
-                # Highlight selected option
-                if option == selected_item_option:
-                    pygame.draw.rect(screen, (150, 150, 255), (option_box_x + 5, option_box_y + j * 30, 110, 30), 1)
-
-    def examine_item(self,item):
-        """Displays item description."""
-        description = ITEM_DESCRIPTIONS.get(item, "No description available.")
-        print(f"Examine {item}: {description}")  # This could be replaced with a Pygame popup
-        self.show_popup = True
-        self.popup = "Item_Description"
-        self.popup_text = description  # Store the dialogue text for rendering in the popup
-        return description
-    def next_item_in_inventory(self,inventory, current_item):
-        items = list(inventory.keys())
-        idx = (items.index(current_item) + 1) % len(items) if current_item else 0
-        return items[idx]
-
-    def previous_item_in_inventory(self,inventory, current_item):
-        items = list(inventory.keys())
-        idx = (items.index(current_item) - 1) % len(items) if current_item else len(items) - 1
-        return items[idx]
-
-    def next_option(self,options, current_option):
-        idx = (options.index(current_option) + 1) % len(options)
-        return options[idx]
-
-    def previous_option(self,options, current_option):
-        idx = (options.index(current_option) - 1) % len(options)
-        return options[idx]
-    
     def add_invisible_wall(self, building_id, x1, y1, x2, y2):
         wall_rect = pygame.Rect(x1, y1, x2 - x1, y2 - y1)
         self.buildings.append({'id': building_id, 'rect': wall_rect, 'interacted': False})
@@ -497,20 +373,19 @@ class TownState:
                     self.current_npc.choice = 0
         
     def update(self, dt, events):
-        # Handle events
+        if self.inventoryHandler.is_open():
+            self.inventoryHandler.update(dt, events, self.params)
+            return
         
         if self.pauseHandler.is_paused():
             inv = self.pauseHandler.update(dt, events, self.params, self.player)
             if inv:
-                print("Opening inventory...")  # Replace with actual function to open inventory
+                print(f"Opening {inv}...")  # Replace with actual function to open inventory
                 self.inventoryHandler.toggle_inventory()
             else:
                 return
         
         for event in events:
-            self.handle_menu_input(event)
-            if self.show_shop:
-                self.handle_shop_navigation(event)
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
@@ -549,12 +424,10 @@ class TownState:
                         print(f"Player choice: {self.current_npc.choice}")
                 elif event.key == pygame.K_BACKSPACE and self.show_dialogue:
                     # Handle backspace for text input
-                    self.player_input = self.player_input[:-1]
-                
+                    self.player_input = self.player_input[:-1]            
                 elif event.unicode and self.show_dialogue:
                     # Append typed characters to player input
-                    self.player_input += event.unicode
-                
+                    self.player_input += event.unicode        
                 else:
                     if event.key == pygame.K_SPACE:
                         for building in self.buildings:
@@ -569,35 +442,6 @@ class TownState:
                             if self.player.Collides(npc_rect.inflate(10,10)):
                                 print(f"interact with npc {npc.name}")
                                 self.interact_with_npc(npc)
-                
-                # Inventory navigation
-                if self.show_inventory and not self.showing_options:
-                    self.showing_options = False
-                    if event.key == pygame.K_DOWN:
-                        self.selected_item = self.next_item_in_inventory(self.params['rpg']['inventory'], self.selected_item)
-                    elif event.key == pygame.K_UP:
-                        self.selected_item = self.previous_item_in_inventory(self.params['rpg']['inventory'], self.selected_item)
-                    elif event.key == pygame.K_RETURN and self.selected_item:
-                        print("showing option")
-                        self.showing_options = True
-                    elif event.key == pygame.K_ESCAPE:
-                        self.show_inventory = False
-                        
-                # Option navigation
-                elif self.showing_options:
-                    if event.key == pygame.K_DOWN:
-                        self.selected_item_option = self.next_option(self.item_options, self.selected_item_option)
-                    elif event.key == pygame.K_UP:
-                        self.selected_item_option = self.previous_option(self.item_options, self.selected_item_option)
-                    elif event.key == pygame.K_RETURN:
-                        if self.selected_item_option == "Examine":
-                            self.examine_item(self.selected_item)
-                            self.showing_options = False
-                        elif self.selected_item_option == "Interact" and self.selected_item in self.item_interactions:
-                            self.item_interactions[self.selected_item]()
-                            self.showing_options = False
-                    elif event.key == pygame.K_ESCAPE:
-                        self.showing_options = False
                                  
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -608,7 +452,7 @@ class TownState:
 
         # Handle player movement
         keys = pygame.key.get_pressed()
-        if not self.show_dialogue and not self.show_popup and not self.show_menu and not self.show_inventory and not self.show_shop:
+        if not self.show_dialogue and not self.show_popup and not self.pauseHandler.is_paused() and not self.inventoryHandler.is_open() and not self.show_shop:
             if keys[pygame.K_w] or keys[pygame.K_UP]:
                 self.player.MoveY(-self.player.walk_speed * dt)
             elif keys[pygame.K_s] or keys[pygame.K_DOWN]:
@@ -661,20 +505,15 @@ class TownState:
             
         #render popup
         if self.show_popup:
-            if self.popup == "Goblin_Entrance" or self.popup == "Goblin_Entrance2" or self.popup == "Item_Description":
+            if self.popup == "Goblin_Entrance" or self.popup == "Goblin_Entrance2":
                 render_interaction_dialogue(screen, self.popup_text, enter_action_text="Enter", escape_action_text="Escape")
-                
-        # Render the escape menu if it's active
-        if self.show_menu and not self.show_dialogue:
-            self.render_menu(screen)
-            
-        # Render inventory if open
-        if self.show_inventory and not self.show_dialogue:
-            self.render_inventory_menu(screen, self.params['rpg']['inventory'], self.selected_item, self.item_options, self.showing_options, self.selected_item_option)
+        
         # Render the shop interface if it's open
         if self.show_shop:
             self.display_shop(screen, self.shop_items)
 
         self.pauseHandler.render(screen)
+        self.inventoryHandler.render(screen, self.params['rpg']['inventory'])
+
     def Exit(self):
         pass
