@@ -2,7 +2,7 @@ from src.battleSystem.Buff import Buff
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
-from src.Pause import *
+from src.BattlePause import *
 from src.Render import *
 import pygame
 import sys
@@ -11,7 +11,7 @@ import time
 class SelectAttackState(BaseState):
     def __init__(self):
         super(SelectAttackState, self).__init__()
-        self.pauseHandler = PauseHandler()
+        self.pauseHandler = BattlePauseHandler()
 
     def Enter(self, params):
         self.params = params

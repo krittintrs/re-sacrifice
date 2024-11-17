@@ -5,7 +5,7 @@ from src.resources import *
 from src.EnumResources import *
 from src.components.Selector import Selector
 
-class PauseHandler:
+class BattlePauseHandler:
     def __init__(self):
         self.pause_selectors = [
             Selector("resume", y=290, scale=1.0, center=True),

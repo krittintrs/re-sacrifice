@@ -1,7 +1,7 @@
 from src.dependency import *
 from src.constants import *
 from src.battleSystem.Buff import *
-from src.Pause import *
+from src.BattlePause import *
 from src.Render import *
 import pygame
 import sys
@@ -12,7 +12,7 @@ class BattleInitialState(BaseState):
         super(BattleInitialState, self).__init__()
         self.dice = 1
         self.roll = False
-        self.pauseHandler = PauseHandler()
+        self.pauseHandler = BattlePauseHandler()
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleInitialState <<<<<<")

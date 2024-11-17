@@ -9,7 +9,7 @@ from src.battleSystem.FieldTile import FieldTile
 from src.Render import *
 from src.battleSystem.battleEntity.entity_defs import *
 from src.components.Selector import Selector
-from src.Pause import *
+from src.BattlePause import *
 import pygame
 import sys
 import math
@@ -34,7 +34,7 @@ class BattlePreparationState(BaseState):
             Selector("edit_opponent_deck", y=621, scale=1.0, center=True)
         ]
 
-        self.pauseHandler = PauseHandler()
+        self.pauseHandler = BattlePauseHandler()
 
     def initialDraw(self):
         self.player.deck.shuffle()

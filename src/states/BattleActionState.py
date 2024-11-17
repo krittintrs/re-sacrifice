@@ -2,7 +2,7 @@ import random
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
-from src.Pause import *
+from src.BattlePause import *
 from src.Render import *
 import pygame
 import sys
@@ -11,7 +11,7 @@ class BattleActionState(BaseState):
     def __init__(self):
         super(BattleActionState, self).__init__()
         self.effectOrder = {"before": [], "main": [], "after":[]}
-        self.pauseHandler = PauseHandler()
+        self.pauseHandler = BattlePauseHandler()
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleActionState <<<<<<")

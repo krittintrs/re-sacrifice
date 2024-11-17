@@ -2,7 +2,7 @@ import random
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
-from src.Pause import *
+from src.BattlePause import *
 from src.Render import *
 from src.battleSystem.Buff import Buff
 import pygame
@@ -12,7 +12,7 @@ import math
 class BattleResolveState(BaseState):
     def __init__(self):
         super(BattleResolveState, self).__init__()
-        self.pauseHandler = PauseHandler()
+        self.pauseHandler = BattlePauseHandler()
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleResolveState <<<<<<")

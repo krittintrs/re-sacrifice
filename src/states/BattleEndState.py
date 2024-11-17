@@ -1,7 +1,7 @@
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
-from src.Pause import *
+from src.BattlePause import *
 from src.Render import *
 import pygame
 import sys
@@ -10,7 +10,7 @@ import time
 class BattleEndState(BaseState):
     def __init__(self):
         super(BattleEndState, self).__init__()
-        self.pauseHandler = PauseHandler()
+        self.pauseHandler = BattlePauseHandler()
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleEndState <<<<<<")
@@ -32,7 +32,7 @@ class BattleEndState(BaseState):
 
         self.waiting_for_sound = False
 
-        self.pauseHandler = PauseHandler()
+        self.pauseHandler = BattlePauseHandler()
         
     def next_turn(self):
         # Change turn owner

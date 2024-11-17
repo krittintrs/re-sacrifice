@@ -1,14 +1,14 @@
 import pygame
 import sys
 from src.dependency import *
-from src.Pause import *
+from src.BattlePause import *
 from src.Render import *
 
 class BattleSelectState(BaseState):
     def __init__(self):
         super(BattleSelectState, self).__init__()
         self.selected_index = 0
-        self.pauseHandler = PauseHandler()
+        self.pauseHandler = BattlePauseHandler()
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleSelectState <<<<<<")
