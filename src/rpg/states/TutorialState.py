@@ -19,9 +19,17 @@ class TutorialState:
         pygame.init()
         #self.screen = pygame.display.get_surface()
 
-        # Load tutorial images or placeholders for instructions and cutscenes
-        self.movement_image = pygame.image.load("src/rpg/sprite/Tutorial/images.png")
-        self.movement_image = pygame.transform.scale(self.movement_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        # Load tutorial images dynamically
+        self.movement_images = []
+        for i in range(1, 6):  # Assuming there are 5 movement images
+            image = pygame.image.load(f"src/rpg/sprite/Tutorial/Tutorial_{i}.png")
+            image = pygame.transform.smoothscale(image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            self.movement_images.append(image)
+
+        # Initialize movement stage index
+        self.current_stage_index = 0
+        self.current_stage = "movement"  # First stage
+
         self.battle_image = pygame.image.load("src/rpg/sprite/Tutorial/images (1).png")
         self.battle_image = pygame.transform.scale(self.battle_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.conversation_image = pygame.image.load("src/rpg/sprite/Tutorial/images2.jpg")
@@ -127,7 +135,11 @@ class TutorialState:
 
     def handle_enter(self):
         if self.current_stage == "movement":
-            self.current_stage = "conversation"
+            # Progress through movement stages
+            if self.current_stage_index < len(self.movement_images) - 1:
+                self.current_stage_index += 1
+            else:
+                self.current_stage = "conversation"  # Proceed to the next tutorial stage
         elif self.current_stage == "conversation":
             self.current_stage = "battle"
         elif self.current_stage == "battle":
@@ -138,7 +150,7 @@ class TutorialState:
         elif self.current_stage == "confirm":
             if self.confirmation_selection == "confirm":
                 self.current_stage = "cutscene"
-                self.playing_cutscene = True  # Start cutscene playback
+                self.playing_cutscene = True
             else:
                 self.current_stage = "class_select"
         elif self.current_stage == "cutscene":
@@ -150,7 +162,7 @@ class TutorialState:
         self.player.battlePlayer = BattlePlayer(BATTLE_ENTITY[f"default_{self.selected_class.lower()}"])
         self.player.battlePlayer.deck.readInventoryConf()
         print(self.player.battlePlayer)
-        g_state_manager.Change(RPGState.TOWN, self.params)
+        g_state_manager.Change(RPGState.INTRO, self.params)
 
     def skip_cutscene(self):
         self.playing_cutscene = False
@@ -179,23 +191,23 @@ class TutorialState:
     
     def render(self, screen):
         if self.current_stage == "movement":
-            screen.blit(self.movement_image, (0, 0))
-            self.render_text(screen, "Use WASD to move and Space to interact. Press Enter to continue.", (50, SCREEN_HEIGHT - 50))
-        
+            # Render the current movement stage image
+            screen.blit(self.movement_images[self.current_stage_index], (0, 0))
+            self.render_text(
+                screen,
+                "Use WASD to move and Space to interact. Press Enter to continue.",
+                (50, SCREEN_HEIGHT - 50),
+            )
         elif self.current_stage == "conversation":
             screen.blit(self.conversation_image, (0, 0))
-            self.render_text(screen, "Here's how to have conversation. Press Enter to continue.", (50, SCREEN_HEIGHT - 50))
-        
+            self.render_text(screen, "Here's how to have a conversation. Press Enter to continue.", (50, SCREEN_HEIGHT - 50))
         elif self.current_stage == "battle":
             screen.blit(self.battle_image, (0, 0))
             self.render_text(screen, "Here's how to battle. Press Enter to continue.", (50, SCREEN_HEIGHT - 50))
-        
         elif self.current_stage == "class_select":
             self.render_class_selection(screen)
-        
         elif self.current_stage == "confirm":
             self.render_confirmation(screen)
-        
         elif self.current_stage == "cutscene":
             if self.playing_cutscene:
                 self.render_cutscene(screen)

@@ -486,8 +486,8 @@ class TownState:
         screen.blit(self.map_surface, (0, 0))
 
         # Draw invisible walls as green rectangles for debugging
-        for building in self.buildings:
-            pygame.draw.rect(screen, (0, 255, 0), building['rect'], 2)
+        # for building in self.buildings:
+        #     pygame.draw.rect(screen, (0, 255, 0), building['rect'], 2)
             
         for npc in self.npcs:
             screen.blit(npc.image, (npc.x, npc.y))  # Render each NPC at its coordinates
