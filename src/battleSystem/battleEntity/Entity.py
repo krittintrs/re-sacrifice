@@ -103,7 +103,6 @@ class Entity:
         self.fieldTile_index = fieldTile.index  # Update the fieldTile index
 
     def add_buff(self, buff):
-        self.vfx.play("heal_vfx")
         self.buffs.append(buff)
         if buff.vfx_type == VFXType.DEBUFF:
             self.vfx.play("debuff_vfx")
