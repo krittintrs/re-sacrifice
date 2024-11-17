@@ -157,7 +157,7 @@ class SpriteSheet:
         except Exception as error:
             print("REMINDER: The sprite sheet url is not assigned to", filename, "yet")
 
-    def image_at(self, x, y, scalingfactor, colorkey=None, tolerance=5, xTileSize=16, yTileSize=16):
+    def image_at(self, x, y, scalingfactor, colorkey, tolerance=5, xTileSize=16, yTileSize=16):
         """
         Extracts an image at a given position and removes background colors 
         within a given tolerance of the colorkey.
@@ -172,25 +172,28 @@ class SpriteSheet:
             else:
                 colorkey = colorkey[:3]  # Ensure colorkey is always RGB
             
-            # Convert image to a NumPy array for pixel manipulation
-            image_array = pygame.surfarray.array3d(image)  # RGB data
-            alpha_array = pygame.surfarray.array_alpha(image)  # Alpha data
-            
-            # Calculate the difference between each pixel and the colorkey
-            diff = np.abs(image_array - np.array(colorkey))
-            within_tolerance = (diff[..., 0] <= tolerance) & \
-                            (diff[..., 1] <= tolerance) & \
-                            (diff[..., 2] <= tolerance)
-            
-            # Set alpha to 0 for pixels within the tolerance range
-            alpha_array[within_tolerance] = 0
-            
-            # Create a new surface with updated alpha values
-            for x in range(image.get_width()):
-                for y in range(image.get_height()):
-                    alpha = alpha_array[x, y]
-                    color = image_array[x, y]
-                    image.set_at((x, y), (*color, alpha))
+            if tolerance == 0:
+                image.set_colorkey(colorkey)
+            else:
+                # Convert image to a NumPy array for pixel manipulation
+                image_array = pygame.surfarray.array3d(image)  # RGB data
+                alpha_array = pygame.surfarray.array_alpha(image)  # Alpha data
+                
+                # Calculate the difference between each pixel and the colorkey
+                diff = np.abs(image_array - np.array(colorkey))
+                within_tolerance = (diff[..., 0] <= tolerance) & \
+                                (diff[..., 1] <= tolerance) & \
+                                (diff[..., 2] <= tolerance)
+                
+                # Set alpha to 0 for pixels within the tolerance range
+                alpha_array[within_tolerance] = 0
+                
+                # Create a new surface with updated alpha values
+                for x in range(image.get_width()):
+                    for y in range(image.get_height()):
+                        alpha = alpha_array[x, y]
+                        color = image_array[x, y]
+                        image.set_at((x, y), (*color, alpha))
 
         # Scale the image
         return pygame.transform.scale(
