@@ -17,26 +17,23 @@ from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
 class TutorialState:
     def __init__(self):
         pygame.init()
-        #self.screen = pygame.display.get_surface()
+
+        # Initialize general stage index
+        self.current_stage_index = 0
+        self.current_stage = "general"  # First stage
 
         # Load tutorial images dynamically
-        self.movement_images = []
-        for i in range(1, 6):  # Assuming there are 5 movement images
+        self.general_images = []
+        for i in range(1, 6):  # Assuming there are 5 general images
             image = pygame.image.load(f"src/rpg/sprite/Tutorial/Tutorial_{i}.png")
             image = pygame.transform.smoothscale(image, (SCREEN_WIDTH, SCREEN_HEIGHT))
-            self.movement_images.append(image)
-
-        # Initialize movement stage index
-        self.current_stage_index = 0
-        self.current_stage = "movement"  # First stage
-
+            self.general_images.append(image)
         self.battle_image = pygame.image.load("src/rpg/sprite/Tutorial/images (1).png")
         self.battle_image = pygame.transform.scale(self.battle_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.conversation_image = pygame.image.load("src/rpg/sprite/Tutorial/images2.jpg")
         self.conversation_image = pygame.transform.scale(self.conversation_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
         
         # Track stages within the tutorial
-        self.current_stage = "movement"  # Stages: movement, battle, class_select, confirm, cutscene
         self.selected_class = None
         self.confirmation_selection = "confirm"  # Default confirmation selection
 
@@ -129,14 +126,14 @@ class TutorialState:
         
         print("Entering Tutorial State")
         # Track stages within the tutorial
-        self.current_stage = "movement"  # Stages: movement, battle, class_select, confirm, cutscene
+        self.current_stage = "general"  # Stages: general, battle, class_select, confirm, cutscene
         self.selected_class = None
         self.confirmation_selection = "confirm"  # Default confirmation selection
 
     def handle_enter(self):
-        if self.current_stage == "movement":
-            # Progress through movement stages
-            if self.current_stage_index < len(self.movement_images) - 1:
+        if self.current_stage == "general":
+            # Progress through general stages
+            if self.current_stage_index < len(self.general_images) - 1:
                 self.current_stage_index += 1
             else:
                 self.current_stage = "conversation"  # Proceed to the next tutorial stage
@@ -190,17 +187,8 @@ class TutorialState:
             self.selected_index = (self.selected_index + direction) % len(self.classes)
     
     def render(self, screen):
-        if self.current_stage == "movement":
-            # Render the current movement stage image
-            screen.blit(self.movement_images[self.current_stage_index], (0, 0))
-            self.render_text(
-                screen,
-                "Use WASD to move and Space to interact. Press Enter to continue.",
-                (50, SCREEN_HEIGHT - 50),
-            )
-        elif self.current_stage == "conversation":
-            screen.blit(self.conversation_image, (0, 0))
-            self.render_text(screen, "Here's how to have a conversation. Press Enter to continue.", (50, SCREEN_HEIGHT - 50))
+        if self.current_stage == "general":
+            screen.blit(self.general_images[self.current_stage_index], (0, 0))
         elif self.current_stage == "battle":
             screen.blit(self.battle_image, (0, 0))
             self.render_text(screen, "Here's how to battle. Press Enter to continue.", (50, SCREEN_HEIGHT - 50))
