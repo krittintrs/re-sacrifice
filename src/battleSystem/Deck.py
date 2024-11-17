@@ -11,6 +11,7 @@ class Deck:
         self.inventory = []
 
     def read_conf(self, conf = DECK_DEFS["default"]):
+        print(f"Reading deck conf: {conf}")
         self.card_deck = []
         for card_info in conf.card_dict:
             for i in range(card_info["quantity"]):

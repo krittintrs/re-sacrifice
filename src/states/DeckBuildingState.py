@@ -187,7 +187,6 @@ class DeckBuildingState(BaseState):
                         break
                     else:
                         self.isMouseOn = False
-
             # available card
             elif self.rightPanel.collidepoint(mouse_pos):
                 for i in range(0, min(4,len(self.availableCard)-self.availableCardWindow)):
@@ -204,8 +203,6 @@ class DeckBuildingState(BaseState):
             else:
                 self.isMouseOn = False
             
-
-
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # Left-click
                     # if mouse click filter
@@ -277,10 +274,7 @@ class DeckBuildingState(BaseState):
                     self.availableCardWindow = len(self.availableCard) - 4
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-                elif event.key == pygame.K_d:
+                if event.key == pygame.K_d:
                     self.deckIndex = 0
                     self.player.deck.read_conf(DECK_DEFS["default"])
                 elif event.key == pygame.K_w:
@@ -298,7 +292,7 @@ class DeckBuildingState(BaseState):
                     self.player.deck.read_conf(DECK_DEFS[self.presetKeyList[self.presetIndex]])
                     self.presetIndex = (self.presetIndex+1)% len(self.presetKeyList)
 
-                elif event.key == pygame.K_RETURN:
+                elif event.key == pygame.K_RETURN or event.key == pygame.K_ESCAPE:
                     if self.player.deck.isCardMinimumReach():
                         if self.player.deck.isCardDuplicateWithinLimit():
                             destination_state = self.params['battleSystem']['from_state']

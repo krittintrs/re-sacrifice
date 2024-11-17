@@ -38,17 +38,12 @@ class BattlePreparationState(BaseState):
 
     def initialDraw(self):
         self.player.deck.shuffle()
-        # for card in self.player.deck.card_deck:
-        #     if card.name in ["Trap", "You shall not pass", "Long Range Attack", "Move 2", "Move 1"]:
-        #         self.player.cardsOnHand.append(card)
-        # for card in self.enemy.deck.card_deck:
-        #     if card.name in ["Pull Attack", "Push Attack"]:
-        #         self.enemy.cardsOnHand.append(card)
-        # for card in self.player.deck.card_deck:
-        #     if card.name in ["Long Range Attack", "Move 1"]:
-        #         self.player.cardsOnHand.append(card)
+        for card in self.player.deck.card_deck:
+            # print(card.id, card.name)
+            if card.id in ["C048", "C049", "C050", "C051", "C052"]:
+                self.player.cardsOnHand.append(card)
 
-        self.player.cardsOnHand = self.player.deck.draw(5)
+        # self.player.cardsOnHand = self.player.deck.draw(5)
         self.enemy.deck.shuffle()
         self.enemy.cardsOnHand = self.enemy.deck.draw(5)
 
@@ -63,7 +58,7 @@ class BattlePreparationState(BaseState):
         self.player = battle_param['player']
         self.enemy = battle_param['enemy']
 
-        if 'rpg' not in self.params.keys():
+        if 'rpg' not in self.params.keys() and self.player is None and self.enemy is None: 
             # mock player
             self.player = Player(BATTLE_ENTITY["default_warrior"])
             # mock enemy

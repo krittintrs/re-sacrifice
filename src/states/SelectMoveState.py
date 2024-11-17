@@ -245,7 +245,7 @@ class SelectMoveState(BaseState):
         RenderTurn(screen, 'SelectMoveState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
-        RenderDescription(screen, f"Current Action: {self.effect.type}", f"Owner: {self.effectOwner.value}")
+        RenderDescription(screen, f"Current Action: {self.effect.type.value}", f"Owner: {self.effectOwner.value}")
         RenderFieldSelection(screen, self.field, self.availableMoveTile, self.selectMoveTile, self.effectOwner)
 
         self.pauseHandler.render(screen)

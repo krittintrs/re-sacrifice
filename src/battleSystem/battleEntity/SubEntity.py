@@ -6,8 +6,7 @@ from src.battleSystem.Buff import Buff
 
 class SubEntity(Entity): # these sub entity will attack every round if attack != 0
     def __init__(self, conf, side = PlayerType.PLAYER):
-        super().__init__(conf.name,conf.animation_list, conf.health, conf.is_occupied_field)
-        self.x, self.y = 0, ENTITY_Y
+        super().__init__(conf.name, DECK_DEFS["default"], conf.animation_list, 0, ENTITY_Y, None, health=conf.health, is_occupied_field=conf.is_occupied_field)
         self.attack = conf.attack # default attack
         self.duration = conf.duration # remove if duration reach 0
         self.range = conf.range # range for attacking
