@@ -138,6 +138,7 @@ class TownState:
         print("Player interacted with store")
         
         self.show_shop = True
+        
     def display_shop(self, screen, shop_items):
         font = pygame.font.Font(None, 36)
         button_font = pygame.font.Font(None, 24)
@@ -154,7 +155,7 @@ class TownState:
         screen.blit(store_name_surface, (shop_bg_rect.left + 20, shop_bg_rect.top + 10))
 
         # Display seller image on the left side
-        seller_image = pygame.image.load("src\\rpg\sprite\Other\Abigail_Store.png")  # Replace with actual seller image path
+        seller_image = pygame.image.load("src/rpg/sprite/Other/Abigail_Store.png")  # Replace with actual seller image path
         seller_image = pygame.transform.scale(seller_image, (64, 64))
         screen.blit(seller_image, (shop_bg_rect.left + 20, shop_bg_rect.top + 50))
 
@@ -196,17 +197,18 @@ class TownState:
         else:
             print("Not enough coins to buy this item.")
 
-    def handle_shop_navigation(self, event):
-        # Navigate items with arrow keys and exit with Escape key
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_DOWN:
-                self.selected_shop_item = (self.selected_shop_item + 1) % len(self.shop_items)
-            elif event.key == pygame.K_UP:
-                self.selected_shop_item = (self.selected_shop_item - 1) % len(self.shop_items)
-            elif event.key == pygame.K_RETURN:
-                self.purchase_item()
-            elif event.key == pygame.K_ESCAPE:
-                self.show_shop = False  # Exit shop on Escape key
+    def handle_shop_navigation(self, events):
+        for event in events:
+            # Navigate items with arrow keys and exit with Escape key
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_DOWN:
+                    self.selected_shop_item = (self.selected_shop_item + 1) % len(self.shop_items)
+                elif event.key == pygame.K_UP:
+                    self.selected_shop_item = (self.selected_shop_item - 1) % len(self.shop_items)
+                elif event.key == pygame.K_RETURN:
+                    self.purchase_item()
+                elif event.key == pygame.K_ESCAPE:
+                    self.show_shop = False  # Exit shop on Escape key
 
 
     def interact_with_tavern(self):
@@ -377,6 +379,10 @@ class TownState:
             self.inventoryHandler.update(dt, events, self.params)
             return
         
+        if self.show_shop:
+            self.handle_shop_navigation(events)
+            return
+
         if self.pauseHandler.is_paused():
             inv = self.pauseHandler.update(dt, events, self.params, self.player)
             if inv:
@@ -390,13 +396,13 @@ class TownState:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
-                    self.pauseHandler.pause_game()
-                elif event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_ESCAPE:
                     if self.show_dialogue:
                         self.show_dialogue = False
                     elif self.show_popup:  # Close the goblin camp popup if it's active
                         self.show_popup = False
+                    else:
+                        self.pauseHandler.pause_game()
                 elif event.key == pygame.K_RETURN:
                     if self.show_popup:
                         if self.popup == "Goblin_Entrance":
