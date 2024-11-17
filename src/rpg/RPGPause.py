@@ -9,8 +9,7 @@ class RPGPauseHandler:
     def __init__(self, from_state):
         self.pause_selectors = [
             Selector("edit_deck", y=290, scale=1.0, center=True),
-            # TODO: wait for inventory
-            Selector("quickplay", y=350, scale=1.0, center=True),
+            Selector("inventory", y=350, scale=1.0, center=True),
             Selector("return_to_title", y=410, scale=1.0, center=True)
         ]
         self.pause = False
@@ -50,7 +49,7 @@ class RPGPauseHandler:
                             'from_state': self.from_state
                         }
                         g_state_manager.Change(BattleState.DECK_BUILDING, params)
-                    elif self.pause_selectors[self.selected_pause_index].name == "quickplay":
+                    elif self.pause_selectors[self.selected_pause_index].name == "inventory":
                         self.pause = False
                         self.selected_pause_index = 0
                         # TODO: wait for inventory

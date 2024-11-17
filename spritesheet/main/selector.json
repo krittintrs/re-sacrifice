@@ -161,6 +161,22 @@
       "x": 0,
       "y": 549,
       "colorKey": -1
+    },
+    {
+      "name": "inventory_selector_default",
+      "width": 202,
+      "height": 27,
+      "x": 0,
+      "y": 580,
+      "colorKey": -1
+    },
+    {
+      "name": "inventory_selector_clicked",
+      "width": 202,
+      "height": 31,
+      "x": 0,
+      "y": 607,
+      "colorKey": -1
     }
   ]
 }

@@ -248,6 +248,8 @@ gSelector_image_list = {
     "restart_selector_default": sprite_collection["restart_selector_default"].image,
     "restart_selector_clicked": sprite_collection["restart_selector_clicked"].image,
     "return_to_title_selector_default": sprite_collection["return_to_title_selector_default"].image,
-    "return_to_title_selector_clicked": sprite_collection["return_to_title_selector_clicked"].image
+    "return_to_title_selector_clicked": sprite_collection["return_to_title_selector_clicked"].image,
+    "inventory_selector_default": sprite_collection["inventory_selector_default"].image,
+    "inventory_selector_clicked": sprite_collection["inventory_selector_clicked"].image,
 }
 
