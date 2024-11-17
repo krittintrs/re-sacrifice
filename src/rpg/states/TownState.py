@@ -90,7 +90,7 @@ class TownState:
         }
         self.selected_shop_item = 0
 
-        self.pauseHandler = RPGPauseHandler()
+        self.pauseHandler = RPGPauseHandler(RPGState.TOWN)
         self.inventoryHandler = Inventory()
 
     def Enter(self, enter_params):
@@ -100,7 +100,6 @@ class TownState:
         print(self.params," TownMap")
         
         print("Entering RPG Start State")
-        self.pauseHandler.reset()
 
     def add_invisible_wall(self, building_id, x1, y1, x2, y2):
         wall_rect = pygame.Rect(x1, y1, x2 - x1, y2 - y1)
@@ -375,12 +374,12 @@ class TownState:
                     self.current_npc.choice = 0
         
     def update(self, dt, events):
-        if self.inventoryHandler.is_open():
-            self.inventoryHandler.update(dt, events, self.params)
-            return
-        
         if self.show_shop:
             self.handle_shop_navigation(events)
+            return
+        
+        if self.inventoryHandler.is_open():
+            self.inventoryHandler.update(dt, events, self.params)
             return
 
         if self.pauseHandler.is_paused():
@@ -417,8 +416,6 @@ class TownState:
                             self.params['rpg']['rpg_player'].y = 70
                             g_state_manager.Change(RPGState.GOBLIN, self.params)
                             print("Enter Goblin Camp")
-                        elif self.popup == "Item_Description":
-                            self.show_popup = False
                     elif self.show_dialogue and not self.closing_dialogue and not self.entering_battle:
                         # Handle Enter key to send response
                         if not self.player_input:
@@ -458,7 +455,13 @@ class TownState:
 
         # Handle player movement
         keys = pygame.key.get_pressed()
-        if not self.show_dialogue and not self.show_popup and not self.pauseHandler.is_paused() and not self.inventoryHandler.is_open() and not self.show_shop:
+        if (
+            not self.show_dialogue 
+            and not self.show_popup 
+            and not self.pauseHandler.is_paused() 
+            and not self.inventoryHandler.is_open() 
+            and not self.show_shop
+        ):
             if keys[pygame.K_w] or keys[pygame.K_UP]:
                 self.player.MoveY(-self.player.walk_speed * dt)
             elif keys[pygame.K_s] or keys[pygame.K_DOWN]:

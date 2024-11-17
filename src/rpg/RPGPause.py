@@ -6,7 +6,7 @@ from src.EnumResources import *
 from src.components.Selector import Selector
 
 class RPGPauseHandler:
-    def __init__(self):
+    def __init__(self, from_state):
         self.pause_selectors = [
             Selector("edit_deck", y=290, scale=1.0, center=True),
             # TODO: wait for inventory
@@ -15,45 +15,14 @@ class RPGPauseHandler:
         ]
         self.pause = False
         self.selected_pause_index = 0
-    
-    def reset(self):
-        self.pause = False
-        self.selected_pause_index = 0
-        for selector in self.pause_selectors:
-            selector.set_active(False)
+        self.from_state = from_state
 
     def pause_game(self):
         self.pause = True
 
     def is_paused(self):
         return self.pause
-        
-    def reset_battle(self, params):
-        # Safely access the 'battleSystem' dictionary, return if it doesn't exist
-        battle_param = params.get('battleSystem')
-        if not battle_param:
-            print("Battle system parameters missing, skipping reset.")
-            return
-
-        # Check for each component and do nothing if they don't exist
-        player = battle_param.get('player')
-        enemy = battle_param.get('enemy')
-        field = battle_param.get('field')
-
-        if not player or not enemy or not field:
-            print("Missing player, enemy, or field. Skipping reset.")
-            return
-
-        # Reset player and enemy if they exist
-        player.reset_everything()
-        enemy.reset_everything()
-
-        # Reset each field tile if field is not empty
-        for fieldtile in field:
-            if fieldtile:  # Check if the field tile is valid
-                fieldtile.remove_entity()
-                fieldtile.remove_second_entity()
-
+    
     def update(self, dt, events, params, player):
         if not self.pause:
             return
@@ -78,7 +47,7 @@ class RPGPauseHandler:
                             'player': player.battlePlayer,
                             'enemy': None,
                             'edit_player_deck': True,
-                            'from_state': RPGState.TOWN
+                            'from_state': self.from_state
                         }
                         g_state_manager.Change(BattleState.DECK_BUILDING, params)
                     elif self.pause_selectors[self.selected_pause_index].name == "quickplay":
@@ -91,7 +60,6 @@ class RPGPauseHandler:
                     elif self.pause_selectors[self.selected_pause_index].name == "return_to_title":
                         self.pause = False
                         self.selected_pause_index = 0
-                        self.reset_battle(params) 
                         g_state_manager.Change(GameState.TITLE, {})
                     
         for idx, selector in enumerate(self.pause_selectors):

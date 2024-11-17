@@ -2,6 +2,7 @@ import sys
 import pygame
 from src.rpg.Resources import ITEM_DESCRIPTIONS
 from src.rpg.Utils import render_interaction_dialogue
+from src.resources import *
 
 class Inventory:
     def __init__(self):
@@ -104,7 +105,7 @@ class Inventory:
             inventory_box_width, inventory_box_height = 600, 400
             pygame.draw.rect(screen, (240, 240, 240), (inventory_box_x, inventory_box_y, inventory_box_width, inventory_box_height))
 
-            font = pygame.font.Font(None, 32)
+            font = gFont_list["header"]
 
             # Display inventory items
             start_y = inventory_box_y + 20
@@ -125,7 +126,7 @@ class Inventory:
                 # Display options
                 for j, option in enumerate(self.item_options):
                     option_text = font.render(option, True, (0, 0, 0))
-                    screen.blit(option_text, (option_box_x + 10, option_box_y + 10 + j * 30))
+                    screen.blit(option_text, (option_box_x + 10, option_box_y + 4 + j * 30))
 
                     # Highlight selected option
                     if option == self.selected_item_option:
