@@ -204,7 +204,7 @@ class TutorialState:
         screen.fill((30, 30, 30))
         num_classes = len(self.classes)
         section_width = SCREEN_WIDTH // num_classes
-        image_size = (section_width * 0.6, section_width * 0.6)
+        image_size = (section_width * 0.3, section_width * 0.35)
         
         # Draw title at the top
         title_text = self.title_font.render("Choose Your Class", True, (255, 255, 255))
@@ -214,7 +214,7 @@ class TutorialState:
         for i, cls in enumerate(self.classes):
             # Calculate position and area for each class section
             x = i * section_width
-            y = 150  # Y position offset below the title
+            y = 250  # Y position offset below the title
             # Load and scale image
             image = pygame.image.load(self.class_img_path[cls])
             image = pygame.transform.scale(image, image_size)
