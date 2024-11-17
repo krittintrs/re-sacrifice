@@ -17,6 +17,7 @@ from src.rpg.Resources import ITEM_DESCRIPTIONS
 from src.battleSystem.battleEntity.Enemy import Enemy as BattleEnemy
 from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
 from src.rpg.RPGPause import RPGPauseHandler
+from src.resources import gFont_list
 # genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")
 # Create the model
 
@@ -139,8 +140,9 @@ class TownState:
         self.show_shop = True
         
     def display_shop(self, screen, shop_items):
-        font = pygame.font.Font(None, 36)
-        button_font = pygame.font.Font(None, 24)
+        font = gFont_list["title"]
+        name_font = gFont_list["header"]
+        desc_font = gFont_list["default"]
         
         # Background for the shop interface
         shop_bg = pygame.Surface((400, 400))
@@ -172,14 +174,14 @@ class TownState:
             
             # Display item name and price
             item_text = f"{item_name} - {details['price']} coins"
-            item_surface = font.render(item_text, True, color)
+            item_surface = name_font.render(item_text, True, color)
             screen.blit(item_surface, (shop_bg_rect.left + 20, y_offset))
             
             # Display item description below the name
-            description_surface = button_font.render(details["description"], True, (200, 200, 200))
-            screen.blit(description_surface, (shop_bg_rect.left + 20, y_offset + 30))
+            description_surface = desc_font.render(details["description"], True, (200, 200, 200))
+            screen.blit(description_surface, (shop_bg_rect.left + 20, y_offset + 25))
             
-            y_offset += 80  # Space out items vertically
+            y_offset += 60  # Space out items vertically
             index += 1
 
     def purchase_item(self):
@@ -198,6 +200,9 @@ class TownState:
 
     def handle_shop_navigation(self, events):
         for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
             # Navigate items with arrow keys and exit with Escape key
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:

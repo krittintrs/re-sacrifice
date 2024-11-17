@@ -12,7 +12,7 @@ import cv2
 from src.EnumResources import RPGState
 from src.battleSystem.battleEntity.Player import Player as BattlePlayer
 from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
-# from src.dependency import *
+from src.resources import gFont_list
 
 class TutorialState:
     def __init__(self):
@@ -42,12 +42,12 @@ class TutorialState:
                           'Warrior':"ching ching",
                           'Ranger':"Pung Pung"}
         # Confirmation buttons
-        self.confirm_rect = pygame.Rect(650, 500, 100, 40)
-        self.cancel_rect = pygame.Rect(760, 500, 100, 40)
+        self.confirm_rect = pygame.Rect(650, 500, 110, 40)
+        self.cancel_rect = pygame.Rect(770, 500, 110, 40)
         
         # Initialize font
-        self.font = pygame.font.Font(None, 36)
-        self.title_font = pygame.font.Font(None, 48)  # Font for the title
+        self.font = gFont_list["title"]
+        self.title_font = gFont_list["game_title"]
         
         # Video setup for cutscene
         self.cutscene_video = cv2.VideoCapture("src/rpg/cutscene/Cutscene1.mp4")
@@ -86,7 +86,7 @@ class TutorialState:
         player_conf = ENTITY_DEFS['player']
         self.player = Player(player_conf)
         self.player.x = 623
-        self.player.y = 5
+        self.player.y = 585
 
         self.player.state_machine = StateMachine()
         self.player.state_machine.SetScreen(pygame.display.get_surface())
@@ -251,8 +251,7 @@ class TutorialState:
         screen.blit(cancel_text, (self.cancel_rect.x + 10, self.cancel_rect.y + 5))
 
     def render_text(self, screen, text, position):
-        font = pygame.font.Font(None, 36)
-        text_surface = font.render(text, True, (255, 255, 255))
+        text_surface = self.font.render(text, True, (255, 255, 255))
         screen.blit(text_surface, position)
 
     def Exit(self):

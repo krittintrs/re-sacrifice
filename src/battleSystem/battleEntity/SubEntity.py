@@ -4,11 +4,6 @@ from src.battleSystem.battleEntity.Entity import Entity
 import tween
 from src.battleSystem.Buff import Buff
 
-# Define the global font variable
-# You can adjust the font size and type as needed
-g_font = pygame.font.Font(None, 36)
-
-
 class SubEntity(Entity): # these sub entity will attack every round if attack != 0
     def __init__(self, conf, side = PlayerType.PLAYER):
         super().__init__(conf.name,conf.animation_list, conf.health, conf.is_occupied_field)

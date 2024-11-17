@@ -194,6 +194,7 @@ gFont_list = {
     "default": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 10),
     "header": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 15),
     "title": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 20),
+    "game_title": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 30),
 }
 
 gVfx_animation_list = {

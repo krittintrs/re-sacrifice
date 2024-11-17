@@ -2,6 +2,8 @@ import time
 import pygame
 import json
 from src.constants import SCREEN_WIDTH, SCREEN_HEIGHT
+from src.resources import gFont_list
+
 response_button_rect = pygame.Rect(950, 470, 125, 40)
 close_button_rect = pygame.Rect(1100, 470, 125, 40)
 
@@ -36,7 +38,7 @@ def render_dialogue(screen,npc,dialogue_text,blink,last_blink_time,player_input)
 
     # Render dialogue box
     pygame.draw.rect(screen, (200, 200, 200), (dialogue_box_x, dialogue_box_y, dialogue_box_width, dialogue_box_height))
-    font = pygame.font.Font(None, 36)
+    font = gFont_list["title"]
     
     npc_image = pygame.image.load(npc.image_path+"/Face.png").convert_alpha()
     npc_image = pygame.transform.scale(npc_image, (400, 400))  # Resize NPC image as needed
@@ -47,7 +49,7 @@ def render_dialogue(screen,npc,dialogue_text,blink,last_blink_time,player_input)
     name_box_width = 100
     name_box_y = dialogue_box_y - name_box_height - 10
     pygame.draw.rect(screen, (220, 220, 220), (dialogue_box_x, name_box_y, name_box_width, name_box_height))
-    name_font = pygame.font.Font(None, 28)
+    name_font = gFont_list["header"]
     npc_name_surface = name_font.render(npc.name, True, (0, 0, 0))
     # Center the NPC name within the name box
     name_x = dialogue_box_x + (name_box_width - npc_name_surface.get_width()) // 2
@@ -84,7 +86,7 @@ def render_dialogue(screen,npc,dialogue_text,blink,last_blink_time,player_input)
     # screen.blit(close_text, (close_button_rect.x + 10, close_button_rect.y + 10))
 
 def render_quests(screen,quests):
-    font = pygame.font.Font(None, 24)
+    font = gFont_list["header"]
     # Set background dimensions
     background_width = 280
     background_height = 40 + len(quests) * 20
@@ -107,7 +109,7 @@ def render_quests(screen,quests):
         screen.blit(quest_text_surface, (background_x + 10, background_y + 40 + i * 20))
 
 def render_topics(screen,topics):
-    font = pygame.font.Font(None, 48)
+    font = gFont_list["title"]
     # Set background dimensions
     topic_background_width = 560
     topic_background_height = 60 + len(topics) * 40
@@ -138,7 +140,7 @@ def render_interaction_dialogue(screen, dialogue_text,enter_action_text="Enter",
 
     # Render dialogue box
     pygame.draw.rect(screen, (200, 200, 200), (dialogue_box_x, dialogue_box_y, dialogue_box_width, dialogue_box_height))
-    font = pygame.font.Font(None, 36)
+    font = gFont_list["title"]
 
     # Handle multiline dialogue text wrapping
     dialogue_text_lines = wrap_text(dialogue_text, font, dialogue_box_width - 20)
