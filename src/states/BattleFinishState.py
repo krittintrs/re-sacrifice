@@ -61,6 +61,8 @@ class BattleFinishState(BaseState):
                             g_state_manager.Change(RPGState.TAVERN, self.params)
                         elif self.params['rpg']["map"] == "GOBLIN":
                             g_state_manager.Change(RPGState.GOBLIN, self.params)
+                        elif self.params['rpg']["map"] == "INTRO":
+                            g_state_manager.Change(RPGState.INTRO, self.params)
                     else:
                         g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
 

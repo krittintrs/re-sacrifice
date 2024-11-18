@@ -1,6 +1,8 @@
+import random
 import sys
 import time
 import pygame
+from src.battleSystem.deck_defs import DECK_DEFS
 from src.rpg.entity.playerState.PlayerIdleState import PlayerIdleState
 from src.rpg.entity.playerState.PlayerWalkState import PlayerWalkState
 from src.rpg.EntityDefs import ENTITY_DEFS
@@ -14,7 +16,8 @@ from src.resources import g_state_manager
 from src.EnumResources import RPGState,BattleState
 from src.resources import gFont_list
 from src.rpg.Utils import render_quests, render_dialogue
-
+from src.battleSystem.battleEntity.Enemy import Enemy as BattleEnemy
+from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
 genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")
 # Create the model
 
@@ -56,11 +59,12 @@ class IntroState:
         self.last_blink_time = 0
         self.blink = False
         
-                
+        self.entering_battle = False        
+        
         self.params = None 
         self.buildings = []
         self.building_interactions = {
-            # "blacksmith_building": self.interact_with_building_1,
+            "warp_door": self.interact_with_warp_door,
         }
         self.generate_buildings()  # Add buildings with invisible walls
         self.quests = {}
@@ -82,6 +86,11 @@ class IntroState:
     def remove_building_by_id(self, building_id):
         self.buildings = [building for building in self.buildings if building['id'] != building_id]
     
+    def interact_with_warp_door(self):
+        self.params['rpg']['rpg_player'].x = 627
+        self.params['rpg']['rpg_player'].y = 580
+        g_state_manager.Change(RPGState.TOWN, self.params)
+    
     def generate_buildings(self):
         #Walls
         self.add_invisible_wall("wall1", 556, 202, 583, 719)
@@ -91,8 +100,8 @@ class IntroState:
         self.add_invisible_wall("wall5", 502, 197, 580, 219)
         self.add_invisible_wall("wall6", 699, 203, 771, 228)
         self.add_invisible_wall("wall7", 578, 700, 706, 711)
-        self.add_invisible_wall("wall8", 560, 500, 620, 530)
-        self.add_invisible_wall("wall9", 640, 500, 700, 530)
+        # self.add_invisible_wall("wall8", 560, 500, 620, 530)
+        # self.add_invisible_wall("wall9", 640, 500, 700, 530)
         #Door
         self.add_invisible_wall("warp_door", 526, 9, 766, 34)
         self.add_invisible_wall("door", 526, 39, 766, 64)
@@ -127,24 +136,57 @@ class IntroState:
         return lines
 
     def update_story(self):
-        for npc in self.npcs:
-            if npc.name == "God" and npc.choice == 1:
-                self.params['rpg']["story_checkpoint"]["Fight_Intro"] = True
-                self.current_state = "Fight_Intro"
-                self.show_dialogue = False
-                npc.choice = 0
+        if self.current_npc:
+            if self.current_npc.choice == -1:
+                self.entering_battle = True
+                pygame.event.get()
+                keys = pygame.key.get_pressed()
+                if keys:
+                    # TODO: ending 4 (AI)
+                    print("ending 4")
+                    self.params['rpg']['ending'] = 4
+                    g_state_manager.Change(RPGState.ENDING, self.params)
+                    
+            if self.current_npc.choice == 1:
+                    print("enter battle")
+                    self.entering_battle = True
+                    pygame.event.get()
+                    keys = pygame.key.get_pressed()  # Get current key states
+                    if keys[pygame.K_RETURN]:  # Check if Enter key is pressed
+                        self.current_state = "Fight_Intro"
+                        self.show_dialogue = False
+                        self.current_npc.choice = 0
+                        
+                        
+            if self.current_state == "Finished_Fight_Intro" and not self.params['rpg']["enter_battle"]:
+                self.current_npc.choice = 0
+                print("enter battle enter")
+                self.params['rpg']["enter_battle"] = True
+                self.params['rpg']["map"] = "INTRO"
+                self.params['battleSystem'] = {
+                    'player': self.player.battlePlayer,
+                    'enemy': BattleEnemy(BATTLE_ENTITY["default_enemy"])
+                }
+                self.entering_battle = False
+                self.current_state = "Finished_Fight"
+                g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
                 
-        if self.current_state == "Finished_Fight_Intro":
-            # Quest tracking logic
-            # Example quest: "Open the gate"
-            if not self.params['rpg']["story_checkpoint"].get("Fight_Intro"):
-                self.quests["explore"] = "Speak with the mysterious lady"  # Update or add quest
-                self.topics["explore"] = "Game Controls"
-            else:
-                self.buildings = [b for b in self.buildings if b['id'] != "door"]
-                #g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
-                self.player.ChangeCoord(630,580)
-                g_state_manager.Change(RPGState.TOWN, self.params)
+            elif self.params['rpg']["exit_battle"]:
+                self.params['rpg']["exit_battle"] = False
+                if self.params['rpg']['win_battle']:
+                    self.params['rpg']['inventory']['Gold'] += random.randint(70,90)
+                    self.dialogue_text = self.current_npc.get_dialogue("{The player won the fight against the goblins and you will say to the player that when win a combat the player get some golds and a card as a reward and also tell the player they need to head to town just head north and don't forget to press space to interact}") 
+                    card_list=[]
+                    for card in DECK_DEFS[self.player.battlePlayer.job.value.lower()].card_dict:
+                        if card["quantity"] != 0:
+                            card_list.append(card["name"])
+                    for i in range(1):
+                        card_name = random.choice(card_list)
+                        self.player.battlePlayer.deck.addCardInventory(card_name)
+                        print("add card ", card_name, "to player inventory")
+                    self.buildings = [b for b in self.buildings if b['id'] != "door"]
+                else:
+                    self.dialogue_text = self.current_npc.get_dialogue("{The player lost fight against the goblins, give the player another try}") 
               
     def update(self, dt, events):
         # Handle events
@@ -165,7 +207,7 @@ class IntroState:
                     self.hangle_arrow("left")
                 elif event.key == pygame.K_RIGHT and not self.show_dialogue:
                     self.hangle_arrow("right")
-                elif event.key == pygame.K_RETURN and self.show_dialogue:
+                elif event.key == pygame.K_RETURN and self.show_dialogue and not self.entering_battle:
                     # Handle Enter key to send response
                     if not self.player_input:
                         self.player_input = "continue"  # Default to "continue" if input is empty

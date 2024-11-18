@@ -387,6 +387,7 @@ class TownState:
         
         if self.current_npc:
             if self.current_npc.choice == -1:
+                self.entering_battle = True
                 pygame.event.get()
                 keys = pygame.key.get_pressed()
                 if keys:
@@ -425,7 +426,7 @@ class TownState:
                             self.player.battlePlayer.deck.addCardInventory(card_name)
                             print("add card ", card_name, "to player inventory")
                     else:
-                        self.dialogue_text = self.current_npc.get_dialogue("{The player won lost fight against the goblins}") 
+                        self.dialogue_text = self.current_npc.get_dialogue("{The player lost fight against the goblins}") 
             #Mira Jarek quest
             elif self.current_npc.name == "Mira":
                 if self.current_npc.choice == 0:

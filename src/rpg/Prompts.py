@@ -94,7 +94,7 @@ PROMPTS = {
 DEFAULT_TEXT = {
     'John': "Welcome to my tavern. What can I get you?",
     'Jim' : "a new adventurer eh?, what you need?",
-    'God' : "Are you all right?",
+    'God' : "Are you all right?, You seem to lost your memory and you don't remember that amulet on you, do you?",
     'Susan' : "Math is fun!",
     'Mira' : "(crying sound)",
     'Jarek' : "Hey nice to meet you",

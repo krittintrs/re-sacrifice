@@ -187,7 +187,7 @@ class TutorialState:
 
         print(self.player.battlePlayer)
         # TODO: change back to IntroState
-        g_state_manager.Change(RPGState.INTRO, self.params)      
+        g_state_manager.Change(RPGState.INTRO, self.params)  
 
     def skip_cutscene(self):
         self.playing_cutscene = False

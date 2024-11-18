@@ -10,19 +10,19 @@ class EndingState:
         pygame.init()
         
         self.warrior_ending_videos = [
-            cv2.VideoCapture("src/rpg/cutscene/Cutscene1.mp4"),
-            cv2.VideoCapture("src/rpg/cutscene/Cutscene2.mp4"),
-            cv2.VideoCapture("src/rpg/cutscene/Cutscene3.mp4"),
+            cv2.VideoCapture("src/rpg/cutscene/WarriorCutsceneEnding1.mp4"),
+            cv2.VideoCapture("src/rpg/cutscene/CutsceneEnding2.mp4"),
+            cv2.VideoCapture("src/rpg/cutscene/CutsceneEnding3.mp4"),
         ]
         self.mage_ending_videos = [
-            cv2.VideoCapture("src/rpg/cutscene/Cutscene1.mp4"),
-            cv2.VideoCapture("src/rpg/cutscene/Cutscene2.mp4"),
-            cv2.VideoCapture("src/rpg/cutscene/Cutscene3.mp4"),
+            cv2.VideoCapture("src/rpg/cutscene/MageCutsceneEnding1.mp4"),
+            cv2.VideoCapture("src/rpg/cutscene/CutsceneEnding2.mp4"),
+            cv2.VideoCapture("src/rpg/cutscene/CutsceneEnding3.mp4"),
         ]
         self.ranger_ending_videos = [
-            cv2.VideoCapture("src/rpg/cutscene/Cutscene1.mp4"),
-            cv2.VideoCapture("src/rpg/cutscene/Cutscene2.mp4"),
-            cv2.VideoCapture("src/rpg/cutscene/Cutscene3.mp4"),
+            cv2.VideoCapture("src/rpg/cutscene/RangerCutsceneEnding1.mp4"),
+            cv2.VideoCapture("src/rpg/cutscene/CutsceneEnding2.mp4"),
+            cv2.VideoCapture("src/rpg/cutscene/CutsceneEnding3.mp4"),
         ]
 
         self.playing_cutscene = False
@@ -85,6 +85,8 @@ class EndingState:
         if ret:
             print(f"Rendering cutscene: {self.ending}")
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+            frame = cv2.flip(frame,flipCode=1)
             frame = pygame.surfarray.make_surface(frame)
             frame = pygame.transform.scale(frame, (SCREEN_WIDTH, SCREEN_HEIGHT))
             screen.blit(frame, (0, 0))

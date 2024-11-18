@@ -246,6 +246,7 @@ class GoblinMapState:
     def update_story(self):
         if self.current_npc:
             if self.current_npc.choice == -1:
+                self.entering_battle = True
                 pygame.event.get()
                 keys = pygame.key.get_pressed()
                 if keys:
