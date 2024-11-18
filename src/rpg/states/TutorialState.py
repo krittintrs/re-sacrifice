@@ -28,10 +28,6 @@ class TutorialState:
             image = pygame.image.load(f"src/rpg/sprite/Tutorial/Tutorial_{i}.png")
             image = pygame.transform.smoothscale(image, (SCREEN_WIDTH, SCREEN_HEIGHT))
             self.general_images.append(image)
-        self.battle_image = pygame.image.load("src/rpg/sprite/Tutorial/images (1).png")
-        self.battle_image = pygame.transform.scale(self.battle_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.conversation_image = pygame.image.load("src/rpg/sprite/Tutorial/images2.jpg")
-        self.conversation_image = pygame.transform.scale(self.conversation_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
         
         # Track stages within the tutorial
         self.selected_class = None
@@ -132,15 +128,10 @@ class TutorialState:
 
     def handle_enter(self):
         if self.current_stage == "general":
-            # Progress through general stages
             if self.current_stage_index < len(self.general_images) - 1:
                 self.current_stage_index += 1
             else:
-                self.current_stage = "conversation"  # Proceed to the next tutorial stage
-        elif self.current_stage == "conversation":
-            self.current_stage = "battle"
-        elif self.current_stage == "battle":
-            self.current_stage = "class_select"
+                self.current_stage = "class_select"
         elif self.current_stage == "class_select":
             self.selected_class = self.classes[self.selected_class_index]
             self.current_stage = "confirm"
@@ -189,9 +180,6 @@ class TutorialState:
     def render(self, screen):
         if self.current_stage == "general":
             screen.blit(self.general_images[self.current_stage_index], (0, 0))
-        elif self.current_stage == "battle":
-            screen.blit(self.battle_image, (0, 0))
-            self.render_text(screen, "Here's how to battle. Press Enter to continue.", (50, SCREEN_HEIGHT - 50))
         elif self.current_stage == "class_select":
             self.render_class_selection(screen)
         elif self.current_stage == "confirm":

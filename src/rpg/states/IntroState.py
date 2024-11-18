@@ -22,6 +22,7 @@ class IntroState:
         pygame.init()
         
         self.scale_factor = 1.5
+        self.current_stateIndex = 0
         
         # Initialize map
         self.map_surface = pygame.image.load("src/rpg/sprite/map/IntroMap.jpg")
@@ -33,7 +34,15 @@ class IntroState:
             # Add more NPCs here
         ]
 
+        # Initial Tutorial
+        self.battle_images = []
+        for i in range(1,8):
+            image = pygame.image.load(f"src/rpg/sprite/Tutorial/Battle_{i}.png")
+            image = pygame.transform.smoothscale(image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            self.battle_images.append(image)
+
         # Dialogue state
+        self.current_state = ""
         self.show_dialogue = False
         self.dialogue_text = ""
         self.player_input = ""
@@ -140,19 +149,22 @@ class IntroState:
         for npc in self.npcs:
             if npc.name == "God" and npc.choice == 1:
                 self.params['rpg']["story_checkpoint"]["Fight_Intro"] = True
+                self.current_state = "Fight_Intro"
+                self.show_dialogue = False
+                npc.choice = 0
                 
-                
-         # Quest tracking logic
-        # Example quest: "Open the gate"
-        if not self.params['rpg']["story_checkpoint"].get("Fight_Intro"):
-            self.quests["explore"] = "Speak with the mysterious lady"  # Update or add quest
-            self.topics["explore"] = "Game Controls"
-        else:
-            self.buildings = [b for b in self.buildings if b['id'] != "door"]
-            #g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
-            self.params['rpg']["rpg_player"].x = 625
-            self.params['rpg']["rpg_player"].y = 326
-            g_state_manager.Change(RPGState.TOWN, self.params)
+        if self.current_state == "Finished_Fight_Intro":
+            # Quest tracking logic
+            # Example quest: "Open the gate"
+            if not self.params['rpg']["story_checkpoint"].get("Fight_Intro"):
+                self.quests["explore"] = "Speak with the mysterious lady"  # Update or add quest
+                self.topics["explore"] = "Game Controls"
+            else:
+                self.buildings = [b for b in self.buildings if b['id'] != "door"]
+                #g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
+                self.params['rpg']["rpg_player"].x = 625
+                self.params['rpg']["rpg_player"].y = 326
+                g_state_manager.Change(RPGState.TOWN, self.params)
               
     def update(self, dt, events):
         # Handle events
@@ -167,6 +179,8 @@ class IntroState:
                     else:
                         pygame.quit()
                         sys.exit()
+                elif event.key == pygame.K_RETURN and not self.show_dialogue:
+                    self.handle_enter()
                 elif event.key == pygame.K_RETURN and self.show_dialogue:
                     # Handle Enter key to send response
                     if not self.player_input:
@@ -267,6 +281,18 @@ class IntroState:
         
         # Render any active dialogue
         self.render_dialogue(screen)
+
+        if self.current_state == "Fight_Intro":
+            screen.blit(self.battle_images[self.current_stateIndex], (0, 0))
+    
+    def handle_enter(self):
+        if self.current_state == "Fight_Intro":
+            if self.current_stateIndex < len(self.battle_images) - 1:
+                self.current_stateIndex += 1
+            else:
+                self.current_stateIndex = 0
+                self.current_state = "Finished_Fight_Intro"
+                self.update_story()
     
     def render_dialogue(self, screen):
         if self.show_dialogue:
