@@ -56,20 +56,6 @@ class IntroState:
         self.last_blink_time = 0
         self.blink = False
         
-        # # Player and State Initialization
-        # # Initialize player configuration
-        player_conf = ENTITY_DEFS['player']
-        self.player = Player(player_conf)
-        self.player.x = SCREEN_WIDTH // 2 - self.player.width // 2
-        self.player.y = SCREEN_HEIGHT // 2 - self.player.height // 2
-
-        self.player.state_machine = StateMachine()
-        self.player.state_machine.SetScreen(pygame.display.get_surface())
-        self.player.state_machine.SetStates({
-            'walk': PlayerWalkState(self.player),
-            'idle': PlayerIdleState(self.player)
-        })
-        self.player.ChangeState('idle')  # Start in idle state
                 
         self.params = None 
         self.buildings = []
@@ -77,7 +63,7 @@ class IntroState:
             # "blacksmith_building": self.interact_with_building_1,
         }
         self.generate_buildings()  # Add buildings with invisible walls
-        self.quests = {} 
+        self.quests = {}
         self.topics = {}
 
     def Enter(self, enter_params):

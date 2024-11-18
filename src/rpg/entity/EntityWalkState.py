@@ -75,7 +75,6 @@ class EntityWalkState(BaseState):
     def render(self, screen):
         animation = self.entity.curr_animation.image
         # Draw entity without tile-based positioning
-        print(self.entity.offset_x, self.entity.offset_y)
         screen.blit(animation, (
             math.floor(self.entity.rect.x - self.entity.offset_x),
             math.floor(self.entity.rect.y - self.entity.offset_y)

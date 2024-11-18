@@ -91,8 +91,7 @@ class TutorialState:
     def init_player(self):
         player_conf = ENTITY_DEFS['player']
         self.player = Player(player_conf)
-        self.player.x = 640
-        self.player.y = 600
+        self.player.ChangeCoord(635,610)
 
         self.player.state_machine = StateMachine()
         self.player.state_machine.SetScreen(pygame.display.get_surface())

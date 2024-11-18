@@ -12,7 +12,6 @@ class PlayerWalkState(EntityWalkState):
         pass
 
     def Enter(self, params):
-        print("enter Walk")
         super().Enter(params)
 
     def update(self, dt, events):
