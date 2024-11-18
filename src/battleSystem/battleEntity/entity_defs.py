@@ -12,8 +12,6 @@ class EnemyConf:
         self.animationList = animationList
         self.deckInv = deckInv
         self.health = health
-        
-        
 
 BATTLE_ENTITY = {
     
