@@ -3,6 +3,7 @@ import random
 import sys
 import time
 import pygame
+from battleSystem.deck_defs import DECK_DEFS
 from src.battleSystem.Buff import Buff
 from src.battleSystem.buff_def import CARD_BUFF
 from src.rpg.Resources import ITEM_DESCRIPTIONS
@@ -272,7 +273,7 @@ class GoblinMapState:
                     else:
                         pass
                         #TODO Ending2
-                if self.current_npc.choice == 3:
+                if self.current_npc.choice == 2:
                     #TODO Ending3
                     pass
             if self.current_npc.name == "Timothy":
@@ -297,7 +298,16 @@ class GoblinMapState:
                     self.params['rpg']["exit_battle"] = False
                     if self.params['rpg']['win_battle']:
                         self.current_npc.defeated = True
+                        self.params['rpg']['inventory']['Gold'] += random.randint(100,110)
                         print(f'{self.current_npc.name} is defeated')
+                        card_list=[]
+                        for card in DECK_DEFS[self.player.battlePlayer.job.value.lower()].card_dict:
+                            if card["quantity"] != 0:
+                                card_list.append(card["name"])
+                        for i in range(2):
+                            card_name = random.choice(card_list)
+                            self.player.battlePlayer.deck.addCardInventory(card_name)
+                            print("add card ", card_name, "to player inventory")
                     else:
                         self.dialogue_text = self.current_npc.get_dialogue("{You defeated the player, you will chase away the player}") 
                 if self.current_npc.choice == 1:
@@ -325,7 +335,7 @@ class GoblinMapState:
                     if keys[pygame.K_RETURN]:  # Check if Enter key is pressed
                         self.current_npc.choice = 0
                         print("enter battle enter")
-                        #TODO Change to goblin king battle
+                        self.params['rpg']['inventory']['Gold'] += random.randint(50,60)
                         self.params['rpg']["enter_battle"] = True
                         self.params['rpg']["map"] = "GOBLIN"
                         enemy = BattleEnemy(BATTLE_ENTITY[random.choice(self.enemy_conf_names)])
@@ -340,6 +350,14 @@ class GoblinMapState:
                     if self.params['rpg']['win_battle']:
                         self.current_npc.defeated = True
                         print(f'{self.current_npc.name} is defeated')
+                        card_list=[]
+                        for card in DECK_DEFS[self.player.battlePlayer.job.value.lower()].card_dict:
+                            if card["quantity"] != 0:
+                                card_list.append(card["name"])
+                        for i in range(1):
+                            card_name = random.choice(card_list)
+                            self.player.battlePlayer.deck.addCardInventory(card_name)
+                            print("add card ", card_name, "to player inventory")
                     else:
                         self.dialogue_text = self.current_npc.get_dialogue("{You defeated the player, you will chase away the player}")  
             if self.current_npc.name == "Gruzz":
@@ -365,6 +383,14 @@ class GoblinMapState:
                     if self.params['rpg']['win_battle']:
                         self.current_npc.defeated = True
                         print(f'{self.current_npc.name} is defeated')
+                        card_list=[]
+                        for card in DECK_DEFS[self.player.battlePlayer.job.value.lower()].card_dict:
+                            if card["quantity"] != 0:
+                                card_list.append(card["name"])
+                        for i in range(2):
+                            card_name = random.choice(card_list)
+                            self.player.battlePlayer.deck.addCardInventory(card_name)
+                            print("add card ", card_name, "to player inventory")
                     else:
                         self.dialogue_text = self.current_npc.get_dialogue("{You defeated the player, you will chase away the player}") 
                 elif self.current_npc.choice == 1 or self.current_npc.choice == 4:

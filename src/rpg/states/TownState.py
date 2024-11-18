@@ -385,7 +385,7 @@ class TownState:
                         for card in DECK_DEFS[self.player.battlePlayer.job.value.lower()].card_dict:
                             if card["quantity"] != 0:
                                 card_list.append(card["name"])
-                        for i in range(3):
+                        for i in range(1):
                             card_name = random.choice(card_list)
                             self.player.battlePlayer.deck.addCardInventory(card_name)
                             print("add card ", card_name, "to player inventory")
