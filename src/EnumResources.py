@@ -24,6 +24,7 @@ class RPGState(Enum):
     TOWN = "town"
     TAVERN = "tavern"
     GOBLIN = "goblin"
+    ENDING = "ending"
 
 class GameState:
     TITLE = "title"

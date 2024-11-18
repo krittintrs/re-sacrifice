@@ -28,6 +28,7 @@ from src.rpg.states.TownState import TownState
 from src.rpg.states.TavernMapState import TavernMapState
 from src.rpg.states.TutorialState import TutorialState
 from src.rpg.states.GoblinMapState import GoblinMapState
+from src.rpg.states.EndingState import EndingState
 from src.states.TitleState import TitleState
 
 from src.resources import gBuffIcon_image_list
