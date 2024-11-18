@@ -35,6 +35,7 @@ class GameMain:
             RPGState.TOWN: TownState(),
             RPGState.TAVERN: TavernMapState(),
             RPGState.GOBLIN: GoblinMapState(),
+            RPGState.ENDING: EndingState(),
             GameState.TITLE: TitleState()
         }
 

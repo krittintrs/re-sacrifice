@@ -61,6 +61,28 @@ class BattleInitialState(BaseState):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.pauseHandler.pause_game()
+                elif event.key == pygame.K_k:
+                    self.winner = PlayerType.PLAYER
+                    self.params['battleSystem'] = {
+                        'player': self.player,
+                        'enemy': self.enemy,
+                        'field': self.field,
+                        'turn': self.turn,
+                        'currentTurnOwner': self.currentTurnOwner,
+                        'winner': self.winner
+                    }
+                    g_state_manager.Change(BattleState.FINISH_PHASE, self.params)
+                elif event.key == pygame.K_l:
+                    self.winner = PlayerType.ENEMY
+                    self.params['battleSystem'] = {
+                        'player': self.player,
+                        'enemy': self.enemy,
+                        'field': self.field,
+                        'turn': self.turn,
+                        'currentTurnOwner': self.currentTurnOwner,
+                        'winner': self.winner
+                    }
+                    g_state_manager.Change(BattleState.FINISH_PHASE, self.params)
                 elif event.key == pygame.K_RETURN:
                     if self.roll == False and self.currentTurnOwner == PlayerType.PLAYER:
                         self.roll_dice()

@@ -164,7 +164,8 @@ class TutorialState:
         self.player.battlePlayer = BattlePlayer(BATTLE_ENTITY[f"default_{self.selected_class.lower()}"])
         self.player.battlePlayer.deck.readInventoryConf()
         print(self.player.battlePlayer)
-        g_state_manager.Change(RPGState.GOBLIN, self.params)
+        # TODO: change back to IntroState
+        g_state_manager.Change(RPGState.TOWN, self.params)      
 
     def skip_cutscene(self):
         self.playing_cutscene = False
