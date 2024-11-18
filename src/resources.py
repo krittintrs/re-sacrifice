@@ -28,8 +28,6 @@ gBGM = {
     "ending_bgm": "sounds/ending_bgm.mp3",
 }
 
-current_music_state = None
-
 def play_music(state):
     # Stop any currently playing music
     pygame.mixer.music.stop()
@@ -41,13 +39,6 @@ def play_music(state):
     else:
         pygame.mixer.music.set_volume(0.1)
     pygame.mixer.music.play(loops=-1)  # Loop indefinitely
-
-    current_music_state = state
-
-def get_current_music():
-    if pygame.mixer.music.get_busy():
-        return current_music_state
-    return None
 
 gBuffIcon_image_list = {
     "buff": sprite_collection["buff_icon"].image,

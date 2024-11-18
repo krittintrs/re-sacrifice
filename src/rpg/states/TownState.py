@@ -11,7 +11,7 @@ from src.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from src.rpg.StateMachine import StateMachine
 from src.rpg.NPC import NPC
 from src.rpg.Prompts import *
-from src.resources import g_state_manager, play_music, get_current_music
+from src.resources import g_state_manager, play_music
 from src.EnumResources import BattleState, RPGState
 from src.rpg.Utils import render_dialogue, render_interaction_dialogue,render_quests,render_topics
 from src.rpg.Resources import ITEM_DESCRIPTIONS
@@ -23,7 +23,6 @@ from src.dependency import *
 import random
 # genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")
 # Create the model
-
 
 class TownState:
     def __init__(self):
@@ -115,12 +114,16 @@ class TownState:
         self.inventoryHandler = Inventory()
 
     def Enter(self, enter_params):
-        if get_current_music() != "rpg_bgm":
-            play_music("rpg_bgm")
+        print("Entering Town State")
         self.params = enter_params
         self.player = enter_params['rpg']['rpg_player']
-        self.player.ChangeCoord(630,580)
         print(self.params," TownMap")
+
+        if 'bgm' not in self.params.keys():
+            play_music("rpg_bgm")
+        else:
+            if self.params['bgm'] != 'rpg_bgm':
+                play_music("rpg_bgm")
         
         print("Entering RPG Start State")
 
@@ -456,12 +459,14 @@ class TownState:
                             self.show_popup = False
                             self.params['rpg']['rpg_player'].x = 641
                             self.params['rpg']['rpg_player'].y = 634
+                            self.params['bgm'] = "rpg_bgm"
                             g_state_manager.Change(RPGState.GOBLIN, self.params)
                             print("Enter Goblin Camp")
                         elif self.popup == "Goblin_Entrance2":
                             self.show_popup = False
                             self.params['rpg']['rpg_player'].x = 177
                             self.params['rpg']['rpg_player'].y = 70
+                            self.params['bgm'] = "rpg_bgm"
                             g_state_manager.Change(RPGState.GOBLIN, self.params)
                             print("Enter Goblin Camp")
                     elif self.show_dialogue and not self.closing_dialogue and not self.entering_battle:

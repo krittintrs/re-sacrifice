@@ -97,17 +97,6 @@ class IntroState:
         self.add_invisible_wall("warp_door", 526, 9, 766, 34)
         self.add_invisible_wall("door", 526, 39, 766, 64)
         
-    # Unique interaction functions for each building
-    def interact_with_building_1(self):
-        print("Player interacted with Building 1: Welcome to the inn!")
-
-    def interact_with_tavern(self):
-        print(self.params)
-        # self.player = self.params['player']
-        self.params['rpg']['rpg_player'].x  = 620
-        self.params['rpg']['rpg_player'].y  = 634
-        g_state_manager.Change(RPGState.TOWN, self.params)
-        
     def interact_with_npc(self, npc):
         # Calculate direction to face player and update NPC sprite
         npc.face_player(self.player.x, self.player.y)
@@ -154,8 +143,7 @@ class IntroState:
             else:
                 self.buildings = [b for b in self.buildings if b['id'] != "door"]
                 #g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
-                self.params['rpg']["rpg_player"].x = 625
-                self.params['rpg']["rpg_player"].y = 326
+                self.player.ChangeCoord(630,580)
                 g_state_manager.Change(RPGState.TOWN, self.params)
               
     def update(self, dt, events):

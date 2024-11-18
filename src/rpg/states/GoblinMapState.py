@@ -20,7 +20,7 @@ from src.battleSystem.battleEntity.Enemy import Enemy as BattleEnemy
 from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
 from src.rpg.RPGPause import RPGPauseHandler
 from src.rpg.Inventory import Inventory
-from src.resources import gFont_list, play_music, get_current_music
+from src.resources import gFont_list, play_music
 
 class GoblinMapState:
     def __init__(self):
@@ -424,10 +424,15 @@ class GoblinMapState:
                             self.dialogue_text = self.current_npc.get_dialogue("{the player don't have a banana}") 
                         self.giving_item = False
     def Enter(self, params):
-        if get_current_music() != "rpg_bgm":
-            play_music("rpg_bgm")
         self.params = params
-        print(self.params," Tavern")
+        print(self.params, "GoblinMapState")
+        
+        if 'bgm' not in self.params.keys():
+            play_music("rpg_bgm")
+        else:
+            if self.params['bgm'] != 'rpg_bgm':
+                play_music("rpg_bgm")
+
         # Transition player position if needed or carry over the current player instance
         self.player = self.params['rpg']['rpg_player']
         print(self.player.x, self.player.y)
