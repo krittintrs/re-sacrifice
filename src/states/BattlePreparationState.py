@@ -17,8 +17,6 @@ import math
 class BattlePreparationState(BaseState):
     def __init__(self):
         super(BattlePreparationState, self).__init__()
-        self.menu = ["Start Battle", "Edit deck", "Edit enemy deck"]
-        self.selectIndex = 0
 
         # base turn
         self.turn = 1
@@ -29,9 +27,8 @@ class BattlePreparationState(BaseState):
 
         # Create selector
         self.selectors = [
-            Selector("start_battle", y=491, scale=1.0, center=True),
-            Selector("edit_deck", y=556, scale=1.0, center=True),
-            Selector("edit_opponent_deck", y=621, scale=1.0, center=True)
+            Selector("start_battle", y=522, scale=1.0, center=True),
+            Selector("edit_deck", y=586, scale=1.0, center=True)
         ]
 
         self.pauseHandler = BattlePauseHandler()
