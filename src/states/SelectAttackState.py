@@ -144,7 +144,7 @@ class SelectAttackState(BaseState):
                             if self.effect.type == EffectType.TRUE_DAMAGE:
                                 damage = attacker.attack
                             else:
-                                damage = attacker.attack #- defender.defense
+                                damage = attacker.attack - defender.defense
 
                             # Check For Evade Buff
                             is_evade = False
