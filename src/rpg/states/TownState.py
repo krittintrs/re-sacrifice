@@ -82,11 +82,28 @@ class TownState:
         self.entering_battle = False
         
         self.show_shop = False
+        self.shop_window = 0
         self.shop_items = {
             "Poison": {"price": 50, "description": "1 drop of this poison can defeat an entire army"},
             "Banana": {"price": 75, "description": "Ou Ou Ah Ah"},
             "Sword": {"price": 100, "description": "Increases attack power"},
-            "Move 3 Card": {"price": 1, "description": "Move 3 card"} # Card Naming Scheme "{Card name} Card"
+            "Move 3 Card": {"price": 100, "description": "Move 3 card"},
+            "Move 2 Card": {"price": 80, "description": "Move 2 card"},
+            "Move 1 Card": {"price": 60, "description": "Move 1 card"},
+            "Normal Attack Card": {"price": 120, "description": "Close range attack"},
+            "Heavy Attack Card": {"price": 200, "description": "Close range attack with low speed but high damage"},
+            "Mid Range Attack Card": {"price": 130, "description": "Range attack"},
+            "Long Range Attack Card": {"price": 200, "description": "Long Range attack"},
+            "Normal Defense Card": {"price": 120, "description": "Defense card"},
+            "Push Attack Card": {"price": 250, "description": "Push opponent away and attack"},
+            "Pull Attack Card": {"price": 250, "description": "Pull opponent closer and attack"},
+            "Attack Boost Card": {"price": 150, "description": "+2 ATK for 2 turns"},
+            "Defense Boost Card": {"price": 150, "description": "+2 DEF for 2 turns"},
+            "Speed Boost Card": {"price": 150, "description": "+2 SPD for 2 turns"},
+            "Cleanse Card": {"price": 200, "description": "Remove all debuff"},
+            "Defense Debuff Card": {"price": 200, "description": "-2 DEF for opponent"},
+            "Attack Debuff Card": {"price": 200, "description": "-2 ATK for opponent"},
+            
             # Add more items as needed
         }
         self.selected_shop_item = 0
@@ -168,7 +185,11 @@ class TownState:
         # Render shop items with navigation
         y_offset = shop_bg_rect.top + 130
         index = 0
-        for item_name, details in shop_items.items():
+        items = list(shop_items.items())
+
+        for index in range(self.shop_window, self.shop_window + 4):
+            item_name, details = items[index]
+        # for item_name, details in shop_items.items():
             # Highlight selected item
             color = (255, 255, 255) if index != self.selected_shop_item else (255, 215, 0)
             
@@ -207,8 +228,16 @@ class TownState:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
                     self.selected_shop_item = (self.selected_shop_item + 1) % len(self.shop_items)
+                    if self.selected_shop_item > self.shop_window +3:
+                        self.shop_window += 1
+                    if self.selected_shop_item < self.shop_window:
+                        self.shop_window = 0
                 elif event.key == pygame.K_UP:
                     self.selected_shop_item = (self.selected_shop_item - 1) % len(self.shop_items)
+                    if self.selected_shop_item < self.shop_window:
+                        self.shop_window -= 1
+                    if self.selected_shop_item > self.shop_window + 3:
+                        self.shop_window = self.selected_shop_item - 3
                 elif event.key == pygame.K_RETURN:
                     self.purchase_item()
                 elif event.key == pygame.K_ESCAPE:
