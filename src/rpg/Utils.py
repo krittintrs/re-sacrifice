@@ -230,7 +230,10 @@ class SpriteManager:
     def __init__(self):
         self.spriteCollection = self.loadSprites(
             [
-                "./src/rpg/sprite/CharacterAnimation.json"
+                "./src/rpg/sprite/CharacterAnimation.json",
+                "./src/rpg/sprite/mageAnimation.json",
+                "./src/rpg/sprite/warriorAnimation.json",
+                "./src/rpg/sprite/rangerAnimation.json"
             ]
         )
 
