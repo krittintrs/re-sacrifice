@@ -3,6 +3,7 @@ from src.dependency import *
 from src.StateMachine import StateMachine
 class Player(EntityBase):
     def __init__(self, conf):
+        self.offset_y = 100
         super(Player, self).__init__(conf)
 
     def update(self, dt, events):
@@ -17,26 +18,7 @@ class Player(EntityBase):
 
 
     def render(self, screen, adjacent_offset_x=0, adjacent_offset_y=0):
-        # Adjust player's coordinates based on the camera offset
-        render_x = self.x + adjacent_offset_x
-        render_y = self.y + adjacent_offset_y
-        
-        # Handle invulnerability flashing effect
-        if self.invulnerable and self.flash_timer > 0.06:
-            self.flash_timer = 0
-            if self.curr_animation.idleSprite is not None:
-                self.curr_animation.idleSprite.set_alpha(64)
-            self.curr_animation.image.set_alpha(64)
-
-        # Render the player at the calculated coordinates
-        if self.curr_animation and self.curr_animation.image:
-            screen.blit(self.curr_animation.image, (render_x, render_y))
-        
-        # Reset alpha after flashing
-        if self.invulnerable:
-            if self.curr_animation.idleSprite is not None:
-                self.curr_animation.idleSprite.set_alpha(255)
-            self.curr_animation.image.set_alpha(255)
+        super().render(screen, adjacent_offset_x, adjacent_offset_y)
 
     def CreateAnimations(self):
         self.animation_list = gPlayer_animation_list
