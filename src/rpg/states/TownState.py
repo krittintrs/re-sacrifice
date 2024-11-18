@@ -18,6 +18,8 @@ from src.battleSystem.battleEntity.Enemy import Enemy as BattleEnemy
 from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
 from src.rpg.RPGPause import RPGPauseHandler
 from src.resources import gFont_list
+from src.dependency import *
+import random
 # genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")
 # Create the model
 
@@ -376,6 +378,14 @@ class TownState:
                 elif self.params['rpg']["exit_battle"]:
                     self.params['rpg']["exit_battle"] = False
                     if self.params['rpg']['win_battle']:
+                        card_list=[]
+                        for card in DECK_DEFS[self.player.battlePlayer.job.value.lower()].card_dict:
+                            if card["quantity"] != 0:
+                                card_list.append(card["name"])
+                        for i in range(3):
+                            card_name = random.choice(card_list)
+                            self.player.battlePlayer.deck.addCardInventory(card_name)
+                            print("add card ", card_name, "to player inventory")
                         self.dialogue_text = self.current_npc.get_dialogue("{The player won the fight against the goblins}") 
                     else:
                         self.dialogue_text = self.current_npc.get_dialogue("{The player won lost fight against the goblins}") 
