@@ -22,7 +22,5 @@ BATTLE_ENTITY = {
     "strong_close_range_goblin": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_close_range_strong"],15),
     "long_range_goblin": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_long_range"],6),
     "goblin_king":EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_king"],20),
-    "jess_guard":EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["default"], 10),
-    "jude_guard":EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["default"], 10),
 }
 

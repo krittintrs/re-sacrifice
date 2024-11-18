@@ -11,7 +11,7 @@ from src.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from src.rpg.StateMachine import StateMachine
 from src.rpg.NPC import NPC
 from src.rpg.Prompts import *
-from src.resources import g_state_manager, play_music, get_current_music
+from src.resources import g_state_manager, play_music
 from src.EnumResources import BattleState, RPGState
 from src.rpg.Utils import render_dialogue, render_interaction_dialogue,render_quests,render_topics
 from src.rpg.Resources import ITEM_DESCRIPTIONS
@@ -23,7 +23,6 @@ from src.dependency import *
 import random
 # genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")
 # Create the model
-
 
 class TownState:
     def __init__(self):
@@ -89,7 +88,6 @@ class TownState:
         self.shop_items = {
             "Poison": {"price": 50, "description": "1 drop of this poison can defeat an entire army"},
             "Banana": {"price": 75, "description": "Ou Ou Ah Ah"},
-            "Sword": {"price": 100, "description": "Increases attack power"},
             "Move 3 Card": {"price": 100, "description": "Move 3 card"},
             "Move 2 Card": {"price": 80, "description": "Move 2 card"},
             "Move 1 Card": {"price": 60, "description": "Move 1 card"},
@@ -106,7 +104,6 @@ class TownState:
             "Cleanse Card": {"price": 200, "description": "Remove all debuff"},
             "Defense Debuff Card": {"price": 200, "description": "-2 DEF for opponent"},
             "Attack Debuff Card": {"price": 200, "description": "-2 ATK for opponent"},
-            
             # Add more items as needed
         }
         self.selected_shop_item = 0
@@ -115,12 +112,16 @@ class TownState:
         self.inventoryHandler = Inventory()
 
     def Enter(self, enter_params):
-        if get_current_music() != "rpg_bgm":
-            play_music("rpg_bgm")
+        print("Entering Town State")
         self.params = enter_params
         self.player = enter_params['rpg']['rpg_player']
-        self.player.ChangeCoord(630,580)
         print(self.params," TownMap")
+
+        if 'bgm' not in self.params.keys():
+            play_music("rpg_bgm")
+        else:
+            if self.params['bgm'] != 'rpg_bgm':
+                play_music("rpg_bgm")
         
         print("Entering RPG Start State")
 
@@ -332,11 +333,34 @@ class TownState:
         self.topics = {}
         if not self.params['rpg']["story_checkpoint"].get("Find_Barkeeper"):
             self.topics["Find_Quests"] = "Finding Quests"
+        if self.params['rpg']["story_checkpoint"].get("Find_Barkeeper"):
+            if not self.params['rpg']["story_checkpoint"].get("Gate_Open"):
+                self.topics["Find_Quests"] = "The Barkeeper location"
             
         if self.current_npc:
             #Mira Jarek quest
             if self.current_npc.name == "Jim":
-                None
+                self.topics["How_to_fight"] = "How to fight"
+                self.topics["Goblin_Information"] = "Goblin Information"
+                
+            if self.current_npc.name == "Mira":
+                if self.params['rpg']["story_checkpoint"].get("Mira_Jarek"):
+                    self.topics["History_with_Jarek"] = "History with Jarek"
+                    
+            if self.current_npc.name == "Jarek":
+                if self.params['rpg']["story_checkpoint"].get("Mira_Jarek"):
+                    self.topics["History_with_Mira"] = "History with Mira"
+                    
+            if self.current_npc.name == "Susan":
+                self.topics["Math_Quizzes"] = "Math Quizzes"
+                
+            if self.current_npc.name == "Elara":
+                self.topics["Quest_not_implemented"] = "Quest not implemented sorry krub"
+            
+            if self.current_npc.name == "Guard":
+                if self.params['rpg']["story_checkpoint"].get("Gate_Open"):
+                    self.topics["Goblin_Weakness"] = "Goblin Weakness"
+                    self.topics["Goblin_Camp_Info"] = "Goblin Camp Information"
 
     def update_story(self):
         #Main Goblin Quest
@@ -360,6 +384,15 @@ class TownState:
             self.buildings = [b for b in self.buildings if b['id'] != "guard_door"]
         
         if self.current_npc:
+            if self.current_npc.choice == -1:
+                self.entering_battle = True
+                pygame.event.get()
+                keys = pygame.key.get_pressed()
+                if keys:
+                    # TODO: ending 4 (AI)
+                    print("ending 4")
+                    self.params['rpg']['ending'] = 4
+                    g_state_manager.Change(RPGState.ENDING, self.params)
             if self.current_npc.name == "Jim":
                 if self.current_npc.choice == 1 and not self.params['rpg']["enter_battle"]:
                     print("enter battle")
@@ -403,6 +436,7 @@ class TownState:
             #Mira Jarek quest
             elif self.current_npc.name == "Mira":
                 if self.current_npc.choice == 0:
+                    self.params['rpg']['story_checkpoint']['Mira_Jarek'] = True
                     self.params['rpg']['quests']["Mira_Jarek"] = "Fix Mira's relationship" 
             elif self.current_npc.name == "Jarek":
                 if self.current_npc.choice == 3:
@@ -464,12 +498,14 @@ class TownState:
                             self.show_popup = False
                             self.params['rpg']['rpg_player'].x = 641
                             self.params['rpg']['rpg_player'].y = 634
+                            self.params['bgm'] = "rpg_bgm"
                             g_state_manager.Change(RPGState.GOBLIN, self.params)
                             print("Enter Goblin Camp")
                         elif self.popup == "Goblin_Entrance2":
                             self.show_popup = False
                             self.params['rpg']['rpg_player'].x = 177
                             self.params['rpg']['rpg_player'].y = 70
+                            self.params['bgm'] = "rpg_bgm"
                             g_state_manager.Change(RPGState.GOBLIN, self.params)
                             print("Enter Goblin Camp")
                     elif self.show_dialogue and not self.closing_dialogue and not self.entering_battle:

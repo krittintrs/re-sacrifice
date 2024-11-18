@@ -20,7 +20,8 @@ ITEM_DESCRIPTIONS = {
     "Key": "A mysterious key that might unlock something important.",
     "Gold": "Money",
     "Amulet": "A mysterious amulet",
-    "Poison": "One drop of this can kill an entire army"
+    "Poison": "One drop of this can kill an entire army",
+    "Banana": "A special delicacy for some species",
 }
 
 # gFonts = {

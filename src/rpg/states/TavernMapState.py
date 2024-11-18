@@ -9,7 +9,7 @@ from src.rpg.EntityDefs import ENTITY_DEFS
 from src.rpg.Player import Player
 from src.rpg.StateMachine import StateMachine
 from src.rpg.Prompts import DEFAULT_TEXT, PROMPTS
-from src.resources import g_state_manager, play_music, get_current_music
+from src.resources import g_state_manager
 from src.EnumResources import BattleState, RPGState
 from src.rpg.Utils import render_dialogue, render_interaction_dialogue,render_quests,render_topics
 from src.rpg.RPGPause import RPGPauseHandler
@@ -114,6 +114,7 @@ class TavernMapState:
         # Transition back to the TownState
         self.params['rpg']["rpg_player"].x = 625
         self.params['rpg']["rpg_player"].y = 326
+        self.params['bgm'] = "rpg_bgm"
         g_state_manager.Change(RPGState.TOWN, self.params)
         
     def interact_with_bar(self):
@@ -131,6 +132,14 @@ class TavernMapState:
     
     def update_story(self):
         for npc in self.npcs:
+            if npc.choice == -1:
+                pygame.event.get()
+                keys = pygame.key.get_pressed()
+                if keys:
+                    # TODO: ending 4 (AI)
+                    print("ending 4")
+                    self.params['rpg']['ending'] = 4
+                    g_state_manager.Change(RPGState.ENDING, self.params)
             if npc.name == "John" and npc.choice == 1:
                 self.params['rpg']["story_checkpoint"]["Gate_Open"] = True
             if npc.name == "Thaddeus" and npc.choice == 1:
@@ -138,8 +147,7 @@ class TavernMapState:
                 self.params['rpg']['Inventory']['Parcel'] = 1
     
     def Enter(self, params):
-        if get_current_music() != "rpg_bgm":
-            play_music("rpg_bgm")
+        print("Entering Tavern State")
         self.params = params
         print(self.params," Tavern")
         # Transition player position if needed or carry over the current player instance
@@ -150,6 +158,24 @@ class TavernMapState:
         self.current_npc = None
         #print(self.player)
         # self.player.ChangeCoord(x=SCREEN_WIDTH // 2, y=SCREEN_HEIGHT - 100)  # Adjust starting position inside tavern
+
+    def update_topics(self):
+        self.topics = {}
+        if not self.params['rpg']["story_checkpoint"].get("Find_Barkeeper"):
+            self.topics["Find_Quests"] = "Finding Quests"
+        if self.params['rpg']["story_checkpoint"].get("Find_Barkeeper"):
+            self.topics["Find_Quests"] = "The Barkeeper location"
+            
+        if self.current_npc:
+            #Mira Jarek quest
+            if self.current_npc.name == "John":
+                self.topics["Town_History"] = "Town History"
+                self.topics["Tavern_History"] = "Tavern History"
+                if self.params['rpg']["story_checkpoint"].get("Find_Barkeeper"):
+                    self.topics["Find_Quests"] = "Find Quests"
+                if self.params['rpg']["story_checkpoint"].get("Gate_Open"):
+                    self.topics["Find_Quests"] = "Goblin Camp Location"
+
 
     def update(self, dt, events):
         if self.inventoryHandler.is_open():
@@ -252,8 +278,8 @@ class TavernMapState:
         screen.blit(self.map_surface, (0, 0))
 
         # Draw invisible walls as green rectangles for debugging
-        for building in self.buildings:
-            pygame.draw.rect(screen, (0, 255, 0), building['rect'], 2)
+        # for building in self.buildings:
+        #     pygame.draw.rect(screen, (0, 255, 0), building['rect'], 2)
             
         for npc in self.npcs:
             screen.blit(npc.image, (npc.x, npc.y))  # Render each NPC at its coordinates

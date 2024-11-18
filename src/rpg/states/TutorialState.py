@@ -144,6 +144,7 @@ class TutorialState:
             if self.confirmation_selection == "confirm":
                 self.current_stage = "cutscene"
                 self.playing_cutscene = True
+                play_music("intro_bgm")
             else:
                 self.current_stage = "class_select"
         elif self.current_stage == "cutscene":
@@ -186,7 +187,7 @@ class TutorialState:
 
         print(self.player.battlePlayer)
         # TODO: change back to IntroState
-        g_state_manager.Change(RPGState.TOWN, self.params)      
+        g_state_manager.Change(RPGState.INTRO, self.params)  
 
     def skip_cutscene(self):
         self.playing_cutscene = False
@@ -197,6 +198,8 @@ class TutorialState:
         ret, frame = self.cutscene_video.read()
         if ret:
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+            frame = cv2.flip(frame,flipCode=1)
             frame = pygame.surfarray.make_surface(frame)
             frame = pygame.transform.scale(frame, (SCREEN_WIDTH, SCREEN_HEIGHT))
             screen.blit(frame, (0, 0))
