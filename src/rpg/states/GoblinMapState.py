@@ -350,6 +350,7 @@ class GoblinMapState:
                         self.params['rpg']['inventory']['Gold'] += random.randint(100,110)
                         print(f'{self.current_npc.name} is defeated')
                         card_list=[]
+                        text = ""
                         for card in DECK_DEFS[self.player.battlePlayer.job.value.lower()].card_dict:
                             if card["quantity"] != 0:
                                 card_list.append(card["name"])
@@ -357,6 +358,15 @@ class GoblinMapState:
                             card_name = random.choice(card_list)
                             self.player.battlePlayer.deck.addCardInventory(card_name)
                             print("add card ", card_name, "to player inventory")
+                            text += f"\nGoblin Drop {card_name} Card !!                "
+                        dialogue_text = (
+                            text
+                        )
+                        # Trigger the popup with specific settings for the goblin camp entrance
+                        self.show_popup = True
+                        self.popup = "reward"
+                        self.popup_text = dialogue_text
+                        
                     else:
                         self.dialogue_text = self.current_npc.get_dialogue("{You defeated the player, you will chase away the player}") 
                 if self.current_npc.choice == 1:
@@ -407,6 +417,13 @@ class GoblinMapState:
                             card_name = random.choice(card_list)
                             self.player.battlePlayer.deck.addCardInventory(card_name)
                             print("add card ", card_name, "to player inventory")
+                        dialogue_text = (
+                            f"Goblin Drop {card_name} Card!!"
+                        )
+                        # Trigger the popup with specific settings for the goblin camp entrance
+                        self.show_popup = True
+                        self.popup = "reward"
+                        self.popup_text = dialogue_text
                     else:
                         self.dialogue_text = self.current_npc.get_dialogue("{You defeated the player, you will chase away the player}")  
             if self.current_npc.name == "Gruzz":
@@ -433,6 +450,7 @@ class GoblinMapState:
                         self.current_npc.defeated = True
                         print(f'{self.current_npc.name} is defeated')
                         card_list=[]
+                        text = ""
                         for card in DECK_DEFS[self.player.battlePlayer.job.value.lower()].card_dict:
                             if card["quantity"] != 0:
                                 card_list.append(card["name"])
@@ -440,6 +458,14 @@ class GoblinMapState:
                             card_name = random.choice(card_list)
                             self.player.battlePlayer.deck.addCardInventory(card_name)
                             print("add card ", card_name, "to player inventory")
+                            text += f"\nGoblin Drop {card_name} Card !!                       "
+                        dialogue_text = (
+                            text
+                        )
+                        # Trigger the popup with specific settings for the goblin camp entrance
+                        self.show_popup = True
+                        self.popup = "reward"
+                        self.popup_text = dialogue_text
                     else:
                         self.dialogue_text = self.current_npc.get_dialogue("{You defeated the player, you will chase away the player}") 
                 elif self.current_npc.choice == 1 or self.current_npc.choice == 4:
@@ -508,6 +534,8 @@ class GoblinMapState:
                     else:
                         self.pauseHandler.pause_game()
                 elif event.key == pygame.K_RETURN:
+                    if self.show_popup:
+                        self.show_popup =  False
                     print(self.show_dialogue,self.entering_battle,self.giving_item)
                     if self.show_dialogue and not self.entering_battle and not self.giving_item:
                         # Handle Enter key to send response
@@ -626,6 +654,8 @@ class GoblinMapState:
         
         if self.show_popup:
             if self.popup == "Bubbly":
+                render_interaction_dialogue(screen, self.popup_text, enter_action_text="Enter", escape_action_text="Escape")
+            if self.popup == "reward":
                 render_interaction_dialogue(screen, self.popup_text, enter_action_text="Enter", escape_action_text="Escape")
     def render_interaction_dialogue(screen, dialogue_text,enter_action_text="Enter", escape_action_text="Escape"):
         # Extend dialogue box to full width

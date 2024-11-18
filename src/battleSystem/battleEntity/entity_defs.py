@@ -14,11 +14,10 @@ class EnemyConf:
         self.health = health
 
 BATTLE_ENTITY = {
-    
-    "default_warrior": PlayerConf("player", PlayerClass.WARRIOR, DECK_DEFS["default"]),
-    "default_ranger": PlayerConf("player", PlayerClass.RANGER, DECK_DEFS["default"]),
-    "default_mage": PlayerConf("player", PlayerClass.MAGE, DECK_DEFS["default"]),
-    "default_enemy": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["default"],10),
+    "default_warrior": PlayerConf("player", PlayerClass.WARRIOR, DECK_DEFS["warrior"]),
+    "default_ranger": PlayerConf("player", PlayerClass.RANGER, DECK_DEFS["ranger"]),
+    "default_mage": PlayerConf("player", PlayerClass.MAGE, DECK_DEFS["mage"]),
+    "default_enemy": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["default"], 10),
     "close_range_goblin": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_close_range"],10),
     "strong_close_range_goblin": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_close_range_strong"],15),
     "long_range_goblin": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_long_range"],6),

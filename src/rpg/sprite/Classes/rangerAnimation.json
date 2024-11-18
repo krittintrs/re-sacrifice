@@ -1,0 +1,146 @@
+{
+    "spriteSheetURL": "src/rpg/sprite/Classes/ranger_walk.png",
+    "type":"animation",
+    "size":[16,32],
+    "sprites":[
+        {
+            "name":"ranger_walk_down",
+            "images":[
+                {
+                    "x":0,
+                    "y":0,
+                    "scale":2
+                },
+                {
+                    "x":16,
+                    "y":0,
+                    "scale":2
+                },
+                {
+                    "x":32,
+                    "y":0,
+                    "scale":2
+                },
+			{
+                    "x":48,
+                    "y":0,
+                    "scale":2
+                }
+
+            ],
+	       "idle_image":
+			{
+				"x":0,
+				"y":0,
+				"scale":2
+		     },
+            "interval_time":0.15,
+            "colorKey": null
+        },
+        {
+            "name":"ranger_walk_right",
+            "images":[
+                {
+                    "x":0,
+                    "y":32,
+                    "scale":2
+                },
+                {
+                    "x":16,
+                    "y":32,
+                    "scale":2
+                },
+                {
+                    "x":32,
+                    "y":32,
+                    "scale":2
+                },
+			{
+                    "x":48,
+                    "y":32,
+                    "scale":2
+                }
+
+            ],
+	       "idle_image":
+			{
+				"x":0,
+				"y":32,
+				"scale":2
+		     },
+
+            "interval_time":0.15,
+            "colorKey": null
+        },
+        {
+            "name":"ranger_walk_up",
+            "images":[
+                {
+                    "x":0,
+                    "y":64,
+                    "scale":2
+                },
+                {
+                    "x":16,
+                    "y":64,
+                    "scale":2
+                },
+                {
+                    "x":32,
+                    "y":64,
+                    "scale":2
+                },
+			{
+                    "x":48,
+                    "y":64,
+                    "scale":2
+                }
+
+            ],
+	       "idle_image":
+			{
+				"x":0,
+				"y":64,
+				"scale":2
+		     },
+            "interval_time":0.15,
+            "colorKey": null
+        },
+	   {
+            "name":"ranger_walk_left",
+            "images":[
+                {
+                    "x":0,
+                    "y":96,
+                    "scale":2
+                },
+                {
+                    "x":16,
+                    "y":96,
+                    "scale":2
+                },
+                {
+                    "x":32,
+                    "y":96,
+                    "scale":2
+                },
+			{
+                    "x":48,
+                    "y":96,
+                    "scale":2
+                }
+
+            ],
+	       "idle_image":
+			{
+				"x":0,
+				"y":96,
+				"scale":2
+		     },
+
+            "interval_time":0.155,
+            "colorKey": null
+        }
+]
+}
+
