@@ -379,8 +379,7 @@ class TownState:
                 elif self.params['rpg']["exit_battle"]:
                     self.params['rpg']["exit_battle"] = False
                     if self.params['rpg']['win_battle']:
-                        self.params['rpg']['inventory']['Gold'] += random.randint(70,90)
-                        self.dialogue_text = self.current_npc.get_dialogue("{The player won the fight against the goblins and you will give the player some golds and a card as a reward}") 
+                        self.params['rpg']['inventory']['Gold'] += random.randint(70,90) 
                         card_list=[]
                         for card in DECK_DEFS[self.player.battlePlayer.job.value.lower()].card_dict:
                             if card["quantity"] != 0:
@@ -390,13 +389,14 @@ class TownState:
                             self.player.battlePlayer.deck.addCardInventory(card_name)
                             print("add card ", card_name, "to player inventory")
                         #show pop up 
-                        dialogue_text = (
-                            f"Goblin Drop {card_name} Card!!"
-                        )
-                        # Trigger the popup with specific settings for the goblin camp entrance
-                        self.show_popup = True
-                        self.popup = "interact"
-                        self.popup_text = dialogue_text
+                        # dialogue_text = (
+                        #     f"Goblin Drop {card_name} Card!!"
+                        # )
+                        # # Trigger the popup with specific settings for the goblin camp entrance
+                        # self.show_popup = True
+                        # self.popup = "interact"
+                        # self.popup_text = dialogue_text
+                        self.dialogue_text = self.current_npc.get_dialogue("{The player won the fight against the goblins and you will give the player some golds and a '"+card_name+"' as a reward}")
                     else:
                         self.dialogue_text = self.current_npc.get_dialogue("{The player lost fight against the goblins}") 
             #Mira Jarek quest
