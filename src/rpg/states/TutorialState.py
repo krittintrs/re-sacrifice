@@ -65,6 +65,11 @@ class TutorialState:
                         self.skip_cutscene()
                     else:
                         self.handle_enter()
+                elif self.current_stage == "general":
+                    if event.key == pygame.K_LEFT:
+                        self.handle_arrow("left")
+                    elif event.key == pygame.K_RIGHT:
+                        self.handle_arrow("right")
                 elif self.current_stage == "class_select":
                     if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                         self.selected_class_index = (self.selected_class_index - 1) % len(self.classes)
@@ -143,6 +148,16 @@ class TutorialState:
                 self.current_stage = "class_select"
         elif self.current_stage == "cutscene":
             self.assign_class_and_start_rpg()
+        
+    def handle_arrow(self, direction):
+        if self.current_stage == "general":
+            if direction == "left" and self.current_stage_index > 0:
+                self.current_stage_index -= 1
+            elif direction == "right":
+                if self.current_stage_index < len(self.general_images) - 1:
+                    self.current_stage_index += 1
+                else:
+                    self.current_stage = "class_select"
 
     def assign_class_and_start_rpg(self):
         # Assign the selected class to the RPGPlayer & BattlePlayer -> then start the RPG

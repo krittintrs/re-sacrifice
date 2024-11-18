@@ -101,6 +101,8 @@ class IntroState:
         self.add_invisible_wall("wall5", 502, 197, 580, 219)
         self.add_invisible_wall("wall6", 699, 203, 771, 228)
         self.add_invisible_wall("wall7", 578, 700, 706, 711)
+        self.add_invisible_wall("wall8", 560, 500, 620, 530)
+        self.add_invisible_wall("wall9", 640, 500, 700, 530)
         #Door
         self.add_invisible_wall("warp_door", 526, 9, 766, 34)
         self.add_invisible_wall("door", 526, 39, 766, 64)
@@ -181,6 +183,10 @@ class IntroState:
                         sys.exit()
                 elif event.key == pygame.K_RETURN and not self.show_dialogue:
                     self.handle_enter()
+                elif event.key == pygame.K_LEFT and not self.show_dialogue:
+                    self.hangle_arrow("left")
+                elif event.key == pygame.K_RIGHT and not self.show_dialogue:
+                    self.hangle_arrow("right")
                 elif event.key == pygame.K_RETURN and self.show_dialogue:
                     # Handle Enter key to send response
                     if not self.player_input:
@@ -293,6 +299,19 @@ class IntroState:
                 self.current_stateIndex = 0
                 self.current_state = "Finished_Fight_Intro"
                 self.update_story()
+    
+    def hangle_arrow(self, direction):
+        if self.current_state == "Fight_Intro":
+            if direction == "left":
+                if self.current_stateIndex > 0:
+                    self.current_stateIndex -= 1
+            elif direction == "right":
+                if self.current_stateIndex < len(self.battle_images) - 1:
+                    self.current_stateIndex += 1
+                else:
+                    self.current_stateIndex = 0
+                    self.current_state = "Finished_Fight_Intro"
+                    self.update_story()
     
     def render_dialogue(self, screen):
         if self.show_dialogue:
