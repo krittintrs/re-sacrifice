@@ -85,8 +85,8 @@ class TutorialState:
     def init_player(self):
         player_conf = ENTITY_DEFS['player']
         self.player = Player(player_conf)
-        self.player.x = 623
-        self.player.y = 585
+        self.player.x = 630
+        self.player.y = 586
 
         self.player.state_machine = StateMachine()
         self.player.state_machine.SetScreen(pygame.display.get_surface())
@@ -101,7 +101,7 @@ class TutorialState:
                 "rpg_player": self.player,
                 "class": None,
                 "quests": {},
-                "story_checkpoint": {"Gate_Open" : True},
+                "story_checkpoint": {"Gate_Open" : False},
                 "inventory": {"Amulet": 1, "Gold": 100,"Banana":1},
                 "enter_battle": False,
                 "exit_battle": False,
