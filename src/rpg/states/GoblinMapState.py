@@ -1,7 +1,11 @@
 # TavernMapState.py
+import random
 import sys
 import time
 import pygame
+from src.battleSystem.deck_defs import DECK_DEFS
+from src.battleSystem.Buff import Buff
+from src.battleSystem.buff_def import CARD_BUFF
 from src.rpg.Resources import ITEM_DESCRIPTIONS
 from src.rpg.NPC import NPC
 from src.constants import SCREEN_WIDTH, SCREEN_HEIGHT
@@ -11,11 +15,12 @@ from src.rpg.StateMachine import StateMachine
 from src.rpg.Prompts import DEFAULT_TEXT, PROMPTS
 from src.resources import g_state_manager
 from src.EnumResources import BattleState, RPGState
-from src.rpg.Utils import render_dialogue, render_interaction_dialogue,render_quests,render_topics
+from src.rpg.Utils import render_dialogue, render_interaction_dialogue,render_quests,render_topics, wrap_text
 from src.battleSystem.battleEntity.Enemy import Enemy as BattleEnemy
 from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
 from src.rpg.RPGPause import RPGPauseHandler
 from src.rpg.Inventory import Inventory
+from src.resources import gFont_list, play_music, get_current_music
 
 class GoblinMapState:
     def __init__(self):
@@ -27,6 +32,17 @@ class GoblinMapState:
             NPC("Kao", 393, 164, "src/rpg/sprite/NPC/GoblinGang", PROMPTS['Thaddeus'],'down',0.1,DEFAULT_TEXT['Thaddeus']),
             NPC("Timothy", 640, 537, "src/rpg/sprite/NPC/Timothy_GoblinGuard", PROMPTS['Timothy'],'down',1.2,DEFAULT_TEXT['Timothy']),
             NPC("Gruzz", 1125, 236, "src/rpg/sprite/NPC/Steve_GoblinWaterMan", PROMPTS['Gruzz'],'down',1,DEFAULT_TEXT['Gruzz']),
+            NPC("Somchai", 592, 312, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
+            NPC("Somsri", 472, 475, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
+            NPC("Sompong", 369, 440, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
+            NPC("Somsak", 363, 507, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
+            NPC("Somnuk", 165, 495, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
+            NPC("Somnamna", 269, 217, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
+            NPC("Sompong", 362, 212, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
+            NPC("Sommai", 561, 463, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
+            NPC("Somruk", 969, 379, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
+            NPC("Somwang", 756, 246, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
+            NPC("Somjai", 1045, 155, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
             NPC("Jess", 100, 666, "src/rpg/sprite/NPC/GoblinGang", PROMPTS['Jess'], 'down', 0.1, DEFAULT_TEXT['Jess']),
             NPC("Jude", 493, 469, "src/rpg/sprite/NPC/GoblinGang", PROMPTS['Jude'], 'down', 0.1, DEFAULT_TEXT['Jude']),
         ]
@@ -53,7 +69,8 @@ class GoblinMapState:
         self.building_interactions = {
             "door": self.interact_with_door,
             "bar": self.interact_with_bar,
-            "wall": self.interact_none
+            "wall": self.interact_none,
+            "Bubbly" : self.interact_with_bubbly
             # "tavern_building": self.interact_with_tavern,
             # # "John_npc": lambda: self.interact_with_npc("John", "Hello, traveler! I am John, the town's guide.")
         }
@@ -75,7 +92,20 @@ class GoblinMapState:
         self.skull_image = pygame.transform.smoothscale(self.skull_image, reduced_size)
 
         self.pauseHandler = RPGPauseHandler(RPGState.GOBLIN)
-        self.inventoryHandler = Inventory()        
+        self.inventoryHandler = Inventory()
+        
+        self.show_popup = False
+        self.popup = None
+        self.popup_text = ""        
+        
+        self.Goons = ["Somchai", "Somsri", "Sompong", "Somsak", "Somnuk", "Somnamna", "Sompong", 
+                "Sommai", "Somruk", "Somwang", "Somjai"]
+        self.enemy_conf_names = [
+            "default_enemy", 
+            "close_range_goblin", 
+            "strong_close_range_goblin", 
+            "long_range_goblin"
+        ]
 
     def add_invisible_wall(self, building_id, x1, y1, x2, y2):
         wall_rect = pygame.Rect(x1, y1, x2 - x1, y2 - y1)
@@ -166,9 +196,33 @@ class GoblinMapState:
         self.add_invisible_wall("wall_64", 849, 416, 970, 423)
         self.add_invisible_wall("wall_65", 1007, 418, 1062, 422)
         self.add_invisible_wall("wall_66", 848, 418, 858, 483)
-    
+        
+        #add interactable
+        self.add_invisible_wall("Bubbly", 1145, 168, 1195, 198)
+        
     def interact_none(self):
         print("interacted")
+    
+    def interact_with_bubbly(self):
+        print('interact with goblin bubbly')
+        if self.params['rpg']['inventory'].get('Poison') > 0:
+            self.params['rpg']['inventory']['Poison'] += -1
+            dialogue_text = (
+                "Do you want to put the poison into Bubbly?"
+                " Press Enter to put the poison in"
+                "(Goblin King will get a defense debuff)"
+            )
+            self.params['rpg']['story_checkpoint']['bubbly_poisoned'] = True 
+            
+        else:
+            dialogue_text = (
+                "You don't have anything to put in Bubbly"
+            )
+        
+        # Trigger the popup with specific settings for the goblin camp entrance
+        self.show_popup = True
+        self.popup = "Bubbly"
+        self.popup_text = dialogue_text  # Store the dialogue text for rendering in the popup
     
     def interact_with_door(self):
         # Transition back to the TownState
@@ -233,9 +287,14 @@ class GoblinMapState:
                         #TODO Change to goblin king battle
                         self.params['rpg']["enter_battle"] = True
                         self.params['rpg']["map"] = "GOBLIN"
+                        enemy = BattleEnemy(BATTLE_ENTITY["goblin_king"])
+                        if self.params['rpg']['story_checkpoint'].get('bubbly_poisoned'):
+                            buff = Buff(CARD_BUFF["defense_debuff"])
+                            buff.duration = -1
+                            enemy.add_buff(buff)
                         self.params['battleSystem'] = {
                             'player': self.player.battlePlayer,
-                            'enemy': BattleEnemy(BATTLE_ENTITY["default_enemy"])
+                            'enemy': enemy
                         }
                         self.entering_battle = False
                         g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
@@ -243,8 +302,20 @@ class GoblinMapState:
                     self.params['rpg']["exit_battle"] = False
                     if self.params['rpg']['win_battle']:
                         self.current_npc.defeated = True
+                        #TODO Ending1
+                        print('ending 1')
+                        self.params['rpg']['ending'] = 1
+                        g_state_manager.Change(RPGState.ENDING, self.params)
                     else:
-                        self.dialogue_text = self.current_npc.get_dialogue("{You defeated the player}") 
+                        #TODO Ending2
+                        print('ending 2')
+                        self.params['rpg']['ending'] = 2
+                        g_state_manager.Change(RPGState.ENDING, self.params)
+                if self.current_npc.choice == 2:
+                    #TODO Ending3
+                    print('ending 3')
+                    self.params['rpg']['ending'] = 3
+                    g_state_manager.Change(RPGState.ENDING, self.params)
             if self.current_npc.name == "Timothy":
                 if self.current_npc.choice == 5 and not self.params['rpg']["enter_battle"]:
                     print("enter battle")
@@ -267,16 +338,37 @@ class GoblinMapState:
                     self.params['rpg']["exit_battle"] = False
                     if self.params['rpg']['win_battle']:
                         self.current_npc.defeated = True
+                        self.params['rpg']['inventory']['Gold'] += random.randint(100,110)
                         print(f'{self.current_npc.name} is defeated')
+                        card_list=[]
+                        text = ""
+                        for card in DECK_DEFS[self.player.battlePlayer.job.value.lower()].card_dict:
+                            if card["quantity"] != 0:
+                                card_list.append(card["name"])
+                        for i in range(2):
+                            card_name = random.choice(card_list)
+                            self.player.battlePlayer.deck.addCardInventory(card_name)
+                            print("add card ", card_name, "to player inventory")
+                            text += f"\nGoblin Drop {card_name} Card !!                "
+                        dialogue_text = (
+                            text
+                        )
+                        # Trigger the popup with specific settings for the goblin camp entrance
+                        self.show_popup = True
+                        self.popup = "reward"
+                        self.popup_text = dialogue_text
+                        
                     else:
-                        self.dialogue_text = self.current_npc.get_dialogue("{You defeated the player}") 
+                        self.dialogue_text = self.current_npc.get_dialogue("{You defeated the player, you will chase away the player}") 
                 if self.current_npc.choice == 1:
-                    self.giving_item = True
+                    if not self.params['rpg']['story_checkpoint'].get('give_banana_to_Timothy'):
+                        self.giving_item = True
                     pygame.event.get()
                     keys = pygame.key.get_pressed()  # Get current key states
-                    if keys[pygame.K_RETURN]:  # Check if Enter key is pressed
+                    if keys[pygame.K_RETURN] and not self.params['rpg']['story_checkpoint'].get('give_banana_to_Timothy'):  # Check if Enter key is pressed
                         self.current_npc.choice = 0
-                        if self.params['rpg']['inventory']['Banana'] > 0:
+                        self.params['rpg']['story_checkpoint']['give_banana_to_Timothy'] =  True
+                        if self.params['rpg']['inventory'].get('Banana') > 0:
                             self.dialogue_text = self.current_npc.get_dialogue("{the player gave you a real banana, you will let the player pass}") 
                             self.params['rpg']['inventory']['Banana'] += -1
                             self.current_npc.x = 594
@@ -284,8 +376,114 @@ class GoblinMapState:
                         else:
                             self.dialogue_text = self.current_npc.get_dialogue("{the player don't have a banana}") 
                         self.giving_item = False
-                            
+            if self.current_npc.name in self.Goons:
+                if self.current_npc.choice == 1 and not self.params['rpg']["enter_battle"]:
+                    print("enter battle")
+                    self.entering_battle = True
+                    pygame.event.get()
+                    keys = pygame.key.get_pressed()  # Get current key states
+                    if keys[pygame.K_RETURN]:  # Check if Enter key is pressed
+                        self.current_npc.choice = 0
+                        print("enter battle enter")
+                        self.params['rpg']['inventory']['Gold'] += random.randint(50,60)
+                        self.params['rpg']["enter_battle"] = True
+                        self.params['rpg']["map"] = "GOBLIN"
+                        enemy = BattleEnemy(BATTLE_ENTITY[random.choice(self.enemy_conf_names)])
+                        self.params['battleSystem'] = {
+                            'player': self.player.battlePlayer,
+                            'enemy': enemy
+                        }
+                        self.entering_battle = False
+                        g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
+                if self.params['rpg']["exit_battle"]:
+                    self.params['rpg']["exit_battle"] = False
+                    if self.params['rpg']['win_battle']:
+                        self.current_npc.defeated = True
+                        print(f'{self.current_npc.name} is defeated')
+                        card_list=[]
+                        for card in DECK_DEFS[self.player.battlePlayer.job.value.lower()].card_dict:
+                            if card["quantity"] != 0:
+                                card_list.append(card["name"])
+                        for i in range(1):
+                            card_name = random.choice(card_list)
+                            self.player.battlePlayer.deck.addCardInventory(card_name)
+                            print("add card ", card_name, "to player inventory")
+                        dialogue_text = (
+                            f"Goblin Drop {card_name} Card!!"
+                        )
+                        # Trigger the popup with specific settings for the goblin camp entrance
+                        self.show_popup = True
+                        self.popup = "reward"
+                        self.popup_text = dialogue_text
+                    else:
+                        self.dialogue_text = self.current_npc.get_dialogue("{You defeated the player, you will chase away the player}")  
+            if self.current_npc.name == "Gruzz":
+                if self.current_npc.choice == 3 and not self.params['rpg']["enter_battle"]:
+                    print("enter battle")
+                    self.entering_battle = True
+                    pygame.event.get()
+                    keys = pygame.key.get_pressed()  # Get current key states
+                    if keys[pygame.K_RETURN]:  # Check if Enter key is pressed
+                        self.current_npc.choice = 0
+                        print("enter battle enter")
+                        #TODO Change to goblin king battle
+                        self.params['rpg']["enter_battle"] = True
+                        self.params['rpg']["map"] = "GOBLIN"
+                        self.params['battleSystem'] = {
+                            'player': self.player.battlePlayer,
+                            'enemy': BattleEnemy(BATTLE_ENTITY["default_enemy"])
+                        }
+                        self.entering_battle = False
+                        g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
+                if self.params['rpg']["exit_battle"]:
+                    self.params['rpg']["exit_battle"] = False
+                    if self.params['rpg']['win_battle']:
+                        self.current_npc.defeated = True
+                        print(f'{self.current_npc.name} is defeated')
+                        card_list=[]
+                        text = ""
+                        for card in DECK_DEFS[self.player.battlePlayer.job.value.lower()].card_dict:
+                            if card["quantity"] != 0:
+                                card_list.append(card["name"])
+                        for i in range(2):
+                            card_name = random.choice(card_list)
+                            self.player.battlePlayer.deck.addCardInventory(card_name)
+                            print("add card ", card_name, "to player inventory")
+                            text += f"\nGoblin Drop {card_name} Card !!                       "
+                        dialogue_text = (
+                            text
+                        )
+                        # Trigger the popup with specific settings for the goblin camp entrance
+                        self.show_popup = True
+                        self.popup = "reward"
+                        self.popup_text = dialogue_text
+                    else:
+                        self.dialogue_text = self.current_npc.get_dialogue("{You defeated the player, you will chase away the player}") 
+                elif self.current_npc.choice == 1 or self.current_npc.choice == 4:
+                    self.current_npc.x = 1053
+                    self.current_npc.y = 199      
+                elif self.current_npc.choice == 2:
+                    self.current_npc.x = 319
+                    self.current_npc.y = 139
+                elif self.current_npc.choice == 5:
+                    if not self.params['rpg']['story_checkpoint'].get('give_banana_to_Timothy'):
+                        self.giving_item = True
+                    pygame.event.get()
+                    keys = pygame.key.get_pressed()  # Get current key states
+                    if keys[pygame.K_RETURN] and not self.params['rpg']['story_checkpoint'].get('give_banana_to_Gruzz'):  # Check if Enter key is pressed
+                        self.current_npc.choice = 0
+                        self.params['rpg']['story_checkpoint']['give_banana_to_Gruzz'] =  True
+                        if self.params['rpg']['inventory'].get('Banana') > 0:
+                            self.dialogue_text = self.current_npc.get_dialogue("{the player gave you a real banana, you will let the player pass}") 
+                            self.params['rpg']['inventory']['Banana'] += -1
+                            self.current_npc.x = 1053
+                            self.current_npc.y = 199 
+                        else:
+                            self.dialogue_text = self.current_npc.get_dialogue("{the player don't have a banana}") 
+                        self.giving_item = False
     def Enter(self, params):
+        if get_current_music() != "rpg_bgm":
+            play_music("rpg_bgm")
         self.params = params
         print(self.params," Tavern")
         # Transition player position if needed or carry over the current player instance
@@ -317,9 +515,14 @@ class GoblinMapState:
                 if event.key == pygame.K_ESCAPE:
                     if self.show_dialogue:
                         self.show_dialogue = False
+                    elif self.show_popup:
+                        self.show_popup =  False
                     else:
                         self.pauseHandler.pause_game()
                 elif event.key == pygame.K_RETURN:
+                    if self.show_popup:
+                        self.show_popup =  False
+                    print(self.show_dialogue,self.entering_battle,self.giving_item)
                     if self.show_dialogue and not self.entering_battle and not self.giving_item:
                         # Handle Enter key to send response
                         if not self.player_input:
@@ -329,6 +532,11 @@ class GoblinMapState:
 
                         # Print or display the player's selected choice
                         print(f"Player choice: {self.current_npc.choice}")
+                    if self.popup == 'Bubbly':
+                        self.show_popup = False
+                        for npc in self.npcs:
+                            if npc.name in self.Goons:
+                                npc.defeated = True
                 elif event.key == pygame.K_BACKSPACE and self.show_dialogue:
                     # Handle backspace for text input
                     self.player_input = self.player_input[:-1]
@@ -370,6 +578,7 @@ class GoblinMapState:
             not self.show_dialogue 
             and not self.pauseHandler.is_paused() 
             and not self.inventoryHandler.is_open() 
+            and not self.show_popup
         ):
             if keys[pygame.K_w] or keys[pygame.K_UP]:
                 self.player.MoveY(-self.player.walk_speed * dt)
@@ -426,6 +635,30 @@ class GoblinMapState:
             
         self.pauseHandler.render(screen)
         self.inventoryHandler.render(screen, self.params['rpg']['inventory'])
-    
+        
+        if self.show_popup:
+            if self.popup == "Bubbly":
+                render_interaction_dialogue(screen, self.popup_text, enter_action_text="Enter", escape_action_text="Escape")
+            if self.popup == "reward":
+                render_interaction_dialogue(screen, self.popup_text, enter_action_text="Enter", escape_action_text="Escape")
+    def render_interaction_dialogue(screen, dialogue_text,enter_action_text="Enter", escape_action_text="Escape"):
+        # Extend dialogue box to full width
+        dialogue_box_x = 50
+        dialogue_box_width = SCREEN_WIDTH - 100
+        dialogue_box_height = 150
+        dialogue_box_y = SCREEN_HEIGHT - 200
+
+        # Render dialogue box
+        pygame.draw.rect(screen, (200, 200, 200), (dialogue_box_x, dialogue_box_y, dialogue_box_width, dialogue_box_height))
+        font = gFont_list["title"]
+
+        # Handle multiline dialogue text wrapping
+        dialogue_text_lines = wrap_text(dialogue_text, font, dialogue_box_width - 20)
+        line_height = 30
+        for i, line in enumerate(dialogue_text_lines):
+            dialogue_surface = font.render(line, True, (0, 0, 0))
+            screen.blit(dialogue_surface, (dialogue_box_x + 20, dialogue_box_y + 20 + i * line_height))
+
+        return None  # No action yet
     def Exit(self):
         pass

@@ -7,21 +7,22 @@ class PlayerConf:
         self.deckInv = deckInv
 
 class EnemyConf:
-    def __init__(self, name, animationList, deckInv):
+    def __init__(self, name, animationList, deckInv, health):
         self.name = name
         self.animationList = animationList
         self.deckInv = deckInv
+        self.health = health
 
 BATTLE_ENTITY = {
     "default_warrior": PlayerConf("player", PlayerClass.WARRIOR, DECK_DEFS["warrior"]),
     "default_ranger": PlayerConf("player", PlayerClass.RANGER, DECK_DEFS["ranger"]),
     "default_mage": PlayerConf("player", PlayerClass.MAGE, DECK_DEFS["mage"]),
-    "default_enemy": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["default"]),
-    "close_range_goblin": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_close_range"]),
-    "strong_close_range_goblin": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_close_range_strong"]),
-    "long_range_goblin": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_long_range"]),
-    "goblin_king":EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_king"]),
-    "jess_guard":EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["default"]),
-    "jude_guard":EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["default"]),
+    "default_enemy": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["default"], 10),
+    "close_range_goblin": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_close_range"],10),
+    "strong_close_range_goblin": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_close_range_strong"],15),
+    "long_range_goblin": EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_long_range"],6),
+    "goblin_king":EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["goblin_king"],20),
+    "jess_guard":EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["default"], 10),
+    "jude_guard":EnemyConf("enemy", gNormalGoblin_animation_list, DECK_DEFS["default"], 10),
 }
 

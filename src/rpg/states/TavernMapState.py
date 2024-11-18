@@ -9,7 +9,7 @@ from src.rpg.EntityDefs import ENTITY_DEFS
 from src.rpg.Player import Player
 from src.rpg.StateMachine import StateMachine
 from src.rpg.Prompts import DEFAULT_TEXT, PROMPTS
-from src.resources import g_state_manager
+from src.resources import g_state_manager, play_music, get_current_music
 from src.EnumResources import BattleState, RPGState
 from src.rpg.Utils import render_dialogue, render_interaction_dialogue,render_quests,render_topics
 from src.rpg.RPGPause import RPGPauseHandler
@@ -138,6 +138,8 @@ class TavernMapState:
                 self.params['rpg']['Inventory']['Parcel'] = 1
     
     def Enter(self, params):
+        if get_current_music() != "rpg_bgm":
+            play_music("rpg_bgm")
         self.params = params
         print(self.params," Tavern")
         # Transition player position if needed or carry over the current player instance

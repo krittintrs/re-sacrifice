@@ -19,7 +19,8 @@ ITEM_DESCRIPTIONS = {
     "Mana Potion": "A potion that restores 30 MP.",
     "Key": "A mysterious key that might unlock something important.",
     "Gold": "Money",
-    "Amulet": "A mysterious amulet"
+    "Amulet": "A mysterious amulet",
+    "Poison": "One drop of this can kill an entire army"
 }
 
 # gFonts = {

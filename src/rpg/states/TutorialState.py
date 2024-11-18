@@ -108,7 +108,7 @@ class TutorialState:
                 "class": None,
                 "quests": {},
                 "story_checkpoint": {"Gate_Open" : False},
-                "inventory": {"Amulet": 1, "Gold": 100,"Banana":1},
+                "inventory": {"Amulet": 1, "Gold": 100,"Banana":2,"Poison":1},
                 "enter_battle": False,
                 "exit_battle": False,
                 "win_battle": None,
@@ -185,7 +185,8 @@ class TutorialState:
         print(f"Assigned animations: {self.player.animation_list}")
 
         print(self.player.battlePlayer)
-        g_state_manager.Change(RPGState.INTRO, self.params)
+        # TODO: change back to IntroState
+        g_state_manager.Change(RPGState.TOWN, self.params)      
 
     def skip_cutscene(self):
         self.playing_cutscene = False
