@@ -114,6 +114,7 @@ class TavernMapState:
         # Transition back to the TownState
         self.params['rpg']["rpg_player"].x = 625
         self.params['rpg']["rpg_player"].y = 326
+        self.params['bgm'] = "rpg_bgm"
         g_state_manager.Change(RPGState.TOWN, self.params)
         
     def interact_with_bar(self):
@@ -138,6 +139,7 @@ class TavernMapState:
                 self.params['rpg']['Inventory']['Parcel'] = 1
     
     def Enter(self, params):
+        print("Entering Tavern State")
         self.params = params
         print(self.params," Tavern")
         # Transition player position if needed or carry over the current player instance

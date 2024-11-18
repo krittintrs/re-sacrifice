@@ -20,7 +20,8 @@ from src.battleSystem.battleEntity.Enemy import Enemy as BattleEnemy
 from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
 from src.rpg.RPGPause import RPGPauseHandler
 from src.rpg.Inventory import Inventory
-from src.resources import gFont_list
+from src.resources import gFont_list, play_music
+
 class GoblinMapState:
     def __init__(self):
         scale_factor = 1.5
@@ -302,12 +303,19 @@ class GoblinMapState:
                     if self.params['rpg']['win_battle']:
                         self.current_npc.defeated = True
                         #TODO Ending1
+                        print('ending 1')
+                        self.params['rpg']['ending'] = 1
+                        g_state_manager.Change(RPGState.ENDING, self.params)
                     else:
-                        pass
                         #TODO Ending2
+                        print('ending 2')
+                        self.params['rpg']['ending'] = 2
+                        g_state_manager.Change(RPGState.ENDING, self.params)
                 if self.current_npc.choice == 2:
                     #TODO Ending3
-                    pass
+                    print('ending 3')
+                    self.params['rpg']['ending'] = 3
+                    g_state_manager.Change(RPGState.ENDING, self.params)
             if self.current_npc.name == "Timothy":
                 if self.current_npc.choice == 5 and not self.params['rpg']["enter_battle"]:
                     print("enter battle")
@@ -449,7 +457,14 @@ class GoblinMapState:
                         self.giving_item = False
     def Enter(self, params):
         self.params = params
-        print(self.params," Tavern")
+        print(self.params, "GoblinMapState")
+        
+        if 'bgm' not in self.params.keys():
+            play_music("rpg_bgm")
+        else:
+            if self.params['bgm'] != 'rpg_bgm':
+                play_music("rpg_bgm")
+
         # Transition player position if needed or carry over the current player instance
         self.player = self.params['rpg']['rpg_player']
         print(self.player.x, self.player.y)

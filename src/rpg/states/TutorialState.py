@@ -185,7 +185,8 @@ class TutorialState:
         print(f"Assigned animations: {self.player.animation_list}")
 
         print(self.player.battlePlayer)
-        g_state_manager.Change(RPGState.TOWN, self.params)
+        # TODO: change back to IntroState
+        g_state_manager.Change(RPGState.INTRO, self.params)      
 
     def skip_cutscene(self):
         self.playing_cutscene = False
