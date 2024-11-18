@@ -24,6 +24,7 @@ class IntroState:
         pygame.init()
         
         self.scale_factor = 1.5
+        self.current_stateIndex = 0
         
         # Initialize map
         self.map_surface = pygame.image.load("src/rpg/sprite/map/IntroMap.jpg")
@@ -35,7 +36,15 @@ class IntroState:
             # Add more NPCs here
         ]
 
+        # Initial Tutorial
+        self.battle_images = []
+        for i in range(1,8):
+            image = pygame.image.load(f"src/rpg/sprite/Tutorial/Battle_{i}.png")
+            image = pygame.transform.smoothscale(image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            self.battle_images.append(image)
+
         # Dialogue state
+        self.current_state = ""
         self.show_dialogue = False
         self.dialogue_text = ""
         self.player_input = ""
@@ -94,6 +103,8 @@ class IntroState:
         self.add_invisible_wall("wall5", 502, 197, 580, 219)
         self.add_invisible_wall("wall6", 699, 203, 771, 228)
         self.add_invisible_wall("wall7", 578, 700, 706, 711)
+        self.add_invisible_wall("wall8", 560, 500, 620, 530)
+        self.add_invisible_wall("wall9", 640, 500, 700, 530)
         #Door
         self.add_invisible_wall("warp_door", 526, 9, 766, 34)
         self.add_invisible_wall("door", 526, 39, 766, 64)
@@ -142,19 +153,22 @@ class IntroState:
         for npc in self.npcs:
             if npc.name == "God" and npc.choice == 1:
                 self.params['rpg']["story_checkpoint"]["Fight_Intro"] = True
+                self.current_state = "Fight_Intro"
+                self.show_dialogue = False
+                npc.choice = 0
                 
-                
-         # Quest tracking logic
-        # Example quest: "Open the gate"
-        if not self.params['rpg']["story_checkpoint"].get("Fight_Intro"):
-            self.quests["explore"] = "Speak with the mysterious lady"  # Update or add quest
-            self.topics["explore"] = "Game Controls"
-        else:
-            self.buildings = [b for b in self.buildings if b['id'] != "door"]
-            #g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
-            self.params['rpg']["rpg_player"].x = 625
-            self.params['rpg']["rpg_player"].y = 326
-            g_state_manager.Change(RPGState.TOWN, self.params)
+        if self.current_state == "Finished_Fight_Intro":
+            # Quest tracking logic
+            # Example quest: "Open the gate"
+            if not self.params['rpg']["story_checkpoint"].get("Fight_Intro"):
+                self.quests["explore"] = "Speak with the mysterious lady"  # Update or add quest
+                self.topics["explore"] = "Game Controls"
+            else:
+                self.buildings = [b for b in self.buildings if b['id'] != "door"]
+                #g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
+                self.params['rpg']["rpg_player"].x = 625
+                self.params['rpg']["rpg_player"].y = 326
+                g_state_manager.Change(RPGState.TOWN, self.params)
               
     def update(self, dt, events):
         # Handle events
@@ -169,6 +183,12 @@ class IntroState:
                     else:
                         pygame.quit()
                         sys.exit()
+                elif event.key == pygame.K_RETURN and not self.show_dialogue:
+                    self.handle_enter()
+                elif event.key == pygame.K_LEFT and not self.show_dialogue:
+                    self.hangle_arrow("left")
+                elif event.key == pygame.K_RIGHT and not self.show_dialogue:
+                    self.hangle_arrow("right")
                 elif event.key == pygame.K_RETURN and self.show_dialogue:
                     # Handle Enter key to send response
                     if not self.player_input:
@@ -255,8 +275,8 @@ class IntroState:
         screen.blit(self.map_surface, (0, 0))
 
         # Draw invisible walls as green rectangles for debugging
-        for building in self.buildings:
-            pygame.draw.rect(screen, (0, 255, 0), building['rect'], 2)
+        # for building in self.buildings:
+        #     pygame.draw.rect(screen, (0, 255, 0), building['rect'], 2)
             
         for npc in self.npcs:
             screen.blit(npc.image, (npc.x, npc.y))  # Render each NPC at its coordinates
@@ -269,6 +289,135 @@ class IntroState:
         
         # Render any active dialogue
         render_dialogue(screen)
+
+        if self.current_state == "Fight_Intro":
+            screen.blit(self.battle_images[self.current_stateIndex], (0, 0))
     
+    def handle_enter(self):
+        if self.current_state == "Fight_Intro":
+            if self.current_stateIndex < len(self.battle_images) - 1:
+                self.current_stateIndex += 1
+            else:
+                self.current_stateIndex = 0
+                self.current_state = "Finished_Fight_Intro"
+                self.update_story()
+    
+    def hangle_arrow(self, direction):
+        if self.current_state == "Fight_Intro":
+            if direction == "left":
+                if self.current_stateIndex > 0:
+                    self.current_stateIndex -= 1
+            elif direction == "right":
+                if self.current_stateIndex < len(self.battle_images) - 1:
+                    self.current_stateIndex += 1
+                else:
+                    self.current_stateIndex = 0
+                    self.current_state = "Finished_Fight_Intro"
+                    self.update_story()
+    
+    def render_dialogue(self, screen):
+        if self.show_dialogue:
+            # Render the quest tracker on top-right
+            self.render_topics(screen)
+            
+            # Extend dialogue box to full width
+            dialogue_box_x = 50
+            dialogue_box_width = SCREEN_WIDTH - 100
+            dialogue_box_height = 150
+            dialogue_box_y = SCREEN_HEIGHT - 200
+
+            # Render dialogue box
+            pygame.draw.rect(screen, (200, 200, 200), (dialogue_box_x, dialogue_box_y, dialogue_box_width, dialogue_box_height))
+            font = pygame.font.Font(None, 36)
+            
+            npc_image = pygame.image.load(self.current_npc.image_path+"/Face.png").convert_alpha()
+            npc_image = pygame.transform.scale(npc_image, (400, 400))  # Resize NPC image as needed
+            screen.blit(npc_image, (dialogue_box_x + dialogue_box_width - 400, dialogue_box_y - 400))  # Position image above dialogue box
+            
+            # Render NPC name box above the dialogue box
+            name_box_height = 40
+            name_box_width = 100
+            name_box_y = dialogue_box_y - name_box_height - 10
+            pygame.draw.rect(screen, (220, 220, 220), (dialogue_box_x, name_box_y, name_box_width, name_box_height))
+            name_font = pygame.font.Font(None, 28)
+            npc_name_surface = name_font.render(self.current_npc.name, True, (0, 0, 0))
+            # Center the NPC name within the name box
+            name_x = dialogue_box_x + (name_box_width - npc_name_surface.get_width()) // 2
+            screen.blit(npc_name_surface, (name_x, name_box_y +10))
+            
+            # Handle multiline dialogue text wrapping
+            dialogue_text_lines = self.wrap_text(self.dialogue_text, font, dialogue_box_width - 20)
+            line_height = 30
+            for i, line in enumerate(dialogue_text_lines):
+                dialogue_surface = font.render(line, True, (0, 0, 0))
+                screen.blit(dialogue_surface, (dialogue_box_x + 20, dialogue_box_y + 20 + i * line_height))
+                
+            # Toggle blinking for cursor
+            current_time = time.time()
+            if current_time - self.last_blink_time > 0.5:  # Blink every 0.5 seconds
+                self.blink = not self.blink
+                self.last_blink_time = current_time
+            
+            # Display player input with blinking cursor
+            input_text = self.player_input
+            if self.blink:
+                input_text += "_"  # Add blinking cursor
+            player_input_surface = font.render(input_text, True, (0, 0, 255))
+            screen.blit(player_input_surface, (70, SCREEN_HEIGHT - 100))
+
+            # Draw "Respond" button
+            pygame.draw.rect(screen, (100, 200, 100), self.response_button_rect)
+            respond_text = font.render("Respond", True, (255, 255, 255))
+            screen.blit(respond_text, (self.response_button_rect.x + 10, self.response_button_rect.y + 10))
+
+            # Draw "Close" button
+            pygame.draw.rect(screen, (200, 100, 100), self.close_button_rect)
+            close_text = font.render("Close", True, (255, 255, 255))
+            screen.blit(close_text, (self.close_button_rect.x + 10, self.close_button_rect.y + 10))
+    def render_quests(self, screen):
+        
+        font = pygame.font.Font(None, 24)
+        # Set background dimensions
+        background_width = 280
+        background_height = 40 + len(self.quests) * 20
+        background_x = SCREEN_WIDTH - background_width - 100
+        background_y = 10
+
+        # Draw the background with semi-transparency
+        background_surface = pygame.Surface((background_width, background_height))
+        background_surface.set_alpha(150)  # 150 for semi-transparency
+        background_surface.fill((0, 0, 0))  # Black background
+        screen.blit(background_surface, (background_x, background_y))
+
+        # Display "Quest" title
+        quest_title_surface = font.render("Quest", True, (255, 255, 255))
+        screen.blit(quest_title_surface, (background_x + 10, background_y + 10))
+
+        # Display each quest below the title
+        for i, quest in enumerate(self.quests):
+            quest_text_surface = font.render(self.quests[quest], True, (255, 255, 255))
+            screen.blit(quest_text_surface, (background_x + 10, background_y + 40 + i * 20))
+    def render_topics(self, screen):
+        font = pygame.font.Font(None, 48)
+        # Set background dimensions
+        topic_background_width = 560
+        topic_background_height = 60 + len(self.topics) * 40
+        topic_background_x = SCREEN_WIDTH - topic_background_width - 620
+        topic_background_y = 10
+
+        # Draw the background with semi-transparency
+        topic_background_surface = pygame.Surface((topic_background_width, topic_background_height))
+        topic_background_surface.set_alpha(150)  # 150 for semi-transparency
+        topic_background_surface.fill((0, 0, 0))  # Black background
+        screen.blit(topic_background_surface, (topic_background_x, topic_background_y))
+
+        # Display "Quest" title
+        topic_title_surface = font.render("Suggested Conversation Topics", True, (255, 255, 255))
+        screen.blit(topic_title_surface, (topic_background_x + 10, topic_background_y + 10))
+
+        # Display each quest below the title
+        for i, topic in enumerate(self.topics):
+            topic_text_surface = font.render("- "+self.topics[topic], True, (255, 255, 255))
+            screen.blit(topic_text_surface, (topic_background_x + 10, topic_background_y + 60 + i * 50))
     def Exit(self):
         pass
