@@ -39,6 +39,13 @@ class Boss(Enemy):
                 if (not field[availableMoveTile[index]].is_occupied()) or (availableMoveTile[index] == self.fieldTile_index):
                     if (player.fieldTile_index <= availableMoveTile[index] + self.selectedCard.range_end and player.fieldTile_index >= availableMoveTile[index] + self.selectedCard.range_start) or (player.fieldTile_index >= availableMoveTile[index] - self.selectedCard.range_end and player.fieldTile_index <= availableMoveTile[index]- self.selectedCard.range_start):
                         selectMoveTile = index
+        if self.selectedCard.range_end == 0 and self.selectedCard.range_start == 0:
+            for index in range(len(availableMoveTile)):
+                if (not field[availableMoveTile[index]].is_occupied()) or (availableMoveTile[index] == self.fieldTile_index):
+                    # avoid player attack range
+                    if not ((availableMoveTile[index]<= player.fieldTile_index + player.selectedCard.range_end and availableMoveTile[index] >= player.fieldTile_index + player.selectedCard.range_start) or (availableMoveTile[index] >= player.fieldTile_index - player.selectedCard.range_end and availableMoveTile[index] <= player.fieldTile_index - player.selectedCard.range_start)):
+                        selectMoveTile = index
+                        break
         #better if enemy can avoid player
         for index in range(len(availableMoveTile)):
             if (not field[availableMoveTile[index]].is_occupied()) or (availableMoveTile[index] == self.fieldTile_index):

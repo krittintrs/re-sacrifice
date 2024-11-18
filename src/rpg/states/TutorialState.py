@@ -102,7 +102,7 @@ class TutorialState:
                 "class": None,
                 "quests": {},
                 "story_checkpoint": {"Gate_Open" : False},
-                "inventory": {"Amulet": 1, "Gold": 100,"Banana":1},
+                "inventory": {"Amulet": 1, "Gold": 100,"Banana":2,"Poison":1},
                 "enter_battle": False,
                 "exit_battle": False,
                 "win_battle": None,
@@ -150,7 +150,7 @@ class TutorialState:
         self.player.battlePlayer = BattlePlayer(BATTLE_ENTITY[f"default_{self.selected_class.lower()}"])
         self.player.battlePlayer.deck.readInventoryConf()
         print(self.player.battlePlayer)
-        g_state_manager.Change(RPGState.TOWN, self.params)
+        g_state_manager.Change(RPGState.GOBLIN, self.params)
 
     def skip_cutscene(self):
         self.playing_cutscene = False

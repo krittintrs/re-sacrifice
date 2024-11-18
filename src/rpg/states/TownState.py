@@ -1,3 +1,4 @@
+import random
 import sys
 import time
 import pygame
@@ -255,7 +256,7 @@ class TownState:
         
         # Trigger the popup with specific settings for the goblin camp entrance
         self.show_popup = True
-        self.popup = "Goblin_Entrance"
+        self.popup = "interact"
         self.popup_text = dialogue_text  # Store the dialogue text for rendering in the popup
         
     def interact_with_mira_weaveshop(self):
@@ -265,7 +266,7 @@ class TownState:
         
         # Trigger the popup with specific settings for the goblin camp entrance
         self.show_popup = True
-        self.popup = "Goblin_Entrance"
+        self.popup = "interact"
         self.popup_text = dialogue_text  # Store the dialogue text for rendering in the popup
     def interact_with_mira_jarek_house(self):
         dialogue_text = (
@@ -274,7 +275,7 @@ class TownState:
         
         # Trigger the popup with specific settings for the goblin camp entrance
         self.show_popup = True
-        self.popup = "Goblin_Entrance"
+        self.popup = "interact"
         self.popup_text = dialogue_text  # Store the dialogue text for rendering in the popup
         
     def interact_with_susan_house(self):
@@ -283,7 +284,7 @@ class TownState:
         )
         # Trigger the popup with specific settings for the goblin camp entrance
         self.show_popup = True
-        self.popup = "Goblin_Entrance"
+        self.popup = "interact"
         self.popup_text = dialogue_text  # Store the dialogue text for rendering in the popup
           
     def interact_with_npc(self, npc):
@@ -346,7 +347,8 @@ class TownState:
                 elif self.params['rpg']["exit_battle"]:
                     self.params['rpg']["exit_battle"] = False
                     if self.params['rpg']['win_battle']:
-                        self.dialogue_text = self.current_npc.get_dialogue("{The player won the fight against the goblins}") 
+                        self.params['rpg']['inventory']['Gold'] += random.randint(70,90)
+                        self.dialogue_text = self.current_npc.get_dialogue("{The player won the fight against the goblins and you will give the player some golds and a card as a reward}") 
                     else:
                         self.dialogue_text = self.current_npc.get_dialogue("{The player won lost fight against the goblins}") 
             #Mira Jarek quest
@@ -519,7 +521,7 @@ class TownState:
             
         #render popup
         if self.show_popup:
-            if self.popup == "Goblin_Entrance" or self.popup == "Goblin_Entrance2":
+            if self.popup == "Goblin_Entrance" or self.popup == "Goblin_Entrance2" or self.popup == "interact":
                 render_interaction_dialogue(screen, self.popup_text, enter_action_text="Enter", escape_action_text="Escape")
         
         # Render the shop interface if it's open

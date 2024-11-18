@@ -142,6 +142,8 @@ class IntroState:
         for npc in self.npcs:
             if npc.name == "God" and npc.choice == 1:
                 self.params['rpg']["story_checkpoint"]["Fight_Intro"] = True
+                #TODO Tutorial Fight
+                
                 
                 
          # Quest tracking logic

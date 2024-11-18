@@ -49,7 +49,6 @@ class BattleFinishState(BaseState):
                     if 'rpg' in self.params.keys():
                         # TODO: entering RPG
                         if self.winner == PlayerType.PLAYER:
-                            self.params['rpg']['inventory']['Gold'] += 100
                             self.params['rpg']["win_battle"] = True
                         else:
                             self.params['rpg']["win_battle"] = False
