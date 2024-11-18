@@ -19,6 +19,8 @@ from src.battleSystem.battleEntity.Enemy import Enemy as BattleEnemy
 from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
 from src.rpg.RPGPause import RPGPauseHandler
 from src.resources import gFont_list
+from src.dependency import *
+import random
 # genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")genai.configure(api_key="AIzaSyAbw1QNIQlmYgTYdsgLiOELef10E-M6BJY")
 # Create the model
 
@@ -83,11 +85,28 @@ class TownState:
         self.entering_battle = False
         
         self.show_shop = False
+        self.shop_window = 0
         self.shop_items = {
             "Poison": {"price": 50, "description": "1 drop of this poison can defeat an entire army"},
             "Banana": {"price": 75, "description": "Ou Ou Ah Ah"},
             "Sword": {"price": 100, "description": "Increases attack power"},
-            "Move 3 Card": {"price": 1, "description": "Move 3 card"} # Card Naming Scheme "{Card name} Card"
+            "Move 3 Card": {"price": 100, "description": "Move 3 card"},
+            "Move 2 Card": {"price": 80, "description": "Move 2 card"},
+            "Move 1 Card": {"price": 60, "description": "Move 1 card"},
+            "Normal Attack Card": {"price": 120, "description": "Close range attack"},
+            "Heavy Attack Card": {"price": 200, "description": "Close range attack with low speed but high damage"},
+            "Mid Range Attack Card": {"price": 130, "description": "Range attack"},
+            "Long Range Attack Card": {"price": 200, "description": "Long Range attack"},
+            "Normal Defense Card": {"price": 120, "description": "Defense card"},
+            "Push Attack Card": {"price": 250, "description": "Push opponent away and attack"},
+            "Pull Attack Card": {"price": 250, "description": "Pull opponent closer and attack"},
+            "Attack Boost Card": {"price": 150, "description": "+2 ATK for 2 turns"},
+            "Defense Boost Card": {"price": 150, "description": "+2 DEF for 2 turns"},
+            "Speed Boost Card": {"price": 150, "description": "+2 SPD for 2 turns"},
+            "Cleanse Card": {"price": 200, "description": "Remove all debuff"},
+            "Defense Debuff Card": {"price": 200, "description": "-2 DEF for opponent"},
+            "Attack Debuff Card": {"price": 200, "description": "-2 ATK for opponent"},
+            
             # Add more items as needed
         }
         self.selected_shop_item = 0
@@ -99,6 +118,7 @@ class TownState:
         play_music("rpg_bgm")
         self.params = enter_params
         self.player = enter_params['rpg']['rpg_player']
+        self.player.ChangeCoord(630,580)
         print(self.params," TownMap")
         
         print("Entering RPG Start State")
@@ -169,7 +189,11 @@ class TownState:
         # Render shop items with navigation
         y_offset = shop_bg_rect.top + 130
         index = 0
-        for item_name, details in shop_items.items():
+        items = list(shop_items.items())
+
+        for index in range(self.shop_window, self.shop_window + 4):
+            item_name, details = items[index]
+        # for item_name, details in shop_items.items():
             # Highlight selected item
             color = (255, 255, 255) if index != self.selected_shop_item else (255, 215, 0)
             
@@ -208,8 +232,16 @@ class TownState:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
                     self.selected_shop_item = (self.selected_shop_item + 1) % len(self.shop_items)
+                    if self.selected_shop_item > self.shop_window +3:
+                        self.shop_window += 1
+                    if self.selected_shop_item < self.shop_window:
+                        self.shop_window = 0
                 elif event.key == pygame.K_UP:
                     self.selected_shop_item = (self.selected_shop_item - 1) % len(self.shop_items)
+                    if self.selected_shop_item < self.shop_window:
+                        self.shop_window -= 1
+                    if self.selected_shop_item > self.shop_window + 3:
+                        self.shop_window = self.selected_shop_item - 3
                 elif event.key == pygame.K_RETURN:
                     self.purchase_item()
                 elif event.key == pygame.K_ESCAPE:
@@ -349,6 +381,14 @@ class TownState:
                     if self.params['rpg']['win_battle']:
                         self.params['rpg']['inventory']['Gold'] += random.randint(70,90)
                         self.dialogue_text = self.current_npc.get_dialogue("{The player won the fight against the goblins and you will give the player some golds and a card as a reward}") 
+                        card_list=[]
+                        for card in DECK_DEFS[self.player.battlePlayer.job.value.lower()].card_dict:
+                            if card["quantity"] != 0:
+                                card_list.append(card["name"])
+                        for i in range(3):
+                            card_name = random.choice(card_list)
+                            self.player.battlePlayer.deck.addCardInventory(card_name)
+                            print("add card ", card_name, "to player inventory")
                     else:
                         self.dialogue_text = self.current_npc.get_dialogue("{The player won lost fight against the goblins}") 
             #Mira Jarek quest
@@ -502,8 +542,8 @@ class TownState:
         screen.blit(self.map_surface, (0, 0))
 
         # Draw invisible walls as green rectangles for debugging
-        for building in self.buildings:
-            pygame.draw.rect(screen, (0, 255, 0), building['rect'], 2)
+        # for building in self.buildings:
+        #     pygame.draw.rect(screen, (0, 255, 0), building['rect'], 2)
             
         for npc in self.npcs:
             screen.blit(npc.image, (npc.x, npc.y))  # Render each NPC at its coordinates

@@ -13,7 +13,7 @@ def RenderTurn(screen, state, turn, currentTurnOwner):
     title_text = gFont_list["title"].render(f"{state} - Turn {turn} ({currentTurnOwner.value}'s turn)", True, (255, 255, 255))
     _, title_text_height = title_text.get_size()
     title_text_rect = title_text.get_rect(center=(SCREEN_WIDTH // 2, title_text_height // 2))
-    screen.blit(title_text, title_text_rect)
+    # screen.blit(title_text, title_text_rect)
     
     try:
         state_type = BattleState(state)
