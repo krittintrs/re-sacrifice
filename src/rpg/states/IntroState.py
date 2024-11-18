@@ -12,7 +12,7 @@ from src.rpg.StateMachine import StateMachine
 import google.generativeai as genai
 from src.rpg.NPC import NPC
 from src.rpg.Prompts import *
-from src.resources import g_state_manager
+from src.resources import g_state_manager, play_music
 from src.EnumResources import RPGState,BattleState
 from src.resources import gFont_list
 from src.rpg.Utils import render_quests, render_dialogue
@@ -35,7 +35,7 @@ class IntroState:
         
         # Initialize NPCs with unique prompts
         self.npcs = [
-            NPC("God", 631, 489, "src/rpg/sprite/NPC/God_Godoftime", PROMPTS['God'],'down',self.scale_factor,"Are you all right traveler?")
+            NPC("God", 631, 489, "src/rpg/sprite/NPC/God_Godoftime", PROMPTS['God'],'down',self.scale_factor, DEFAULT_TEXT["God"])
             # Add more NPCs here
         ]
 
@@ -76,6 +76,12 @@ class IntroState:
         print(self.player.x)
         print(self.player.y)
         print(self.params," TownMap")
+
+        if 'bgm' not in self.params.keys():
+            play_music("intro_bgm")
+        else:
+            if self.params['bgm'] != 'intro_bgm':
+                play_music("intro_bgm")
         
         print("Entering RPG Start State")
         

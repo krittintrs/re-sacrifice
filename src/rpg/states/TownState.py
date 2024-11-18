@@ -88,7 +88,6 @@ class TownState:
         self.shop_items = {
             "Poison": {"price": 50, "description": "1 drop of this poison can defeat an entire army"},
             "Banana": {"price": 75, "description": "Ou Ou Ah Ah"},
-            "Sword": {"price": 100, "description": "Increases attack power"},
             "Move 3 Card": {"price": 100, "description": "Move 3 card"},
             "Move 2 Card": {"price": 80, "description": "Move 2 card"},
             "Move 1 Card": {"price": 60, "description": "Move 1 card"},
@@ -105,7 +104,6 @@ class TownState:
             "Cleanse Card": {"price": 200, "description": "Remove all debuff"},
             "Defense Debuff Card": {"price": 200, "description": "-2 DEF for opponent"},
             "Attack Debuff Card": {"price": 200, "description": "-2 ATK for opponent"},
-            
             # Add more items as needed
         }
         self.selected_shop_item = 0
