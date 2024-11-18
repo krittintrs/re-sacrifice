@@ -115,6 +115,8 @@ class TownState:
         play_music("rpg_bgm")
         self.params = enter_params
         self.player = enter_params['rpg']['rpg_player']
+        self.player.x = 630
+        self.player.y = 586
         print(self.params," TownMap")
         
         print("Entering RPG Start State")
