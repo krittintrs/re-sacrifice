@@ -42,6 +42,8 @@ class GoblinMapState:
             NPC("Somruk", 969, 379, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
             NPC("Somwang", 756, 246, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
             NPC("Somjai", 1045, 155, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
+            NPC("Jess", 100, 666, "src/rpg/sprite/NPC/GoblinGang", PROMPTS['Jess'], 'down', 0.1, DEFAULT_TEXT['Jess']),
+            NPC("Jude", 493, 469, "src/rpg/sprite/NPC/GoblinGang", PROMPTS['Jude'], 'down', 0.1, DEFAULT_TEXT['Jude']),
         ]
         self.params = None
         self.current_state = self
@@ -242,6 +244,36 @@ class GoblinMapState:
     
     def update_story(self):
         if self.current_npc:
+            if self.current_npc.name in ["Jess", "Jude"]:
+                if self.current_npc.choice == 1:
+                    #self.params['rpg']["exit_battle"] = True
+                    #self.params['rpg']['win_battle'] = True # force win
+                    self.entering_battle = True
+                    pygame.event.get()
+                    keys = pygame.key.get_pressed()
+                    if keys[pygame.K_RETURN]:
+                        self.current_npc.choice = 0
+                        self.params['rpg']["enter_battle"] = True
+                        self.params['rpg']["map"] = "GOBLIN"
+                        
+                        self.params['battleSystem'] = {
+                            'player': self.player.battlePlayer,
+                            'enemy': BattleEnemy(BATTLE_ENTITY["default_enemy"])
+                        }
+                        self.entering_battle = False
+                        g_state_manager.Change(BattleState.PREPARATION_PHASE, self.params)
+
+                if self.params['rpg']["exit_battle"]:
+                    self.params['rpg']["exit_battle"] = False
+                    if self.params['rpg']['win_battle']:
+                        self.show_dialogue = False
+                        self.current_npc.defeated = True
+                    else:
+                        if self.current_npc.name == "Jess":
+                            self.dialogue_text = self.current_npc.get_dialogue("{Jess remains undefeated! Come back when you're stronger}")
+                        else:
+                            self.dialogue_text = self.current_npc.get_dialogue("{Jude stands firm! You're not ready to face our king}")
+
             if self.current_npc.name == "Zeus":
                 if self.current_npc.choice == 1 and not self.params['rpg']["enter_battle"]:
                     print("enter battle")
