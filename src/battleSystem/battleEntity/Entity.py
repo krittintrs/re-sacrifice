@@ -60,6 +60,9 @@ class Entity:
     
     def reset_everything(self):
         self.reset_stats()
+        for card in self.cardsOnHand:
+            self.deck.discard_pile.append(card)
+        self.deck.reset()
         self.health = self.maxhealth
         self.cardsOnHand = []
         self.selectedCard = None
