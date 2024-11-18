@@ -12,11 +12,8 @@ class EnemyConf:
         self.animationList = animationList
         self.deckInv = deckInv
         self.health = health
-        
-        
 
 BATTLE_ENTITY = {
-    
     "default_warrior": PlayerConf("player", PlayerClass.WARRIOR, DECK_DEFS["default"]),
     "default_ranger": PlayerConf("player", PlayerClass.RANGER, DECK_DEFS["default"]),
     "default_mage": PlayerConf("player", PlayerClass.MAGE, DECK_DEFS["default"]),

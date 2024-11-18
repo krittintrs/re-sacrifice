@@ -17,18 +17,19 @@ from src.resources import gFont_list
 class TutorialState:
     def __init__(self):
         pygame.init()
-        #self.screen = pygame.display.get_surface()
 
-        # Load tutorial images or placeholders for instructions and cutscenes
-        self.movement_image = pygame.image.load("src/rpg/sprite/Tutorial/images.png")
-        self.movement_image = pygame.transform.scale(self.movement_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.battle_image = pygame.image.load("src/rpg/sprite/Tutorial/images (1).png")
-        self.battle_image = pygame.transform.scale(self.battle_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.conversation_image = pygame.image.load("src/rpg/sprite/Tutorial/images2.jpg")
-        self.conversation_image = pygame.transform.scale(self.conversation_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        # Initialize general stage index
+        self.current_stage_index = 0
+        self.current_stage = "general"  # First stage
+
+        # Load tutorial images dynamically
+        self.general_images = []
+        for i in range(1, 6):  # Assuming there are 5 general images
+            image = pygame.image.load(f"src/rpg/sprite/Tutorial/Tutorial_{i}.png")
+            image = pygame.transform.smoothscale(image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            self.general_images.append(image)
         
         # Track stages within the tutorial
-        self.current_stage = "movement"  # Stages: movement, battle, class_select, confirm, cutscene
         self.selected_class = None
         self.confirmation_selection = "confirm"  # Default confirmation selection
 
@@ -64,6 +65,11 @@ class TutorialState:
                         self.skip_cutscene()
                     else:
                         self.handle_enter()
+                elif self.current_stage == "general":
+                    if event.key == pygame.K_LEFT:
+                        self.handle_arrow("left")
+                    elif event.key == pygame.K_RIGHT:
+                        self.handle_arrow("right")
                 elif self.current_stage == "class_select":
                     if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                         self.selected_class_index = (self.selected_class_index - 1) % len(self.classes)
@@ -85,8 +91,7 @@ class TutorialState:
     def init_player(self):
         player_conf = ENTITY_DEFS['player']
         self.player = Player(player_conf)
-        self.player.x = 630
-        self.player.y = 586
+        self.player.ChangeCoord(635,610)
 
         self.player.state_machine = StateMachine()
         self.player.state_machine.SetScreen(pygame.display.get_surface())
@@ -121,28 +126,37 @@ class TutorialState:
         
         print("Entering Tutorial State")
         # Track stages within the tutorial
-        self.current_stage = "movement"  # Stages: movement, battle, class_select, confirm, cutscene
+        self.current_stage = "general"  # Stages: general, battle, class_select, confirm, cutscene
         self.selected_class = None
         self.confirmation_selection = "confirm"  # Default confirmation selection
 
     def handle_enter(self):
-        if self.current_stage == "movement":
-            self.current_stage = "conversation"
-        elif self.current_stage == "conversation":
-            self.current_stage = "battle"
-        elif self.current_stage == "battle":
-            self.current_stage = "class_select"
+        if self.current_stage == "general":
+            if self.current_stage_index < len(self.general_images) - 1:
+                self.current_stage_index += 1
+            else:
+                self.current_stage = "class_select"
         elif self.current_stage == "class_select":
             self.selected_class = self.classes[self.selected_class_index]
             self.current_stage = "confirm"
         elif self.current_stage == "confirm":
             if self.confirmation_selection == "confirm":
                 self.current_stage = "cutscene"
-                self.playing_cutscene = True  # Start cutscene playback
+                self.playing_cutscene = True
             else:
                 self.current_stage = "class_select"
         elif self.current_stage == "cutscene":
             self.assign_class_and_start_rpg()
+        
+    def handle_arrow(self, direction):
+        if self.current_stage == "general":
+            if direction == "left" and self.current_stage_index > 0:
+                self.current_stage_index -= 1
+            elif direction == "right":
+                if self.current_stage_index < len(self.general_images) - 1:
+                    self.current_stage_index += 1
+                else:
+                    self.current_stage = "class_select"
 
     def assign_class_and_start_rpg(self):
         # Assign the selected class to the RPGPlayer & BattlePlayer -> then start the RPG
@@ -150,7 +164,7 @@ class TutorialState:
         self.player.battlePlayer = BattlePlayer(BATTLE_ENTITY[f"default_{self.selected_class.lower()}"])
         self.player.battlePlayer.deck.readInventoryConf()
         print(self.player.battlePlayer)
-        g_state_manager.Change(RPGState.GOBLIN, self.params)
+        g_state_manager.Change(RPGState.INTRO, self.params)
 
     def skip_cutscene(self):
         self.playing_cutscene = False
@@ -178,24 +192,12 @@ class TutorialState:
             self.selected_index = (self.selected_index + direction) % len(self.classes)
     
     def render(self, screen):
-        if self.current_stage == "movement":
-            screen.blit(self.movement_image, (0, 0))
-            self.render_text(screen, "Use WASD to move and Space to interact. Press Enter to continue.", (50, SCREEN_HEIGHT - 50))
-        
-        elif self.current_stage == "conversation":
-            screen.blit(self.conversation_image, (0, 0))
-            self.render_text(screen, "Here's how to have conversation. Press Enter to continue.", (50, SCREEN_HEIGHT - 50))
-        
-        elif self.current_stage == "battle":
-            screen.blit(self.battle_image, (0, 0))
-            self.render_text(screen, "Here's how to battle. Press Enter to continue.", (50, SCREEN_HEIGHT - 50))
-        
+        if self.current_stage == "general":
+            screen.blit(self.general_images[self.current_stage_index], (0, 0))
         elif self.current_stage == "class_select":
             self.render_class_selection(screen)
-        
         elif self.current_stage == "confirm":
             self.render_confirmation(screen)
-        
         elif self.current_stage == "cutscene":
             if self.playing_cutscene:
                 self.render_cutscene(screen)
@@ -204,7 +206,7 @@ class TutorialState:
         screen.fill((30, 30, 30))
         num_classes = len(self.classes)
         section_width = SCREEN_WIDTH // num_classes
-        image_size = (section_width * 0.6, section_width * 0.6)
+        image_size = (section_width * 0.3, section_width * 0.35)
         
         # Draw title at the top
         title_text = self.title_font.render("Choose Your Class", True, (255, 255, 255))
@@ -214,7 +216,7 @@ class TutorialState:
         for i, cls in enumerate(self.classes):
             # Calculate position and area for each class section
             x = i * section_width
-            y = 150  # Y position offset below the title
+            y = 250  # Y position offset below the title
             # Load and scale image
             image = pygame.image.load(self.class_img_path[cls])
             image = pygame.transform.scale(image, image_size)

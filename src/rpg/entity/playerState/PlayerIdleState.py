@@ -5,7 +5,6 @@ class PlayerIdleState(EntityIdleState):
     def __init__(self, player):
         super(PlayerIdleState, self).__init__(player)
     def Enter(self, params):
-        print("enter idle state")
         super().Enter(params)
 
     def Exit(self):
