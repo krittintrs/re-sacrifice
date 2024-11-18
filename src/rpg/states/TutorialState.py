@@ -13,6 +13,7 @@ from src.EnumResources import RPGState
 from src.battleSystem.battleEntity.Player import Player as BattlePlayer
 from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
 from src.resources import gFont_list
+from src.rpg.Utils import SpriteManager
 
 class TutorialState:
     def __init__(self):
@@ -160,9 +161,29 @@ class TutorialState:
 
     def assign_class_and_start_rpg(self):
         # Assign the selected class to the RPGPlayer & BattlePlayer -> then start the RPG
+        sprite_collection = SpriteManager().spriteCollection
+        selected_class = self.classes[self.selected_class_index].lower()
+        sprite_prefix = f"{selected_class}_walk"
+
+        # Debugging the selected class and sprite prefix
+        print(f"Selected class: {selected_class}")
+        print(f"Sprite prefix: {sprite_prefix}")
+
+        self.player.animation_list = {
+            "down": sprite_collection[f"{sprite_prefix}_down"].animation,
+            "right": sprite_collection[f"{sprite_prefix}_right"].animation,
+            "up": sprite_collection[f"{sprite_prefix}_up"].animation,
+            "left": sprite_collection[f"{sprite_prefix}_left"].animation
+        }
+
         self.params['class'] = self.selected_class
-        self.player.battlePlayer = BattlePlayer(BATTLE_ENTITY[f"default_{self.selected_class.lower()}"])
+        self.player.battlePlayer = BattlePlayer(BATTLE_ENTITY[f"default_{selected_class}"])
         self.player.battlePlayer.deck.readInventoryConf()
+
+        # Debugging player setup
+        print(f"Player class set to: {selected_class}")
+        print(f"Assigned animations: {self.player.animation_list}")
+
         print(self.player.battlePlayer)
         g_state_manager.Change(RPGState.INTRO, self.params)
 
