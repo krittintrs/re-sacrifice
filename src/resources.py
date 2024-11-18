@@ -26,6 +26,7 @@ gBGM = {
     "battle_bgm": "sounds/battle_bgm.mp3",
     "title_bgm": "sounds/title_bgm.mp3",
     "ending_bgm": "sounds/ending_bgm.mp3",
+    "intro_bgm": "sounds/intro_bgm.mp3",
 }
 
 def play_music(state):
@@ -34,8 +35,10 @@ def play_music(state):
 
     # Load and play the new music
     pygame.mixer.music.load(gBGM[state])
-    if state == "title_bgm" or state == "ending_bgm":
+    if state == "title_bgm":
         pygame.mixer.music.set_volume(0.8)
+    elif state == "intro_bgm":
+        pygame.mixer.music.set_volume(0.6)
     else:
         pygame.mixer.music.set_volume(0.1)
     pygame.mixer.music.play(loops=-1)  # Loop indefinitely

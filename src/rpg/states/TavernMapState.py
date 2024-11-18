@@ -132,6 +132,14 @@ class TavernMapState:
     
     def update_story(self):
         for npc in self.npcs:
+            if npc.choice == -1:
+                pygame.event.get()
+                keys = pygame.key.get_pressed()
+                if keys:
+                    # TODO: ending 4 (AI)
+                    print("ending 4")
+                    self.params['rpg']['ending'] = 4
+                    g_state_manager.Change(RPGState.ENDING, self.params)
             if npc.name == "John" and npc.choice == 1:
                 self.params['rpg']["story_checkpoint"]["Gate_Open"] = True
             if npc.name == "Thaddeus" and npc.choice == 1:
@@ -270,8 +278,8 @@ class TavernMapState:
         screen.blit(self.map_surface, (0, 0))
 
         # Draw invisible walls as green rectangles for debugging
-        for building in self.buildings:
-            pygame.draw.rect(screen, (0, 255, 0), building['rect'], 2)
+        # for building in self.buildings:
+        #     pygame.draw.rect(screen, (0, 255, 0), building['rect'], 2)
             
         for npc in self.npcs:
             screen.blit(npc.image, (npc.x, npc.y))  # Render each NPC at its coordinates

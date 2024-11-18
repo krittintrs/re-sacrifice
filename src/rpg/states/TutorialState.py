@@ -144,6 +144,7 @@ class TutorialState:
             if self.confirmation_selection == "confirm":
                 self.current_stage = "cutscene"
                 self.playing_cutscene = True
+                play_music("intro_bgm")
             else:
                 self.current_stage = "class_select"
         elif self.current_stage == "cutscene":

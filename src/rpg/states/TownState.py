@@ -386,6 +386,14 @@ class TownState:
             self.buildings = [b for b in self.buildings if b['id'] != "guard_door"]
         
         if self.current_npc:
+            if self.current_npc.choice == -1:
+                pygame.event.get()
+                keys = pygame.key.get_pressed()
+                if keys:
+                    # TODO: ending 4 (AI)
+                    print("ending 4")
+                    self.params['rpg']['ending'] = 4
+                    g_state_manager.Change(RPGState.ENDING, self.params)
             if self.current_npc.name == "Jim":
                 if self.current_npc.choice == 1 and not self.params['rpg']["enter_battle"]:
                     print("enter battle")
