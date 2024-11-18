@@ -53,6 +53,11 @@ class SelectPullState(BaseState):
         else:       
             for j in range(self.MinTileIndex, self.MaxTileIndex+1):
                 self.availablePullTile.append(j)
+
+        for index in self.availablePullTile:
+            tile = self.field[index]
+            if tile.is_occupied():
+                self.availablePullTile.remove(index)
         
         self.availablePullTile = list( dict.fromkeys(self.availablePullTile) )
         

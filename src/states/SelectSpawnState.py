@@ -66,6 +66,12 @@ class SelectSpawnState(BaseState):
         for j in range(self.rightMinTileIndex, self.rightMaxTileIndex+1):
             if not self.rightSkip:
                 self.availableSpawnTile.append(j)
+
+        # avoid spawn on entity
+        for index in self.availableSpawnTile:
+            tile = self.field[index]
+            if tile.is_occupied() or tile.is_second_entity():
+                self.availableSpawnTile.remove(index)
         
         self.availableSpawnTile = list( dict.fromkeys(self.availableSpawnTile) )
 

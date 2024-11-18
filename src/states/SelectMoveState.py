@@ -110,6 +110,8 @@ class SelectMoveState(BaseState):
                     self.availableMoveTile = self.availableMoveTile[idx:]
                 if index > startIndex:
                     self.availableMoveTile = self.availableMoveTile[:idx]
+            if tile.is_occupied():
+                self.availableMoveTile.remove(index)
 
         
         self.availableMoveTile = list( dict.fromkeys(self.availableMoveTile) )
