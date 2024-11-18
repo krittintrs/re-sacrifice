@@ -185,7 +185,7 @@ class TutorialState:
         print(f"Assigned animations: {self.player.animation_list}")
 
         print(self.player.battlePlayer)
-        g_state_manager.Change(RPGState.GOBLIN, self.params)
+        g_state_manager.Change(RPGState.TOWN, self.params)
 
     def skip_cutscene(self):
         self.playing_cutscene = False
@@ -196,6 +196,8 @@ class TutorialState:
         ret, frame = self.cutscene_video.read()
         if ret:
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+            frame = cv2.flip(frame,flipCode=1)
             frame = pygame.surfarray.make_surface(frame)
             frame = pygame.transform.scale(frame, (SCREEN_WIDTH, SCREEN_HEIGHT))
             screen.blit(frame, (0, 0))

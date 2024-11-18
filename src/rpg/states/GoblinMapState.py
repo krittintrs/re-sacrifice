@@ -3,7 +3,7 @@ import random
 import sys
 import time
 import pygame
-from battleSystem.deck_defs import DECK_DEFS
+from src.battleSystem.deck_defs import DECK_DEFS
 from src.battleSystem.Buff import Buff
 from src.battleSystem.buff_def import CARD_BUFF
 from src.rpg.Resources import ITEM_DESCRIPTIONS
@@ -43,7 +43,7 @@ class GoblinMapState:
             NPC("Somwang", 756, 246, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
             NPC("Somjai", 1045, 155, "src/rpg/sprite/NPC/GoblinGoon", PROMPTS['Goon'],'down',0.1,DEFAULT_TEXT['Goon']),
             NPC("Jess", 100, 666, "src/rpg/sprite/NPC/GoblinGang", PROMPTS['Jess'], 'down', 0.1, DEFAULT_TEXT['Jess']),
-            NPC("Jude", 493, 469, "src/rpg/sprite/NPC/GoblinGang", PROMPTS['Jude'], 'down', 0.1, DEFAULT_TEXT['Jude']),
+            NPC("Jude", 493, 440, "src/rpg/sprite/NPC/GoblinGang", PROMPTS['Jude'], 'down', 0.1, DEFAULT_TEXT['Jude']),
         ]
         self.params = None
         self.current_state = self
@@ -98,7 +98,7 @@ class GoblinMapState:
         self.popup_text = ""        
         
         self.Goons = ["Somchai", "Somsri", "Sompong", "Somsak", "Somnuk", "Somnamna", "Sompong", 
-                "Sommai", "Somruk", "Somwang", "Somjai"]
+                "Sommai", "Somruk", "Somwang", "Somjai","Jess","Jude"]
         self.enemy_conf_names = [
             "default_enemy", 
             "close_range_goblin", 
@@ -541,7 +541,9 @@ class GoblinMapState:
             and not self.pauseHandler.is_paused() 
             and not self.inventoryHandler.is_open() 
             and not self.show_popup
+            and not self.giving_item
         ):
+            
             if keys[pygame.K_w] or keys[pygame.K_UP]:
                 self.player.MoveY(-self.player.walk_speed * dt)
             elif keys[pygame.K_s] or keys[pygame.K_DOWN]:

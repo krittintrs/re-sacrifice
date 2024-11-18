@@ -149,6 +149,24 @@ class TavernMapState:
         #print(self.player)
         # self.player.ChangeCoord(x=SCREEN_WIDTH // 2, y=SCREEN_HEIGHT - 100)  # Adjust starting position inside tavern
 
+    def update_topics(self):
+        self.topics = {}
+        if not self.params['rpg']["story_checkpoint"].get("Find_Barkeeper"):
+            self.topics["Find_Quests"] = "Finding Quests"
+        if self.params['rpg']["story_checkpoint"].get("Find_Barkeeper"):
+            self.topics["Find_Quests"] = "The Barkeeper location"
+            
+        if self.current_npc:
+            #Mira Jarek quest
+            if self.current_npc.name == "John":
+                self.topics["Town_History"] = "Town History"
+                self.topics["Tavern_History"] = "Tavern History"
+                if self.params['rpg']["story_checkpoint"].get("Find_Barkeeper"):
+                    self.topics["Find_Quests"] = "Find Quests"
+                if self.params['rpg']["story_checkpoint"].get("Gate_Open"):
+                    self.topics["Find_Quests"] = "Goblin Camp Location"
+
+
     def update(self, dt, events):
         if self.inventoryHandler.is_open():
             self.inventoryHandler.update(dt, events, self.params)

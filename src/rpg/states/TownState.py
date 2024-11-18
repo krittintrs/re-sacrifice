@@ -331,11 +331,34 @@ class TownState:
         self.topics = {}
         if not self.params['rpg']["story_checkpoint"].get("Find_Barkeeper"):
             self.topics["Find_Quests"] = "Finding Quests"
+        if self.params['rpg']["story_checkpoint"].get("Find_Barkeeper"):
+            if not self.params['rpg']["story_checkpoint"].get("Gate_Open"):
+                self.topics["Find_Quests"] = "The Barkeeper location"
             
         if self.current_npc:
             #Mira Jarek quest
             if self.current_npc.name == "Jim":
-                None
+                self.topics["How_to_fight"] = "How to fight"
+                self.topics["Goblin_Information"] = "Goblin Information"
+                
+            if self.current_npc.name == "Mira":
+                if self.params['rpg']["story_checkpoint"].get("Mira_Jarek"):
+                    self.topics["History_with_Jarek"] = "History with Jarek"
+                    
+            if self.current_npc.name == "Jarek":
+                if self.params['rpg']["story_checkpoint"].get("Mira_Jarek"):
+                    self.topics["History_with_Mira"] = "History with Mira"
+                    
+            if self.current_npc.name == "Susan":
+                self.topics["Math_Quizzes"] = "Math Quizzes"
+                
+            if self.current_npc.name == "Elara":
+                self.topics["Quest_not_implemented"] = "Quest not implemented sorry krub"
+            
+            if self.current_npc.name == "Guard":
+                if self.params['rpg']["story_checkpoint"].get("Gate_Open"):
+                    self.topics["Goblin_Weakness"] = "Goblin Weakness"
+                    self.topics["Goblin_Camp_Info"] = "Goblin Camp Information"
 
     def update_story(self):
         #Main Goblin Quest
@@ -394,6 +417,7 @@ class TownState:
             #Mira Jarek quest
             elif self.current_npc.name == "Mira":
                 if self.current_npc.choice == 0:
+                    self.params['rpg']['story_checkpoint']['Mira_Jarek'] = True
                     self.params['rpg']['quests']["Mira_Jarek"] = "Fix Mira's relationship" 
             elif self.current_npc.name == "Jarek":
                 if self.current_npc.choice == 3:
