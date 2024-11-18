@@ -1,5 +1,6 @@
 import pygame
 import json
+import numpy as np
 
 class Sprite:
     def __init__(self, image, animation=None):
@@ -79,7 +80,7 @@ class SpriteManager:
                     for animation_name, animation_data in data["animations"].items():
                         images = []
                         colorkey = animation_data.get("colorKey", -1)
-                        colorkey = (colorkey[0], colorkey[1], colorkey[2]) if colorkey != -1 else -1
+                        tolerance = animation_data.get("tolerance", 5)
                         for sprite in animation_data["sprites"]:
                             if "Goblin" in animation_name:
                                 scale = sprite.get("scale", 3) 
@@ -92,7 +93,8 @@ class SpriteManager:
                                     sprite["x"],
                                     sprite["y"],
                                     scale,  
-                                    colorkey=colorkey,  
+                                    colorkey,  
+                                    tolerance,
                                     xTileSize=xSize,
                                     yTileSize=ySize,
                                 )
@@ -125,6 +127,7 @@ class SpriteManager:
                     # Handling static sprites
                     for sprite in data["sprites"]:
                         colorkey = sprite.get("colorKey", -1)
+                        tolerance = sprite.get("tolerance", 5)
                         xSize = sprite.get('width', None)  # Updated to use new width attribute
                         ySize = sprite.get('height', None)  # Updated to use new height attribute
                         scalefactor = sprite.get("scalefactor", 1)  # Updated to use scalefactor attribute
@@ -135,6 +138,7 @@ class SpriteManager:
                                 sprite["y"],
                                 scalefactor,  # Using scalefactor from the sprite
                                 colorkey,
+                                tolerance,
                                 xTileSize=xSize,
                                 yTileSize=ySize,
                             ),
@@ -155,18 +159,49 @@ class SpriteSheet:
         except Exception as error:
             print("REMINDER: The sprite sheet url is not assigned to", filename, "yet")
 
-    def image_at(self, x, y, scalingfactor, colorkey=None, xTileSize=16, yTileSize=16):
+    def image_at(self, x, y, scalingfactor, colorkey, tolerance=5, xTileSize=16, yTileSize=16):
+        """
+        Extracts an image at a given position and removes background colors 
+        within a given tolerance of the colorkey.
+        """
         rect = pygame.Rect((x, y, xTileSize, yTileSize))
-        image = pygame.Surface(rect.size)
+        image = pygame.Surface(rect.size, pygame.SRCALPHA)  # Use SRCALPHA for transparency
         image.blit(self.sheet, (0, 0), rect)
+
         if colorkey is not None:
             if colorkey == -1:
-                colorkey = image.get_at((0, 0))
-            image.set_colorkey(colorkey, pygame.RLEACCEL)
+                colorkey = image.get_at((0, 0))[:3]  # Take only the RGB part
+            else:
+                colorkey = colorkey[:3]  # Ensure colorkey is always RGB
+            
+            if tolerance == 0:
+                image.set_colorkey(colorkey)
+            else:
+                # Convert image to a NumPy array for pixel manipulation
+                image_array = pygame.surfarray.array3d(image)  # RGB data
+                alpha_array = pygame.surfarray.array_alpha(image)  # Alpha data
+                
+                # Calculate the difference between each pixel and the colorkey
+                diff = np.abs(image_array - np.array(colorkey))
+                within_tolerance = (diff[..., 0] <= tolerance) & \
+                                (diff[..., 1] <= tolerance) & \
+                                (diff[..., 2] <= tolerance)
+                
+                # Set alpha to 0 for pixels within the tolerance range
+                alpha_array[within_tolerance] = 0
+                
+                # Create a new surface with updated alpha values
+                for x in range(image.get_width()):
+                    for y in range(image.get_height()):
+                        alpha = alpha_array[x, y]
+                        color = image_array[x, y]
+                        image.set_at((x, y), (*color, alpha))
+
+        # Scale the image
         return pygame.transform.scale(
             image, (xTileSize * scalingfactor, yTileSize * scalingfactor)
         )
-    
+        
 class Animation:
     def __init__(self, name, images, interval_time, looping, idleSprite=None, offset_x=0, offset_y=0,):
         self.images = images
