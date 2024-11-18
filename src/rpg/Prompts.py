@@ -101,7 +101,7 @@ DEFAULT_TEXT = {
     'Thaddeus' : "Would you kindly help me?",
     'Timothy' : 'Wait!',
     'Zeus' : 'You look familiar and that amulet too',
-    'Gruzz' : 'Yo'
+    'Gruzz' : 'Yo',
     'Jess': "I am Jess. None shall pass without proving their worth!",
     'Jude': "My name is Jude and this path to King Zeus ends here unless you can defeat me.",
 }
