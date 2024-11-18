@@ -1,7 +1,7 @@
 from src.dependency import *
 from src.constants import *
-from src.battleSystem.FieldTile import FieldTile
 from src.battleSystem.Buff import *
+from src.BattlePause import *
 from src.Render import *
 import pygame
 import sys
@@ -12,6 +12,7 @@ class BattleInitialState(BaseState):
         super(BattleInitialState, self).__init__()
         self.dice = 1
         self.roll = False
+        self.pauseHandler = BattlePauseHandler()
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleInitialState <<<<<<")
@@ -42,21 +43,24 @@ class BattleInitialState(BaseState):
         # apply buff to all cards on hand
         self.player.apply_buffs_to_cardsOnHand()
         self.enemy.apply_buffs_to_cardsOnHand()
+        
+        self.pauseHandler.reset()
 
     def Exit(self):
         pass
 
     def update(self, dt, events):
+        if self.pauseHandler.is_paused():
+            self.pauseHandler.update(dt, events, self.params)
+            return
+        
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-                elif event.key == pygame.K_SPACE:
-                    pass
+                    self.pauseHandler.pause_game()
                 elif event.key == pygame.K_RETURN:
                     if self.roll == False and self.currentTurnOwner == PlayerType.PLAYER:
                         self.roll_dice()
@@ -127,6 +131,8 @@ class BattleInitialState(BaseState):
             screen.blit(gDice_image_list[f'dice_roll_{self.dice}'], (SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT - HUD_HEIGHT - 74))
         else:
             screen.blit(gDice_image_list[f'dice_{self.dice}'], (SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT - HUD_HEIGHT - 74))
+
+        self.pauseHandler.render(screen)
         
     def roll_dice(self):
         # Play dice sound

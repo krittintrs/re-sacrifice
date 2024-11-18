@@ -1808,7 +1808,7 @@
         },
         {
             "id": "C050",
-            "name": "Trap",
+            "name": "Fire Trap",
             "class": "Mage",
             "type": "Special",
             "animationType": "cast",
@@ -1843,7 +1843,7 @@
         },
         {
             "id": "C051",
-            "name": "You shall not pass",
+            "name": "You Shall Not Pass",
             "class": "Mage",
             "type": "Debuff",
             "vfxType": "MageDebuff",
@@ -1879,16 +1879,16 @@
         },
         {
             "id": "C052",
-            "name": "Attack Summon",
+            "name": "Ghostblaster",
             "class": "Mage",
             "type": "Special",
             "animationType": "cast",
-            "description": "summon a ghost ,ghost will attack enemy nearby. when ghost make contact with enemy, it will deal 1 damage before disaapearing",
+            "description": "summon a ghost, ghost will attack enemy nearby. when ghost make contact with enemy, it will deal 1 damage before disaapearing",
             "speed": 6,
             "attack": 0,
             "defense": 2,
             "range_start": 0,
-            "range_end": 0,
+            "range_end": 3,
             "sprite": {
                 "x": 200,
                 "y": 1250,

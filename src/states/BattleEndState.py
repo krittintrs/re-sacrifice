@@ -1,6 +1,7 @@
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
+from src.BattlePause import *
 from src.Render import *
 import pygame
 import sys
@@ -9,6 +10,7 @@ import time
 class BattleEndState(BaseState):
     def __init__(self):
         super(BattleEndState, self).__init__()
+        self.pauseHandler = BattlePauseHandler()
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleEndState <<<<<<")
@@ -29,6 +31,8 @@ class BattleEndState(BaseState):
                 tile.second_entity.bot_action(self.field)
 
         self.waiting_for_sound = False
+
+        self.pauseHandler = BattlePauseHandler()
         
     def next_turn(self):
         # Change turn owner
@@ -67,16 +71,17 @@ class BattleEndState(BaseState):
 
 
     def update(self, dt, events):
+        if self.pauseHandler.is_paused():
+            self.pauseHandler.update(dt, events, self.params)
+            return
+        
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-                if event.key == pygame.K_SPACE:
-                    pass
+                    self.pauseHandler.pause_game()
                 if event.key == pygame.K_RETURN and not self.waiting_for_sound:
                     self.resolve_dot_damage(self.player)
                     self.resolve_dot_damage(self.enemy)
@@ -146,5 +151,4 @@ class BattleEndState(BaseState):
         for fieldTile in self.field:
             fieldTile.render(screen)
 
-
-        
+        self.pauseHandler.render(screen)        

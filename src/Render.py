@@ -7,6 +7,7 @@ def RenderBackground(screen, bgstate):
     screen.blit(gBackground_image_list[bgstate], (0, 0))
 
 def RenderTurn(screen, state, turn, currentTurnOwner):
+    screen.blit(gBattleBackground_image_list["town"], (0, 0))
     RenderBackground(screen, BackgroundState.BATTLE)
 
     title_text = gFont_list["title"].render(f"{state} - Turn {turn} ({currentTurnOwner.value}'s turn)", True, (255, 255, 255))
@@ -62,18 +63,22 @@ def RenderEntityStats(screen, player, enemy):
         screen.blit(stat_surface, (SCREEN_WIDTH - STATS_OFFSET_X - stat_width, STATS_OFFSET_Y + i * 15))
    
 def RenderSelectedCard(screen, playerSelectedCard, enemySelectedCard):
+    banner = pygame.image.load("./graphics/battle/resolve_banner.png")
+    banner = pygame.transform.scale(banner, (150, 80))
+    screen.blit(banner, (30, SCREEN_HEIGHT - HUD_HEIGHT // 2 - 40))
     screen.blit(gFont_list["title"].render("Player's", True, (255, 255, 255)), (50, SCREEN_HEIGHT - HUD_HEIGHT // 2 - 30))
     screen.blit(gFont_list["title"].render("Card", True, (255, 255, 255)), (50, SCREEN_HEIGHT - HUD_HEIGHT // 2))
 
-    screen.blit(gFont_list["title"].render("Enemy's", True, (255, 255, 255)), (SCREEN_WIDTH - 150, SCREEN_HEIGHT - HUD_HEIGHT // 2 - 30))
-    screen.blit(gFont_list["title"].render("Card", True, (255, 255, 255)), (SCREEN_WIDTH - 150, SCREEN_HEIGHT - HUD_HEIGHT // 2))
+    screen.blit(banner, (SCREEN_WIDTH - 180, SCREEN_HEIGHT - HUD_HEIGHT // 2 - 40))
+    screen.blit(gFont_list["title"].render("Enemy's", True, (255, 255, 255)), (SCREEN_WIDTH - 160, SCREEN_HEIGHT - HUD_HEIGHT // 2 - 30))
+    screen.blit(gFont_list["title"].render("Card", True, (255, 255, 255)), (SCREEN_WIDTH - 160, SCREEN_HEIGHT - HUD_HEIGHT // 2))
 
     playerSelectedCard.render(screen, 0.5)
     enemySelectedCard.render(screen, 3.5)
 
 def RenderDescription(screen, line_1, line_2=None):
-    text_1 = gFont_list["title"].render(line_1, True, (0, 0, 0))
-    text_2 = gFont_list["title"].render(line_2, True, (0, 0, 0))
+    text_1 = gFont_list["title"].render(line_1, True, (255, 255, 255))
+    text_2 = gFont_list["title"].render(line_2, True, (255, 255, 255))
     
     screen.blit(text_1, (DESCRIPTION_OFFSET_X, DESCRIPTION_OFFSET_Y))
     screen.blit(text_2, (DESCRIPTION_OFFSET_X, DESCRIPTION_OFFSET_Y + 30))

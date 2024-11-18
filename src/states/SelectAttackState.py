@@ -2,6 +2,7 @@ from src.battleSystem.Buff import Buff
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
+from src.BattlePause import *
 from src.Render import *
 import pygame
 import sys
@@ -10,6 +11,7 @@ import time
 class SelectAttackState(BaseState):
     def __init__(self):
         super(SelectAttackState, self).__init__()
+        self.pauseHandler = BattlePauseHandler()
 
     def Enter(self, params):
         self.params = params
@@ -84,6 +86,8 @@ class SelectAttackState(BaseState):
         self.player.display_stats()
         self.enemy.display_stats()
 
+        self.pauseHandler.reset()
+
     def Exit(self):
         pass
 
@@ -95,16 +99,17 @@ class SelectAttackState(BaseState):
                     tile.remove_second_entity()
 
     def update(self, dt, events):
+        if self.pauseHandler.is_paused():
+            self.pauseHandler.update(dt, events, self.params)
+            return
+        
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-                if event.key == pygame.K_SPACE:
-                    pass
+                    self.pauseHandler.pause_game()
                 if event.key == pygame.K_LEFT and self.selectAttackTile>=0:
                     if self.effectOwner == PlayerType.PLAYER:
                         self.selectAttackTile = self.selectAttackTile - 1
@@ -268,6 +273,7 @@ class SelectAttackState(BaseState):
         RenderTurn(screen, 'SelectAttackState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
-        RenderDescription(screen, f"Current Action: {self.effect.type}", f"Owner: {self.effectOwner.value}")
+        RenderDescription(screen, f"Current Action: {self.effect.type.value}", f"Owner: {self.effectOwner.value}")
         RenderFieldSelection(screen, self.field, self.availableAttackTile, self.selectAttackTile, self.effectOwner)
         
+        self.pauseHandler.render(screen)

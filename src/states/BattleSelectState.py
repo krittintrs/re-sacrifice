@@ -1,12 +1,14 @@
 import pygame
 import sys
 from src.dependency import *
+from src.BattlePause import *
 from src.Render import *
 
 class BattleSelectState(BaseState):
     def __init__(self):
         super(BattleSelectState, self).__init__()
         self.selected_index = 0
+        self.pauseHandler = BattlePauseHandler()
 
     def Enter(self, params):
         print("\n>>>>>> Enter BattleSelectState <<<<<<")
@@ -31,18 +33,23 @@ class BattleSelectState(BaseState):
         self.player.apply_buffs_to_cardsOnHand()
         self.enemy.apply_buffs_to_cardsOnHand()
 
+        self.pauseHandler.reset()
+
     def Exit(self):
         pass
     
     def update(self, dt, events):
+        if self.pauseHandler.is_paused():
+            self.pauseHandler.update(dt, events, self.params)
+            return
+        
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
+                    self.pauseHandler.pause_game()
                 if event.key == pygame.K_LEFT:
                     newIndex = (self.selected_index - 1) % len(self.player.cardsOnHand)
                     self.change_selection(newIndex)
@@ -105,4 +112,6 @@ class BattleSelectState(BaseState):
         # Render field
         for fieldTile in self.field:
             fieldTile.render(screen)
+
+        self.pauseHandler.render(screen)
 

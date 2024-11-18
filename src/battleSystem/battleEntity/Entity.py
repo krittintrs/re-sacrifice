@@ -4,11 +4,6 @@ from src.battleSystem.Deck import Deck
 from src.battleSystem.Vfx import Vfx
 import tween
 
-# Define the global font variable
-# You can adjust the font size and type as needed
-g_font = pygame.font.Font(None, 36)
-
-
 class Entity:
     def __init__(self, name, deckInv, animation_list, x, y, vfxAnimation_list, health=10, is_occupied_field = True, type = None):
         self.name = name

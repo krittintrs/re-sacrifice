@@ -102,7 +102,7 @@ def loadCardConf(url):
                         except KeyError:
                             effect_spawn = None
                         temp_effect_dict[effectPeriod].append(Effect(effect_type, effect["minRange"], effect["maxRange"], effect_buff, effect_spawn))
-                        print(f"{effect_type}\t{effect_buff}")
+                        # print(f"{effect_type}\t{effect_buff}")
 
             # Create the Card object for each card entry
             card_conf[card["name"]] = CardConf(

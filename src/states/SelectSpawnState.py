@@ -1,6 +1,7 @@
 from src.states.BaseState import BaseState
 from src.dependency import *
 from src.constants import *
+from src.BattlePause import *
 from src.Render import *
 import pygame
 import sys
@@ -9,6 +10,7 @@ from src.battleSystem.battleEntity.SubEntity import SubEntity
 class SelectSpawnState(BaseState):
     def __init__(self):
         super(SelectSpawnState, self).__init__()
+        self.pauseHandler = BattlePauseHandler()
 
     def Enter(self, params):
         self.params = params
@@ -79,7 +81,7 @@ class SelectSpawnState(BaseState):
         self.player.display_stats()
         self.enemy.display_stats()
 
-        
+        self.pauseHandler.reset()
 
     def Exit(self):
         pass
@@ -92,16 +94,17 @@ class SelectSpawnState(BaseState):
                     tile.remove_second_entity()
 
     def update(self, dt, events):
+        if self.pauseHandler.is_paused():
+            self.pauseHandler.update(dt, events, self.params)
+            return
+        
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-                if event.key == pygame.K_SPACE:
-                    pass
+                    self.pauseHandler.pause_game()
                 if event.key == pygame.K_LEFT and self.selectSpawnTile>=0:
                     if self.effectOwner == PlayerType.PLAYER:
                         self.selectSpawnTile = self.selectSpawnTile - 1
@@ -169,21 +172,12 @@ class SelectSpawnState(BaseState):
                 tile.entity.update(dt)
 
         self.remove_timeout_entity()
-
-    # def getBuffListFromEffect(self, effect):
-    #     buffList = []
-    #     if effect.buffNameList:
-    #         for buffName in effect.buffNameList:
-    #             buffList.append(Buff(CARD_BUFF[buffName])) 
-    #         return buffList
-    #     else:
-    #         print(f'Buff not found: {effect.buffNameList}')
-    #         return False
           
     def render(self, screen):
         RenderTurn(screen, 'SelectSpawnState', self.turn, self.currentTurnOwner)
         RenderEntityStats(screen, self.player, self.enemy)
         RenderSelectedCard(screen, self.player.selectedCard, self.enemy.selectedCard)
-        RenderDescription(screen, f"Current Action: {self.effect.type}", f"Owner: {self.effectOwner.value}")
+        RenderDescription(screen, f"Current Action: {self.effect.type.value}", f"Owner: {self.effectOwner.value}")
         RenderFieldSelection(screen, self.field, self.availableSpawnTile, self.selectSpawnTile, self.effectOwner)
         
+        self.pauseHandler.render(screen)

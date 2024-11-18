@@ -12,41 +12,12 @@ import cv2
 from src.EnumResources import RPGState
 from src.battleSystem.battleEntity.Player import Player as BattlePlayer
 from src.battleSystem.battleEntity.entity_defs import BATTLE_ENTITY
-# from src.dependency import *
+from src.resources import gFont_list
 
 class TutorialState:
     def __init__(self):
         pygame.init()
         #self.screen = pygame.display.get_surface()
-        
-        player_conf = ENTITY_DEFS['player']
-        self.player = Player(player_conf)
-        self.player.x = 623
-        self.player.y = 585
-
-        self.player.state_machine = StateMachine()
-        self.player.state_machine.SetScreen(pygame.display.get_surface())
-        self.player.state_machine.SetStates({
-            'walk': PlayerWalkState(self.player),
-            'idle': PlayerIdleState(self.player)
-        })
-        self.player.ChangeState('idle')  # Start in idle state
-        
-        self.params = {
-            "rpg": {
-                "rpg_player": self.player,
-                "class": None,
-                "quests": {},
-                "story_checkpoint": {"Gate_Open" : True},
-                "inventory": {"Amulet": 1, "Gold": 100,"Banana":1},
-                "enter_battle": False,
-                "exit_battle": False,
-                "win_battle": None,
-                "map": "TOWN"
-            },
-            # Todo: add stater deck params
-            "battleSystem": {},
-        }
 
         # Load tutorial images or placeholders for instructions and cutscenes
         self.movement_image = pygame.image.load("src/rpg/sprite/Tutorial/images.png")
@@ -71,12 +42,12 @@ class TutorialState:
                           'Warrior':"ching ching",
                           'Ranger':"Pung Pung"}
         # Confirmation buttons
-        self.confirm_rect = pygame.Rect(650, 500, 100, 40)
-        self.cancel_rect = pygame.Rect(760, 500, 100, 40)
+        self.confirm_rect = pygame.Rect(650, 500, 110, 40)
+        self.cancel_rect = pygame.Rect(770, 500, 110, 40)
         
         # Initialize font
-        self.font = pygame.font.Font(None, 36)
-        self.title_font = pygame.font.Font(None, 48)  # Font for the title
+        self.font = gFont_list["title"]
+        self.title_font = gFont_list["game_title"]
         
         # Video setup for cutscene
         self.cutscene_video = cv2.VideoCapture("src/rpg/cutscene/Cutscene1.mp4")
@@ -111,14 +82,49 @@ class TutorialState:
                 elif self.cancel_rect.collidepoint(mouse_pos):
                     self.current_stage = "class_select"  # Go back to class selection
 
+    def init_player(self):
+        player_conf = ENTITY_DEFS['player']
+        self.player = Player(player_conf)
+        self.player.x = 623
+        self.player.y = 585
+
+        self.player.state_machine = StateMachine()
+        self.player.state_machine.SetScreen(pygame.display.get_surface())
+        self.player.state_machine.SetStates({
+            'walk': PlayerWalkState(self.player),
+            'idle': PlayerIdleState(self.player)
+        })
+        self.player.ChangeState('idle')  # Start in idle state
+
+        self.params = {
+            "rpg": {
+                "rpg_player": self.player,
+                "class": None,
+                "quests": {},
+                "story_checkpoint": {"Gate_Open" : True},
+                "inventory": {"Amulet": 1, "Gold": 100,"Banana":1},
+                "enter_battle": False,
+                "exit_battle": False,
+                "win_battle": None,
+                "map": "TOWN"
+            },
+            # Todo: add stater deck params
+            "battleSystem": {},
+        }
+
     def Enter(self, enter_params):
-        play_music("rpg_bgm")
+        self.init_player()
+        
         if enter_params:
             self.params = enter_params
         print(self.params," Tutorial")
         
         print("Entering Tutorial State")
-        
+        # Track stages within the tutorial
+        self.current_stage = "movement"  # Stages: movement, battle, class_select, confirm, cutscene
+        self.selected_class = None
+        self.confirmation_selection = "confirm"  # Default confirmation selection
+
     def handle_enter(self):
         if self.current_stage == "movement":
             self.current_stage = "conversation"
@@ -245,8 +251,7 @@ class TutorialState:
         screen.blit(cancel_text, (self.cancel_rect.x + 10, self.cancel_rect.y + 5))
 
     def render_text(self, screen, text, position):
-        font = pygame.font.Font(None, 36)
-        text_surface = font.render(text, True, (255, 255, 255))
+        text_surface = self.font.render(text, True, (255, 255, 255))
         screen.blit(text_surface, position)
 
     def Exit(self):

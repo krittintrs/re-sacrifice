@@ -24,6 +24,7 @@ gSounds = {
 gBGM = {
     "rpg_bgm": "sounds/rpg_bgm.mp3",
     "battle_bgm": "sounds/battle_bgm.mp3",
+    "title_bgm": "sounds/title_bgm.mp3",
 }
 
 def play_music(state):
@@ -32,7 +33,10 @@ def play_music(state):
 
     # Load and play the new music
     pygame.mixer.music.load(gBGM[state])
-    pygame.mixer.music.set_volume(0.1)
+    if state == "title_bgm":
+        pygame.mixer.music.set_volume(0.8)
+    else:
+        pygame.mixer.music.set_volume(0.1)
     pygame.mixer.music.play(loops=-1)  # Loop indefinitely
 
 gBuffIcon_image_list = {
@@ -112,9 +116,48 @@ gEntity_animation_dict = {
 }
 
 gBackground_image_list = {
-    BackgroundState.BATTLE: pygame.image.load("./graphics/battle_background.png"), 
-    BackgroundState.DECK_BUILDING: pygame.image.load("./graphics/deckbuilding_background.png"),
+    BackgroundState.BATTLE: pygame.image.load("./graphics/battle/battle_UI.png"), 
+    BackgroundState.DECK_BUILDING: pygame.image.load("./graphics/deckBuilding/deck_bg.png"),
+    BackgroundState.TITLE: pygame.image.load("./graphics/main/title_bg.png"),
 }
+
+# gBattleBackground_image_list = {
+#     "cave1": pygame.image.load("./graphics/battle/background/battle_bg_cave1.png"),
+#     "cave2": pygame.image.load("./graphics/battle/background/battle_bg_cave2.png"),
+#     "dungeon1": pygame.image.load("./graphics/battle/background/battle_bg_dungeon1.png"),
+#     "dungeon2": pygame.image.load("./graphics/battle/background/battle_bg_dungeon2.png"),
+#     "forest1": pygame.image.load("./graphics/battle/background/battle_bg_forest1.png"),
+#     "town": pygame.image.load("./graphics/battle/background/battle_bg_town.png"),
+# }
+
+gBattleBackground_image_list = {}
+
+# Load and scale each background image
+background_paths = {
+    "cave1": "./graphics/battle/background/battle_bg_cave1.png",
+    "cave2": "./graphics/battle/background/battle_bg_cave2.png",
+    "dungeon1": "./graphics/battle/background/battle_bg_dungeon1.png",
+    "dungeon2": "./graphics/battle/background/battle_bg_dungeon2.png",
+    "forest1": "./graphics/battle/background/battle_bg_forest1.png",
+    "town": "./graphics/battle/background/battle_bg_town.png"
+}
+
+for key, path in background_paths.items():
+    # Load the original image
+    original_image = pygame.image.load(path)
+    
+    # Get original dimensions
+    original_width, original_height = original_image.get_size()
+    from src.constants import *
+    # Calculate the new height to maintain the aspect ratio
+    new_width = SCREEN_WIDTH
+    new_height = SCREEN_HEIGHT - HUD_HEIGHT
+    
+    # Scale the image
+    scaled_image = pygame.transform.scale(original_image, (new_width, new_height))
+    
+    # Store in the dictionary
+    gBattleBackground_image_list[key] = scaled_image
 
 gClock_image_list = {
     "clock_0": sprite_collection["clock_0"].image,
@@ -151,6 +194,7 @@ gFont_list = {
     "default": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 10),
     "header": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 15),
     "title": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 20),
+    "game_title": pygame.font.Font("./fonts/Minecraftia-Regular.ttf", 30),
 }
 
 gVfx_animation_list = {
@@ -177,3 +221,35 @@ gVfx_animation_list = {
     "shield_vfx": sprite_collection["shield_vfx"].animation,
     "heal_vfx": sprite_collection["heal_vfx"].animation,
 }
+
+gDeckButton_image_list = {
+    "deck_button_default": sprite_collection["deck_button_default"].image,
+    "deck_button_hover": sprite_collection["deck_button_hover"].image,
+    "deck_button_clicked": sprite_collection["deck_button_clicked"].image,
+}
+
+gSelector_image_list = {
+    "start_selector_default": sprite_collection["start_selector_default"].image,
+    "start_selector_clicked": sprite_collection["start_selector_clicked"].image,
+    "quickplay_selector_default": sprite_collection["quickplay_selector_default"].image,
+    "quickplay_selector_clicked": sprite_collection["quickplay_selector_clicked"].image,
+    "exit_selector_default": sprite_collection["exit_selector_default"].image,
+    "exit_selector_clicked": sprite_collection["exit_selector_clicked"].image,
+    "start_battle_selector_default": sprite_collection["start_battle_selector_default"].image,
+    "start_battle_selector_clicked": sprite_collection["start_battle_selector_clicked"].image,
+    "edit_deck_selector_default": sprite_collection["edit_deck_selector_default"].image,
+    "edit_deck_selector_clicked": sprite_collection["edit_deck_selector_clicked"].image,
+    "edit_opponent_deck_selector_default": sprite_collection["edit_opponent_deck_selector_default"].image,
+    "edit_opponent_deck_selector_clicked": sprite_collection["edit_opponent_deck_selector_clicked"].image,
+    "back_selector_default": sprite_collection["back_selector_default"].image,
+    "back_selector_clicked": sprite_collection["back_selector_clicked"].image,
+    "resume_selector_default": sprite_collection["resume_selector_default"].image,
+    "resume_selector_clicked": sprite_collection["resume_selector_clicked"].image,
+    "restart_selector_default": sprite_collection["restart_selector_default"].image,
+    "restart_selector_clicked": sprite_collection["restart_selector_clicked"].image,
+    "return_to_title_selector_default": sprite_collection["return_to_title_selector_default"].image,
+    "return_to_title_selector_clicked": sprite_collection["return_to_title_selector_clicked"].image,
+    "inventory_selector_default": sprite_collection["inventory_selector_default"].image,
+    "inventory_selector_clicked": sprite_collection["inventory_selector_clicked"].image,
+}
+
